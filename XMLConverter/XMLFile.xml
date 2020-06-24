@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?Siebel-Property-Set EscapeNames="true"?>
+<SiebelMessage >
+	<_sblesc_und_undPROPERTIES_und_und >
+		<TargetServerPath />
+		<SourceServiceMethod />
+		<SchemaVersion >48.33.60.395</SchemaVersion >
+		<SRFVersion >43|1587171430|1587421305</SRFVersion >
+		<SessionId >1-17FF4LJ</SessionId >
+		<AcknowledgementWorkflow >UDA Acknowledgement</AcknowledgementWorkflow >
+		<PostProcessWorkflow >Testing</PostProcessWorkflow >
+		<Asynchronous >Y</Asynchronous >
+		<TransactionLogFileName >1-17FF4LJ</TransactionLogFileName >
+		<TransactionName >LOV</TransactionName >
+		<AsyncExportFile >N</AsyncExportFile >
+		<UserName />
+		<Password />
+		<TargetServiceName />
+		<AsyncDataPrep >Y</AsyncDataPrep >
+		<TargetWorkflow >UDA Target Workflow</TargetWorkflow >
+		<EAIQueueType >On Error</EAIQueueType >
+		<TargetServiceMethod />
+		<SourceServiceName />
+		<TargetSubsystem >UDADeploy</TargetSubsystem >
+		<Description />
+		<SessionProjectName >LOV</SessionProjectName >
+		<ExportFilePath >/oradata/siebel/sba81/siebsrvr/temp</ExportFilePath >
+		<TransactionLogFilePath >/oradata/siebel/sba81/siebsrvr/temp/1-17FF4LJ.log</TransactionLogFilePath >
+		<TransactionId >1-17FF4LK</TransactionId >
+	</_sblesc_und_undPROPERTIES_und_und >
+	<EAIMessage >
+		<_sblesc_und_undPROPERTIES_und_und >
+			<SessionItemName >LOV</SessionItemName >
+			<SessionName >EMT Session</SessionName >
+			<DataTypeName >LOV</DataTypeName >
+			<MessageId />
+			<GroupName >LOV</GroupName >
+			<MessageType >Integration Object</MessageType >
+			<IntObjectName >UDA List Of Values</IntObjectName >
+			<IntObjectFormat >Siebel Hierarchical</IntObjectFormat >
+			<EAIMethod >Synchronize</EAIMethod >
+		</_sblesc_und_undPROPERTIES_und_und >
+		<ListOfUDA_spcList_spcOf_spcValues >
+			<List_spcOf_spcValues_spcParent_spc_lprUDA_rpr >
+				<_sblesc_und_undPROPERTIES_und_und >
+					<Order_spcBy />
+					<Value >CHAVE_206_IX</Value >
+					<Translate >Y</Translate >
+					<High />
+					<Multilingual >Y</Multilingual >
+					<Modifiable >N</Modifiable >
+					<Class_spcCode />
+					<Type >LOV_TYPE</Type >
+					<Low />
+					<Active >Y</Active >
+					<Replication_spcLevel >All</Replication_spcLevel >
+					<Name >CHAVE_206_IX</Name >
+					<Description />
+				</_sblesc_und_undPROPERTIES_und_und >
+				<ListOfList_spcOf_spcValues_spcParent_spc_lprUDA_rpr_undOrganization />
+				<ListOfList_spcOf_spcValues_spcChild_spc_lprUDA_rpr >
+					<List_spcOf_spcValues_spcChild_spc_lprUDA_rpr >
+						<_sblesc_und_undPROPERTIES_und_und >
+							<Order_spcBy />
+							<Value >OFF</Value >
+							<Translate >Y</Translate >
+							<Parent_spcLanguage />
+							<Language >PTB</Language >
+							<High />
+							<Default_spcLIC_spcFlag >N</Default_spcLIC_spcFlag >
+							<Multilingual >Y</Multilingual >
+							<Modifiable >N</Modifiable >
+							<Parent_spcValue />
+							<Parent />
+							<Parent_spcType />
+							<Target_spcLow />
+							<Class_spcCode />
+							<Type >CHAVE_206_IX</Type >
+							<Low />
+							<Parent_spcSub_spcType />
+							<Target_spcHigh />
+							<Parent_spcOrganization />
+							<Sub_spcType />
+							<Fiber_spcRelease />
+							<Weighting_spcFactor />
+							<Active >Y</Active >
+							<Replication_spcLevel >All</Replication_spcLevel >
+							<Organization />
+							<Name >CHAVE</Name >
+							<Description >[ON 206xI| OFF 206 old]</Description >
+						</_sblesc_und_undPROPERTIES_und_und >
+						<ListOfLanguage_spcDef >
+							<Language_spcDef >
+								<_sblesc_und_undPROPERTIES_und_und >
+									<Language_spcCode >PTB</Language_spcCode >
+									<Language_spcName >Português do Brasil</Language_spcName >
+								</_sblesc_und_undPROPERTIES_und_und >
+							</Language_spcDef >
+						</ListOfLanguage_spcDef >
+						<ListOfList_spcOf_spcValues_spcRelationship />
+					</List_spcOf_spcValues_spcChild_spc_lprUDA_rpr >
+					<List_spcOf_spcValues_spcChild_spc_lprUDA_rpr >
+						<_sblesc_und_undPROPERTIES_und_und >
+							<Order_spcBy />
+							<Value >ON</Value >
+							<Translate >Y</Translate >
+							<Parent_spcLanguage />
+							<Language >PTB</Language >
+							<High />
+							<Default_spcLIC_spcFlag >N</Default_spcLIC_spcFlag >
+							<Multilingual >Y</Multilingual >
+							<Modifiable >N</Modifiable >
+							<Parent_spcValue />
+							<Parent />
+							<Parent_spcType />
+							<Target_spcLow />
+							<Class_spcCode />
+							<Type >CHAVE_206_IX</Type >
+							<Low />
+							<Parent_spcSub_spcType />
+							<Target_spcHigh />
+							<Parent_spcOrganization />
+							<Sub_spcType />
+							<Fiber_spcRelease />
+							<Weighting_spcFactor />
+							<Active >Y</Active >
+							<Replication_spcLevel >All</Replication_spcLevel >
+							<Organization />
+							<Name >CHAVE</Name >
+							<Description >MATHEUS</Description >
+						</_sblesc_und_undPROPERTIES_und_und >
+						<ListOfLanguage_spcDef >
+							<Language_spcDef >
+								<_sblesc_und_undPROPERTIES_und_und >
+									<Language_spcCode >PTB</Language_spcCode >
+									<Language_spcName >Português do Brasil</Language_spcName >
+								</_sblesc_und_undPROPERTIES_und_und >
+							</Language_spcDef >
+						</ListOfLanguage_spcDef >
+						<ListOfList_spcOf_spcValues_spcRelationship />
+					</List_spcOf_spcValues_spcChild_spc_lprUDA_rpr >
+					<List_spcOf_spcValues_spcChild_spc_lprUDA_rpr >
+						<_sblesc_und_undPROPERTIES_und_und >
+							<Order_spcBy />
+							<Value >TESTE 2</Value >
+							<Translate >Y</Translate >
+							<Parent_spcLanguage />
+							<Language >PTB</Language >
+							<High />
+							<Default_spcLIC_spcFlag >N</Default_spcLIC_spcFlag >
+							<Multilingual >Y</Multilingual >
+							<Modifiable >N</Modifiable >
+							<Parent_spcValue />
+							<Parent />
+							<Parent_spcType />
+							<Target_spcLow />
+							<Class_spcCode />
+							<Type >CHAVE_206_IX</Type >
+							<Low />
+							<Parent_spcSub_spcType />
+							<Target_spcHigh />
+							<Parent_spcOrganization />
+							<Sub_spcType />
+							<Fiber_spcRelease />
+							<Weighting_spcFactor />
+							<Active >Y</Active >
+							<Replication_spcLevel >All</Replication_spcLevel >
+							<Organization />
+							<Name >CHAVE</Name >
+							<Description >TESTE2</Description >
+						</_sblesc_und_undPROPERTIES_und_und >
+						<ListOfLanguage_spcDef >
+							<Language_spcDef >
+								<_sblesc_und_undPROPERTIES_und_und >
+									<Language_spcCode >ENU</Language_spcCode >
+									<Language_spcName >iNLGES</Language_spcName >
+								</_sblesc_und_undPROPERTIES_und_und >
+							</Language_spcDef >
+						</ListOfLanguage_spcDef >
+						<ListOfList_spcOf_spcValues_spcRelationship />
+					</List_spcOf_spcValues_spcChild_spc_lprUDA_rpr >
+				</ListOfList_spcOf_spcValues_spcChild_spc_lprUDA_rpr >
+			</List_spcOf_spcValues_spcParent_spc_lprUDA_rpr >
+		</ListOfUDA_spcList_spcOf_spcValues >
+	</EAIMessage >
+</SiebelMessage >
