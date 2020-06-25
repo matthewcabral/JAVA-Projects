@@ -122,7 +122,7 @@ public class LOV_XML_Screen extends javax.swing.JFrame {
         aboutViewMenuBtn = new javax.swing.JMenuItem();
         aboutSystemMenuBtn = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("XML Converter");
         setBackground(new java.awt.Color(255, 255, 255));
         setLocationByPlatform(true);
@@ -424,7 +424,7 @@ public class LOV_XML_Screen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void closeMenuBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeMenuBtnActionPerformed
-        System.exit(0);
+        this.dispose();
     }//GEN-LAST:event_closeMenuBtnActionPerformed
 
     private void aboutViewMenuBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutViewMenuBtnActionPerformed

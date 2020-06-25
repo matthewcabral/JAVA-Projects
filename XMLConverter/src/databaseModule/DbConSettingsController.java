@@ -8,6 +8,7 @@ package databaseModule;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -36,6 +37,7 @@ public class DbConSettingsController {
     private String dbPassword; // Database user password connected
     
     private boolean firstSettings = false;
+    private boolean firstSettingsOK = false;
 
     public DbConSettingsController(boolean firstSettings) {
         this.firstSettings = firstSettings;
@@ -53,6 +55,10 @@ public class DbConSettingsController {
 
     public String getDbURL() { return dbURL; }
     public void setDbURL(String dbURL) { this.dbURL = dbURL; }
+
+    public boolean isFirstSettingsOK() { return firstSettingsOK; }
+    
+    
         
     public boolean openConnection(){
         try {
@@ -146,12 +152,12 @@ public class DbConSettingsController {
             JFileChooser fc = new JFileChooser();
             fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
-            file = new File("C:\\Projeto");
+            file = new File(System.getProperty("user.home") +"\\XMLConverter\\Settings");
             if(!file.exists()){
                 file.mkdirs();
             }
             
-            String path = "C:\\Projeto\\db_conf.conf";
+            String path = System.getProperty("user.home") +"\\XMLConverter\\Settings\\db_conf.conf";
             String header = "DRIVER;URL;LOCAL;PORTA;NOME_BANCO;OWNER_BANCO;USUARIO;SENHA\n";
             if (!path.isEmpty()) {            
                 BufferedWriter buff = new BufferedWriter(new FileWriter(path));
@@ -196,6 +202,7 @@ public class DbConSettingsController {
                 genScreen.setbtnSaveDBParamEnabled(false);
                 genScreen.dispose();
                 if(firstSettings){
+                    firstSettingsOK = true;
                     //control = new Controller();
                     //control.openScreen("Login");
                 }

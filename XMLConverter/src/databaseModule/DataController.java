@@ -16,8 +16,7 @@ import javax.swing.JOptionPane;
 public abstract class DataController extends Controller{
     
     // Empty Constructor
-    public DataController() {
-    }
+    public DataController() { }
     
     @Override
     public String openConnection(String message){

@@ -27,7 +27,7 @@ public abstract class Controller {
     // Database Variables
     public Connection conn = null;
     public Statement statement;
-    private final String confFile = "C:\\Projeto\\db_conf.conf";
+    private final String confFile = System.getProperty("user.home") +"\\XMLConverter\\Settings\\db_conf.conf";
     private final String SplitBy = ";";
     private String dbDriver;// = "oracle.jdbc.OracleDriver"; // Driver used to connect on oracle database
     private String dbURL;// = "jdbc:oracle:thin:@"; // Connection line used to connect to the database
@@ -38,6 +38,7 @@ public abstract class Controller {
     private String dbUser; // Database user connected
     private String dbPassword; // Database user password connected
     public ArrayList<String> resultQuery;
+    private boolean firstSettingsOK = false;
     
     // Database exceptions list
     exceptionsController exc;
@@ -78,6 +79,16 @@ public abstract class Controller {
     public String getDbPassword() { return dbPassword; }
     public void setDbPassword(String dbPassword) { this.dbPassword = dbPassword; }
 
+    public boolean isFirstSettingsOK() {
+        return firstSettingsOK;
+    }
+
+    public void setFirstSettingsOK(boolean firstSettingsOK) {
+        this.firstSettingsOK = firstSettingsOK;
+    }
+    
+    
+
     public ArrayList<String> getResultQuery() { return resultQuery; }
     public void setResultQuery(ArrayList<String> resultQuery) { this.resultQuery = resultQuery; }
         
@@ -105,11 +116,14 @@ public abstract class Controller {
                         setDbPort(st.nextToken());
                         setDbName(st.nextToken());
                         setDbOwner(st.nextToken());
+                        setDbUser(st.nextToken());
+                        setDbPassword(st.nextToken());
                     }
                     i++;
                 }
 
                 System.out.println("Parametros OK");
+                this.setFirstSettingsOK(true);
             } catch (FileNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, "O arquivo não foi encontrado, verifique se o mesmo existe ou está com o nome correto.", "Erro", JOptionPane.ERROR_MESSAGE);
                 System.out.println("O arquivo não foi encontrado, verifique se o mesmo existe ou está com o nome correto.");
@@ -118,6 +132,7 @@ public abstract class Controller {
                 int x = JOptionPane.showOptionDialog(null, "Deseja Realizar a configuração do Banco de Dados?", "Escolha", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
                 if(x == 0){
                     genSettings = new DbConSettingsController(true);
+                    this.setFirstSettingsOK(genSettings.isFirstSettingsOK());
                 } else {
                     System.exit(0);
                 }
@@ -130,6 +145,7 @@ public abstract class Controller {
                 int x = JOptionPane.showOptionDialog(null, "Deseja Realizar a configuração do Banco de Dados?", "Escolha", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
                 if(x == 0){
                     genSettings = new DbConSettingsController(true);
+                    this.setFirstSettingsOK(genSettings.isFirstSettingsOK());
                 } else {
                     System.exit(0);
                 }
@@ -142,6 +158,7 @@ public abstract class Controller {
             int x = JOptionPane.showOptionDialog(null, "Deseja Realizar a configuração do Banco de Dados?", "Escolha", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
             if(x == 0){
                 genSettings = new DbConSettingsController(true);
+                this.setFirstSettingsOK(genSettings.isFirstSettingsOK());
             } else {
                 System.exit(0);
             }
