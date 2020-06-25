@@ -9,7 +9,7 @@ package main;
  *
  * @author Matheus
  */
-import LOVConverterModule.LOVReaderController;
+import LOVConverterModule.LOV_XML_Controller;
 import javax.xml.parsers.DocumentBuilderFactory;  
 import javax.xml.parsers.DocumentBuilder;  
 import org.w3c.dom.Document;  
@@ -41,8 +41,10 @@ public class main {
             java.util.logging.Logger.getLogger(mainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         
-        LOVReaderController lovControl;
-        
-        lovControl = new LOVReaderController();
+        mainController mainCtrl = new mainController();
+        /*
+        LOV_XML_Controller lovControl;        
+        lovControl = new LOV_XML_Controller();
+        */
     }
 }

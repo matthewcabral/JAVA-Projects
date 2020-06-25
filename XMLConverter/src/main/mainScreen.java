@@ -38,7 +38,7 @@ public class mainScreen extends javax.swing.JFrame {
     public void setLblYear(String year) { lblYear.setText(year); lblYear.paintImmediately(lblYear.getVisibleRect()); }
         
     // Listeners
-    public void setListenerBatimento(ActionListener listener) { btnOpenBatimentoScreen.addActionListener(listener); }
+    public void setListenerOpenLOV_XML_ConverterScreen(ActionListener listener) { btnOpenLOV_XML_ConverterScreen.addActionListener(listener); }
     //public void setListenerBatimentoSOM(ActionListener listener) { btnOpenBatimentoSOM.addActionListener(listener); }
     public void setListenerAboutSystem(ActionListener listener) { aboutSystemMenuBtn.addActionListener(listener); }
         
@@ -55,7 +55,7 @@ public class mainScreen extends javax.swing.JFrame {
         pnlMain = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         PanelMain = new javax.swing.JPanel();
-        btnOpenBatimentoScreen = new javax.swing.JButton();
+        btnOpenLOV_XML_ConverterScreen = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         btnOpenClientCreator = new javax.swing.JButton();
         PanelLogo = new javax.swing.JPanel();
@@ -94,16 +94,16 @@ public class mainScreen extends javax.swing.JFrame {
         PanelMain.setForeground(new java.awt.Color(255, 255, 255));
         PanelMain.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
 
-        btnOpenBatimentoScreen.setBackground(new java.awt.Color(237, 237, 237));
-        btnOpenBatimentoScreen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/xml 50x50.png"))); // NOI18N
-        btnOpenBatimentoScreen.setText("LOV");
-        btnOpenBatimentoScreen.setToolTipText("");
-        btnOpenBatimentoScreen.setBorderPainted(false);
-        btnOpenBatimentoScreen.setContentAreaFilled(false);
-        btnOpenBatimentoScreen.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnOpenBatimentoScreen.setIconTextGap(0);
-        btnOpenBatimentoScreen.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        btnOpenBatimentoScreen.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnOpenLOV_XML_ConverterScreen.setBackground(new java.awt.Color(237, 237, 237));
+        btnOpenLOV_XML_ConverterScreen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/xml_dba_Insert_50x50.png"))); // NOI18N
+        btnOpenLOV_XML_ConverterScreen.setText("LOV");
+        btnOpenLOV_XML_ConverterScreen.setToolTipText("");
+        btnOpenLOV_XML_ConverterScreen.setBorderPainted(false);
+        btnOpenLOV_XML_ConverterScreen.setContentAreaFilled(false);
+        btnOpenLOV_XML_ConverterScreen.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnOpenLOV_XML_ConverterScreen.setIconTextGap(0);
+        btnOpenLOV_XML_ConverterScreen.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        btnOpenLOV_XML_ConverterScreen.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         jLabel1.setBackground(new java.awt.Color(237, 237, 237));
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -113,7 +113,6 @@ public class mainScreen extends javax.swing.JFrame {
         jLabel1.setOpaque(true);
 
         btnOpenClientCreator.setBackground(new java.awt.Color(237, 237, 237));
-        btnOpenClientCreator.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/Massa 50x50.png"))); // NOI18N
         btnOpenClientCreator.setBorderPainted(false);
         btnOpenClientCreator.setContentAreaFilled(false);
         btnOpenClientCreator.setEnabled(false);
@@ -129,7 +128,7 @@ public class mainScreen extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addGroup(PanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(PanelMainLayout.createSequentialGroup()
-                        .addComponent(btnOpenBatimentoScreen, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnOpenLOV_XML_ConverterScreen, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnOpenClientCreator, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -140,7 +139,7 @@ public class mainScreen extends javax.swing.JFrame {
             .addGroup(PanelMainLayout.createSequentialGroup()
                 .addGroup(PanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnOpenClientCreator, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnOpenBatimentoScreen, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnOpenLOV_XML_ConverterScreen, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -313,8 +312,8 @@ public class mainScreen extends javax.swing.JFrame {
     private javax.swing.JPanel PanelMain;
     private javax.swing.JMenuItem aboutSystemMenuBtn;
     private javax.swing.JMenuItem aboutViewMenuBtn;
-    private javax.swing.JButton btnOpenBatimentoScreen;
     private javax.swing.JButton btnOpenClientCreator;
+    private javax.swing.JButton btnOpenLOV_XML_ConverterScreen;
     private javax.swing.JMenuItem closeMenuBtn;
     private javax.swing.JMenuBar defaultMenu;
     private javax.swing.JMenu fileMenuBtn;
