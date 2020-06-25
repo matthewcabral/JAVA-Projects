@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 public abstract class DataController extends Controller{
     
     // Empty Constructor
-    public DataController() { }
+    public DataController() throws InterruptedException { }
     
     @Override
     public String openConnection(String message){

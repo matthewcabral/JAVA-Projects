@@ -58,7 +58,12 @@ public class mainScreen extends javax.swing.JFrame {
         btnOpenLOV_XML_ConverterScreen = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         btnOpenClientCreator = new javax.swing.JButton();
+        PanelMain1 = new javax.swing.JPanel();
+        btnOpenDBSettings = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        btnOpenClientCreator1 = new javax.swing.JButton();
         PanelLogo = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
         PanelInfo = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         lblUser = new javax.swing.JLabel();
@@ -74,7 +79,7 @@ public class mainScreen extends javax.swing.JFrame {
         aboutSystemMenuBtn = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("Sistema ainda sem nome");
+        setTitle("XML Converter");
         setBackground(new java.awt.Color(255, 255, 255));
         setSize(new java.awt.Dimension(1366, 768));
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -147,18 +152,83 @@ public class mainScreen extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("PRINCIPAL", PanelMain);
 
+        PanelMain1.setBackground(new java.awt.Color(255, 255, 255));
+        PanelMain1.setForeground(new java.awt.Color(255, 255, 255));
+        PanelMain1.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+
+        btnOpenDBSettings.setBackground(new java.awt.Color(237, 237, 237));
+        btnOpenDBSettings.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/xml_dba_Insert_50x50.png"))); // NOI18N
+        btnOpenDBSettings.setText("LOV");
+        btnOpenDBSettings.setToolTipText("");
+        btnOpenDBSettings.setBorderPainted(false);
+        btnOpenDBSettings.setContentAreaFilled(false);
+        btnOpenDBSettings.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnOpenDBSettings.setIconTextGap(0);
+        btnOpenDBSettings.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        btnOpenDBSettings.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+
+        jLabel2.setBackground(new java.awt.Color(237, 237, 237));
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Ferramentas de conversão de XML");
+        jLabel2.setEnabled(false);
+        jLabel2.setOpaque(true);
+
+        btnOpenClientCreator1.setBackground(new java.awt.Color(237, 237, 237));
+        btnOpenClientCreator1.setBorderPainted(false);
+        btnOpenClientCreator1.setContentAreaFilled(false);
+        btnOpenClientCreator1.setEnabled(false);
+        btnOpenClientCreator1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnOpenClientCreator1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        btnOpenClientCreator1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+
+        javax.swing.GroupLayout PanelMain1Layout = new javax.swing.GroupLayout(PanelMain1);
+        PanelMain1.setLayout(PanelMain1Layout);
+        PanelMain1Layout.setHorizontalGroup(
+            PanelMain1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelMain1Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(PanelMain1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(PanelMain1Layout.createSequentialGroup()
+                        .addComponent(btnOpenDBSettings, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnOpenClientCreator1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(779, 779, 779))
+        );
+        PanelMain1Layout.setVerticalGroup(
+            PanelMain1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelMain1Layout.createSequentialGroup()
+                .addGroup(PanelMain1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnOpenClientCreator1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnOpenDBSettings, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("CONFIGURAÇÕES", PanelMain1);
+
         PanelLogo.setBackground(new java.awt.Color(255, 255, 255));
         PanelLogo.setOpaque(false);
+
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/XML Converter.png"))); // NOI18N
 
         javax.swing.GroupLayout PanelLogoLayout = new javax.swing.GroupLayout(PanelLogo);
         PanelLogo.setLayout(PanelLogoLayout);
         PanelLogoLayout.setHorizontalGroup(
             PanelLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(PanelLogoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         PanelLogoLayout.setVerticalGroup(
             PanelLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 352, Short.MAX_VALUE)
+            .addGroup(PanelLogoLayout.createSequentialGroup()
+                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         PanelInfo.setBackground(new java.awt.Color(237, 237, 237));
@@ -208,7 +278,7 @@ public class mainScreen extends javax.swing.JFrame {
         );
         PanelInfoLayout.setVerticalGroup(
             PanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lblUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -227,12 +297,14 @@ public class mainScreen extends javax.swing.JFrame {
         pnlMainLayout.setVerticalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlMainLayout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PanelLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PanelInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+
+        jTabbedPane1.getAccessibleContext().setAccessibleName("PRINCIPAL");
 
         fileMenuBtn.setText("Arquivo");
 
@@ -310,9 +382,12 @@ public class mainScreen extends javax.swing.JFrame {
     private javax.swing.JPanel PanelInfo;
     private javax.swing.JPanel PanelLogo;
     private javax.swing.JPanel PanelMain;
+    private javax.swing.JPanel PanelMain1;
     private javax.swing.JMenuItem aboutSystemMenuBtn;
     private javax.swing.JMenuItem aboutViewMenuBtn;
     private javax.swing.JButton btnOpenClientCreator;
+    private javax.swing.JButton btnOpenClientCreator1;
+    private javax.swing.JButton btnOpenDBSettings;
     private javax.swing.JButton btnOpenLOV_XML_ConverterScreen;
     private javax.swing.JMenuItem closeMenuBtn;
     private javax.swing.JMenuBar defaultMenu;
@@ -320,6 +395,8 @@ public class mainScreen extends javax.swing.JFrame {
     private javax.swing.JMenu helpMenuBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
