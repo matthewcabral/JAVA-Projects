@@ -5,6 +5,7 @@
  */
 package LOVConverterModule;
 
+import databaseModule.DataController;
 import java.awt.Component;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
@@ -13,6 +14,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -33,18 +35,16 @@ import org.w3c.dom.NodeList;
  *
  * @author Matheus
  */
-public class LOV_XML_Controller {
+public class LOV_XML_Controller extends DataController {
     LOV_XML_Screen screen;
     
     private String savePath;
     private boolean tryAgain;
     
-    public LOV_XML_Controller() {
-        //saveOnCSV();
+    public LOV_XML_Controller() throws InterruptedException {
         screen = new LOV_XML_Screen();
         screen.setListenerLoadFile(new loadFile());
         screen.setListenerSave(new saveConvertion());
-        //saveOnExcel();
         this.savePath = null;
         this.tryAgain = false;
     }
@@ -85,13 +85,9 @@ public class LOV_XML_Controller {
                 if(!"cancel".equals(path) && !"not_xml".equals(path)) {
                     screen.setLblLog("Carregando arquivo...");
                     // Creating a constructor of file class and parsing an XML file
-                    //System.out.println("caminho: " + path);
-
-                    File file = new File(path);
-                    //File file = new File("C:\\Users\\mathe\\Documents\\NetBeansProjects\\XMLReader\\XMLFile.xml");
-                    //File file = new File("D:\\Documentos\\Drivers\\Google Drive (Trabalho)\\Documentos\\2. Projetos\\1. TIM\\2. Projetos\\IP19\\Merge\\Siebel Pós-Pago IP13\\3. DPSIEBELPOS00000865\\Objetos\\1. IP13\\2. NREP\\Funcionalidade\\ADM_CRIACAO_TRIPLETA_PROD_FUNC.xml");
-                    // An instance of factory that gives a document builder  
+                    File file = new File(path);                    
                     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+                    
                     // An instance of builder to parse the specified xml file  
                     DocumentBuilder db = dbf.newDocumentBuilder();
                     Document doc = db.parse(file);
@@ -238,6 +234,33 @@ public class LOV_XML_Controller {
         return converted;
     }
     
+    public String queryUserId(String userLogin){
+        String userId = "";
+        String sqlQuery = 
+            "SELECT\n" +
+            "    SUS.ROW_ID\n" +
+            "FROM SIEBEL.S_USER SUS\n" +
+            "WHERE SUS.LOGIN = '" + userLogin + "'";
+        
+        try{
+            if("true".equals(super.openConnection("Pesquisando usuário..."))){
+                super.statement = super.conn.createStatement();
+                ResultSet readline = super.statement.executeQuery(sqlQuery);
+                while(readline.next()){
+                    userId += readline.getString("ROW_ID");
+                }
+                super.closeConnection("Usuário encontrado...");
+            } else {
+                userId = "erro";
+            }
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Erro de leitura no Banco de Dados!\nMensagem: " + e,"Erro",JOptionPane.ERROR_MESSAGE);
+            userId = "erro";
+        }
+        System.out.println("ID do USUÁRIO: " + userId);
+        return userId;
+    }
+    
     // This Class save the "Batimento" result on CSV File
     private void saveAsCSV(){
         ArrayList<relLOV> result = readXML(screen.getTxtPath());
@@ -248,7 +271,6 @@ public class LOV_XML_Controller {
                 JFileChooser fc = new JFileChooser();
                 fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                 fc.setDialogTitle("Selecione o caminho desejado para salvar o arquivo");
-                //fc.setCurrentDirectory("");
                 fc.showOpenDialog(null);
                 path = fc.getSelectedFile().toString() + "\\LOV_" + result.get(0).getTYPE() + ".csv";
                 this.savePath = fc.getSelectedFile().toString();
@@ -422,14 +444,16 @@ public class LOV_XML_Controller {
             String sqlColumn = "";
             String sqlValue = ") VALUES (";
             String sqlEnd = ");\n";
+            String userId = queryUserId(super.getDbUser());
             
             if (!path.isEmpty()) {            
                 BufferedWriter buff = new BufferedWriter(new FileWriter(path));
-
+                
                 for (int i = 0; i < result.size(); i++) {
-                    // ROW_ID
+                    // ROW_ID and USER_ID
                     sqlColumn += "ROW_ID"; sqlValue += (i+1);
-
+                    if(!"erro".equals(userId)){ sqlColumn += ", CREATED_BY"; sqlValue += ", '" + userId + "'"; } else { sqlColumn += ", CREATED_BY"; sqlValue += ", " + null; }
+                    
                     // CHILD COLUMNS
                     if(!"".equals(result.get(i).getTYPE()) && result.get(i).getTYPE() != null){ sqlColumn += ", LOV_TYPE"; sqlValue += ", '" + result.get(i).getTYPE() + "'"; } else { sqlColumn += ", LOV_TYPE"; sqlValue += ", " + null; }
                     if(!"".equals(result.get(i).getNAME()) && result.get(i).getNAME() != null){ sqlColumn += ", LOV_NAME"; sqlValue += ", '" + result.get(i).getNAME() + "'"; } else { sqlColumn += ", LOV_NAME"; sqlValue += ", " + null; }
@@ -469,16 +493,82 @@ public class LOV_XML_Controller {
                     // CREATE INSERT LINE
                     buff.append(sqlHeader + sqlColumn + sqlValue + sqlEnd);
                     
-                    sqlHeader = "INSERT INTO SIEBEL.EIM_LST_OF_VAL (";
                     sqlColumn = "";
                     sqlValue = ") VALUES (";
-                    sqlEnd = ");\n";
                 }
                 buff.close();
                 JOptionPane.showMessageDialog(null, "Arquivo SQL gerado com sucesso!\nCaminho: " + path);
             }            
         } catch (Exception e){
             JOptionPane.showMessageDialog(null, "Erro ao tentar converter o XML em SQL!\nErro: " + e);
+        }
+    }
+    
+    private void insertOnEIMTable(){
+        ArrayList<relLOV> result = readXML(screen.getTxtPath());
+        try{       
+            String sqlHeader = "INSERT INTO SIEBEL.EIM_LST_OF_VAL (";
+            String sqlColumn = "";
+            String sqlValue = ") VALUES (";
+            String sqlEnd = ")";
+            String userId = queryUserId(super.getDbUser());
+            
+            if("true".equals(super.openConnection("Inserindo registros..."))){
+                statement = super.conn.createStatement();
+                for(int i = 0; i < result.size(); i++){
+                    // ROW_ID and USER_ID
+                    sqlColumn += "ROW_ID"; sqlValue += (i+1);
+                    if(!"erro".equals(userId)){ sqlColumn += ", CREATED_BY"; sqlValue += ", '" + userId + "'"; } else { sqlColumn += ", CREATED_BY"; sqlValue += ", " + null; }
+
+                    // CHILD COLUMNS
+                    if(!"".equals(result.get(i).getTYPE()) && result.get(i).getTYPE() != null){ sqlColumn += ", LOV_TYPE"; sqlValue += ", '" + result.get(i).getTYPE() + "'"; } else { sqlColumn += ", LOV_TYPE"; sqlValue += ", " + null; }
+                    if(!"".equals(result.get(i).getNAME()) && result.get(i).getNAME() != null){ sqlColumn += ", LOV_NAME"; sqlValue += ", '" + result.get(i).getNAME() + "'"; } else { sqlColumn += ", LOV_NAME"; sqlValue += ", " + null; }
+                    if(!"".equals(result.get(i).getVAL()) && result.get(i).getVAL() != null){ sqlColumn += ", LOV_VAL"; sqlValue += ", '" + result.get(i).getVAL() + "'"; } else { sqlColumn += ", LOV_VAL"; sqlValue += ", " + null; }
+                    if(!"".equals(result.get(i).getSUB_TYPE()) && result.get(i).getSUB_TYPE() != null){ sqlColumn += ", LOV_SUB_TYPE"; sqlValue += ", '" + result.get(i).getSUB_TYPE() + "'"; } else { sqlColumn += ", LOV_SUB_TYPE"; sqlValue += ", " + null; }
+                    if(!"".equals(result.get(i).getORDER_BY()) && result.get(i).getORDER_BY() != null){ sqlColumn += ", LOV_ORDER_BY"; sqlValue += ", " + result.get(i).getORDER_BY(); } else { sqlColumn += ", LOV_ORDER_BY"; sqlValue += ", " + null; }
+                    if(!"".equals(result.get(i).getLOW()) && result.get(i).getLOW() != null){ sqlColumn += ", LOV_LOW"; sqlValue += ", '" + result.get(i).getLOW() + "'"; } else { sqlColumn += ", LOV_LOW"; sqlValue += ", " + null; }
+                    if(!"".equals(result.get(i).getHIGH()) && result.get(i).getHIGH() != null){ sqlColumn += ", LOV_HIGH"; sqlValue += ", '" + result.get(i).getHIGH() + "'"; } else { sqlColumn += ", LOV_HIGH"; sqlValue += ", " + null; }
+                    if(!"".equals(result.get(i).getACTIVE_FLG()) && result.get(i).getACTIVE_FLG() != null){ sqlColumn += ", LOV_ACTIVE_FLG"; sqlValue += ", '" + result.get(i).getACTIVE_FLG() + "'"; } else { sqlColumn += ", LOV_ACTIVE_FLG"; sqlValue += ", " + null; }
+                    if(!"".equals(result.get(i).getTRANSLATE_FLG()) && result.get(i).getTRANSLATE_FLG() != null){ sqlColumn += ", LOV_TRANSLATE_FLG"; sqlValue += ", '" + result.get(i).getTRANSLATE_FLG() + "'"; } else { sqlColumn += ", LOV_TRANSLATE_FLG"; sqlValue += ", " + null; }
+                    if(!"".equals(result.get(i).getMULTILINGUAL_FLG()) && result.get(i).getMULTILINGUAL_FLG() != null){ sqlColumn += ", LOV_MULTILINGUALFL"; sqlValue += ", '" + result.get(i).getMULTILINGUAL_FLG() + "'"; } else { sqlColumn += ", LOV_MULTILINGUALFL"; sqlValue += ", " + null; }
+                    if(!"".equals(result.get(i).getRPLCTN_LVL_CD()) && result.get(i).getRPLCTN_LVL_CD() != null){ sqlColumn += ", LOV_RPLCTN_LVL_CD"; sqlValue += ", '" + result.get(i).getRPLCTN_LVL_CD() + "'"; } else { sqlColumn += ", LOV_RPLCTN_LVL_CD"; sqlValue += ", " + null; }
+                    if(!"".equals(result.get(i).getTARGET_LOW()) && result.get(i).getTARGET_LOW() != null){ sqlColumn += ", LOV_TARGET_LOW"; sqlValue += ", " + result.get(i).getTARGET_LOW(); } else { sqlColumn += ", LOV_TARGET_LOW"; sqlValue += ", " + null; }
+                    if(!"".equals(result.get(i).getTARGET_HIGH()) && result.get(i).getTARGET_HIGH() != null){ sqlColumn += ", LOV_TARGET_HIGH"; sqlValue += ", " + result.get(i).getTARGET_HIGH(); } else { sqlColumn += ", LOV_TARGET_HIGH"; sqlValue += ", " + null; }
+                    if(!"".equals(result.get(i).getLANG_ID()) && result.get(i).getLANG_ID() != null){ sqlColumn += ", LOV_LANG_ID"; sqlValue += ", '" + result.get(i).getLANG_ID() + "'"; } else { sqlColumn += ", LOV_LANG_ID"; sqlValue += ", " + null; }
+                    if(!"".equals(result.get(i).getDFLT_LIC_FLG()) && result.get(i).getDFLT_LIC_FLG() != null){ sqlColumn += ", LOV_DFLT_LIC_FLG"; sqlValue += ", '" + result.get(i).getDFLT_LIC_FLG() + "'"; } else { sqlColumn += ", LOV_DFLT_LIC_FLG"; sqlValue += ", " + null; }
+                    if(!"".equals(result.get(i).getMODIFIABLE()) && result.get(i).getMODIFIABLE() != null){ sqlColumn += ", LOV_MODIFIABLE_FLG"; sqlValue += ", '" + result.get(i).getMODIFIABLE() + "'"; } else { sqlColumn += ", LOV_MODIFIABLE_FLG"; sqlValue += ", " + null; }
+                    if(!"".equals(result.get(i).getCODE()) && result.get(i).getCODE() != null){ sqlColumn += ", LOV_CODE"; sqlValue += ", '" + result.get(i).getCODE() + "'"; } else { sqlColumn += ", LOV_CODE"; sqlValue += ", " + null; }
+                    if(!"".equals(result.get(i).getWEIGHTING_FACTOR()) && result.get(i).getWEIGHTING_FACTOR() != null){ sqlColumn += ", LOV_WEIGHTINGFACTO"; sqlValue += ", " + result.get(i).getWEIGHTING_FACTOR(); } else { sqlColumn += ", LOV_WEIGHTINGFACTO"; sqlValue += ", " + null; }
+                    if(!"".equals(result.get(i).getORGANIZATION()) && result.get(i).getORGANIZATION() != null){ sqlColumn += ", LOV_BI"; sqlValue += ", '" + result.get(i).getORGANIZATION() + "'"; } else { sqlColumn += ", LOV_BI"; sqlValue += ", " + null; }
+                    if(!"".equals(result.get(i).getDESC_TEXT()) && result.get(i).getDESC_TEXT() != null){ sqlColumn += ", LOV_DESC_TEXT"; sqlValue += ", '" + result.get(i).getDESC_TEXT() + "'"; } else { sqlColumn += ", LOV_DESC_TEXT"; sqlValue += ", " + null; }
+
+                    // PARENT
+                    if(!"".equals(result.get(i).getPARENT_VALUE()) && result.get(i).getPARENT_VALUE() != null){ sqlColumn += ", PAR_VAL"; sqlValue += ", '" + result.get(i).getPARENT_VALUE() + "'"; } else { sqlColumn += ", PAR_VAL"; sqlValue += ", " + null; }
+                    if(!"".equals(result.get(i).getPARENT_TYPE()) && result.get(i).getPARENT_TYPE() != null){ sqlColumn += ", PAR_TYPE"; sqlValue += ", '" + result.get(i).getPARENT_TYPE() + "'"; } else { sqlColumn += ", PAR_TYPE"; sqlValue += ", " + null; }
+                    if(!"".equals(result.get(i).getPARENT_LANGUAGE()) && result.get(i).getPARENT_LANGUAGE() != null){ sqlColumn += ", PAR_LANG_ID"; sqlValue += ", '" + result.get(i).getPARENT_LANGUAGE() + "'"; } else { sqlColumn += ", PAR_LANG_ID"; sqlValue += ", " + null; }
+                    if(!"".equals(result.get(i).getPARENT_SUBTYPE()) && result.get(i).getPARENT_SUBTYPE() != null){ sqlColumn += ", PAR_SUB_TYPE"; sqlValue += ", '" + result.get(i).getPARENT_SUBTYPE() + "'"; } else { sqlColumn += ", PAR_SUB_TYPE"; sqlValue += ", " + null; }
+                    if(!"".equals(result.get(i).getPARENT_ORGANIZATION()) && result.get(i).getPARENT_ORGANIZATION() != null){ sqlColumn += ", PAR_BI"; sqlValue += ", '" + result.get(i).getPARENT_ORGANIZATION() + "'"; } else { sqlColumn += ", PAR_BI"; sqlValue += ", " + null; }
+
+                    // DEFAULT COLUMNS
+                    sqlColumn += ", IF_ROW_BATCH_NUM"; sqlValue += ", " + (screen.getTxtIfRowBatchNum());
+                    sqlColumn += ", IF_ROW_STAT"; sqlValue += ", '" + (screen.getTxtIfRowStat() + "'");
+                    sqlColumn += ", LOV_WS_ID"; sqlValue += ", '" + (screen.getTxtLovWSId() + "'");
+                    sqlColumn += ", LOV_REQD_LIC_FLG"; sqlValue += ", '" + (screen.getCbbLovReqdLicFlg() + "'");
+                    sqlColumn += ", LOV_MORG_DSALW_FLG"; sqlValue += ", '" + (screen.getCbbLovMorgDsalwFlg() + "'");
+                    
+                    // CREATE INSERT LINE
+                    statement.execute(sqlHeader + sqlColumn + sqlValue + sqlEnd);
+                    
+                    sqlColumn = "";
+                    sqlValue = ") VALUES (";
+                }
+                super.closeConnection("Dados inseridos com sucesso...");
+                JOptionPane.showMessageDialog(null, "Tabela preenchida com sucesso!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Erro ao inserir registros no banco de dados!");
+            }
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Erro ao inserir registros no banco de dados!\nErro: " + e);
         }
     }
     
@@ -498,24 +588,38 @@ public class LOV_XML_Controller {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            String[] options = {"CSV","Excel","Insert SQL","Ambos"};
-            int x = JOptionPane.showOptionDialog(null, "O Arquivo encontrado não é um XML de LOV. Deseja selecionar outro arquivo?", "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+            screen.setLblLog("Salvando o resultado...");
+            
+            String[] options = {"CSV","Excel","SQL", "Inserir na EIM_LST_OF_VAL","Todos", "Cancelar"};
+            int x = JOptionPane.showOptionDialog(null, "Em qual formato deseja salvar o arquivo?", "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
             
             if(x==0){
                 saveAsCSV();
                 savePath = null;
+                screen.setLblLog("Arquivo salvo em CSV com sucesso...");
             } else if(x==1){
                 saveAsXLS();
                 savePath = null;
+                screen.setLblLog("Arquivo salvo em XLS com sucesso...");
             } else if(x==2){
                 saveAsSQLInsert();
                 savePath = null;
-            } else {
+                screen.setLblLog("Arquivo salvo em SQL com sucesso...");
+            } else if(x==3){
+                insertOnEIMTable();
+                savePath = null;
+                screen.setLblLog("Arquivo salvo na tabela EIM_LST_OF_VAL com sucesso...");
+            } else if(x==4){
                 saveAsCSV();
                 saveAsXLS();
                 saveAsSQLInsert();
+                insertOnEIMTable();
                 savePath = null;
+                screen.setLblLog("Arquivo salvo em CSV, XLS, SQL e inserido na tabela EIM_LST_OF_VAL com sucesso...");
+            } else {
+                screen.setLblLog("O arquivo não foi salvo...");
             }
+            
         }
         
     }

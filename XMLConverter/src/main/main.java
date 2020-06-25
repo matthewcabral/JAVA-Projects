@@ -17,6 +17,8 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;  
 import org.w3c.dom.Element;  
 import java.io.File;  
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class main {
 
@@ -41,10 +43,10 @@ public class main {
             java.util.logging.Logger.getLogger(mainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         
-        mainController mainCtrl = new mainController();
-        /*
-        LOV_XML_Controller lovControl;        
-        lovControl = new LOV_XML_Controller();
-        */
+        try {
+            mainController mainCtrl = new mainController();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

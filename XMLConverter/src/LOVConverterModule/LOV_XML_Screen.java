@@ -311,7 +311,7 @@ public class LOV_XML_Screen extends javax.swing.JFrame {
         SubPanelResultCompRel.setLayout(SubPanelResultCompRelLayout);
         SubPanelResultCompRelLayout.setHorizontalGroup(
             SubPanelResultCompRelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1091, Short.MAX_VALUE)
         );
         SubPanelResultCompRelLayout.setVerticalGroup(
             SubPanelResultCompRelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -339,8 +339,8 @@ public class LOV_XML_Screen extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
-                .addComponent(lblLog, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblLog, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSave)
                 .addContainerGap())
         );

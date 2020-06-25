@@ -11,6 +11,8 @@ import databaseModule.DbSettingsController;
 import databaseModule.DataController;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.event.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -31,7 +33,12 @@ public class mainController extends DataController{
     // Constructor
     public mainController() throws InterruptedException {
         if(super.isFirstSettingsOK()){
-            openScreen("Principal");
+            mainScreen = new mainScreen();
+            mainScreen.setLabelUser(super.getDbUser());
+            mainScreen.setExtendedState(MAXIMIZED_BOTH);
+            mainScreen.setListenerAboutSystem(new AboutSystem());
+            mainScreen.setListenerOpenLOV_XML_ConverterScreen(new openLOV_XML_Converter());
+            setScrVisible("Principal", true);
         }
         //dbParamTest = new DBParametersTest();
         //this.openScreen("Principal");
@@ -43,22 +50,6 @@ public class mainController extends DataController{
     
     public void setMainScreenVisible(boolean mainScreenVisible) { this.mainScreenVisible = mainScreenVisible; }
     public void setSettingsScreenVisible(boolean settingScreenVisible) { this.settingScreenVisible = settingScreenVisible; }
-
-    // Function used to open Screens
-    public void openScreen(String function){
-        switch(function){
-            case "Principal":
-                mainScreen = new mainScreen();
-                mainScreen.setLabelUser(super.getDbUser());
-                mainScreen.setExtendedState(MAXIMIZED_BOTH);
-                mainScreen.setListenerAboutSystem(new AboutSystem());
-                setScrVisible("Principal", true);
-                mainScreen.setListenerOpenLOV_XML_ConverterScreen(new openLOV_XML_Converter());
-                break;
-            default:
-                break;
-        }
-    }
     
     public void setScrVisible(String screen, boolean choice){
         switch(screen){
@@ -71,12 +62,14 @@ public class mainController extends DataController{
     }
 
     public class openLOV_XML_Converter implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent ae) {
-            lovControl = new LOV_XML_Controller();
+            try {
+                lovControl = new LOV_XML_Controller();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(mainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        
     }
     
     public class AboutSystem implements ActionListener {
