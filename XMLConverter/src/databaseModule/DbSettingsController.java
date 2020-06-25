@@ -17,6 +17,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 //import main.Controller;
@@ -82,10 +84,12 @@ public class DbSettingsController {
             System.out.println("Connected Successfuly!");
         } catch(SQLException e) {
             if("java.sql.SQLRecoverableException: Erro de ES: The Network Adapter could not establish the connection".equals(e)){
-                JOptionPane.showMessageDialog(null, "Erro: Não foi possível conectar com o Banco de Dados. Favor Verificar se todos os parâmentros estão corretos!\nMensagem: " + e,"Erro",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Erro ao tentar realizar conexão com o Banco de dados. Verifique se o listener está ativo.","Erro",JOptionPane.ERROR_MESSAGE);
+            } else if("ORA-12505, TNS:listener does not currently know of SID given in connect descriptor".equals(e)) {
+                JOptionPane.showMessageDialog(null, "Erro ao tentar realizar conexão com o Banco de dados. Verifique se o listener está correto.","Erro",JOptionPane.ERROR_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(null, "ERRO: Nome de usuário/senha incorreto. Tente novamente.","Erro",JOptionPane.ERROR_MESSAGE);
-            }            
+                JOptionPane.showMessageDialog(null, "Nome de usuário/senha incorreto. Tente novamente.","Erro",JOptionPane.ERROR_MESSAGE);
+            }
             return false;
         }
         return true;
