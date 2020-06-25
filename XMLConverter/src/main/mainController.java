@@ -11,9 +11,6 @@ import databaseModule.DbSettingsController;
 import databaseModule.DataController;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.event.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 
 /**
@@ -32,9 +29,9 @@ public class mainController extends DataController{
     private boolean settingScreenVisible = false;
     
     // Constructor
-    public mainController(){
+    public mainController() throws InterruptedException {
         if(super.isFirstSettingsOK()){
-            this.openScreen("Principal");
+            openScreen("Principal");
         }
         //dbParamTest = new DBParametersTest();
         //this.openScreen("Principal");
