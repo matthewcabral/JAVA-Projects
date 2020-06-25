@@ -25,9 +25,9 @@ import javax.swing.JOptionPane;
  *
  * @author mcabralr
  */
-public class DbConSettingsController {
+public class DbSettingsController {
     File file;
-    DbConSettingsScreen genScreen;
+    DbSettingsScreen genScreen;
     //Controller control;
     // Database Variables
     private Connection conn = null;
@@ -39,9 +39,9 @@ public class DbConSettingsController {
     private boolean firstSettings = false;
     private boolean firstSettingsOK = false;
 
-    public DbConSettingsController(boolean firstSettings) {
+    public DbSettingsController(boolean firstSettings) {
         this.firstSettings = firstSettings;
-        genScreen = new DbConSettingsScreen();
+        genScreen = new DbSettingsScreen();
         genScreen.setListenerBtnTestDB(new testDbConnection());
         genScreen.setListenerBtnSaveDBParam(new saveDbParameters());
     }

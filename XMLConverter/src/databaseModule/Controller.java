@@ -22,7 +22,7 @@ import javax.swing.JOptionPane;
  * @author Matheus Cabral Rosa
  */
 public abstract class Controller {
-    DbConSettingsController genSettings;
+    DbSettingsController genSettings;
     
     // Database Variables
     public Connection conn = null;
@@ -131,7 +131,7 @@ public abstract class Controller {
                 String[] options = {"Sim", "Não"};
                 int x = JOptionPane.showOptionDialog(null, "Deseja Realizar a configuração do Banco de Dados?", "Escolha", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
                 if(x == 0){
-                    genSettings = new DbConSettingsController(true);
+                    genSettings = new DbSettingsController(true);
                     this.setFirstSettingsOK(genSettings.isFirstSettingsOK());
                 } else {
                     System.exit(0);
@@ -144,7 +144,7 @@ public abstract class Controller {
                 String[] options = {"Sim", "Não"};
                 int x = JOptionPane.showOptionDialog(null, "Deseja Realizar a configuração do Banco de Dados?", "Escolha", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
                 if(x == 0){
-                    genSettings = new DbConSettingsController(true);
+                    genSettings = new DbSettingsController(true);
                     this.setFirstSettingsOK(genSettings.isFirstSettingsOK());
                 } else {
                     System.exit(0);
@@ -157,7 +157,7 @@ public abstract class Controller {
             String[] options = {"Sim", "Não"};
             int x = JOptionPane.showOptionDialog(null, "Deseja Realizar a configuração do Banco de Dados?", "Escolha", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
             if(x == 0){
-                genSettings = new DbConSettingsController(true);
+                genSettings = new DbSettingsController(true);
                 this.setFirstSettingsOK(genSettings.isFirstSettingsOK());
             } else {
                 System.exit(0);

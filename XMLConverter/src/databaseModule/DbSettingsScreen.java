@@ -22,10 +22,10 @@ import javax.swing.JOptionPane;
  *
  * @author mcabralr
  */
-public class DbConSettingsScreen extends javax.swing.JFrame {
+public class DbSettingsScreen extends javax.swing.JFrame {
     
     /** Creates new form GeneralSettingsScreen */
-    public DbConSettingsScreen() {
+    public DbSettingsScreen() {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setVisible(true);

@@ -7,8 +7,7 @@ package main;
 
 import LOVConverterModule.LOV_XML_Controller;
 import SystemSettingsModule.AboutSystemScreen;
-import databaseModule.DbConSettingsController;
-import databaseModule.DBParametersTest;
+import databaseModule.DbSettingsController;
 import databaseModule.DataController;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.event.*;
@@ -25,9 +24,8 @@ public class mainController extends DataController{
     // Classes Instances
     mainScreen mainScreen;
     LOV_XML_Controller lovControl;
-    DBParametersTest dbParamTest;
     AboutSystemScreen about;
-    DbConSettingsController genSettings;
+    DbSettingsController genSettings;
     
     
     private boolean mainScreenVisible = false;
