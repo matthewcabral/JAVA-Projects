@@ -35,15 +35,19 @@ public class DbSettingsController {
     private String dbURL;
     private String dbUser; // Database user connected
     private String dbPassword; // Database user password connected
+    private String dbDriver;
     
     private boolean firstSettings = false;
     private boolean firstSettingsOK = false;
 
     public DbSettingsController(boolean firstSettings) {
         this.firstSettings = firstSettings;
-        genScreen = new DbSettingsScreen();
-        genScreen.setListenerBtnTestDB(new testDbConnection());
-        genScreen.setListenerBtnSaveDBParam(new saveDbParameters());
+        if(firstSettings){
+            genScreen = new DbSettingsScreen();
+            genScreen.setListenerBtnTestDB(new testDbConnection());
+            genScreen.setListenerBtnSaveDBParam(new saveDbParameters());
+        }
+        
     }
     
     // Database Setters and Getters
@@ -56,13 +60,18 @@ public class DbSettingsController {
     public String getDbURL() { return dbURL; }
     public void setDbURL(String dbURL) { this.dbURL = dbURL; }
 
+    public String getDbDriver() { return dbDriver; }
+    public void setDbDriver(String dbDriver) { this.dbDriver = dbDriver; }
+    
     public boolean isFirstSettingsOK() { return firstSettingsOK; }
     
-    
-        
     public boolean openConnection(){
         try {
-            Class.forName(genScreen.gettxtDriver());
+            if(this.firstSettings){
+                Class.forName(genScreen.gettxtDriver());
+            } else {
+                Class.forName(this.getDbDriver());
+            }
             System.out.println("Oracle JDBC Driver Registered!");
         } catch (ClassNotFoundException e){
             JOptionPane.showMessageDialog(null, "Erro: O Driver do ODBC está incorreto ou mal formulado. Favor Tente novamente!\nMensagem: " + e, "Erro", JOptionPane.ERROR_MESSAGE);
@@ -84,7 +93,11 @@ public class DbSettingsController {
     
     public boolean closeConnection(){
         try {
-            Class.forName(genScreen.gettxtDriver());
+            if(this.firstSettings){
+                Class.forName(genScreen.gettxtDriver());
+            } else {
+                Class.forName(this.getDbDriver());
+            }
             System.out.println("Oracle JDBC Driver Registered!");
         } catch (ClassNotFoundException e){
             JOptionPane.showMessageDialog(null, "Erro: O Driver do ODBC está incorreto ou mal formulado. Favor Tente novamente!\nMensagem: " + e,"Erro",JOptionPane.ERROR_MESSAGE);

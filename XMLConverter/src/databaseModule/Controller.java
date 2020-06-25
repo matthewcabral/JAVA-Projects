@@ -44,7 +44,7 @@ public abstract class Controller {
     exceptionsController exc;
     
     // Empty Constructor
-    public Controller() {
+    public Controller() throws InterruptedException {
         try {
             readParameters();
         } catch (IOException ex) {
@@ -98,7 +98,7 @@ public abstract class Controller {
     // Close Database Connection
     public abstract String closeConnection(String message);
     
-    private void readParameters() throws IOException{
+    private void readParameters() throws IOException, InterruptedException{
         
         System.out.println("Carregando Parametros do Banco de Dados");
         File file = new File(confFile);
@@ -123,10 +123,49 @@ public abstract class Controller {
                 }
 
                 System.out.println("Parametros OK");
-                this.setFirstSettingsOK(true);
+                
+                // Teste de conexão                
+                System.out.println("Testando conexão...");
+                genSettings = new DbSettingsController(false);
+                genSettings.setDbDriver(this.getDbDriver());
+                genSettings.setDbURL(this.getDbURL());
+                genSettings.setDbUser(this.getDbUser());
+                genSettings.setDbPassword(this.getDbPassword());
+                try{
+                    if(genSettings.openConnection()){
+                    genSettings.closeConnection();
+                    this.setFirstSettingsOK(true);
+                    } else {
+                        String[] options = {"Sim", "Não"};
+                        int x = JOptionPane.showOptionDialog(null, "Os arquivo de configuração do banco de dados não está correto, deseja realizar a configuração?", "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, options, options[0]);
+                        if(x == 0){
+                            genSettings = new DbSettingsController(true);
+                            while(genSettings.isFirstSettingsOK() == false){
+                                Thread.sleep(1000);
+                            }
+                            readParameters();
+                            
+                        } else {
+                            System.exit(0);
+                        }
+                    }
+                } catch(Exception e){
+                    String[] options = {"Sim", "Não"};
+                    int x = JOptionPane.showOptionDialog(null, "Os arquivo de configuração do banco de dados não está correto, deseja realizar a configuração?", "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, options, options[0]);
+                    if(x == 0){
+                        genSettings = new DbSettingsController(true);
+                        while(genSettings.isFirstSettingsOK() == false){
+                            Thread.sleep(1000);
+                        }
+                        readParameters();
+                    } else {
+                        System.exit(0);
+                    }
+                }
+                
             } catch (FileNotFoundException ex) {
-                JOptionPane.showMessageDialog(null, "O arquivo não foi encontrado, verifique se o mesmo existe ou está com o nome correto.", "Erro", JOptionPane.ERROR_MESSAGE);
-                System.out.println("O arquivo não foi encontrado, verifique se o mesmo existe ou está com o nome correto.");
+                JOptionPane.showMessageDialog(null, "O arquivo não foi encontrado, verifique se o mesmo existe ou está correto.", "Erro", JOptionPane.ERROR_MESSAGE);
+                System.out.println("O arquivo não foi encontrado, verifique se o mesmo existe ou está correto.");
                 
                 String[] options = {"Sim", "Não"};
                 int x = JOptionPane.showOptionDialog(null, "Deseja Realizar a configuração do Banco de Dados?", "Escolha", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
