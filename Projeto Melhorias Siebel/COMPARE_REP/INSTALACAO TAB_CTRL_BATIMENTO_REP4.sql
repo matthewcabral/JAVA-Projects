@@ -1,0 +1,1228 @@
+CREATE SEQUENCE COMPARE_REP_MASTER
+START WITH 1
+INCREMENT BY 1
+MINVALUE 1
+NOCACHE 
+NOCYCLE 
+NOORDER;
+
+CREATE SEQUENCE CTRL_BATIMENTO_REP_SEQ
+START WITH 1
+INCREMENT BY 1
+MINVALUE 1
+NOCACHE 
+NOCYCLE 
+NOORDER;
+
+--DROP TABLE CTRL_LOG_COMP_REP_MASTER CASCADE CONSTRAINTS;
+
+CREATE TABLE CTRL_LOG_COMP_REP_MASTER
+(
+  ID                  NUMBER(22),
+  CREATED             DATE,
+  LAST_UPD            DATE,
+  STATUS              VARCHAR2(100 BYTE)        DEFAULT 'Opened',
+  CONFIGURATION_NAME  VARCHAR2(100 BYTE)
+)
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+
+--DROP TABLE CTRL_LOG_COMP_REP CASCADE CONSTRAINTS;
+
+CREATE TABLE CTRL_LOG_COMP_REP
+(
+ TOTAL_PROCESS_TO_EXEC   NUMBER(10),
+  TOTAL_PROCESS_EXECUTED  NUMBER(10),
+  TABLE_NAME              VARCHAR2(200 BYTE),
+  ACTUAL_TYPE             VARCHAR2(200 BYTE),
+  ACTUAL_DESCRIPTION      VARCHAR2(200 BYTE),
+  ORI_REPOSITORY_NAME     VARCHAR2(200 BYTE),
+  DES_REPOSITORY_NAME     VARCHAR2(200 BYTE),
+  DBLINK_ORIG             VARCHAR2(200 BYTE),
+  DBLINK_DEST             VARCHAR2(200 BYTE),
+  DATE_START              DATE,
+  DATE_END                DATE,
+  ID                      NUMBER(22),
+  STATUS                  VARCHAR2(4000 BYTE),
+  FILA                    NUMBER(10),
+  MASTER_LOG_COMPARE_ID   NUMBER(22),
+  STATUS_DESC             CLOB,
+  CONFIGURATION_NAME      VARCHAR2(100 BYTE)
+)
+PCTUSED    0
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+LOB (STATUS_DESC) STORE AS 
+      ( ENABLE      STORAGE IN ROW
+        CHUNK       8192
+        RETENTION
+        NOCACHE
+        INDEX       (
+          STORAGE    (
+                      INITIAL          64K
+                      NEXT             1
+                      MINEXTENTS       1
+                      MAXEXTENTS       UNLIMITED
+                      PCTINCREASE      0
+                      BUFFER_POOL      DEFAULT
+                     ))
+        STORAGE    (
+                    INITIAL          64K
+                    NEXT             1M
+                    MINEXTENTS       1
+                    MAXEXTENTS       UNLIMITED
+                    PCTINCREASE      0
+                    BUFFER_POOL      DEFAULT
+                   )
+      )
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+--DROP TABLE BATIMENTO_REPOSITORIO CASCADE CONSTRAINTS;
+
+CREATE TABLE BATIMENTO_REPOSITORIO
+(
+  STATUS                VARCHAR2(50 CHAR),
+  TYPE                  VARCHAR2(100 CHAR),
+  GROUP_OBJECT       	VARCHAR2(100 CHAR),
+  ORDER_COL				NUMBER(10),
+  DESCRIPTION           VARCHAR2(200 CHAR),
+  PAR_N0                VARCHAR2(100 CHAR),
+  PAR_N1                VARCHAR2(100 CHAR),
+  PAR_N2                VARCHAR2(100 CHAR),
+  PAR_N3                VARCHAR2(100 CHAR),
+  OBJECT_NAME           VARCHAR2(1000 CHAR),
+  COLUMN_NAME           VARCHAR2(100 CHAR),
+  VAL_ORIG              VARCHAR2(4000 CHAR),
+  VAL_DEST              VARCHAR2(4000 CHAR),
+  LAST_UPD_ORIG         DATE,
+  LAST_UPD_DEST         DATE,
+  LAST_UPD_BY_ORIG      VARCHAR2(100 CHAR),  
+  CTRL_LOG_COMP_REP_ID  NUMBER(10),
+  LAST_UPD_BY_DEST      VARCHAR2(100 CHAR),
+  ID                    NUMBER(22)  
+)
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+--DROP TABLE CTRL_LOG_COMP_REP_LOG CASCADE CONSTRAINTS;
+
+CREATE TABLE CTRL_LOG_COMP_REP_LOG
+(
+  TABLE_NAME                   VARCHAR2(100 BYTE),
+  CTRL_LOG_COMP_REP_MASTER_ID  NUMBER(22),
+  CTRL_LOG_COMP_REP_ID         NUMBER(22),
+  TAB_CTRL_BATIMENTO_REP_ID    NUMBER(22),
+  BATIMENTO_REPOSITORIO_ID     NUMBER(22),
+  FILA                         NUMBER(10),
+  STATUS                       VARCHAR2(4000 BYTE),
+  STATUS_DESC                  CLOB,
+  SCRIPT_ERROR                 CLOB
+)
+PCTUSED    0
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+LOB (STATUS_DESC) STORE AS 
+      (
+        ENABLE      STORAGE IN ROW
+        CHUNK       8192
+        RETENTION
+        NOCACHE
+        INDEX       (
+          STORAGE    (
+                      INITIAL          64K
+                      NEXT             1
+                      MINEXTENTS       1
+                      MAXEXTENTS       UNLIMITED
+                      PCTINCREASE      0
+                      BUFFER_POOL      DEFAULT
+                     ))
+        STORAGE    (
+                    INITIAL          64K
+                    NEXT             1M
+                    MINEXTENTS       1
+                    MAXEXTENTS       UNLIMITED
+                    PCTINCREASE      0
+                    BUFFER_POOL      DEFAULT
+                   )
+      )
+  LOB (SCRIPT_ERROR) STORE AS 
+      ( 
+        ENABLE      STORAGE IN ROW
+        CHUNK       8192
+        RETENTION
+        NOCACHE
+        INDEX       (
+          STORAGE    (
+                      INITIAL          64K
+                      NEXT             1
+                      MINEXTENTS       1
+                      MAXEXTENTS       UNLIMITED
+                      PCTINCREASE      0
+                      BUFFER_POOL      DEFAULT
+                     ))
+        STORAGE    (
+                    INITIAL          64K
+                    NEXT             1M
+                    MINEXTENTS       1
+                    MAXEXTENTS       UNLIMITED
+                    PCTINCREASE      0
+                    BUFFER_POOL      DEFAULT
+                   )
+      )
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+
+
+
+--DROP TABLE TAB_CTRL_BATIMENTO_REP CASCADE CONSTRAINTS;
+
+CREATE TABLE TAB_CTRL_BATIMENTO_REP
+(
+  ID                 NUMBER(22),
+  FILA               NUMBER(10),
+  CONFIGURATION_NAME VARCHAR2(100 CHAR),
+  TYPE               VARCHAR2(100 CHAR),
+  GROUP_OBJECT       VARCHAR2(100 CHAR),
+  ORDER_COL          NUMBER(22),  
+  DESCRIPTION        VARCHAR2(200 CHAR),
+  TABLE_NAME         VARCHAR2(100 CHAR),
+  JOIN3              VARCHAR2(100 CHAR),
+  TAB_P3             VARCHAR2(100 CHAR),
+  JOIN2              VARCHAR2(100 CHAR),
+  TAB_P2             VARCHAR2(100 CHAR),
+  JOIN1              VARCHAR2(100 CHAR),
+  TAB_P1             VARCHAR2(100 CHAR),
+  JOIN0              VARCHAR2(100 CHAR),
+  TAB_P0             VARCHAR2(100 CHAR),
+  INACTIVE_FLG       CHAR(1 CHAR),
+  OTHER_KEY_FIELD    VARCHAR2(1000 CHAR),
+  ADDITIONAL_SEARCH  VARCHAR2(1000 CHAR)
+)
+PCTUSED    0
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE
+NOPARALLEL
+MONITORING;
+
+CREATE OR REPLACE TRIGGER  TAB_CTRL_BATIMENTO_REP
+  before insert on TAB_CTRL_BATIMENTO_REP              
+  for each row  
+begin   
+if :NEW.ID is null then 
+    :NEW.ID := CTRL_BATIMENTO_REP_SEQ.nextval; 
+  end if; 
+end; 
+
+
+SET DEFINE OFF;
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN2, TAB_P2, 
+    JOIN1, TAB_P1, JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (171, 4, 'TIM', 'Repository', 'Applet', 
+    4, 'AppletWebTemplateItemLocale', 'S_APLT_WTI_INTL', 'APPL_WTMPL_IT_ID', 'S_APPL_WTMPL_IT', 
+    'APPL_WEB_TMPL_ID', 'S_APPL_WEB_TMPL', 'APPLET_ID', 'S_APPLET', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (172, 5, 'TIM', 'Repository', 'Applet', 
+    2, 'DrilldownObject', 'S_DDOWN_OBJECT', 'APPLET_ID', 'S_APPLET', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN2, TAB_P2, 
+    JOIN1, TAB_P1, JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (173, 10, 'TIM', 'Repository', 'Applet', 
+    4, 'ListColumnUserProp', 'S_LISTCOL_UPROP', 'LIST_COLUMN_ID', 'S_LIST_COLUMN', 
+    'LIST_ID', 'S_LIST', 'APPLET_ID', 'S_APPLET', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (174, 19, 'TIM', 'Repository', 'BusinesComponent', 
+    2, 'BusCompServerScript', 'S_BUSCOMP_SCRIPT', 'BUSCOMP_ID', 'S_BUSCOMP', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (175, 19, 'TIM', 'Repository', 'BusinesComponent', 
+    3, 'FieldLocale', 'S_FIELD_INTL', 'FIELD_ID', 'S_FIELD', 
+    'BUSCOMP_ID', 'S_BUSCOMP', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN2, TAB_P2, 
+    JOIN1, TAB_P1, JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (176, 19, 'TIM', 'Repository', 'BusinesComponent', 
+    4, 'PickMapUpdOnlyIfNull', 'S_PICKMAP_UPDIFNUL', 'PICKMAP_ID', 'S_PICKMAP', 
+    'FIELD_ID', 'S_FIELD', 'BUSCOMP_ID', 'S_BUSCOMP', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (177, 7, 'TIM', 'Repository', 'BusinessObject', 
+    2, 'BusinessObjectComponent', 'S_BOCOMP', 'BUSOBJ_ID', 'S_BUSOBJ', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN2, TAB_P2, 
+    JOIN1, TAB_P1, JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (179, 30, 'TIM', 'Repository', 'IntegrationObject', 
+    4, 'IntegrationComponentKeIntegrationComponentKeyFieldy', 'S_INT_CKEY_FLD', 'INT_KEY_ID', 'S_INT_CKEY', 
+    'INT_COMP_ID', 'S_INT_COMP', 'INT_OBJ_ID', 'S_INT_OBJ', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, INACTIVE_FLG)
+ Values
+   (180, 20, 'TIM', 'NoRepository', 'DataMap-Object', 
+    1, 'DataMap-Object', 'S_INT_OBJMAP', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (181, 20, 'TIM', 'NoRepository', 'DataMap-Object', 
+    2, 'DataMap-Component', 'S_INT_COMPMAP', 'INT_OBJ_MAP_ID', 'S_INT_OBJMAP', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (193, 14, 'TIM', 'Repository', 'BusinesComponent', 
+    2, 'Field', 'S_FIELD', 'BUSCOMP_ID', 'S_BUSCOMP', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (336, 33, 'TIM', 'Repository', 'Applet', 
+    3, 'AppletListColumn', 'S_LIST_COLUMN', 'LIST_ID', 'S_LIST', 
+    'APPLET_ID', 'S_APPLET', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (215, 31, 'TIM', 'Repository', 'IntegrationObject', 
+    3, 'IntegrationComponentField', 'S_INT_FIELD', 'INT_COMP_ID', 'S_INT_COMP', 
+    'INT_OBJ_ID', 'S_INT_OBJ', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG, OTHER_KEY_FIELD)
+ Values
+   (219, 23, 'TIM', 'NoRepository', 'DataMap-Object', 
+    3, 'DataMap-Field', 'S_INT_FLDMAP', 'INT_COMP_MAP_ID', 'S_INT_COMPMAP', 
+    'INT_OBJ_MAP_ID', 'S_INT_OBJMAP', 'N', 'DST_INT_FLD_NAME');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN2, TAB_P2, 
+    JOIN1, TAB_P1, JOIN0, TAB_P0, INACTIVE_FLG, 
+    ADDITIONAL_SEARCH)
+ Values
+   (220, 21, 'TIM', 'Repository', 'IntegrationObject', 
+    4, 'IntegrationComponentFieldUserProp', 'S_INTFLD_UPROP', 'INT_FIELD_ID', 'S_INT_FIELD', 
+    'INT_COMP_ID', 'S_INT_COMP', 'INT_OBJ_ID', 'S_INT_OBJ', 'N', 
+    'T.name IN ( ''XMLTagNamespace'', ''XMLTagNamespace`'')');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN2, TAB_P2, 
+    JOIN1, TAB_P1, JOIN0, TAB_P0, INACTIVE_FLG, 
+    ADDITIONAL_SEARCH)
+ Values
+   (221, 23, 'TIM', 'Repository', 'IntegrationObject', 
+    4, 'IntegrationComponentFieldUserProp', 'S_INTFLD_UPROP', 'INT_FIELD_ID', 'S_INT_FIELD', 
+    'INT_COMP_ID', 'S_INT_COMP', 'INT_OBJ_ID', 'S_INT_OBJ', 'N', 
+    ' substr( T.name , 1, 1) NOT IN ( ''X'')');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN2, TAB_P2, 
+    JOIN1, TAB_P1, JOIN0, TAB_P0, INACTIVE_FLG, 
+    ADDITIONAL_SEARCH)
+ Values
+   (222, 22, 'TIM', 'Repository', 'IntegrationObject', 
+    4, 'IntegrationComponentFieldUserProp', 'S_INTFLD_UPROP', 'INT_FIELD_ID', 'S_INT_FIELD', 
+    'INT_COMP_ID', 'S_INT_COMP', 'INT_OBJ_ID', 'S_INT_OBJ', 'N', 
+    'T.name IN ( ''XSDTypeName'')');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, INACTIVE_FLG)
+ Values
+   (223, 18, 'TIM', 'Repository', 'Screen', 
+    1, 'Screen', 'S_SCREEN', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (224, 19, 'TIM', 'Repository', 'Screen', 
+    2, 'ScreenLocale', 'S_SCREEN_INTL', 'SCREEN_ID', 'S_SCREEN', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (225, 18, 'TIM', 'Repository', 'Screen', 
+    2, 'ScreenView', 'S_SCREEN_VIEW', 'SCREEN_ID', 'S_SCREEN', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (226, 18, 'TIM', 'Repository', 'Screen', 
+    3, 'ScreenViewLocale', 'S_SCR_VIEW_INTL', 'SCREEN_VIEW_ID', 'S_SCREEN_VIEW', 
+    'SCREEN_ID', 'S_SCREEN', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, INACTIVE_FLG)
+ Values
+   (227, 17, 'TIM', 'Repository', 'SymbolicString', 
+    1, 'SymbolicString', 'S_SYM_STR', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (228, 17, 'TIM', 'Repository', 'SymbolicString', 
+    2, 'SymbolicStringLocale', 'S_SYM_STR_INTL', 'SYM_STR_ID', 'S_SYM_STR', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, INACTIVE_FLG)
+ Values
+   (229, 17, 'TIM', 'Repository', 'Table', 
+    1, 'Table', 'S_TABLE', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (230, 17, 'TIM', 'Repository', 'Table', 
+    2, 'Column', 'S_COLUMN', 'TBL_ID', 'S_TABLE', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (231, 18, 'TIM', 'Repository', 'Table', 
+    2, 'DataSource', 'S_TBL_DATASRC', 'TBL_ID', 'S_TABLE', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (232, 17, 'TIM', 'Repository', 'Table', 
+    2, 'Index', 'S_INDEX', 'TBL_ID', 'S_TABLE', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (233, 17, 'TIM', 'Repository', 'Table', 
+    3, 'IndexColumn', 'S_INDEX_COLUMN', 'INDEX_ID', 'S_INDEX', 
+    'TBL_ID', 'S_TABLE', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (234, 18, 'TIM', 'Repository', 'Table', 
+    2, 'UserKey', 'S_USER_KEY', 'TBL_ID', 'S_TABLE', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (235, 17, 'TIM', 'Repository', 'Table', 
+    3, 'UserKeyAttribute', 'S_USER_KEY_ATT', 'USER_KEY_ID', 'S_USER_KEY', 
+    'TBL_ID', 'S_TABLE', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN2, TAB_P2, 
+    JOIN1, TAB_P1, JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (236, 16, 'TIM', 'Repository', 'Table', 
+    4, 'UserKeyAttributeJoin', 'S_UK_ATTJOIN', 'USER_KEY_ATT_ID', 'S_USER_KEY_ATT', 
+    'USER_KEY_ID', 'S_USER_KEY', 'TBL_ID', 'S_TABLE', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (237, 17, 'TIM', 'Repository', 'Table', 
+    3, 'UserKeyAttributeTreeNode', 'S_UKA_TREE_NODE', 'USER_KEY_ID', 'S_USER_KEY', 
+    'TBL_ID', 'S_TABLE', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (238, 16, 'TIM', 'Repository', 'Table', 
+    3, 'UserKeyColumn', 'S_USER_KEY_COL', 'USER_KEY_ID', 'S_USER_KEY', 
+    'TBL_ID', 'S_TABLE', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, INACTIVE_FLG)
+ Values
+   (239, 16, 'TIM', 'Repository', 'View', 
+    1, 'View', 'S_VIEW', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (240, 16, 'TIM', 'Repository', 'View', 
+    2, 'ViewLocale', 'S_VIEW_INTL', 'VIEW_ID', 'S_VIEW', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (241, 16, 'TIM', 'Repository', 'View', 
+    2, 'ViewReport', 'S_VIEW_REPORT', 'VIEW_ID', 'S_VIEW', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (242, 16, 'TIM', 'Repository', 'View', 
+    3, 'ViewReportLocale', 'S_VIEW_RPT_INTL', 'VIEW_REPORT_ID', 'S_VIEW_REPORT', 
+    'VIEW_ID', 'S_VIEW', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (243, 16, 'TIM', 'Repository', 'View', 
+    2, 'ViewTaskGroup', 'S_VIEW_TG', 'VIEW_ID', 'S_VIEW', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (244, 16, 'TIM', 'Repository', 'View', 
+    3, 'ViewTaskGroupLocale', 'S_VIEW_TG_INTL', 'VIEW_TG_ID', 'S_VIEW_TG', 
+    'VIEW_ID', 'S_VIEW', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (245, 16, 'TIM', 'Repository', 'View', 
+    2, 'ViewUserProp', 'S_VIEW_UPROP', 'VIEW_ID', 'S_VIEW', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (246, 16, 'TIM', 'Repository', 'View', 
+    2, 'ViewWebTemplate', 'S_VIEW_WEB_TMPL', 'VIEW_ID', 'S_VIEW', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (247, 16, 'TIM', 'Repository', 'View', 
+    3, 'ViewWebTemplateItem', 'S_VIEW_WTMPL_IT', 'VIEW_WEB_TMPL_ID', 'S_VIEW_WEB_TMPL', 
+    'VIEW_ID', 'S_VIEW', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN2, TAB_P2, 
+    JOIN1, TAB_P1, JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (248, 16, 'TIM', 'Repository', 'View', 
+    4, 'ViewWebTemplateItemLocale', 'S_VIEW_WTI_INTL', 'VIEW_WTMPL_IT_ID', 'S_VIEW_WTMPL_IT', 
+    'VIEW_WEB_TMPL_ID', 'S_VIEW_WEB_TMPL', 'VIEW_ID', 'S_VIEW', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (249, 4, 'TIM', 'Repository', 'Applet', 
+    3, 'ChartLocale', 'S_CHART_INTL', 'CHART_ID', 'S_CHART', 
+    'APPLET_ID', 'S_APPLET', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (250, 5, 'TIM', 'Repository', 'Applet', 
+    3, 'DynamicDrilldownDestination', 'S_DDOWN_DYNDEST', 'DDOWN_OBJECT_ID', 'S_DDOWN_OBJECT', 
+    'APPLET_ID', 'S_APPLET', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (251, 5, 'TIM', 'Repository', 'Applet', 
+    3, 'ControlLocale', 'S_CONTROL_INTL', 'CONTROL_ID', 'S_CONTROL', 
+    'APPLET_ID', 'S_APPLET', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, INACTIVE_FLG)
+ Values
+   (252, 1, 'TIM', 'Repository', 'Applet', 
+    1, 'Applet', 'S_APPLET', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (253, 1, 'TIM', 'Repository', 'Applet', 
+    2, 'AppletList', 'S_LIST', 'APPLET_ID', 'S_APPLET', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN2, TAB_P2, 
+    JOIN1, TAB_P1, JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (254, 1, 'TIM', 'Repository', 'Applet', 
+    4, 'ListColumnLocale', 'S_LIST_COL_INTL', 'LIST_COLUMN_ID', 'S_LIST_COLUMN', 
+    'LIST_ID', 'S_LIST', 'APPLET_ID', 'S_APPLET', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (255, 1, 'TIM', 'Repository', 'Applet', 
+    2, 'AppletBrowserScript', 'S_APLT_BRSSCRPT', 'APPLET_ID', 'S_APPLET', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (256, 1, 'TIM', 'Repository', 'Applet', 
+    2, 'AppletLocale', 'S_APPLET_INTL', 'APPLET_ID', 'S_APPLET', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (257, 1, 'TIM', 'Repository', 'Applet', 
+    2, 'AppletMessage', 'S_APLT_TXT_MSG', 'APPLET_ID', 'S_APPLET', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (258, 3, 'TIM', 'Repository', 'Applet', 
+    3, 'AppletMessageLocale', 'S_APLT_TM_INTL', 'APLT_TXT_MSG_ID', 'S_APLT_TXT_MSG', 
+    'APPLET_ID', 'S_APPLET', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN2, TAB_P2, 
+    JOIN1, TAB_P1, JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (259, 3, 'TIM', 'Repository', 'Applet', 
+    4, 'AppletMessageVariableLocale', 'S_APLT_TMV_INTL', 'APLT_TM_VAR_ID', 'S_APLT_TM_VAR', 
+    'APLT_TXT_MSG_ID', 'S_APLT_TXT_MSG', 'APPLET_ID', 'S_APPLET', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (260, 3, 'TIM', 'Repository', 'Applet', 
+    2, 'AppletMethodMenuItem', 'S_APPLET_METH_MI', 'APPLET_ID', 'S_APPLET', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (261, 3, 'TIM', 'Repository', 'Applet', 
+    2, 'AppletServerScript', 'S_APPL_WEBSCRPT', 'APPLET_ID', 'S_APPLET', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (262, 3, 'TIM', 'Repository', 'Applet', 
+    2, 'AppletToggle', 'S_APPLET_TOGGLE', 'APPLET_ID', 'S_APPLET', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (263, 3, 'TIM', 'Repository', 'Applet', 
+    2, 'AppletUserProp', 'S_APPLET_UPROP', 'APPLET_ID', 'S_APPLET', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (264, 27, 'TIM', 'Repository', 'Applet', 
+    2, 'AppletChart', 'S_CHART', 'APPLET_ID', 'S_APPLET', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (265, 26, 'TIM', 'Repository', 'Applet', 
+    3, 'AppletWebTemplateItem', 'S_APPL_WTMPL_IT', 'APPL_WEB_TMPL_ID', 'S_APPL_WEB_TMPL', 
+    'APPLET_ID', 'S_APPLET', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (266, 29, 'TIM', 'Repository', 'Applet', 
+    2, 'AppletWebTemplate', 'S_APPL_WEB_TMPL', 'APPLET_ID', 'S_APPLET', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (267, 4, 'TIM', 'Repository', 'Applet', 
+    3, 'ChartElement', 'S_CHART_ELEMENT', 'CHART_ID', 'S_CHART', 
+    'APPLET_ID', 'S_APPLET', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN2, TAB_P2, 
+    JOIN1, TAB_P1, JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (268, 4, 'TIM', 'Repository', 'Applet', 
+    4, 'ChartElementLocale', 'S_CHART_EL_INTL', 'CHART_ELEM_ID', 'S_CHART_ELEMENT', 
+    'CHART_ID', 'S_CHART', 'APPLET_ID', 'S_APPLET', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (269, 5, 'TIM', 'Repository', 'Applet', 
+    3, 'ControlUserProp', 'S_CONTROL_UPROP', 'CONTROL_ID', 'S_CONTROL', 
+    'APPLET_ID', 'S_APPLET', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (271, 5, 'TIM', 'Repository', 'Applet', 
+    3, 'DrilldownObjectLocale', 'S_DDOWN_OB_INTL', 'DDOWN_OBJECT_ID', 'S_DDOWN_OBJECT', 
+    'APPLET_ID', 'S_APPLET', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (273, 5, 'TIM', 'Repository', 'Applet', 
+    2, 'Tree', 'S_TREE', 'APPLET_ID', 'S_APPLET', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (274, 5, 'TIM', 'Repository', 'Applet', 
+    3, 'TreeNode', 'S_TREE_NODE', 'TREE_ID', 'S_TREE', 
+    'APPLET_ID', 'S_APPLET', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN2, TAB_P2, 
+    JOIN1, TAB_P1, JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (275, 5, 'TIM', 'Repository', 'Applet', 
+    4, 'TreeNodeLocale', 'S_TREE_ND_INTL', 'TREE_NODE_ID', 'S_TREE_NODE', 
+    'TREE_ID', 'S_TREE', 'APPLET_ID', 'S_APPLET', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, INACTIVE_FLG)
+ Values
+   (276, 1, 'TIM', 'Repository', 'BusinesComponent', 
+    1, 'BusinesComponent', 'S_BUSCOMP', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (277, 3, 'TIM', 'Repository', 'BusinesComponent', 
+    2, 'BusCompBrowserScript', 'S_BC_BRS_SCRPT', 'BUSCOMP_ID', 'S_BUSCOMP', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (278, 3, 'TIM', 'Repository', 'BusinesComponent', 
+    2, 'BusCompViewMode', 'S_BC_VIEWMODE', 'BUSCOMP_ID', 'S_BUSCOMP', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (279, 28, 'TIM', 'Repository', 'BusinesComponent', 
+    2, 'BusinessComponentUserProp', 'S_BUSCOMP_UPROP', 'BUSCOMP_ID', 'S_BUSCOMP', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (280, 5, 'TIM', 'Repository', 'BusinesComponent', 
+    2, 'Join', 'S_JOIN', 'BUSCOMP_ID', 'S_BUSCOMP', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (281, 6, 'TIM', 'Repository', 'BusinesComponent', 
+    3, 'FieldUserProp', 'S_FIELD_UPROP', 'FIELD_ID', 'S_FIELD', 
+    'BUSCOMP_ID', 'S_BUSCOMP', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (282, 7, 'TIM', 'Repository', 'BusinesComponent', 
+    3, 'PickMap', 'S_PICKMAP', 'FIELD_ID', 'S_FIELD', 
+    'BUSCOMP_ID', 'S_BUSCOMP', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (284, 15, 'TIM', 'Repository', 'BusinesComponent', 
+    3, 'JoinConstraint', 'S_JOIN_CONSTRNT', 'JOIN_ID', 'S_JOIN', 
+    'BUSCOMP_ID', 'S_BUSCOMP', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (285, 16, 'TIM', 'Repository', 'BusinesComponent', 
+    3, 'JoinSpecification', 'S_JOIN_SPEC', 'JOIN_ID', 'S_JOIN', 
+    'BUSCOMP_ID', 'S_BUSCOMP', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (286, 18, 'TIM', 'Repository', 'BusinesComponent', 
+    2, 'MultiValueLink', 'S_MVLINK', 'BUSCOMP_ID', 'S_BUSCOMP', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, INACTIVE_FLG)
+ Values
+   (287, 7, 'TIM', 'Repository', 'BusinessObject', 
+    1, 'BusinessObject', 'S_BUSOBJ', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, INACTIVE_FLG)
+ Values
+   (288, 8, 'TIM', 'Repository', 'IntegrationObject', 
+    1, 'IntegrationObject', 'S_INT_OBJ', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (289, 9, 'TIM', 'Repository', 'IntegrationObject', 
+    2, 'IntegrationComponent', 'S_INT_COMP', 'INT_OBJ_ID', 'S_INT_OBJ', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN2, TAB_P2, 
+    JOIN1, TAB_P1, JOIN0, TAB_P0, INACTIVE_FLG, 
+    ADDITIONAL_SEARCH)
+ Values
+   (290, 24, 'TIM', 'Repository', 'IntegrationObject', 
+    4, 'IntegrationComponentFieldUserProp', 'S_INTFLD_UPROP', 'INT_FIELD_ID', 'S_INT_FIELD', 
+    'INT_COMP_ID', 'S_INT_COMP', 'INT_OBJ_ID', 'S_INT_OBJ', 'N', 
+    'T.name IN ( ''XSDTypeNamespace'')');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG, ADDITIONAL_SEARCH)
+ Values
+   (349, 34, 'TIM', 'Repository', 'Application', 
+    2, 'ApplicationEventServices', 'S_APPL_EVT_SVC', 'APPLICATION_ID', 'S_APPLICATION', 
+    'N', 'EXISTS(SELECT 1 FROM SIEBEL.S_APPLICATION@ TAB, SIEBEL.S_REPOSITORY@ REP WHERE TAB.ROW_ID = T.APPLICATION_ID AND TAB.NAME IN (''Tim Brasil CRC'', ''Tim Brasil Vendas'') AND REP.NAME = ''Siebel Repository'')');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG, ADDITIONAL_SEARCH)
+ Values
+   (350, 34, 'TIM', 'Repository', 'Application', 
+    2, 'ApplicationFind', 'S_APPL_FIND', 'APPLICATION_ID', 'S_APPLICATION', 
+    'N', 'EXISTS(SELECT 1 FROM SIEBEL.S_APPLICATION@ TAB, SIEBEL.S_REPOSITORY@ REP WHERE TAB.ROW_ID = T.APPLICATION_ID AND TAB.NAME IN (''Tim Brasil CRC'', ''Tim Brasil Vendas'') AND REP.NAME = ''Siebel Repository'')');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG, ADDITIONAL_SEARCH)
+ Values
+   (351, 34, 'TIM', 'Repository', 'Application', 
+    2, 'ApplicationLocale', 'S_APPL_INTL', 'APPLICATION_ID', 'S_APPLICATION', 
+    'N', 'EXISTS(SELECT 1 FROM SIEBEL.S_APPLICATION@ TAB, SIEBEL.S_REPOSITORY@ REP WHERE TAB.ROW_ID = T.APPLICATION_ID AND TAB.NAME IN (''Tim Brasil CRC'', ''Tim Brasil Vendas'') AND REP.NAME = ''Siebel Repository'')');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG, ADDITIONAL_SEARCH)
+ Values
+   (352, 34, 'TIM', 'Repository', 'Application', 
+    2, 'ApplicationServerScript', 'S_APPL_SCRIPT', 'APPLICATION_ID', 'S_APPLICATION', 
+    'N', 'EXISTS(SELECT 1 FROM SIEBEL.S_APPLICATION@ TAB, SIEBEL.S_REPOSITORY@ REP WHERE TAB.ROW_ID = T.APPLICATION_ID AND TAB.NAME IN (''Tim Brasil CRC'', ''Tim Brasil Vendas'') AND REP.NAME = ''Siebel Repository'')');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG, ADDITIONAL_SEARCH)
+ Values
+   (353, 34, 'TIM', 'Repository', 'Application', 
+    2, 'ApplicationUserProp', 'S_APPL_UPROP', 'APPLICATION_ID', 'S_APPLICATION', 
+    'N', 'EXISTS(SELECT 1 FROM SIEBEL.S_APPLICATION@ TAB, SIEBEL.S_REPOSITORY@ REP WHERE TAB.ROW_ID = T.APPLICATION_ID AND TAB.NAME IN (''Tim Brasil CRC'', ''Tim Brasil Vendas'') AND REP.NAME = ''Siebel Repository'')');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG, ADDITIONAL_SEARCH)
+ Values
+   (354, 34, 'TIM', 'Repository', 'Application', 
+    2, 'ApplicationPageTab', 'S_PAGE_TAB', 'APPLICATION_ID', 'S_APPLICATION', 
+    'N', 'EXISTS(SELECT 1 FROM SIEBEL.S_APPLICATION@ TAB, SIEBEL.S_REPOSITORY@ REP WHERE TAB.ROW_ID = T.APPLICATION_ID AND TAB.NAME IN (''Tim Brasil CRC'', ''Tim Brasil Vendas'') AND REP.NAME = ''Siebel Repository'')');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG, ADDITIONAL_SEARCH)
+ Values
+   (355, 34, 'TIM', 'Repository', 'Application', 
+    2, 'ApplicationScreenMenuItem', 'S_SCR_MENU_ITEM', 'APPLICATION_ID', 'S_APPLICATION', 
+    'N', 'EXISTS(SELECT 1 FROM SIEBEL.S_APPLICATION@ TAB, SIEBEL.S_REPOSITORY@ REP WHERE TAB.ROW_ID = T.APPLICATION_ID AND TAB.NAME IN (''Tim Brasil CRC'', ''Tim Brasil Vendas'') AND REP.NAME = ''Siebel Repository'')');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG, ADDITIONAL_SEARCH)
+ Values
+   (356, 34, 'TIM', 'Repository', 'Application', 
+    3, 'ApplicationScreenMenuItemLocale', 'S_SCR_MITM_INTL', 'SCREEN_MENU_IT_ID', 'S_SCR_MENU_ITEM', 
+    'APPLICATION_ID', 'S_APPLICATION', 'N', 'EXISTS(SELECT 1 FROM SIEBEL.S_APPLICATION@ TAB, SIEBEL.S_SCR_MENU_ITEM@ TAB1, SIEBEL.S_REPOSITORY@ REP WHERE T.SCREEN_MENU_IT_ID = TAB1.ROW_ID AND TAB.ROW_ID = TAB1.APPLICATION_ID AND TAB.NAME IN (''Tim Brasil CRC'', ''Tim Brasil Vendas'') AND REP.NAME = ''Siebel Repository'')');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG, ADDITIONAL_SEARCH)
+ Values
+   (357, 34, 'TIM', 'Repository', 'Application', 
+    3, 'ApplicationPageTabLocale', 'S_PAGE_TAB_INTL', 'PAGE_TAB_ID', 'S_PAGE_TAB', 
+    'APPLICATION_ID', 'S_APPLICATION', 'N', 'EXISTS(SELECT 1 FROM SIEBEL.S_APPLICATION@ TAB, SIEBEL.S_PAGE_TAB@ TAB1, SIEBEL.S_REPOSITORY@ REP WHERE T.PAGE_TAB_ID = TAB1.ROW_ID AND TAB.ROW_ID = TAB1.APPLICATION_ID AND TAB.NAME IN (''Tim Brasil CRC'', ''Tim Brasil Vendas'') AND REP.NAME = ''Siebel Repository'')');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN3, TAB_P3, 
+    JOIN2, TAB_P2, JOIN1, TAB_P1, JOIN0, 
+    TAB_P0, INACTIVE_FLG, ADDITIONAL_SEARCH)
+ Values
+   (346, 2, 'TIM', 'Repository', 'WorkflowProcess', 
+    5, 'WFBranchCriteriaValue', 'S_WFR_COND_VAL', 'COND_CRIT_ID', 'S_WFR_COND_CRIT', 
+    'BRANCH_ID', 'S_WFR_STP_BRNCH', 'STEP_ID', 'S_WFR_STP', 'PROCESS_ID', 
+    'S_WFR_PROC', 'N', 'EXISTS(SELECT 1 FROM SIEBEL.S_WFR_PROC@ TAB, SIEBEL.S_WFR_STP@ TAB1, SIEBEL.S_WFR_STP_BRNCH@ TAB2, SIEBEL.S_WFR_COND_CRIT@ TAB3 , SIEBEL.S_REPOSITORY@ REP WHERE TAB.STATUS_CD = ''COMPLETED'' AND TAB1.PROCESS_ID = TAB.ROW_ID AND TAB2.STEP_ID = TAB1.ROW_ID AND TAB3.BRANCH_ID = TAB2.ROW_ID AND T.COND_CRIT_ID = TAB3.ROW_ID AND REP.ROW_ID = TAB.REPOSITORY_ID AND REP.NAME = ''Siebel Repository'')');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN2, TAB_P2, 
+    JOIN1, TAB_P1, JOIN0, TAB_P0, INACTIVE_FLG, 
+    ADDITIONAL_SEARCH)
+ Values
+   (344, 2, 'TIM', 'Repository', 'WorkflowProcess', 
+    4, 'WFBranchCriteria', 'S_WFR_COND_CRIT', 'BRANCH_ID', 'S_WFR_STP_BRNCH', 
+    'STEP_ID', 'S_WFR_STP', 'PROCESS_ID', 'S_WFR_PROC', 'N', 
+    'EXISTS(SELECT 1 FROM SIEBEL.S_WFR_PROC@ TAB, SIEBEL.S_WFR_STP@ TAB1, SIEBEL.S_WFR_STP_BRNCH@ TAB2 , SIEBEL.S_REPOSITORY@ REP WHERE TAB.STATUS_CD = ''COMPLETED'' AND TAB1.PROCESS_ID = TAB.ROW_ID AND TAB2.STEP_ID = TAB1.ROW_ID AND T.BRANCH_ID = TAB2.ROW_ID AND REP.ROW_ID = TAB.REPOSITORY_ID AND REP.NAME = ''Siebel Repository'')');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN2, TAB_P2, 
+    JOIN1, TAB_P1, JOIN0, TAB_P0, INACTIVE_FLG, 
+    OTHER_KEY_FIELD, ADDITIONAL_SEARCH)
+ Values
+   (345, 2, 'TIM', 'Repository', 'WorkflowProcess', 
+    4, 'WFBranchConnector', 'S_WFR_PROC_FLOW', 'FOR_BRNCH_ID', 'S_WFR_STP_BRNCH', 
+    'STEP_ID', 'S_WFR_STP', 'PROCESS_ID', 'S_WFR_PROC', 'N', 
+    'TO_STEP_NAME,FROM_STEP_NAME', 'EXISTS(SELECT 1 FROM SIEBEL.S_WFR_PROC@ TAB, SIEBEL.S_WFR_STP@ TAB1, SIEBEL.S_WFR_STP_BRNCH@ TAB2 , SIEBEL.S_REPOSITORY@ REP WHERE TAB.STATUS_CD = ''COMPLETED'' AND TAB1.PROCESS_ID = TAB.ROW_ID AND TAB2.STEP_ID = TAB1.ROW_ID AND T.FOR_BRNCH_ID = TAB2.ROW_ID AND REP.ROW_ID = TAB.REPOSITORY_ID AND REP.NAME = ''Siebel Repository'')');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG, ADDITIONAL_SEARCH)
+ Values
+   (343, 2, 'TIM', 'Repository', 'WorkflowProcess', 
+    3, 'WFStepI/OArgument', 'S_WFR_STP_ARG', 'STEP_ID', 'S_WFR_STP', 
+    'PROCESS_ID', 'S_WFR_PROC', 'N', 'EXISTS(SELECT 1 FROM SIEBEL.S_WFR_PROC@ TAB, SIEBEL.S_WFR_STP@ TAB1 , SIEBEL.S_REPOSITORY@ REP WHERE TAB.STATUS_CD = ''COMPLETED'' AND TAB1.PROCESS_ID = TAB.ROW_ID AND T.STEP_ID = TAB1.ROW_ID  AND REP.ROW_ID = TAB.REPOSITORY_ID AND REP.NAME = ''Siebel Repository'')');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG, ADDITIONAL_SEARCH)
+ Values
+   (339, 2, 'TIM', 'Repository', 'WorkflowProcess', 
+    2, 'WFStep', 'S_WFR_STP', 'PROCESS_ID', 'S_WFR_PROC', 
+    'N', 'EXISTS(SELECT 1 FROM SIEBEL.S_WFR_PROC@ TAB , SIEBEL.S_REPOSITORY@ REP WHERE TAB.STATUS_CD = ''COMPLETED'' AND T.PROCESS_ID = TAB.ROW_ID  AND REP.ROW_ID = TAB.REPOSITORY_ID AND REP.NAME = ''Siebel Repository'')');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (291, 11, 'TIM', 'Repository', 'IntegrationObject', 
+    3, 'IntegrationComponentKey', 'S_INT_CKEY', 'INT_COMP_ID', 'S_INT_COMP', 
+    'INT_OBJ_ID', 'S_INT_OBJ', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (292, 12, 'TIM', 'Repository', 'IntegrationObject', 
+    3, 'IntegrationComponentUserProp', 'S_INTCOMP_UPROP', 'INT_COMP_ID', 'S_INT_COMP', 
+    'INT_OBJ_ID', 'S_INT_OBJ', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (293, 13, 'TIM', 'Repository', 'IntegrationObject', 
+    2, 'IntegrationObjectUserProp', 'S_INT_OBJ_UPROP', 'INT_OBJ_ID', 'S_INT_OBJ', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, INACTIVE_FLG, ADDITIONAL_SEARCH)
+ Values
+   (337, 2, 'TIM', 'Repository', 'WorkflowProcess', 
+    1, 'WorkflowProcess', 'S_WFR_PROC', 'N', 'T.STATUS_CD = ''COMPLETED''');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, INACTIVE_FLG)
+ Values
+   (295, 15, 'TIM', 'Repository', 'PickList', 
+    1, 'PickList', 'S_PICKLIST', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, INACTIVE_FLG)
+ Values
+   (296, 20, 'TIM', 'NoRepository', 'RuleSet-ActionSet', 
+    1, 'RuleSet-ActionSet', 'S_CT_ACTION_SET', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (297, 20, 'TIM', 'NoRepository', 'RuleSet-ActionSet', 
+    2, 'RuleSet-Action', 'S_CT_ACTION', 'CT_ACTN_SET_ID', 'S_CT_ACTION_SET', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG, OTHER_KEY_FIELD)
+ Values
+   (298, 20, 'TIM', 'NoRepository', 'RuleSet-ActionSet', 
+    2, 'RuleSet-Event', 'S_CT_EVENT', 'CT_ACTN_SET_ID', 'S_CT_ACTION_SET', 
+    'N', 'OBJ_NAME,OBJ_TYPE_CD,EVT_SUB_NAME,ACTN_COND_EXPR');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, INACTIVE_FLG, OTHER_KEY_FIELD)
+ Values
+   (299, 20, 'TIM', 'NoRepository', 'Validation-Message', 
+    1, 'Validation-Message', 'S_ISS_VALDN_MSG', 'N', 'MSG_TYPE_CD,MSG_SRC_TYPE_CD');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, INACTIVE_FLG, ADDITIONAL_SEARCH)
+ Values
+   (300, 20, 'TIM', 'NoRepository', 'Validation-RuleSet', 
+    1, 'Validation-RuleSet', 'S_VALDN_RL_SET', 'N', 'T.STATUS_CD = ''Ativo''');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG, ADDITIONAL_SEARCH)
+ Values
+   (301, 20, 'TIM', 'NoRepository', 'Validation-RuleSet', 
+    2, 'Validation-Rule', 'S_VALDN_RULE', 'RULE_SET_ID', 'S_VALDN_RL_SET', 
+    'N', 'EXISTS ( SELECT 1 FROM SIEBEL.S_VALDN_RL_SET@ VRS WHERE T.RULE_SET_ID = VRS.ROW_ID AND  VRS.STATUS_CD = ''Ativo'' )');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, INACTIVE_FLG, OTHER_KEY_FIELD, 
+    ADDITIONAL_SEARCH)
+ Values
+   (302, 20, 'TIM', 'NoRepository', 'ListOfValues-Parent', 
+    1, 'ListOfValues-Parent', 'S_LST_OF_VAL', 'N', 'TYPE,NAME', 
+    'PAR_ROW_ID IS NULL');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG, OTHER_KEY_FIELD)
+ Values
+   (303, 20, 'TIM', 'NoRepository', 'ListOfValues-Parent', 
+    2, 'ListOfValues-Child', 'S_LST_OF_VAL', 'PAR_ROW_ID', 'S_LST_OF_VAL', 
+    'N', 'TYPE,NAME');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (304, 3, 'TIM', 'Repository', 'Applet', 
+    3, 'AppletMessageVariable', 'S_APLT_TM_VAR', 'APLT_TXT_MSG_ID', 'S_APLT_TXT_MSG', 
+    'APPLET_ID', 'S_APPLET', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG)
+ Values
+   (305, 3, 'TIM', 'Repository', 'Applet', 
+    3, 'AppletMethodMenuItemLocale', 'S_APLT_MMI_INTL', 'APPLET_METH_MI_ID', 'S_APPLET_METH_MI', 
+    'APPLET_ID', 'S_APPLET', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, INACTIVE_FLG)
+ Values
+   (294, 15, 'TIM', 'Repository', 'Link', 
+    1, 'Link', 'S_LINK', 'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG, ADDITIONAL_SEARCH)
+ Values
+   (338, 2, 'TIM', 'Repository', 'WorkflowProcess', 
+    2, 'WFProcessMetric', 'S_WFR_PROC_MTRC', 'PROCESS_ID', 'S_WFR_PROC', 
+    'N', 'EXISTS(SELECT 1 FROM SIEBEL.S_WFR_PROC@ TAB , SIEBEL.S_REPOSITORY@ REP WHERE TAB.STATUS_CD = ''COMPLETED'' AND T.PROCESS_ID = TAB.ROW_ID  AND REP.ROW_ID = TAB.REPOSITORY_ID AND REP.NAME = ''Siebel Repository'')');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG, ADDITIONAL_SEARCH)
+ Values
+   (340, 2, 'TIM', 'Repository', 'WorkflowProcess', 
+    2, 'WFProcessProp', 'S_WFR_PROC_PROP', 'PROCESS_ID', 'S_WFR_PROC', 
+    'N', 'EXISTS(SELECT 1 FROM SIEBEL.S_WFR_PROC@ TAB , SIEBEL.S_REPOSITORY@ REP WHERE TAB.STATUS_CD = ''COMPLETED'' AND T.PROCESS_ID = TAB.ROW_ID  AND REP.ROW_ID = TAB.REPOSITORY_ID AND REP.NAME = ''Siebel Repository'')');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG, ADDITIONAL_SEARCH)
+ Values
+   (341, 2, 'TIM', 'Repository', 'WorkflowProcess', 
+    3, 'WFStepBranch', 'S_WFR_STP_BRNCH', 'STEP_ID', 'S_WFR_STP', 
+    'PROCESS_ID', 'S_WFR_PROC', 'N', 'EXISTS(SELECT 1 FROM SIEBEL.S_WFR_PROC@ TAB, SIEBEL.S_WFR_STP@ TAB1 , SIEBEL.S_REPOSITORY@ REP WHERE TAB.STATUS_CD = ''COMPLETED'' AND TAB1.PROCESS_ID = TAB.ROW_ID AND T.STEP_ID = TAB1.ROW_ID  AND REP.ROW_ID = TAB.REPOSITORY_ID AND REP.NAME = ''Siebel Repository'')');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN1, TAB_P1, 
+    JOIN0, TAB_P0, INACTIVE_FLG, ADDITIONAL_SEARCH)
+ Values
+   (342, 2, 'TIM', 'Repository', 'WorkflowProcess', 
+    3, 'WFStepRecipient', 'S_WFR_STP_RECIP', 'STEP_ID', 'S_WFR_STP', 
+    'PROCESS_ID', 'S_WFR_PROC', 'N', 'EXISTS(SELECT 1 FROM SIEBEL.S_WFR_PROC@ TAB, SIEBEL.S_WFR_STP@ TAB1 , SIEBEL.S_REPOSITORY@ REP WHERE TAB.STATUS_CD = ''COMPLETED'' AND TAB1.PROCESS_ID = TAB.ROW_ID AND T.STEP_ID = TAB1.ROW_ID  AND REP.ROW_ID = TAB.REPOSITORY_ID AND REP.NAME = ''Siebel Repository'')');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG)
+ Values
+   (319, 32, 'TIM', 'Repository', 'Applet', 
+    2, 'AppletControl', 'S_CONTROL', 'APPLET_ID', 'S_APPLET', 
+    'N');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, INACTIVE_FLG, ADDITIONAL_SEARCH)
+ Values
+   (347, 34, 'TIM', 'Repository', 'Application', 
+    1, 'Application', 'S_APPLICATION', 'N', 'T.NAME IN (''Tim Brasil CRC'', ''Tim Brasil Vendas'')');
+Insert into TAB_CTRL_BATIMENTO_REP
+   (ID, FILA, CONFIGURATION_NAME, TYPE, GROUP_OBJECT, 
+    ORDER_COL, DESCRIPTION, TABLE_NAME, JOIN0, TAB_P0, 
+    INACTIVE_FLG, ADDITIONAL_SEARCH)
+ Values
+   (348, 34, 'TIM', 'Repository', 'Application', 
+    2, 'ApplicationBrowserScript', 'S_APPL_BRSSCRPT', 'APPLICATION_ID', 'S_APPLICATION', 
+    'N', 'EXISTS(SELECT 1 FROM SIEBEL.S_APPLICATION@ TAB, SIEBEL.S_REPOSITORY@ REP WHERE TAB.ROW_ID = T.APPLICATION_ID AND TAB.NAME IN (''Tim Brasil CRC'', ''Tim Brasil Vendas'') AND REP.NAME = ''Siebel Repository'')');
+COMMIT;

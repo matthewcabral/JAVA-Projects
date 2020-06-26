@@ -1,0 +1,16 @@
+WARNING: This is a non-complete software program. This software requires Siebel database and DBLINK’s to function fully.
+
+This Java-based software is part of a personal project to help Oracle Siebel developers improve their time developing solutions for their customers and keeping this program looking for BUGs and development errors between enviroments.
+
+Technologies:
+- Java OOPL 
+- Java threads
+- Java + Excel integration
+- Java + CSV integration
+- Java + Database integration
+
+Programming Languages and softwares used to develop this software:
+- Java using Netbeans IDE.
+- Oracle SQL using Oracle SQL Developer
+- Excel API
+- Oracle Siebel CRM database

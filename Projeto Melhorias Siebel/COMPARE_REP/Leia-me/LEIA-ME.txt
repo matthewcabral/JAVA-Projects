@@ -1,0 +1,30 @@
+﻿
+D:\80566474\Utilitarios GVT\COMPARE_REP
+
+------------------------------------------------------------------------------
+Execução
+------------------------------------------------------------------------------	
+
+Iniciar execução pela bat "EXEC.bat"
+
+Exemplos de chamada
+
+Exemplo 1 - Vivo2
+	exec_paralel_params.bat "Siebel Repository" "Siebel Repository" "@QA6SBL8" "@DEV4SBL8" 26/11/2018 34 TIM SADMIN/SADMIN@SIEBELDEV
+
+Exemplo 2 - Tim
+	exec_paralel_params.bat "Siebel Repository" "Siebel Repository" @SBLPRE_54  01/11/2016 24 TIM SIEBEL SIEBEL SBLPRE_24
+
+Exemplo 3 - Tim
+	exec_paralel_params.bat "Siebel Repository" "Siebel Repository" "" "@SIEBELPRE.UAT2" 01/11/2016 34 TIM SIEBEL/M3SS1QA1@SBLQA01_SP
+	
+------------------------------------------------------------------------------
+Outros
+------------------------------------------------------------------------------	
+Instalação - na primeira execução executar o .sql
+	INSTALACAO TAB_CTRL_BATIMENTO_REP4.sql
+	
+Para configurar novas tabelas realizar insert na SADMIN.TAB_CTRL_BATIMENTO_REP conforme exemplos em:
+	Leia-me Guia\TAB_CTRL_BATIMENTO_IPP.sql
+
+
