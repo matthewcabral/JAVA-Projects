@@ -29,6 +29,7 @@ public abstract class Controller {
     public Statement statement;
     private final String confFile = System.getProperty("user.home") +"\\XMLConverter\\Settings\\db_conf.conf";
     private final String SplitBy = ";";
+    private String dbDriverName;
     private String dbDriver;// = "oracle.jdbc.OracleDriver"; // Driver used to connect on oracle database
     private String dbURL;// = "jdbc:oracle:thin:@"; // Connection line used to connect to the database
     private String dbLocal;// = "RJA-CGJP0L2";
@@ -52,13 +53,29 @@ public abstract class Controller {
         }
         exc = new exceptionsController();
     }
-
     
+    
+    
+
     // Database Setters and Getters
+    public String getDbDriverName() { return dbDriverName; }
+    public void setDbDriverName(String dbDriverName) { this.dbDriverName = dbDriverName; }
+
     public String getDbDriver() { return dbDriver; }
     public void setDbDriver(String dbDriver) { this.dbDriver = dbDriver; }
     
-    public String getDbURL() { return this.dbURL + this.dbLocal + ":" + this.dbPort + ":" + this.dbName; }
+    public String getDbURL() { 
+        String url = "";
+        if("SID".equals(getDbDriverName())){
+            url = this.dbURL + this.dbLocal + ":" + this.dbPort + ":" + this.dbName;
+        } else if("Service Name".equals(getDbDriverName())){
+            url = this.dbURL + "//" + this.dbLocal + ":" + this.dbPort + "/" + this.dbName;
+        } else {
+            url = this.dbURL + this.dbName;
+        }        
+        return url;
+    }
+    
     public void setDbURL(String dbURL) { this.dbURL = dbURL; }
     
     public String getDbLocal(){ return this.dbLocal; }
@@ -110,6 +127,7 @@ public abstract class Controller {
                 while((line = br.readLine()) != null){
                     if(i > 0){
                         StringTokenizer st = new StringTokenizer(line, SplitBy);
+                        setDbDriverName(st.nextToken());
                         setDbDriver(st.nextToken());
                         setDbURL(st.nextToken());
                         setDbLocal(st.nextToken());
@@ -171,7 +189,10 @@ public abstract class Controller {
                 int x = JOptionPane.showOptionDialog(null, "Deseja Realizar a configuração do Banco de Dados?", "Escolha", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
                 if(x == 0){
                     genSettings = new DbSettingsController(true);
-                    this.setFirstSettingsOK(genSettings.isFirstSettingsOK());
+                    while(genSettings.isFirstSettingsOK() == false){
+                        Thread.sleep(1000);
+                    }
+                    readParameters();
                 } else {
                     System.exit(0);
                 }
@@ -184,7 +205,10 @@ public abstract class Controller {
                 int x = JOptionPane.showOptionDialog(null, "Deseja Realizar a configuração do Banco de Dados?", "Escolha", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
                 if(x == 0){
                     genSettings = new DbSettingsController(true);
-                    this.setFirstSettingsOK(genSettings.isFirstSettingsOK());
+                    while(genSettings.isFirstSettingsOK() == false){
+                        Thread.sleep(1000);
+                    }
+                    readParameters();
                 } else {
                     System.exit(0);
                 }
@@ -196,8 +220,13 @@ public abstract class Controller {
             String[] options = {"Sim", "Não"};
             int x = JOptionPane.showOptionDialog(null, "Deseja Realizar a configuração do Banco de Dados?", "Escolha", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
             if(x == 0){
+                //genSettings = new DbSettingsController(true);
+                //this.setFirstSettingsOK(genSettings.isFirstSettingsOK());
                 genSettings = new DbSettingsController(true);
-                this.setFirstSettingsOK(genSettings.isFirstSettingsOK());
+                while(genSettings.isFirstSettingsOK() == false){
+                    Thread.sleep(1000);
+                }
+                readParameters();
             } else {
                 System.exit(0);
             }

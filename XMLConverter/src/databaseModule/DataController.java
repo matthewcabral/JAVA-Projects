@@ -35,8 +35,7 @@ public abstract class DataController extends Controller{
                 JOptionPane.showMessageDialog(null, super.exc.getDbConnectionEx()+ "\n" + super.exc.getMsgReturn() + e,"Erro",JOptionPane.ERROR_MESSAGE);
             } else {
                 System.out.println(super.exc.getDbConnectionEx()+ "\n" + super.exc.getMsgReturn() + e);
-            }
-            
+            }            
             return "" + e;
         }
     }
