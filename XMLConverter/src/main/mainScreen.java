@@ -39,7 +39,7 @@ public class mainScreen extends javax.swing.JFrame {
         
     // Listeners
     public void setListenerOpenLOV_XML_ConverterScreen(ActionListener listener) { btnOpenLOV_XML_ConverterScreen.addActionListener(listener); }
-    //public void setListenerBatimentoSOM(ActionListener listener) { btnOpenBatimentoSOM.addActionListener(listener); }
+    public void setListenerOpenDBSettings(ActionListener listener) { btnOpenDBSettings.addActionListener(listener); }
     public void setListenerAboutSystem(ActionListener listener) { aboutSystemMenuBtn.addActionListener(listener); }
         
     
@@ -207,8 +207,8 @@ public class mainScreen extends javax.swing.JFrame {
         PanelMain1.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
 
         btnOpenDBSettings.setBackground(new java.awt.Color(237, 237, 237));
-        btnOpenDBSettings.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/xml_dba_Insert_50x50.png"))); // NOI18N
-        btnOpenDBSettings.setText("LOV");
+        btnOpenDBSettings.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/Configuracoes.png"))); // NOI18N
+        btnOpenDBSettings.setText("Conf. do BD");
         btnOpenDBSettings.setToolTipText("");
         btnOpenDBSettings.setBorderPainted(false);
         btnOpenDBSettings.setContentAreaFilled(false);

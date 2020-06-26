@@ -364,9 +364,9 @@
                       <Color blue="ed" green="ed" red="ed" type="rgb"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/Images/icons/xml_dba_Insert_50x50.png"/>
+                      <Image iconType="3" name="/Images/icons/Configuracoes.png"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="LOV"/>
+                    <Property name="text" type="java.lang.String" value="Conf. do BD"/>
                     <Property name="toolTipText" type="java.lang.String" value=""/>
                     <Property name="borderPainted" type="boolean" value="false"/>
                     <Property name="contentAreaFilled" type="boolean" value="false"/>

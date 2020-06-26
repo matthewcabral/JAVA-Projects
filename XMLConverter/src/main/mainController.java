@@ -32,21 +32,17 @@ public class mainController extends DataController{
     
     // Constructor
     public mainController() throws InterruptedException {
+        mainScreen = new mainScreen();
         if(super.isFirstSettingsOK()){
-            mainScreen = new mainScreen();
             mainScreen.setLabelUser(super.getDbUser());
-            mainScreen.setExtendedState(MAXIMIZED_BOTH);
-            mainScreen.setListenerAboutSystem(new AboutSystem());
-            mainScreen.setListenerOpenLOV_XML_ConverterScreen(new openLOV_XML_Converter());
-            setScrVisible("Principal", true);
         } else {
-            mainScreen = new mainScreen();
             mainScreen.setLabelUser(System.getProperty("user.name"));
-            mainScreen.setExtendedState(MAXIMIZED_BOTH);
-            mainScreen.setListenerAboutSystem(new AboutSystem());
-            mainScreen.setListenerOpenLOV_XML_ConverterScreen(new openLOV_XML_Converter());
-            setScrVisible("Principal", true);
         }
+        mainScreen.setExtendedState(MAXIMIZED_BOTH);
+        mainScreen.setListenerAboutSystem(new AboutSystem());
+        mainScreen.setListenerOpenLOV_XML_ConverterScreen(new openLOV_XML_Converter());
+        mainScreen.setListenerOpenDBSettings(new openDBSettings());
+        setScrVisible("Principal", true);
         //dbParamTest = new DBParametersTest();
         //this.openScreen("Principal");
     }
@@ -85,6 +81,15 @@ public class mainController extends DataController{
             about = new AboutSystemScreen();
             about.openScreen(getDbUser(), getDbName());
         }
+    }
+    
+    public class openDBSettings implements ActionListener {
+        DbSettingsController genSettings;
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            genSettings = new DbSettingsController(true);
+        }
+        
     }
     
     
