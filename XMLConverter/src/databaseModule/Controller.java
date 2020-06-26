@@ -227,8 +227,6 @@ public abstract class Controller {
                     Thread.sleep(1000);
                 }
                 readParameters();
-            } else {
-                System.exit(0);
             }
         }
         

@@ -39,6 +39,13 @@ public class mainController extends DataController{
             mainScreen.setListenerAboutSystem(new AboutSystem());
             mainScreen.setListenerOpenLOV_XML_ConverterScreen(new openLOV_XML_Converter());
             setScrVisible("Principal", true);
+        } else {
+            mainScreen = new mainScreen();
+            mainScreen.setLabelUser(System.getProperty("user.name"));
+            mainScreen.setExtendedState(MAXIMIZED_BOTH);
+            mainScreen.setListenerAboutSystem(new AboutSystem());
+            mainScreen.setListenerOpenLOV_XML_ConverterScreen(new openLOV_XML_Converter());
+            setScrVisible("Principal", true);
         }
         //dbParamTest = new DBParametersTest();
         //this.openScreen("Principal");

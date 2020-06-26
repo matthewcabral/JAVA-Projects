@@ -254,7 +254,12 @@ public class LOV_XML_Controller extends DataController {
                 userId = "erro";
             }
         } catch (Exception e){
-            JOptionPane.showMessageDialog(null, "Erro de leitura no Banco de Dados!\nMensagem: " + e,"Erro",JOptionPane.ERROR_MESSAGE);
+            if("java.lang.NullPointerException".equals(String.valueOf(e))){
+                JOptionPane.showMessageDialog(null, "Banco de dados não configurado! Favor realizar a configuração nas configurações do sistema.","Erro",JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Erro de leitura no Banco de Dados!\nMensagem: " + e,"Erro",JOptionPane.ERROR_MESSAGE);
+                System.out.println("Erro: " + e);
+            }            
             userId = "erro";
         }
         System.out.println("ID do USUÁRIO: " + userId);
