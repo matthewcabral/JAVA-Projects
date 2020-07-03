@@ -29,6 +29,9 @@ public class DbSettingsScreen extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+        clearLblPath();
+        setLblPath("Caminho do arquivo: " + System.getProperty("user.home") + "\\XMLConverter\\Settings\\db_conf.conf");
+        
     }
     
     // Listeners
@@ -48,7 +51,8 @@ public class DbSettingsScreen extends javax.swing.JFrame {
     public void settxtOwner(String item){ txtOwner.setText(item); txtOwner.paintImmediately(txtOwner.getVisibleRect()); }
     public void settxtUser(String item) { txtUser.setText(item); txtUser.paintImmediately(txtUser.getVisibleRect()); }
     public void settxtPassword(String item) { txtPassword.setText(item); txtPassword.paintImmediately(txtPassword.getVisibleRect()); }
-    
+    public void setCbbDriverName(int item) { cbbDriverName.setSelectedIndex(item); cbbDriverName.paintImmediately(cbbDriverName.getVisibleRect()); }
+    public void setLblPath(String item) { lblPath.setText(item); lblPath.paintImmediately(lblPath.getVisibleRect()); }
     
     // Functions to clear the Components data 
     public void cleartxtDriver(){ txtDriver.setText(""); txtDriver.paintImmediately(txtDriver.getVisibleRect()); }
@@ -59,6 +63,7 @@ public class DbSettingsScreen extends javax.swing.JFrame {
     public void cleartxtOwner(){ txtOwner.setText(""); txtOwner.paintImmediately(txtOwner.getVisibleRect()); }
     public void cleartxtUser() { txtUser.setText(""); txtUser.paintImmediately(txtUser.getVisibleRect()); }
     public void cleartxtPassword() { txtPassword.setText(""); txtPassword.paintImmediately(txtPassword.getVisibleRect()); }
+    public void clearLblPath() { lblPath.setText(""); lblPath.paintImmediately(lblPath.getVisibleRect()); }
     
     // Functions to return data from Components
     public String gettxtDriver(){ return txtDriver.getText(); }
@@ -155,7 +160,7 @@ public class DbSettingsScreen extends javax.swing.JFrame {
         lblOwner2 = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
         jSeparator1 = new javax.swing.JSeparator();
-        jLabel8 = new javax.swing.JLabel();
+        lblPath = new javax.swing.JLabel();
         lblURL = new javax.swing.JLabel();
         txtURL = new javax.swing.JTextField();
         btnTestDB = new javax.swing.JButton();
@@ -225,8 +230,8 @@ public class DbSettingsScreen extends javax.swing.JFrame {
         lblOwner2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblOwner2.setText("Senha:");
 
-        jLabel8.setText("Caminho do arquivo: C:\\Users\\userName\\XMLConverter\\Settings\\db_conf.conf");
-        jLabel8.setEnabled(false);
+        lblPath.setText("Caminho do arquivo: C:\\Users\\userName\\XMLConverter\\Settings\\db_conf.conf");
+        lblPath.setEnabled(false);
 
         lblURL.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lblURL.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -249,7 +254,7 @@ public class DbSettingsScreen extends javax.swing.JFrame {
                         .addGap(575, 575, 575))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblPath, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jLabel10)))
@@ -340,7 +345,7 @@ public class DbSettingsScreen extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnTestDB)
                 .addGap(23, 23, 23)
-                .addComponent(jLabel8)
+                .addComponent(lblPath)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel10))
         );
@@ -396,7 +401,6 @@ public class DbSettingsScreen extends javax.swing.JFrame {
     private javax.swing.JButton btnTestDB;
     private javax.swing.JComboBox<String> cbbDriverName;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
@@ -407,6 +411,7 @@ public class DbSettingsScreen extends javax.swing.JFrame {
     private javax.swing.JLabel lblOwner;
     private javax.swing.JLabel lblOwner1;
     private javax.swing.JLabel lblOwner2;
+    private javax.swing.JLabel lblPath;
     private javax.swing.JLabel lblPort;
     private javax.swing.JLabel lblScreen;
     private javax.swing.JLabel lblURL;

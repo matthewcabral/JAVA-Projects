@@ -11,6 +11,7 @@ import databaseModule.DbSettingsController;
 import databaseModule.DataController;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -88,6 +89,11 @@ public class mainController extends DataController{
         @Override
         public void actionPerformed(ActionEvent ae) {
             genSettings = new DbSettingsController(true);
+            try {
+                genSettings.screenOnLoad();
+            } catch (IOException ex) {
+                Logger.getLogger(mainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
     }

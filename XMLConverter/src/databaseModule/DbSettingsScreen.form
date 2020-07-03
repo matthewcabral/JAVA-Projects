@@ -108,7 +108,7 @@
                           </Group>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel8" max="32767" attributes="0"/>
+                                  <Component id="lblPath" max="32767" attributes="0"/>
                                   <Group type="102" alignment="1" attributes="0">
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                       <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
@@ -229,7 +229,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnTestDB" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                      <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblPath" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -377,7 +377,7 @@
             </Component>
             <Component class="javax.swing.JSeparator" name="jSeparator1">
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel8">
+            <Component class="javax.swing.JLabel" name="lblPath">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Caminho do arquivo: C:\u005cUsers\u005cuserName\u005cXMLConverter\u005cSettings\u005cdb_conf.conf" containsInvalidXMLChars="true"/>
                 <Property name="enabled" type="boolean" value="false"/>

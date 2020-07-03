@@ -10,14 +10,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 //import main.Controller;
@@ -31,12 +37,14 @@ public class DbSettingsController {
     DbSettingsScreen dbSetScreen;
     
     // Database Variables
+    private final String confFile = System.getProperty("user.home") +"\\XMLConverter\\Settings\\db_conf.conf";
+    private final String SplitBy = ";";
     private Connection conn = null;
     private Statement statement;
     private String dbURL;
     private String dbUser; // Database user connected
     private String dbPassword; // Database user password connected
-    private String dbDriver;
+    private String dbDriver;    
     
     private boolean firstSettings = false;
     private boolean firstSettingsOK = false;
@@ -65,6 +73,47 @@ public class DbSettingsController {
     public void setDbDriver(String dbDriver) { this.dbDriver = dbDriver; }
     
     public boolean isFirstSettingsOK() { return firstSettingsOK; }
+    
+    public void screenOnLoad() throws IOException{
+        String driverType = "";
+        System.out.println("Carregando Parametros do Banco de Dados");
+        File file = new File(confFile);
+        if(file.exists()) {
+            try {
+                int i = 0;
+                BufferedReader br = new BufferedReader(new FileReader(confFile));
+                String line;
+                while((line = br.readLine()) != null){
+                    if(i > 0){
+                        StringTokenizer st = new StringTokenizer(line, SplitBy);
+                        driverType = st.nextToken();
+                        if("SID".equals(driverType)){
+                            dbSetScreen.setCbbDriverName(0);
+                        } else if("Service Name".equals(driverType)){
+                            dbSetScreen.setCbbDriverName(1);
+                        } else {
+                            dbSetScreen.setCbbDriverName(2);
+                        }
+                        
+                        dbSetScreen.settxtDriver(st.nextToken());
+                        dbSetScreen.settxtURL(st.nextToken());
+                        dbSetScreen.settxtLocal(st.nextToken());
+                        dbSetScreen.settxtPort(st.nextToken());
+                        dbSetScreen.settxtDBName(st.nextToken());
+                        dbSetScreen.settxtOwner(st.nextToken());
+                        dbSetScreen.settxtUser(st.nextToken());
+                        dbSetScreen.settxtPassword(st.nextToken());
+                    }
+                    i++;
+                }
+
+                System.out.println("Parametros OK");
+                
+            } catch (Exception ex) {
+                System.out.println("Erro ao ler arquivo: " + ex);
+            }
+        }
+    }
     
     public boolean openConnection(){
         try {
