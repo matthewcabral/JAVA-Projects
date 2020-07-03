@@ -25,6 +25,12 @@ public class LOV_XML_Screen extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.clearLblLog();
+        clearTxtIfRowBatchNum();
+        clearTxtIfRowStat();
+        clearTxtLovWSId();
+        setTxtIfRowBatchNum("2010");
+        setTxtIfRowStat("FOR_IMPORT");
+        setTxtLovWSId("1@981");
     }
     
     // Control functions
@@ -93,28 +99,28 @@ public class LOV_XML_Screen extends javax.swing.JFrame {
 
         PanelMain = new javax.swing.JPanel();
         PanelGeneralConf = new javax.swing.JPanel();
-        btnLoadFile = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        txtPath = new javax.swing.JFormattedTextField();
         jLabel16 = new javax.swing.JLabel();
+        txtPath = new javax.swing.JFormattedTextField();
+        btnLoadFile = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        txtIfRowBatchNum = new javax.swing.JFormattedTextField();
         jLabel17 = new javax.swing.JLabel();
+        txtIfRowBatchNum = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
-        txtIfRowStat = new javax.swing.JFormattedTextField();
+        txtIfRowStat = new javax.swing.JTextField();
         lbl3 = new javax.swing.JLabel();
-        txtLovWSId = new javax.swing.JFormattedTextField();
+        txtLovWSId = new javax.swing.JTextField();
         lbl4 = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
         cbbLovReqdLicFlg = new javax.swing.JComboBox<>();
+        jLabel21 = new javax.swing.JLabel();
         cbbLovMorgDsalwFlg = new javax.swing.JComboBox<>();
         PanelResultComp = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        lblLog = new javax.swing.JLabel();
+        btnSave = new javax.swing.JButton();
         SubPanelResultCompRel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblLOVResult = new javax.swing.JTable();
-        btnSave = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        lblLog = new javax.swing.JLabel();
         defaultMenu = new javax.swing.JMenuBar();
         fileMenuBtn = new javax.swing.JMenu();
         closeMenuBtn = new javax.swing.JMenuItem();
@@ -135,27 +141,22 @@ public class LOV_XML_Screen extends javax.swing.JFrame {
         PanelGeneralConf.setBackground(new java.awt.Color(255, 255, 255));
         PanelGeneralConf.setName(""); // NOI18N
 
-        btnLoadFile.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        btnLoadFile.setText("Carregar");
-
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setText("Conversor de XML de LOV");
+
+        jLabel16.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel16.setText("Arquivo:");
 
         txtPath.setEditable(false);
         txtPath.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
         txtPath.setToolTipText("01/01/2001");
         txtPath.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
-        jLabel16.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel16.setText("Arquivo:");
+        btnLoadFile.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        btnLoadFile.setText("Carregar");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Configurações Gerais"));
-
-        txtIfRowBatchNum.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
-        txtIfRowBatchNum.setText("2010");
-        txtIfRowBatchNum.setToolTipText("01/01/2001");
-        txtIfRowBatchNum.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel17.setText("IF_ROW_BATCH_NUM:");
@@ -163,26 +164,16 @@ public class LOV_XML_Screen extends javax.swing.JFrame {
         jLabel18.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel18.setText("IF_ROW_STAT:");
 
-        txtIfRowStat.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
-        txtIfRowStat.setText("FOR_IMPORT");
-        txtIfRowStat.setToolTipText("01/01/2001");
-        txtIfRowStat.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-
         lbl3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lbl3.setText("LOV_WS_ID:");
-
-        txtLovWSId.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
-        txtLovWSId.setText("1@981");
-        txtLovWSId.setToolTipText("01/01/2001");
-        txtLovWSId.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
         lbl4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lbl4.setText("LOV_REQD_LIC_FLG:");
 
+        cbbLovReqdLicFlg.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "N", "Y" }));
+
         jLabel21.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel21.setText("LOV_MORG_DSALW_FLG:");
-
-        cbbLovReqdLicFlg.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "N", "Y" }));
 
         cbbLovMorgDsalwFlg.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "N", "Y" }));
 
@@ -196,12 +187,12 @@ public class LOV_XML_Screen extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel18)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtIfRowStat, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtIfRowStat, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel17)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtIfRowBatchNum, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                        .addComponent(txtIfRowBatchNum, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(4, 4, 4)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lbl4)
@@ -215,24 +206,24 @@ public class LOV_XML_Screen extends javax.swing.JFrame {
                 .addComponent(jLabel21)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbbLovMorgDsalwFlg, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(173, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtIfRowBatchNum, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel17)
-                    .addComponent(txtLovWSId, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbl3)
                     .addComponent(jLabel21)
-                    .addComponent(cbbLovMorgDsalwFlg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbbLovMorgDsalwFlg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtIfRowBatchNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtLovWSId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtIfRowStat, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel18)
                     .addComponent(lbl4)
-                    .addComponent(cbbLovReqdLicFlg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbbLovReqdLicFlg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtIfRowStat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -269,6 +260,18 @@ public class LOV_XML_Screen extends javax.swing.JFrame {
         );
 
         PanelResultComp.setBackground(new java.awt.Color(237, 237, 237));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel3.setText("Resultado");
+
+        lblLog.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lblLog.setText("LOG");
+        lblLog.setEnabled(false);
+
+        btnSave.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        btnSave.setText("Salvar");
+        btnSave.setToolTipText("");
+        btnSave.setEnabled(false);
 
         SubPanelResultCompRel.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -317,18 +320,6 @@ public class LOV_XML_Screen extends javax.swing.JFrame {
             SubPanelResultCompRelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
         );
-
-        btnSave.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        btnSave.setText("Salvar");
-        btnSave.setToolTipText("");
-        btnSave.setEnabled(false);
-
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel3.setText("Resultado");
-
-        lblLog.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        lblLog.setText("LOG");
-        lblLog.setEnabled(false);
 
         javax.swing.GroupLayout PanelResultCompLayout = new javax.swing.GroupLayout(PanelResultComp);
         PanelResultComp.setLayout(PanelResultCompLayout);
@@ -476,9 +467,9 @@ public class LOV_XML_Screen extends javax.swing.JFrame {
     private javax.swing.JLabel lbl4;
     private javax.swing.JLabel lblLog;
     public javax.swing.JTable tblLOVResult;
-    private javax.swing.JFormattedTextField txtIfRowBatchNum;
-    private javax.swing.JFormattedTextField txtIfRowStat;
-    private javax.swing.JFormattedTextField txtLovWSId;
+    private javax.swing.JTextField txtIfRowBatchNum;
+    private javax.swing.JTextField txtIfRowStat;
+    private javax.swing.JTextField txtLovWSId;
     private javax.swing.JFormattedTextField txtPath;
     // End of variables declaration//GEN-END:variables
 }
