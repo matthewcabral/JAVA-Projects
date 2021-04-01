@@ -176,7 +176,6 @@ public class BatimentoController extends DataController {
             super.statement = super.conn.createStatement();
             ResultSet readline = super.statement.executeQuery(Query);
             while(readline.next()){
-                
                 resultQuery.add(readline.getString("NAME"));
             }
             readline.close();
