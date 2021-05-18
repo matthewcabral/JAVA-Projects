@@ -1,0 +1,23 @@
+SISTEMA PDV FOOD TRUCK
+
+Módulo de funcionário
+	Tela de usuário
+		- Lista de usuários
+		- Lista de usuários detalhados
+Módulo de Clientes
+	Tela de Clientes
+		- Lista de clientes
+		- Lista de clientes detalhados
+Módulo de Produtos
+	Tela de Produtos
+		- Lista de Produtos
+		- Lista de produtos detalhados
+		- Lista de itens dos produtos
+Módulo de Ordens de Venda
+	Tela de Vendas
+		- Vendas por mesa/comandas
+	Tela de Histórico de Ordens
+		- Lista de Ordens
+		- Lista de Ordens detalhadas
+	Tela de Relatório de Venda
+		- Lista de Itens mais vendidos

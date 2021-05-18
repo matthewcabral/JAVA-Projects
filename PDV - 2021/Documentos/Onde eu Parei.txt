@@ -1,0 +1,3 @@
+Falta terminar o insert da tela de redes sociais...
+Falta adicionar os novos row ids nos arrays
+Falta conseguir inserir/atualizar/excluir registros de Redes Sociais, contatos e Usuários
