@@ -160,11 +160,14 @@ public class UserLoginScreen extends javax.swing.JFrame {
         PnlCancel.setBackground(new java.awt.Color(202, 81, 81));
 
         btnCancel.setBackground(new java.awt.Color(102, 102, 102));
-        btnCancel.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        btnCancel.setFont(new java.awt.Font("Calibri", 1, 15)); // NOI18N
         btnCancel.setForeground(new java.awt.Color(255, 255, 255));
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/Cancel 30x30.png"))); // NOI18N
         btnCancel.setText("Cancelar");
         btnCancel.setBorderPainted(false);
         btnCancel.setContentAreaFilled(false);
+        btnCancel.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnCancel.setIconTextGap(2);
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -187,15 +190,18 @@ public class UserLoginScreen extends javax.swing.JFrame {
             .addComponent(btnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
         );
 
-        PnlLogin.setBackground(new java.awt.Color(0, 113, 198));
+        PnlLogin.setBackground(new java.awt.Color(3, 222, 3));
 
-        btnLogin.setBackground(new java.awt.Color(84, 128, 244));
+        btnLogin.setBackground(new java.awt.Color(0, 255, 0));
         btnLogin.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         btnLogin.setForeground(new java.awt.Color(255, 255, 255));
+        btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/Login 30x30.png"))); // NOI18N
         btnLogin.setText("ENTRAR");
         btnLogin.setBorder(null);
         btnLogin.setBorderPainted(false);
         btnLogin.setContentAreaFilled(false);
+        btnLogin.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnLogin.setIconTextGap(2);
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginActionPerformed(evt);

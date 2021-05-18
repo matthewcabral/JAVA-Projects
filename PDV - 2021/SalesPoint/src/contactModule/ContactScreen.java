@@ -1053,11 +1053,13 @@ public class ContactScreen extends javax.swing.JFrame {
         jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         btnEdit.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
+        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/edit 20x20.png"))); // NOI18N
         btnEdit.setText("Editar");
         btnEdit.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
         btnEdit.setBorderPainted(false);
         btnEdit.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnEdit.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        btnEdit.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnEdit.setIconTextGap(3);
         btnEdit.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 btnEditKeyPressed(evt);
@@ -1065,9 +1067,11 @@ public class ContactScreen extends javax.swing.JFrame {
         });
 
         btnNew.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
+        btnNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/new 20x20.png"))); // NOI18N
         btnNew.setText("Novo");
-        btnNew.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
-        btnNew.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        btnNew.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 5));
+        btnNew.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnNew.setIconTextGap(3);
         btnNew.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 btnNewKeyPressed(evt);
@@ -1077,10 +1081,12 @@ public class ContactScreen extends javax.swing.JFrame {
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         btnSave.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
+        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/save 20x20.png"))); // NOI18N
         btnSave.setText("Salvar");
         btnSave.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
         btnSave.setEnabled(false);
-        btnSave.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        btnSave.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnSave.setIconTextGap(3);
         btnSave.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 btnSaveKeyPressed(evt);
@@ -1088,10 +1094,11 @@ public class ContactScreen extends javax.swing.JFrame {
         });
 
         btnCancel.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/cancel 20x20.png"))); // NOI18N
         btnCancel.setText("Cancelar");
-        btnCancel.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
+        btnCancel.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 5));
         btnCancel.setEnabled(false);
-        btnCancel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        btnCancel.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         btnCancel.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 btnCancelKeyPressed(evt);
@@ -1099,11 +1106,13 @@ public class ContactScreen extends javax.swing.JFrame {
         });
 
         btnDelete.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/delete 20x20.png"))); // NOI18N
         btnDelete.setText("Excluir");
         btnDelete.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
         btnDelete.setBorderPainted(false);
         btnDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnDelete.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        btnDelete.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnDelete.setIconTextGap(3);
         btnDelete.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 btnDeleteKeyPressed(evt);

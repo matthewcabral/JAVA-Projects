@@ -1332,10 +1332,10 @@ public class UserScreen extends javax.swing.JFrame {
         btnNewUser.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
         btnNewUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/new 20x20.png"))); // NOI18N
         btnNewUser.setText("Novo");
-        btnNewUser.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
-        btnNewUser.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnNewUser.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 5));
         btnNewUser.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        btnNewUser.setIconTextGap(2);
+        btnNewUser.setIconTextGap(3);
+        btnNewUser.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnNewUser.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 btnNewUserKeyPressed(evt);
@@ -1350,7 +1350,7 @@ public class UserScreen extends javax.swing.JFrame {
         btnSaveUser.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
         btnSaveUser.setEnabled(false);
         btnSaveUser.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        btnSaveUser.setIconTextGap(5);
+        btnSaveUser.setIconTextGap(3);
         btnSaveUser.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 btnSaveUserKeyPressed(evt);
