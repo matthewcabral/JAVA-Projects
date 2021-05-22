@@ -38,9 +38,9 @@ public class main{
         mainController mainCtrl = new mainController();
         
         
-        /*addressController address = new addressController();
-        address.getAddressByZipcode("22011-040");
-        */
+        //addressController address = new addressController();
+        //address.getAddressByZipcode("23036030");
+        
         /*String permitionValue = "Visualizar Usuario";
         /*System.out.println(permitionValue.lastIndexOf(" "));
         permitionValue = permitionValue.substring(permitionValue.lastIndexOf(" ") + 1, permitionValue.length());
