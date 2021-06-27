@@ -309,7 +309,7 @@ CREATE TABLE PDV.T_ADDRESS (
 	PAR_ADDR_ID VARCHAR2(15 CHAR),										-- PARENT ADDRESS ID
 	ACTIVE_FLG CHAR(1 CHAR),                                            -- ATIVO
 	DB_LAST_UPD TIMESTAMP DEFAULT SYSDATE,                              -- ULTIMA ATUALIZAÇÃO NO BANCO DE DADOS
-	PR_ADDR_FLG CHAR(1 CHAR) DEFAULT 'N',						-- ENDERECO PRINCIPAL
+	PR_ADDR_FLG CHAR(1 CHAR) DEFAULT 'N',								-- ENDERECO PRINCIPAL
 	ZIPCODE VARCHAR2(30 CHAR),                                          -- CEP
 	ADDR_TYPE_CD VARCHAR2(30 CHAR),                                     -- TIPO DE ENDERECO (RUA, AV, ETC)
 	ADDR VARCHAR2(200 CHAR),                                            -- RUA

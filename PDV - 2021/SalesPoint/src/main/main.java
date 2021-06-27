@@ -7,6 +7,8 @@ package main;
 
 import addressModule.addressController;
 import java.lang.annotation.Annotation;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.jws.WebService;
 import javax.swing.JFrame;
 import javax.swing.JTree;
@@ -38,8 +40,14 @@ public class main{
         mainController mainCtrl = new mainController();
         
         
-        //addressController address = new addressController();
-        //address.getAddressByZipcode("23036030");
+        /*addressController address;
+        try {
+            address = new addressController();
+            address.getAddressByZipcode("23036030");
+        } catch (InterruptedException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
+        
         
         /*String permitionValue = "Visualizar Usuario";
         /*System.out.println(permitionValue.lastIndexOf(" "));

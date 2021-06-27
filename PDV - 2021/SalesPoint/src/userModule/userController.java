@@ -5,6 +5,7 @@
  */
 package userModule;
 
+import addressModule.addressController;
 import contactModule.contactController;
 import databaseModule.DataController;
 import java.awt.HeadlessException;
@@ -29,6 +30,7 @@ public class userController extends DataController {
     UserScreen userScreen;
     UserPermitionScreen permScreen;
     contactController cont;
+    addressController addr;
     
     private String user;
     private String password;
@@ -186,7 +188,7 @@ public class userController extends DataController {
                     userScreen.settxtPassVerification(userList.get(i).getPASSWORD());
                     
                     // Position Information
-                    positionList = super.queryPositionRecord("SELECT * FROM " + super.getDbOwner() + "." + super.getTblPosition() + " WHERE ROW_ID = '" + userList.get(i).getPAR_POSTN_ID() + "'");
+                    positionList = super.queryPositionRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblPosition() + "\nWHERE ROW_ID = '" + userList.get(i).getPAR_POSTN_ID() + "'");
                     if(positionList.size() > 0) {
                         for(int p = 0; p < positionList.size(); p++) {
                             userScreen.setcbbPositionItemIndex(userScreen.getcbbPositionItemIndex(positionList.get(p).getNAME()));
@@ -260,7 +262,7 @@ public class userController extends DataController {
                     }                    
                     
                     // Address Information
-                    AddressList = super.queryAddressRecord("SELECT * FROM " + super.getDbOwner() + "." + super.getTblAddress() + " WHERE PAR_ROW_ID = '" + userList.get(i).getRow_id() +  "' AND PR_ADDR_FLG = 'Y'");
+                    AddressList = super.queryAddressRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblAddress() + "\nWHERE PAR_ROW_ID = '" + userList.get(i).getRow_id() +  "'\nAND PR_ADDR_FLG = 'Y'");
                     if(AddressList.size() > 0) {
                         for(int a = 0; a < AddressList.size(); a++) {
                             userScreen.settxtFullAddress(AddressList.get(a).getADDR_NAME());
@@ -376,29 +378,91 @@ public class userController extends DataController {
     
     public boolean validateFields(){
         String mensagem = "";
+        int i = 0;
         
-        if(userScreen.gettxtUser() == null) { mensagem += "\n- " + "Usuário" + ";"; userScreen.setFocus("USUARIO"); }
-        if(userScreen.gettxtPass() == null) { mensagem += "\n- " + "Senha" + ";"; userScreen.setFocus("SENHA"); }
-        if(userScreen.gettxtPassVerification() == null) { mensagem += "\n- " + "Confirmação de Senha" + ";"; userScreen.setFocus("SENHA_CONFIRMACAO"); }
-        if(userScreen.getcbbPosition() == null) { mensagem += "\n- " + "Posição" + ";"; userScreen.setFocus("POSICAO"); }
-        if(userScreen.gettxtSecQuestion1() == null) { mensagem += "\n- " + "Pergunta de Segurança - 1" + ";"; userScreen.setFocus("PERGUNTA_SEG_1"); }
-        if(userScreen.gettxtSecAnswer1() == null) { mensagem += "\n- " + "Resposta de Segurança - 1" + ";"; userScreen.setFocus("RESPOSTA_SEG_1"); }
-        if(userScreen.gettxtSecQuestion2() == null) { mensagem += "\n- " + "Resposta de Segurança - 2" + ";"; userScreen.setFocus("PERGUNTA_SEG_2"); }
-        if(userScreen.gettxtSecAnswer2() == null) { mensagem += "\n- " + "Resposta de Segurança - 2" + ";"; userScreen.setFocus("RESPOSTA_SEG_2"); }
-        if(userScreen.gettxtSecQuestion3() == null) { mensagem += "\n- " + "Resposta de Segurança - 3" + ";"; userScreen.setFocus("PERGUNTA_SEG_3"); }
-        if(userScreen.gettxtSecAnswer3() == null) { mensagem += "\n- " + "Resposta de Segurança - 3" + ";"; userScreen.setFocus("RESPOSTA_SEG_3"); }
-        if(userScreen.getcbbDocType() == null) { mensagem += "\n- " + "Tipo de Documento" + ";"; userScreen.setFocus("DOCUMENTO_TIPO"); }
-        if(userScreen.gettxtDocNum() == null) { mensagem += "\n- " + "Documento" + ";"; userScreen.setFocus("NUM_DOCUMENTO"); }
-        if(userScreen.gettxtName() == null) { mensagem += "\n- " + "Nome" + ";"; userScreen.setFocus("NOME"); }
-        if(userScreen.gettxtSurname() == null) { mensagem += "\n- " + "Sobrenome" + ";"; userScreen.setFocus("SOBRENOME"); }
-        if(userScreen.getcbbSex() == null) { mensagem += "\n- " + "Sexo" + ";"; userScreen.setFocus("SEXO"); }
-        if(userScreen.getcbbDay() == null) { mensagem += "\n- " + "Data de Nascimento - Dia" + ";"; userScreen.setFocus("NASCIMENTO_DIA"); }
-        if(userScreen.getcbbMonth() == null) { mensagem += "\n- " + "Data de Nascimento - Mês" + ";"; userScreen.setFocus("NASCIMENTO_MES"); }
-        if(userScreen.gettxtYear() == null) { mensagem += "\n- " + "Data de Nascimento - Ano" + ";"; userScreen.setFocus("NASCIMENTO_ANO"); }
+        if(userScreen.gettxtUser() == null) { mensagem += "\n- " + "Usuário" + ";"; i = (i < 1) ? 1 : i; }
+        if(userScreen.gettxtPass() == null) { mensagem += "\n- " + "Senha" + ";"; i = (i < 2 && i != 0) ? i : 2; }
+        if(userScreen.gettxtPassVerification() == null) { mensagem += "\n- " + "Confirmação de Senha" + ";"; i = (i < 3 && i != 0) ? i : 4; }
+        if(userScreen.getcbbPosition() == null) { mensagem += "\n- " + "Posição" + ";"; i = (i < 4 && i != 0) ? i : 4; }
+        if(userScreen.gettxtSecQuestion1() == null) { mensagem += "\n- " + "Pergunta de Segurança - 1" + ";"; i = (i < 5 && i != 0) ? i : 5; }
+        if(userScreen.gettxtSecAnswer1() == null) { mensagem += "\n- " + "Resposta de Segurança - 1" + ";"; i = (i < 6 && i != 0) ? i : 6; }
+        if(userScreen.gettxtSecQuestion2() == null) { mensagem += "\n- " + "Resposta de Segurança - 2" + ";"; i = (i < 7 && i != 0) ? i : 7; }
+        if(userScreen.gettxtSecAnswer2() == null) { mensagem += "\n- " + "Resposta de Segurança - 2" + ";"; i = (i < 8 && i != 0) ? i : 8; }
+        if(userScreen.gettxtSecQuestion3() == null) { mensagem += "\n- " + "Resposta de Segurança - 3" + ";"; i = (i < 9 && i != 0) ? i : 9; }
+        if(userScreen.gettxtSecAnswer3() == null) { mensagem += "\n- " + "Resposta de Segurança - 3" + ";"; i = (i < 10 && i != 0) ? i : 10; }
+        if(userScreen.getcbbDocType() == null) { mensagem += "\n- " + "Tipo de Documento" + ";"; i = (i < 11 && i != 0) ? i : 11; }
+        if(userScreen.gettxtDocNum() == null) { mensagem += "\n- " + "Documento" + ";"; i = (i < 12 && i != 0) ? i : 12; }
+        if(userScreen.gettxtName() == null) { mensagem += "\n- " + "Nome" + ";"; i = (i < 13 && i != 0) ? i : 13; }
+        if(userScreen.gettxtSurname() == null) { mensagem += "\n- " + "Sobrenome" + ";"; i = (i < 14 && i != 0) ? i : 14; }
+        if(userScreen.getcbbSex() == null) { mensagem += "\n- " + "Sexo" + ";"; i = (i < 15 && i != 0) ? i : 15; }
+        if(userScreen.getcbbDay() == null) { mensagem += "\n- " + "Data de Nascimento - Dia" + ";"; i = (i < 16 && i != 0) ? i : 16; }
+        if(userScreen.getcbbMonth() == null) { mensagem += "\n- " + "Data de Nascimento - Mês" + ";"; i = (i < 17 && i != 0) ? i : 17; }
+        if(userScreen.gettxtYear() == null) { mensagem += "\n- " + "Data de Nascimento - Ano" + ";"; i = (i < 18 && i != 0) ? i : 18; }
         if(userScreen.gettxtYear() != null && Integer.valueOf(userScreen.gettxtYear()) >= Integer.valueOf(super.getDateTime().substring(6, 10))) {
-            mensagem += "\n- " + "Data de Nascimento - Ano deve ser menor que ano atual" + ";"; userScreen.setFocus("NASCIMENTO_ANO");
+            mensagem += "\n- " + "Data de Nascimento - Ano deve ser menor que ano atual" + ";"; i = (i < 19 && i != 0) ? i : 19;
         }
 
+        switch(i){
+            case 1:
+                userScreen.setFocus("USUARIO");
+                break;
+            case 2:
+                userScreen.setFocus("SENHA");
+                break;
+            case 3:
+                userScreen.setFocus("SENHA_CONFIRMACAO");
+                break;
+            case 4:
+                userScreen.setFocus("POSICAO");
+                break;
+            case 5:
+                userScreen.setFocus("PERGUNTA_SEG_1");
+                break;
+            case 6:
+                userScreen.setFocus("RESPOSTA_SEG_1");
+                break;
+            case 7:
+                userScreen.setFocus("PERGUNTA_SEG_2");
+                break;
+            case 8:
+                userScreen.setFocus("RESPOSTA_SEG_2");
+                break;
+            case 9:
+                userScreen.setFocus("PERGUNTA_SEG_3");
+                break;
+            case 10:
+                userScreen.setFocus("RESPOSTA_SEG_3");
+                break;
+            case 11:
+                userScreen.setFocus("DOCUMENTO_TIPO");
+                break;
+            case 12:
+                userScreen.setFocus("NUM_DOCUMENTO");
+                break;
+            case 13:
+                userScreen.setFocus("NOME");
+                break;
+            case 14:
+                userScreen.setFocus("SOBRENOME");
+                break;
+            case 15:
+                userScreen.setFocus("SEXO");
+                break;
+            case 16:
+                userScreen.setFocus("NASCIMENTO_DIA");
+                break;
+            case 17:
+                userScreen.setFocus("NASCIMENTO_MES");
+                break;
+            case 18:
+                userScreen.setFocus("NASCIMENTO_ANO");
+                break;
+            case 19:
+                userScreen.setFocus("NASCIMENTO_ANO");
+            default:
+                break;
+        }
+        
         if(!"".equals(mensagem) && mensagem != null){
             JOptionPane.showMessageDialog(null, "Os campos abaixo são obrigatórios. Favor preencher os mesmos:" + mensagem);
             return false;
@@ -803,7 +867,8 @@ public class userController extends DataController {
                 cont.setOpenFromScreen("USER");
                 cont.setUserId(userScreen.gettxtRowId());
                 
-                cont.openContactScreen("SELECT *\n" +
+                cont.openContactScreen(
+                    "SELECT *\n" +
                     "FROM " + getDbOwner() + "." + getTblContact() + " CON\n" +
                     "WHERE CON.PAR_ROW_ID = '" + userScreen.gettxtRowId() + "'\n" +
                     "ORDER BY CON.FST_NAME ASC",
@@ -822,7 +887,27 @@ public class userController extends DataController {
     private class manageAddress implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            try {
+                addr = new addressController();
+
+                addr.setDbUser(getUser());
+                addr.setDbPassword(getPassword());
+                addr.setOpenFromScreen("USER");
+                addr.setUserId(userScreen.gettxtRowId());
+
+                addr.openAddressScreen(
+                    "SELECT *\n" +
+                    "FROM " + getDbOwner() + "." + getTblAddress() + " ADDR\n" +
+                    "WHERE ADDR.PAR_ROW_ID = '" + userScreen.gettxtRowId() + "'\n" +
+                    "ORDER BY ADDR.ROW_ID ASC",
+                    "NEW_USER_ADDRESS"
+                );
+                
+                addr.setListenerAddressScreen(new addressScreenListener());
+                userScreen.setEnabled(false);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(userController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     
@@ -871,6 +956,7 @@ public class userController extends DataController {
                 userScreen.clearFields();
                 fillFieldsUserScreen("SELECT * FROM " + getDbOwner() + "." + getTblUser() + " WHERE ROW_ID = '" + userScreen.getSelectedUserListId() + "'");
                 userScreen.setbtnEditUserEnabled(true);
+                userScreen.setbtnDeleteEnabled(true);
                 count++;
             } else {
                 count = 0;
@@ -936,6 +1022,34 @@ public class userController extends DataController {
         
     }
 
+    private class addressScreenListener implements WindowListener {
+
+        @Override
+        public void windowOpened(WindowEvent we) { }
+
+        @Override
+        public void windowClosing(WindowEvent we) { }
+
+        @Override
+        public void windowClosed(WindowEvent we) {
+            userScreen.setEnabled(true);
+            userScreen.setVisible(true);
+        }
+
+        @Override
+        public void windowIconified(WindowEvent we) { }
+
+        @Override
+        public void windowDeiconified(WindowEvent we) { }
+
+        @Override
+        public void windowActivated(WindowEvent we) { }
+
+        @Override
+        public void windowDeactivated(WindowEvent we) { }
+        
+    }
+    
     private class userPermitionScreenListener implements WindowListener {
 
         @Override

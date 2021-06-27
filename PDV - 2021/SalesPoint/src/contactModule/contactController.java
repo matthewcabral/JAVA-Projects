@@ -966,6 +966,87 @@ public class contactController extends DataController {
         
     }
     
+    public void saveContact(){
+        try{
+            ArrayList<ContactClass> contList = queryContactRecord("SELECT *\nFROM " + getDbOwner() + "." + getTblContact() + "\nWHERE ROW_ID = '" + conMgr.gettxtRowId() + "'");
+            if(contList.size() > 0) {
+                if(updateContact("CONTACT", null, null, conMgr.gettxtRowId())) {
+                    conMgr.enableFields("SALVAR");
+                    openContactScreen(
+                        "SELECT *\n" +
+                        "FROM " + getDbOwner() + "." + getTblContact() + " CON\n" +
+                        "WHERE CON.PAR_ROW_ID = '" + getUserId() + "'\n" +
+                        "ORDER BY CON.FST_NAME ASC",
+                        null
+                    );
+
+                    boolean foundRow = true;
+                    int i = 0;
+                    int o = conMgr.getNumOfListRows();
+                    do {
+                        if(i < o){
+                            try{
+                                conMgr.setSelectedRowColumnList(i, 0);
+                                if(getLastContUpd().equals(conMgr.getSelectedRowIdContactList())){
+                                    fillFieldsContactScreen(
+                                        "SELECT *\n" +
+                                        "FROM " + getDbOwner() + "." + getTblContact() + "\n" +
+                                        "WHERE ROW_ID = '" + getLastContUpd() + "'"
+                                    );
+                                    foundRow = false;
+                                }
+                            } catch(Exception e){
+                                foundRow = false;
+                            }
+                        } else {
+                            foundRow = false;
+                        }
+                        i++;
+                    } while(foundRow);
+                    conMgr.setFocus("FILTRO_VALOR");
+                }
+            } else {
+                if(insertContact()){
+                    conMgr.enableFields("SALVAR");
+                    openContactScreen(
+                        "SELECT *\n" +
+                        "FROM " + getDbOwner() + "." + getTblContact() + " CON\n" +
+                        "WHERE CON.PAR_ROW_ID = '" + getUserId() + "'\n" +
+                        "ORDER BY CON.FST_NAME ASC",
+                        null
+                    );
+
+                    boolean foundRow = true;
+                    int i = 0;
+                    int o = conMgr.getNumOfListRows();
+                    do {
+                        if(i < o){
+                            try{
+                                conMgr.setSelectedRowColumnList(i, 0);
+                                if(getLastContAdd().equals(conMgr.getSelectedRowIdContactList())){
+                                    fillFieldsContactScreen(
+                                        "SELECT *\n" +
+                                        "FROM " + getDbOwner() + "." + getTblContact() + "\n" +
+                                        "WHERE ROW_ID = '" + getLastContAdd() + "'"
+                                    );
+                                    foundRow = false;
+                                }
+                            } catch(Exception e){
+                                foundRow = false;
+                            }
+                        } else {
+                            foundRow = false;
+                        }
+                        i++;
+                    } while(foundRow);
+                    conMgr.setFocus("FILTRO_VALOR");
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(getDateTime() + "\tContactModule.ContactController\t\tSaveContact\tInsertUpdateContact\tError Exception\tError: " + e);
+        }
+    }
+    
     public boolean insertSocialMedia(){
         String contxId = "";
         if(validateSocialMediaFields()){
@@ -1184,84 +1265,7 @@ public class contactController extends DataController {
     public class saveContact implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
-            try{
-                ArrayList<ContactClass> contList = queryContactRecord("SELECT *\nFROM " + getDbOwner() + "." + getTblContact() + "\nWHERE ROW_ID = '" + conMgr.gettxtRowId() + "'");
-                if(contList.size() > 0) {
-                    if(updateContact("CONTACT", null, null, conMgr.gettxtRowId())) {
-                        conMgr.enableFields("SALVAR");
-                        openContactScreen(
-                            "SELECT *\n" +
-                            "FROM " + getDbOwner() + "." + getTblContact() + " CON\n" +
-                            "WHERE CON.PAR_ROW_ID = '" + getUserId() + "'\n" +
-                            "ORDER BY CON.FST_NAME ASC",
-                            null
-                        );
-
-                        boolean foundRow = true;
-                        int i = 0;
-                        int o = conMgr.getNumOfListRows();
-                        do {
-                            if(i < o){
-                                try{
-                                    conMgr.setSelectedRowColumnList(i, 0);
-                                    if(getLastContUpd().equals(conMgr.getSelectedRowIdContactList())){
-                                        fillFieldsContactScreen(
-                                            "SELECT *\n" +
-                                            "FROM " + getDbOwner() + "." + getTblContact() + "\n" +
-                                            "WHERE ROW_ID = '" + getLastContUpd() + "'"
-                                        );
-                                        foundRow = false;
-                                    }
-                                } catch(Exception e){
-                                    foundRow = false;
-                                }
-                            } else {
-                                foundRow = false;
-                            }
-                            i++;
-                        } while(foundRow);
-                        conMgr.setFocus("FILTRO_VALOR");
-                    }
-                } else {
-                    if(insertContact()){
-                        conMgr.enableFields("SALVAR");
-                        openContactScreen(
-                            "SELECT *\n" +
-                            "FROM " + getDbOwner() + "." + getTblContact() + " CON\n" +
-                            "WHERE CON.PAR_ROW_ID = '" + getUserId() + "'\n" +
-                            "ORDER BY CON.FST_NAME ASC",
-                            null
-                        );
-
-                        boolean foundRow = true;
-                        int i = 0;
-                        int o = conMgr.getNumOfListRows();
-                        do {
-                            if(i < o){
-                                try{
-                                    conMgr.setSelectedRowColumnList(i, 0);
-                                    if(getLastContAdd().equals(conMgr.getSelectedRowIdContactList())){
-                                        fillFieldsContactScreen(
-                                            "SELECT *\n" +
-                                            "FROM " + getDbOwner() + "." + getTblContact() + "\n" +
-                                            "WHERE ROW_ID = '" + getLastContAdd() + "'"
-                                        );
-                                        foundRow = false;
-                                    }
-                                } catch(Exception e){
-                                    foundRow = false;
-                                }
-                            } else {
-                                foundRow = false;
-                            }
-                            i++;
-                        } while(foundRow);
-                        conMgr.setFocus("FILTRO_VALOR");
-                    }
-                }
-            } catch (Exception e) {
-                System.out.println(getDateTime() + "\tContactModule.ContactController\t\tSaveContact\tInsertUpdateContact\tError Exception\tError: " + e);
-            }
+            saveContact();
         }
     }
     
