@@ -6,6 +6,8 @@
 package databaseModule;
 
 import java.awt.HeadlessException;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,11 +18,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import settingsModule.DbSettingsController;
-import userModule.userController;
 
 /**
  *
@@ -28,10 +27,11 @@ import userModule.userController;
  */
 public abstract class DataController extends Controller{
     EncryptDecryptWord encryptDecrypt;
-    DbSettingsController genSettings;
+    DbSettingsController dbSetCtrl;
         
     // Empty Constructor
     public DataController() throws InterruptedException {
+        dbSetCtrl = new DbSettingsController();
         encryptDecrypt = new EncryptDecryptWord();
         this.readParameters();
     }
@@ -49,22 +49,22 @@ public abstract class DataController extends Controller{
             return "true";
         } catch(SQLException e) {
             if(!"Realizando Login".equals(message)){
-                if("java.sql.SQLRecoverableException: IO Error: The Network Adapter could not establish the connection\n".equals(e)){
+                if(e.toString().contains("java.sql.SQLRecoverableException: IO Error: The Network Adapter could not establish the connection\n")){
                     JOptionPane.showMessageDialog(null, "Erro ao tentar realizar conexão com o Banco de dados. Verifique se o listener está ativo.","Erro",JOptionPane.ERROR_MESSAGE);
                     System.out.println(super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "Erro ao tentar realizar conexão com o Banco de dados. Verifique se o listener está ativo.");
-                } else if("ORA-12505: TNS: listener does not currently know of SID given in connect descriptor tips\n".equals(e)){
+                } else if(e.toString().contains("ORA-12505: TNS: listener does not currently know of SID given in connect descriptor tips\n")){
                     JOptionPane.showMessageDialog(null, "O Listener não identificou o SID utilizado no descritor de conexão.","Erro",JOptionPane.ERROR_MESSAGE);
                     System.out.println(super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "O Listener não identificou o SID utilizado no descritor de conexão.");
-                } else if("java.sql.SQLRecoverableException: Erro de ES: The Network Adapter could not establish the connection\n".equals(e)){
+                } else if(e.toString().contains("java.sql.SQLRecoverableException: Erro de ES: The Network Adapter could not establish the connection\n")){
                     JOptionPane.showMessageDialog(null, "Erro ao tentar realizar conexão com o Banco de dados. Verifique se o listener está ativo.","Erro",JOptionPane.ERROR_MESSAGE);
                     System.out.println(super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "Erro ao tentar realizar conexão com o Banco de dados. Verifique se o listener está ativo.");
-                } else if("ORA-12505, TNS:listener does not currently know of SID given in connect descriptor\n".equals(e)){
+                } else if(e.toString().contains("ORA-12505, TNS:listener does not currently know of SID given in connect descriptor\n")){
                     JOptionPane.showMessageDialog(null, "O Listener não identificou o SID utilizado no descritor de conexão.","Erro",JOptionPane.ERROR_MESSAGE);
                     System.out.println(super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "O Listener não identificou o SID utilizado no descritor de conexão.");
-                } else if("java.sql.SQLException: ORA-01017: invalid username/password; logon denied\n".equals(e)){
+                } else if(e.toString().contains("java.sql.SQLException: ORA-01017: invalid username/password; logon denied\n")){
                     JOptionPane.showMessageDialog(null, "Nome de usuário/senha incorreto. Tente novamente.","Erro",JOptionPane.ERROR_MESSAGE);
                     System.out.println(super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "Nome de usuário/senha incorreto. Tente novamente.");
-                } else if("java.sql.SQLRecoverableException: Erro de ES: Unknown host specified ".equals(e)){
+                } else if(e.toString().contains("java.sql.SQLRecoverableException: Erro de ES: Unknown host specified ")){
                     JOptionPane.showMessageDialog(null, "Erro ao tentar realizar conexão com o Banco de dados. Verifique o Host.","Erro",JOptionPane.ERROR_MESSAGE);
                     System.out.println(super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "Erro ao tentar realizar conexão com o Banco de dados. Verifique o Host.");
                 } else {
@@ -126,37 +126,37 @@ public abstract class DataController extends Controller{
                 System.out.println("Nome do Banco: " + getDbName());
                 System.out.println("Owner: " + getDbOwner());
                 System.out.println(super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "ReadParameters" + "\t\t" + "ObjMgrBufReaderLog" + "\t\t" + "END: Parametros carregados com sucesso");
+                br.close();
                 return true;
                 
             } catch (FileNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, "O arquivo não foi encontrado, verifique se o mesmo existe ou está correto.", "Erro", JOptionPane.ERROR_MESSAGE);
                 System.out.println(super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "ReadParameters" + "\t\t" + "ObjMgrBufReaderLog" + "\t\t" + "END: O arquivo não foi encontrado, verifique se o mesmo existe ou está correto");
-                
-                wishConfDbLScreen();
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, "Erro ao Carregar parâmetros do Banco de Dados", "Erro", JOptionPane.ERROR_MESSAGE);
                 System.out.println(super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "ReadParameters" + "\t\t" + "ObjMgrBufReaderLog" + "\t\t" + "END: Erro ao Carregar parâmetros do Banco de Dados. Erro: " + e);
-                
-                wishConfDbLScreen();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erro ao Carregar parâmetros do Banco de Dados", "Erro", JOptionPane.ERROR_MESSAGE);
+                System.out.println(super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "ReadParameters" + "\t\t" + "ObjMgrBufReaderLog" + "\t\t" + "END: Erro ao Carregar parâmetros do Banco de Dados. Erro: " + e);
             }
         } else {
             //JOptionPane.showMessageDialog(null, "Erro ao Carregar parâmetros do Banco de Dados", "Erro", JOptionPane.ERROR_MESSAGE);
             System.out.println(super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "ReadParameters" + "\t\t" + "ObjMgrBufReaderLog" + "\t\t" + "END: Erro ao Carregar parâmetros do Banco de Dados");
-            
-            wishConfDbLScreen();
+        }
+        if(wishConfDbLScreen()){
+            dbSetCtrl.openDbSettingsScreen();
+            dbSetCtrl.setListenerDBSettingsScreen(new dbSettingsScreenListener());
         }
         return false;
     }
     
-    public void wishConfDbLScreen() {
+    public boolean wishConfDbLScreen() {
         String[] options = {"Sim", "Não"};
         int x = JOptionPane.showOptionDialog(null, "Os arquivo de configuração do banco de dados não está correto, deseja realizar a configuração?", "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, options, options[0]);
         if(x == 0){
-            try {
-                genSettings = new DbSettingsController(true);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(userController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            return true;
+        } else {
+            return false;
         }
     }
     
@@ -2692,4 +2692,39 @@ public abstract class DataController extends Controller{
 
     }
     
+    public class dbSettingsScreenListener implements WindowListener {
+
+        @Override
+        public void windowOpened(WindowEvent we) { }
+
+        @Override
+        public void windowClosing(WindowEvent we) { }
+
+        @Override
+        public void windowClosed(WindowEvent we) {
+            if(dbSetCtrl.verifyFileExists()){
+                readParameters();
+            } else {
+                if(wishConfDbLScreen()){
+                    dbSetCtrl.openDbSettingsScreen();
+                    dbSetCtrl.setListenerDBSettingsScreen(new dbSettingsScreenListener());
+                } else {
+                    System.exit(0);
+                }
+            }
+        }
+
+        @Override
+        public void windowIconified(WindowEvent we) { }
+
+        @Override
+        public void windowDeiconified(WindowEvent we) { }
+
+        @Override
+        public void windowActivated(WindowEvent we) { }
+
+        @Override
+        public void windowDeactivated(WindowEvent we) { }
+        
+    }
 }

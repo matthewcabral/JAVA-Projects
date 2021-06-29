@@ -51,9 +51,11 @@ public class userController extends DataController {
     public boolean getLoginOK() { return loginOK; }
     public void setLoginOK(boolean loginOK) { this.loginOK = loginOK; }
     
+    public void setListenerUserLoginScreen(WindowListener listener) { loginScreen.addWindowListener(listener); }
+    
     public void openLoginScreen(){
         loginScreen = new UserLoginScreen();
-        loginScreen.addWindowListener(new loginScreenWindowListener());
+        //loginScreen.addWindowListener(new loginScreenWindowListener());
         loginScreen.setListenerLogin(new clickLoginButton());
     }
     
@@ -101,26 +103,27 @@ public class userController extends DataController {
                 this.setFirstSettingsOK(true);
                 return true;
             } else {
-                if("java.sql.SQLRecoverableException: IO Error: The Network Adapter could not establish the connection\n".equals(result)){
+                if(result.contains("java.sql.SQLRecoverableException: IO Error: The Network Adapter could not establish the connection")){
                     loginScreen.setErrorArea("Erro ao tentar realizar conexão com o Banco de dados. Verifique se o listener está ativo.");
                     System.out.println(super.getDateTime() + "\tUserModule.userController\t\tErro ao tentar realizar conexão com o Banco de dados. Verifique se o listener está ativo.");
-                } else if("ORA-12505: TNS: listener does not currently know of SID given in connect descriptor tips\n".equals(result)) {
+                } else if(result.contains("ORA-12505: TNS: listener does not currently know of SID given in connect descriptor tips")) {
                     loginScreen.setErrorArea("O Listener não identificou o SID utilizado no descritor de conexão.");
                     System.out.println(super.getDateTime() + "\tUserModule.userController\t\tO Listener não identificou o SID utilizado no descritor de conexão.");
-                } else if("java.sql.SQLRecoverableException: Erro de ES: The Network Adapter could not establish the connection\n".equals(result)){
+                } else if(result.contains("java.sql.SQLRecoverableException: Erro de ES: The Network Adapter could not establish the connection")){
                     loginScreen.setErrorArea("Erro ao tentar realizar conexão com o Banco de dados. Verifique se o listener está ativo.");
                     System.out.println(super.getDateTime() + "\tUserModule.userController\t\tErro ao tentar realizar conexão com o Banco de dados. Verifique se o listener está ativo.");
-                } else if("ORA-12505, TNS:listener does not currently know of SID given in connect descriptor\n".equals(result)) {
+                } else if(result.contains("ORA-12505, TNS:listener does not currently know of SID given in connect descriptor")) {
                     loginScreen.setErrorArea("O Listener não identificou o SID utilizado no descritor de conexão.");
                     System.out.println(super.getDateTime() + "\tUserModule.userController\t\tO Listener não identificou o SID utilizado no descritor de conexão.");
-                } else if("java.sql.SQLException: ORA-01017: senha/nome do usuário inválido; log-on negado\n".contains(result)){
+                } else if(result.contains("java.sql.SQLException: ORA-01017")){
                     loginScreen.setErrorArea("Nome de usuário/senha incorreto. Tente novamente.");
                     System.out.println(super.getDateTime() + "\tUserModule.userController\t\tNome de usuário/senha incorreto. Tente novamente.");
-                } else if("java.sql.SQLRecoverableException: Erro de ES: Unknown host specified ".equals(result)){
+                } else if(result.contains("java.sql.SQLRecoverableException: Erro de ES: Unknown host specified")){
                     loginScreen.setErrorArea("Erro ao tentar realizar conexão com o Banco de dados. Verifique o Host."); 
                     System.out.println(super.getDateTime() + "\tUserModule.userController\t\ttErro ao tentar realizar conexão com o Banco de dados. Verifique o Host.");
                 } else {
-                    super.wishConfDbLScreen();
+                    loginScreen.setErrorArea("Erro ao conectar com o banco de dados!\n" + result);
+                    System.out.println(getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "Erro ao conectar com o banco de dados! Erro: " + result);
                 }
                 return false;
             }
@@ -962,35 +965,6 @@ public class userController extends DataController {
                 count = 0;
             }
         }
-        
-    }
-    
-    private class loginScreenWindowListener implements WindowListener {
-
-        @Override
-        public void windowOpened(WindowEvent we) {
-            setLoginOK(false);
-        }
-
-        @Override
-        public void windowClosing(WindowEvent we) { }
-
-        @Override
-        public void windowClosed(WindowEvent we) {
-            setLoginOK(true);
-        }
-
-        @Override
-        public void windowIconified(WindowEvent we) { }
-
-        @Override
-        public void windowDeiconified(WindowEvent we) { }
-
-        @Override
-        public void windowActivated(WindowEvent we) { }
-
-        @Override
-        public void windowDeactivated(WindowEvent we) { }
         
     }
     

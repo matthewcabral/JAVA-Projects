@@ -6,17 +6,25 @@
 package settingsModule;
 
 import databaseModule.DataController;
+import databaseModule.exceptionsController;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.StringTokenizer;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -26,33 +34,104 @@ import javax.swing.JOptionPane;
  *
  * @author mcabralr
  */
-public class DbSettingsController extends DataController {
+public class DbSettingsController {
     File file;
     DbSettingsScreen dbSetScreen;
+    exceptionsController exc;
     
     // Database Variables
-    private final String confFile = System.getProperty("user.home") +"\\SalesPoint\\Settings\\db_conf.conf";
-    private final String SplitBy = ";";
+    private final String confFile;
+    private final String SplitBy;
+    private final String pattern;
+    public Connection conn = null;
+    public Statement statement;
+    private String dbDriverName;
+    private String dbDriver;// = "oracle.jdbc.OracleDriver"; // Driver used to connect on oracle database
+    private String dbURL;// = "jdbc:oracle:thin:@"; // Connection line used to connect to the database
+    private String dbLocal;// = "RJA-CGJP0L2";
+    private String dbPort;// = "1521";
+    private String dbName;// = "SIEBELDEV"; // Database Name
+    private String dbOwner;// = "SADMIN";// Default Database table Owners
+    private String dbUser; // Database user connected
+    private String dbPassword; // Database user password connected
+    private String driverType;
+    SimpleDateFormat simpleDateFormat;
+    //String date;
     
-    private boolean firstSettings = false;
-    private boolean firstSettingsOK = false;
+    //private boolean firstSettings;
+    private boolean firstSettingsOK;
 
-    public DbSettingsController(boolean firstSettings) throws InterruptedException {
-        this.firstSettings = firstSettings;
-        if(firstSettings){
-            dbSetScreen = new DbSettingsScreen();
-            dbSetScreen.setListenerBtnTestDB(new testDbConnection());
-            dbSetScreen.setListenerBtnSaveDBParam(new saveDbParameters());
-        }
+    public DbSettingsController() {
+        this.confFile = System.getProperty("user.home") +"\\SalesPoint\\Settings\\db_conf.conf";
+        this.SplitBy = ";";
+        this.dbDriverName = null;
+        this.dbDriver = null;
+        this.dbURL = null;
+        this.dbLocal = null;
+        this.dbPort = null;
+        this.dbName = null;
+        this.dbOwner = null;
+        this.dbUser = null;
+        this.dbPassword = null;
+        this.driverType = null;
+        //this.firstSettings = false;
+        this.firstSettingsOK = false;
+        this.pattern = "dd-MM-yyyy HH:mm:ss";
+        simpleDateFormat = new SimpleDateFormat(pattern);
     }
+    
+    // Database Setters and Getters
+    public String getDbDriverName() { return dbDriverName; }
+    public void setDbDriverName(String dbDriverName) { this.dbDriverName = dbDriverName; }
+
+    public String getDbDriver() { return dbDriver; }
+    public void setDbDriver(String dbDriver) { this.dbDriver = dbDriver; }
+    
+    public String getDbURL() { 
+        String url = "";
+        if("SID".equals(getDbDriverName())){
+            url = this.dbURL + this.dbLocal + ":" + this.dbPort + ":" + this.dbName;
+        } else if("Service Name".equals(getDbDriverName())){
+            url = this.dbURL + "//" + this.dbLocal + ":" + this.dbPort + "/" + this.dbName;
+        } else {
+            url = this.dbURL + this.dbName;
+        }        
+        return url;
+    }
+    public void setDbURL(String dbURL) { this.dbURL = dbURL; }
+    
+    public String getDbLocal(){ return this.dbLocal; }
+    public void setDbLocal(String dbLocal) { this.dbLocal = dbLocal; }
+    
+    public String getDbName(){ return this.dbName; }
+    public void setDbName(String dbName) { this.dbName = dbName; }
+    
+    public String getDbPort(){ return this.dbPort; }
+    public void setDbPort(String dbPort) { this.dbPort = dbPort; }
+    
+    public String getDbOwner() { return dbOwner; }
+    public void setDbOwner(String dbOwner) { this.dbOwner = dbOwner; }
+
+    public String getDbUser() { return dbUser; }
+    public void setDbUser(String dbUser) { this.dbUser = dbUser; }
+
+    public String getDbPassword() { return dbPassword; }
+    public void setDbPassword(String dbPassword) { this.dbPassword = dbPassword; }
+    
+    public String getDateTime() { return simpleDateFormat.format(new Date()); }    
     
     public boolean isFirstSettingsOK() { return firstSettingsOK; }
     
+    public void setListenerDBSettingsScreen(WindowListener listener) { dbSetScreen.addWindowListener(listener); }
+    
+    public void openDbSettingsScreen(){
+        dbSetScreen = new DbSettingsScreen();
+        dbSetScreen.setListenerBtnTestDB(new testDbConnection());
+        dbSetScreen.setListenerBtnSaveDBParam(new saveDbParameters());
+    }
+    
     public void screenOnLoad() throws IOException{
-        String driverType = "";
-        System.out.println("Carregando Parametros do Banco de Dados");
-        File file = new File(confFile);
-        if(file.exists()) {
+        if(verifyFileExists()) {
             try {
                 int i = 0;
                 BufferedReader br = new BufferedReader(new FileReader(confFile));
@@ -79,6 +158,7 @@ public class DbSettingsController extends DataController {
                     i++;
                 }
 
+                br.close();
                 System.out.println("Parametros OK");
                 
             } catch (Exception ex) {
@@ -87,66 +167,101 @@ public class DbSettingsController extends DataController {
         }
     }
     
-    private boolean testDbConnection(){
-        if(!"".equals(dbSetScreen.gettxtDriver()) && dbSetScreen.gettxtDriver() != null){
-            if(!"".equals(dbSetScreen.gettxtURL()) && dbSetScreen.gettxtURL() != null){
-                if(!"".equals(dbSetScreen.gettxtLocal()) && dbSetScreen.gettxtLocal() != null){
-                    if(!"".equals(dbSetScreen.gettxtPort()) && dbSetScreen.gettxtPort() != null){
-                        if(!"".equals(dbSetScreen.gettxtDBName()) && dbSetScreen.gettxtDBName() != null){
-                            if(!"".equals(dbSetScreen.gettxtUser()) && dbSetScreen.gettxtUser() != null){
-                                if(!"".equals(dbSetScreen.gettxtPassword()) && dbSetScreen.gettxtPassword() != null){
-                                    if(!"".equals(dbSetScreen.gettxtOwner()) && dbSetScreen.gettxtOwner() != null){
-                                        if("SID".equals(dbSetScreen.getCbbDriverName())){
-                                            super.setDbURL(dbSetScreen.gettxtURL());
-                                        } else if("Service Name".equals(dbSetScreen.getCbbDriverName())){
-                                            super.setDbURL(dbSetScreen.gettxtURL());
-                                        } else {
-                                            super.setDbURL(dbSetScreen.gettxtURL() + dbSetScreen.gettxtDBName());
-                                        }
-                                        super.setDbDriverName(dbSetScreen.getCbbDriverName());
-                                        super.setDbDriver(dbSetScreen.gettxtDriver());
-                                        super.setDbName(dbSetScreen.gettxtDBName());
-                                        super.setDbOwner(dbSetScreen.gettxtOwner());
-                                        super.setDbLocal(dbSetScreen.gettxtLocal());
-                                        super.setDbPort(dbSetScreen.gettxtPort());
-                                        super.setDbUser(dbSetScreen.gettxtUser());
-                                        super.setDbPassword(dbSetScreen.gettxtPassword());
-                                        
-                                        try{
-                                            String result = super.openConnection("Realizando Login");
-                                            if("true".equals(result)){
-                                                super.closeConnection("");
-                                                return true;
-                                            }
-                                        } catch(Exception e){
-                                            JOptionPane.showMessageDialog(null, "Erro ao conectar com o banco de dados!\n" + e,"Erro",JOptionPane.ERROR_MESSAGE);
-                                        }
-                                        
-                                    } else {
-                                        JOptionPane.showMessageDialog(null, "Todos os campos são de preenchimento obrigatório. Favor preencher os campos vazios!","Erro",JOptionPane.ERROR_MESSAGE);
-                                    }
-                                } else {
-                                    JOptionPane.showMessageDialog(null, "Todos os campos são de preenchimento obrigatório. Favor preencher os campos vazios!","Erro",JOptionPane.ERROR_MESSAGE);
-                                }
-                            } else {
-                                JOptionPane.showMessageDialog(null, "Todos os campos são de preenchimento obrigatório. Favor preencher os campos vazios!","Erro",JOptionPane.ERROR_MESSAGE);
-                            }
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Todos os campos são de preenchimento obrigatório. Favor preencher os campos vazios!","Erro",JOptionPane.ERROR_MESSAGE);
-                        }
+    public boolean verifyFileExists(){
+        file = new File(confFile);
+        return (file.exists());
+    }
+    
+    public boolean isParametersOk() {
+        try {
+            int i = 0;
+            BufferedReader br = new BufferedReader(new FileReader(confFile));
+            String line;
+            while((line = br.readLine()) != null){
+                if(i > 0){
+                    StringTokenizer st = new StringTokenizer(line, SplitBy);
+                    driverType = st.nextToken();
+                    if("SID".equals(driverType)){
+                        dbSetScreen.setCbbDriverName(0);
+                    } else if("Service Name".equals(driverType)){
+                        dbSetScreen.setCbbDriverName(1);
                     } else {
-                        JOptionPane.showMessageDialog(null, "Todos os campos são de preenchimento obrigatório. Favor preencher os campos vazios!","Erro",JOptionPane.ERROR_MESSAGE);
+                        dbSetScreen.setCbbDriverName(2);
                     }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Todos os campos são de preenchimento obrigatório. Favor preencher os campos vazios!","Erro",JOptionPane.ERROR_MESSAGE);
+
+                    dbSetScreen.settxtDriver(st.nextToken());
+                    dbSetScreen.settxtURL(st.nextToken());
+                    dbSetScreen.settxtLocal(st.nextToken());
+                    dbSetScreen.settxtPort(st.nextToken());
+                    dbSetScreen.settxtDBName(st.nextToken());
+                    dbSetScreen.settxtOwner(st.nextToken());
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "Todos os campos são de preenchimento obrigatório. Favor preencher os campos vazios!","Erro",JOptionPane.ERROR_MESSAGE);
+                i++;
+            }
+
+            br.close();
+            System.out.println("Parametros OK");
+            return true;
+        } catch (Exception ex) {
+            System.out.println("Erro ao ler arquivo: " + ex);
+        }
+        return false;
+    }
+    
+    private boolean testDbConnection(){
+        if(validateFields()){
+            switch(dbSetScreen.getCbbDriverName()) {
+                case "SID":
+                    setDbURL(dbSetScreen.gettxtURL());
+                    break;
+                case "Service Name":
+                    setDbURL(dbSetScreen.gettxtURL());
+                    break;
+                default:
+                    setDbURL(dbSetScreen.gettxtURL() + dbSetScreen.gettxtDBName());
+                    break;
+            }
+            setDbDriverName(dbSetScreen.getCbbDriverName());
+            setDbDriver(dbSetScreen.gettxtDriver());
+            setDbName(dbSetScreen.gettxtDBName());
+            setDbOwner(dbSetScreen.gettxtOwner());
+            setDbLocal(dbSetScreen.gettxtLocal());
+            setDbPort(dbSetScreen.gettxtPort());
+            setDbUser(dbSetScreen.gettxtUser());
+            setDbPassword(dbSetScreen.gettxtPassword());
+
+            try{
+                String result = openConnection("Realizando Login");
+                if("true".equals(result)){
+                    closeConnection("");
+                    return true;
+                }
+            } catch(Exception e){
+                JOptionPane.showMessageDialog(null, "Erro ao conectar com o banco de dados!\n" + e,"Erro",JOptionPane.ERROR_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Todos os campos são de preenchimento obrigatório. Favor preencher os campos vazios!","Erro",JOptionPane.ERROR_MESSAGE);
         }
         return false;
+    }
+    
+    private boolean validateFields(){
+        return
+        (!"".equals(dbSetScreen.gettxtDriver()) && dbSetScreen.gettxtDriver() != null) &&
+        (!"".equals(dbSetScreen.gettxtURL()) && dbSetScreen.gettxtURL() != null) &&
+        (!"".equals(dbSetScreen.gettxtLocal()) && dbSetScreen.gettxtLocal() != null) &&
+        (!"".equals(dbSetScreen.gettxtPort()) && dbSetScreen.gettxtPort() != null) &&
+        (!"".equals(dbSetScreen.gettxtDBName()) && dbSetScreen.gettxtDBName() != null) &&
+        (!"".equals(dbSetScreen.gettxtUser()) && dbSetScreen.gettxtUser() != null) &&
+        (!"".equals(dbSetScreen.gettxtPassword()) && dbSetScreen.gettxtPassword() != null) &&
+        (!"".equals(dbSetScreen.gettxtOwner()) && dbSetScreen.gettxtOwner() != null) &&
+        (
+            (
+                "SID".equals(dbSetScreen.getCbbDriverName()) || 
+                "Service Name".equals(dbSetScreen.getCbbDriverName()) || 
+                "TNS".equals(dbSetScreen.getCbbDriverName())
+            )
+        );
     }
     
     private boolean saveDbParameters(){
@@ -182,12 +297,67 @@ public class DbSettingsController extends DataController {
         }
     }
     
+    public String openConnection(String message){
+        try {
+            Class.forName(getDbDriver());
+        } catch (ClassNotFoundException e){
+            JOptionPane.showMessageDialog(null, exc.getDbODBCEx() + "\n" + exc.getMsgReturn() + e, "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+        try {
+            conn = DriverManager.getConnection(getDbURL(), getDbUser(), getDbPassword());
+            System.out.println(getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Oracle JDBC Driver Registered. Connected Successfuly" + "\t\t" + message);
+            return "true";
+        } catch(SQLException e) {
+            if("Realizando Login".equals(message)){
+                if(e.toString().contains("java.sql.SQLRecoverableException: IO Error: The Network Adapter could not establish the connection")){
+                    JOptionPane.showMessageDialog(null, "Erro ao tentar realizar conexão com o Banco de dados. Verifique se o listener está ativo.","Erro",JOptionPane.ERROR_MESSAGE);
+                    System.out.println(getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "Erro ao tentar realizar conexão com o Banco de dados. Verifique se o listener está ativo.");
+                } else if(e.toString().contains("ORA-12505: TNS: listener does not currently know of SID given in connect descriptor tips")){
+                    JOptionPane.showMessageDialog(null, "O Listener não identificou o SID utilizado no descritor de conexão.","Erro",JOptionPane.ERROR_MESSAGE);
+                    System.out.println(getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "O Listener não identificou o SID utilizado no descritor de conexão.");
+                } else if(e.toString().contains("java.sql.SQLRecoverableException: Erro de ES: The Network Adapter could not establish the connection")){
+                    JOptionPane.showMessageDialog(null, "Erro ao tentar realizar conexão com o Banco de dados. Verifique se o listener está ativo.","Erro",JOptionPane.ERROR_MESSAGE);
+                    System.out.println(getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "Erro ao tentar realizar conexão com o Banco de dados. Verifique se o listener está ativo.");
+                } else if(e.toString().contains("ORA-12505, TNS:listener does not currently know of SID given in connect descriptor")){
+                    JOptionPane.showMessageDialog(null, "O Listener não identificou o SID utilizado no descritor de conexão.","Erro",JOptionPane.ERROR_MESSAGE);
+                    System.out.println(getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "O Listener não identificou o SID utilizado no descritor de conexão.");
+                } else if(e.toString().contains("java.sql.SQLException: ORA-01017: invalid username/password; logon denied")){
+                    JOptionPane.showMessageDialog(null, "Nome de usuário/senha incorreto. Tente novamente.","Erro",JOptionPane.ERROR_MESSAGE);
+                    System.out.println(getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "Nome de usuário/senha incorreto. Tente novamente.");
+                } else if(e.toString().contains("java.sql.SQLRecoverableException: Erro de ES: Unknown host specified")){
+                    JOptionPane.showMessageDialog(null, "Erro ao tentar realizar conexão com o Banco de dados. Verifique o Host.","Erro",JOptionPane.ERROR_MESSAGE);
+                    System.out.println(getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "Erro ao tentar realizar conexão com o Banco de dados. Verifique o Host.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Erro ao conectar com o banco de dados!\n" + e,"Erro",JOptionPane.ERROR_MESSAGE);
+                    System.out.println(getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "Erro ao conectar com o banco de dados! Erro: " + e);
+                }
+            }            
+            return e.toString();
+        }
+    }
+    
+    public String closeConnection(String message){
+        try {
+            Class.forName(getDbDriver());
+        } catch (ClassNotFoundException e){
+            JOptionPane.showMessageDialog(null, exc.getDbODBCEx()+ "\n" + exc.getMsgReturn() + e,"Erro",JOptionPane.ERROR_MESSAGE);
+        }
+        try {
+            conn.close();
+            System.out.println(getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "CloseConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Oracle JDBC Driver Registered. Disconnected Successfuly" + "\t\t" + message + "\n");
+            return "true";
+        } catch(SQLException e){
+            JOptionPane.showMessageDialog(null, exc.getDbDisconnectEx() + "\n" + exc.getMsgReturn() + e,"Erro",JOptionPane.ERROR_MESSAGE);
+            return "false";
+        }
+    }    
+    
     private class testDbConnection implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
             if(testDbConnection()){
-                JOptionPane.showMessageDialog(null, "Conexão testada com Sucesso!\n", "SUCESSO", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Conexão testada com Sucesso!\n", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
                 dbSetScreen.setbtnSaveDBParamEnabled(true);
             } else {
                 dbSetScreen.setbtnSaveDBParamEnabled(false);
@@ -203,11 +373,9 @@ public class DbSettingsController extends DataController {
             if(saveDbParameters()){
                 dbSetScreen.setbtnSaveDBParamEnabled(false);
                 dbSetScreen.dispose();
-                if(firstSettings){
+                //if(firstSettings){
                     firstSettingsOK = true;
-                    //control = new Controller();
-                    //control.openScreen("Login");
-                }
+                //}
             } else {
                 dbSetScreen.setbtnSaveDBParamEnabled(true);
             }
