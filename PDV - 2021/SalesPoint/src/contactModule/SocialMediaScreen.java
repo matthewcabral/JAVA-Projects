@@ -260,15 +260,15 @@ public class SocialMediaScreen extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        PanelUser = new javax.swing.JPanel();
-        PanelContactList = new javax.swing.JPanel();
+        PanelSocialMedia = new javax.swing.JPanel();
+        PanelSocialMediaList = new javax.swing.JPanel();
         PanelContactListHeader = new javax.swing.JPanel();
         lblContactList = new javax.swing.JLabel();
         lblRecCount = new javax.swing.JLabel();
         PanelListContact = new javax.swing.JPanel();
         sPanelUserList = new javax.swing.JScrollPane();
         tblSocialMediaList = new javax.swing.JTable();
-        PanelContactForm = new javax.swing.JPanel();
+        PanelSocialMediaForm = new javax.swing.JPanel();
         PanelContactFormHeader = new javax.swing.JPanel();
         lblSocialMediaHeader = new javax.swing.JLabel();
         lblContactFormInformation = new javax.swing.JLabel();
@@ -295,8 +295,8 @@ public class SocialMediaScreen extends javax.swing.JFrame {
         setFont(new java.awt.Font("Calibri", 0, 10)); // NOI18N
         setResizable(false);
 
-        PanelUser.setBackground(new java.awt.Color(255, 255, 255));
-        PanelUser.setPreferredSize(new java.awt.Dimension(1366, 757));
+        PanelSocialMedia.setBackground(new java.awt.Color(255, 255, 255));
+        PanelSocialMedia.setPreferredSize(new java.awt.Dimension(1366, 757));
 
         lblContactList.setFont(new java.awt.Font("Calibri", 0, 24)); // NOI18N
         lblContactList.setText("Lista de Redes Sociais");
@@ -401,20 +401,20 @@ public class SocialMediaScreen extends javax.swing.JFrame {
             .addComponent(sPanelUserList, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout PanelContactListLayout = new javax.swing.GroupLayout(PanelContactList);
-        PanelContactList.setLayout(PanelContactListLayout);
-        PanelContactListLayout.setHorizontalGroup(
-            PanelContactListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelContactListLayout.createSequentialGroup()
+        javax.swing.GroupLayout PanelSocialMediaListLayout = new javax.swing.GroupLayout(PanelSocialMediaList);
+        PanelSocialMediaList.setLayout(PanelSocialMediaListLayout);
+        PanelSocialMediaListLayout.setHorizontalGroup(
+            PanelSocialMediaListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelSocialMediaListLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(PanelContactListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(PanelSocialMediaListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(PanelListContact, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(PanelContactListHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        PanelContactListLayout.setVerticalGroup(
-            PanelContactListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelContactListLayout.createSequentialGroup()
+        PanelSocialMediaListLayout.setVerticalGroup(
+            PanelSocialMediaListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelSocialMediaListLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(PanelContactListHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -436,12 +436,12 @@ public class SocialMediaScreen extends javax.swing.JFrame {
         jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         btnDelete.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
-        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/delete 20x20.png"))); // NOI18N
-        btnDelete.setText("Excluir");
-        btnDelete.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/delete 20x20.png"))); // NOI18N
+        btnDelete.setToolTipText("Excluir");
+        btnDelete.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnDelete.setBorderPainted(false);
         btnDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnDelete.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnDelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnDelete.setIconTextGap(3);
         btnDelete.setMaximumSize(new java.awt.Dimension(76, 30));
         btnDelete.setMinimumSize(new java.awt.Dimension(76, 30));
@@ -453,10 +453,10 @@ public class SocialMediaScreen extends javax.swing.JFrame {
         });
 
         btnNew.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
-        btnNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/new 20x20.png"))); // NOI18N
-        btnNew.setText("Novo");
-        btnNew.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 5));
-        btnNew.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/new 20x20.png"))); // NOI18N
+        btnNew.setToolTipText("Novo");
+        btnNew.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnNew.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnNew.setIconTextGap(3);
         btnNew.setMaximumSize(new java.awt.Dimension(76, 30));
         btnNew.setMinimumSize(new java.awt.Dimension(76, 30));
@@ -470,11 +470,11 @@ public class SocialMediaScreen extends javax.swing.JFrame {
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         btnSave.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
-        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/save 20x20.png"))); // NOI18N
-        btnSave.setText("Salvar");
-        btnSave.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
+        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/save 20x20.png"))); // NOI18N
+        btnSave.setToolTipText("Salvar");
+        btnSave.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnSave.setEnabled(false);
-        btnSave.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnSave.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnSave.setIconTextGap(3);
         btnSave.setMaximumSize(new java.awt.Dimension(76, 30));
         btnSave.setMinimumSize(new java.awt.Dimension(76, 30));
@@ -486,11 +486,11 @@ public class SocialMediaScreen extends javax.swing.JFrame {
         });
 
         btnCancel.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
-        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/cancel 20x20.png"))); // NOI18N
-        btnCancel.setText("Cancelar");
-        btnCancel.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 5));
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/cancel 20x20.png"))); // NOI18N
+        btnCancel.setToolTipText("Cancelar");
+        btnCancel.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnCancel.setEnabled(false);
-        btnCancel.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnCancel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnCancel.setMaximumSize(new java.awt.Dimension(76, 30));
         btnCancel.setMinimumSize(new java.awt.Dimension(76, 30));
         btnCancel.setPreferredSize(new java.awt.Dimension(76, 30));
@@ -501,12 +501,12 @@ public class SocialMediaScreen extends javax.swing.JFrame {
         });
 
         btnEdit.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
-        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/edit 20x20.png"))); // NOI18N
-        btnEdit.setText("Editar");
-        btnEdit.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
+        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/edit 20x20.png"))); // NOI18N
+        btnEdit.setToolTipText("Editar");
+        btnEdit.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnEdit.setBorderPainted(false);
         btnEdit.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnEdit.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnEdit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnEdit.setIconTextGap(3);
         btnEdit.setMaximumSize(new java.awt.Dimension(76, 30));
         btnEdit.setMinimumSize(new java.awt.Dimension(76, 30));
@@ -523,43 +523,45 @@ public class SocialMediaScreen extends javax.swing.JFrame {
             PanelContactFormHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelContactFormHeaderLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblSocialMediaHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblSocialMediaHeader, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblContactFormInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         PanelContactFormHeaderLayout.setVerticalGroup(
             PanelContactFormHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelContactFormHeaderLayout.createSequentialGroup()
-                .addGroup(PanelContactFormHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblContactFormInformation, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jSeparator2)
-                    .addGroup(PanelContactFormHeaderLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelContactFormHeaderLayout.createSequentialGroup()
+                .addGroup(PanelContactFormHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSeparator3)
+                    .addComponent(lblContactFormInformation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PanelContactFormHeaderLayout.createSequentialGroup()
                         .addGroup(PanelContactFormHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblSocialMediaHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(PanelContactFormHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelContactFormHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(PanelContactFormHeaderLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(PanelContactFormHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
 
@@ -678,19 +680,19 @@ public class SocialMediaScreen extends javax.swing.JFrame {
 
         sPanelUserForm.setViewportView(PanelFormUser);
 
-        javax.swing.GroupLayout PanelContactFormLayout = new javax.swing.GroupLayout(PanelContactForm);
-        PanelContactForm.setLayout(PanelContactFormLayout);
-        PanelContactFormLayout.setHorizontalGroup(
-            PanelContactFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout PanelSocialMediaFormLayout = new javax.swing.GroupLayout(PanelSocialMediaForm);
+        PanelSocialMediaForm.setLayout(PanelSocialMediaFormLayout);
+        PanelSocialMediaFormLayout.setHorizontalGroup(
+            PanelSocialMediaFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(PanelContactFormHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(PanelContactFormLayout.createSequentialGroup()
+            .addGroup(PanelSocialMediaFormLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(sPanelUserForm, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        PanelContactFormLayout.setVerticalGroup(
-            PanelContactFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelContactFormLayout.createSequentialGroup()
+        PanelSocialMediaFormLayout.setVerticalGroup(
+            PanelSocialMediaFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelSocialMediaFormLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(PanelContactFormHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -698,30 +700,30 @@ public class SocialMediaScreen extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout PanelUserLayout = new javax.swing.GroupLayout(PanelUser);
-        PanelUser.setLayout(PanelUserLayout);
-        PanelUserLayout.setHorizontalGroup(
-            PanelUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PanelContactList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(PanelContactForm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        javax.swing.GroupLayout PanelSocialMediaLayout = new javax.swing.GroupLayout(PanelSocialMedia);
+        PanelSocialMedia.setLayout(PanelSocialMediaLayout);
+        PanelSocialMediaLayout.setHorizontalGroup(
+            PanelSocialMediaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(PanelSocialMediaList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(PanelSocialMediaForm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        PanelUserLayout.setVerticalGroup(
-            PanelUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelUserLayout.createSequentialGroup()
-                .addComponent(PanelContactList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        PanelSocialMediaLayout.setVerticalGroup(
+            PanelSocialMediaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelSocialMediaLayout.createSequentialGroup()
+                .addComponent(PanelSocialMediaList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(PanelContactForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(PanelSocialMediaForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PanelUser, javax.swing.GroupLayout.DEFAULT_SIZE, 767, Short.MAX_VALUE)
+            .addComponent(PanelSocialMedia, javax.swing.GroupLayout.DEFAULT_SIZE, 767, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PanelUser, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
+            .addComponent(PanelSocialMedia, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
         );
 
         pack();
@@ -770,13 +772,13 @@ public class SocialMediaScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditKeyPressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel PanelContactForm;
     private javax.swing.JPanel PanelContactFormHeader;
-    private javax.swing.JPanel PanelContactList;
     private javax.swing.JPanel PanelContactListHeader;
     private javax.swing.JPanel PanelFormUser;
     private javax.swing.JPanel PanelListContact;
-    private javax.swing.JPanel PanelUser;
+    private javax.swing.JPanel PanelSocialMedia;
+    private javax.swing.JPanel PanelSocialMediaForm;
+    private javax.swing.JPanel PanelSocialMediaList;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnEdit;

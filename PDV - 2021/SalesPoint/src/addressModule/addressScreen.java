@@ -71,7 +71,7 @@ public class addressScreen extends javax.swing.JFrame {
     public void setcbbAddressCountry(String value) { this.cbbAddressCountry.addItem(value); this.cbbAddressCountry.paintImmediately(this.cbbAddressCountry.getVisibleRect()); }
     public void setcbbHomeType(String value) { this.cbbHomeType.addItem(value); this.cbbHomeType.paintImmediately(this.cbbHomeType.getVisibleRect()); }
     
-    public void setcbkMainAddress(String value) { if("Y".equals(value)) { this.cbkMainAddress.setSelected(true); } else { this.cbkMainAddress.setSelected(false); } this.cbkMainAddress.paintImmediately(this.cbkMainAddress.getVisibleRect()); }
+    public void setckbMainAddress(String value) { if("Y".equals(value)) { this.ckbMainAddress.setSelected(true); } else { this.ckbMainAddress.setSelected(false); } this.ckbMainAddress.paintImmediately(this.ckbMainAddress.getVisibleRect()); }
     
     public void setlblRecCount(String value) { this.lblRecCount.setText("Total de Registros: " + value); this.lblRecCount.paintImmediately(this.lblRecCount.getVisibleRect()); }
     public void setlblAddressNameHeader(String value) { this.lblAddressNameHeader.setText(value); this.lblAddressNameHeader.paintImmediately(this.lblAddressNameHeader.getVisibleRect()); }
@@ -108,7 +108,7 @@ public class addressScreen extends javax.swing.JFrame {
     public String getcbbAddressCountry() { if(!"".equals(this.cbbAddressCountry.getSelectedItem().toString()) && !"Selecione...".equals(this.cbbAddressCountry.getSelectedItem().toString()) && this.cbbAddressCountry.getSelectedItem().toString() != null) { return this.cbbAddressCountry.getSelectedItem().toString(); } else { return null; } }
     public String getcbbHomeType() { if(!"".equals(this.cbbHomeType.getSelectedItem().toString()) && !"Selecione...".equals(this.cbbHomeType.getSelectedItem().toString()) && this.cbbHomeType.getSelectedItem().toString() != null) { return this.cbbHomeType.getSelectedItem().toString(); } else { return null; } }
     
-    public String getcbkMainAddress() { if(this.cbkMainAddress.isSelected()) { return "Y"; } else { return "N"; } }
+    public String getckbMainAddress() { if(this.ckbMainAddress.isSelected()) { return "Y"; } else { return "N"; } }
     
     public String getlblRecCount() { return this.lblRecCount.getText(); }
     public String getlblAddressNameHeader() { return this.lblAddressNameHeader.getText(); }
@@ -144,7 +144,7 @@ public class addressScreen extends javax.swing.JFrame {
     public void clearcbbAddressCountry() { this.cbbAddressCountry.removeAllItems(); this.cbbAddressCountry.paintImmediately(this.cbbAddressCountry.getVisibleRect()); }
     public void clearcbbHomeType() { this.cbbHomeType.removeAllItems(); this.cbbHomeType.paintImmediately(this.cbbHomeType.getVisibleRect()); }
 
-    public void clearcbkMainAddress() { this.cbkMainAddress.setSelected(false); this.cbkMainAddress.paintImmediately(this.cbkMainAddress.getVisibleRect()); }
+    public void clearckbMainAddress() { this.ckbMainAddress.setSelected(false); this.ckbMainAddress.paintImmediately(this.ckbMainAddress.getVisibleRect()); }
     
     public void clearlblRecCount() { this.lblRecCount.setText(""); this.lblRecCount.paintImmediately(this.lblRecCount.getVisibleRect()); }
     public void clearlblAddressNameHeader() { this.lblAddressNameHeader.setText(""); this.lblAddressNameHeader.paintImmediately(this.lblAddressNameHeader.getVisibleRect()); }
@@ -171,7 +171,7 @@ public class addressScreen extends javax.swing.JFrame {
     public void setcbbAddressCountryEnabled(boolean status) { this.cbbAddressCountry.setEnabled(status); }
     public void setcbbHomeTypeEnabled(boolean status) { this.cbbHomeType.setEnabled(status); }
 
-    public void setcbkMainAddressEnabled(boolean status) { this.cbkMainAddress.setEnabled(status); }
+    public void setckbMainAddressEnabled(boolean status) { this.ckbMainAddress.setEnabled(status); }
     
     public void setlblRecCountEnabled(boolean status) { this.lblRecCount.setEnabled(status); }
     public void setlblAddressNameHeaderEnabled(boolean status) { this.lblAddressNameHeader.setEnabled(status); }
@@ -207,7 +207,7 @@ public class addressScreen extends javax.swing.JFrame {
     public boolean iscbbAddressCountryEnabled() { return this.cbbAddressCountry.isEnabled(); }
     public boolean iscbbHomeTypeEnabled() { return this.cbbHomeType.isEnabled(); }
 
-    public boolean iscbkMainAddressEnabled() { return this.cbkMainAddress.isEnabled(); }
+    public boolean isckbMainAddressEnabled() { return this.ckbMainAddress.isEnabled(); }
     
     public boolean islblRecCountEnabled() { return this.lblRecCount.isEnabled(); }
     public boolean islblAddressNameHeaderEnabled() { return this.lblAddressNameHeader.isEnabled(); }
@@ -240,7 +240,7 @@ public class addressScreen extends javax.swing.JFrame {
             this.txtRowId.requestFocus();
             break;
         case "ENDERECO_PRINCIPAL":
-            this.cbkMainAddress.requestFocus();
+            this.ckbMainAddress.requestFocus();
             break;
         case "CEP_PARTE_1":
             this.txtZipcodePart1.requestFocus();
@@ -337,7 +337,7 @@ public class addressScreen extends javax.swing.JFrame {
                 setcbbAddressCountryEnabled(false);
                 setcbbHomeTypeEnabled(false);
 
-                setcbkMainAddressEnabled(false);
+                setckbMainAddressEnabled(false);
 
                 setTblEnabled(true);
                 
@@ -370,7 +370,7 @@ public class addressScreen extends javax.swing.JFrame {
                 setcbbAddressCountryEnabled(false);
                 setcbbHomeTypeEnabled(false);
 
-                setcbkMainAddressEnabled(true);
+                setckbMainAddressEnabled(false);
 
                 setTblEnabled(false);
                 
@@ -398,12 +398,12 @@ public class addressScreen extends javax.swing.JFrame {
                 settxtCommentslEnabled(true);
 
                 setcbbAddressListFilterEnabled(true);
-                setcbbAddressTypeEnabled(false);
-                setcbbAddressZoneEnabled(false);
-                setcbbAddressCountryEnabled(false);
-                setcbbHomeTypeEnabled(false);
+                setcbbAddressTypeEnabled(true);
+                setcbbAddressZoneEnabled(true);
+                setcbbAddressCountryEnabled(true);
+                setcbbHomeTypeEnabled(true);
 
-                setcbkMainAddressEnabled(true);
+                setckbMainAddressEnabled(true);
 
                 setTblEnabled(false);
                 
@@ -436,7 +436,7 @@ public class addressScreen extends javax.swing.JFrame {
                 setcbbAddressCountryEnabled(false);
                 setcbbHomeTypeEnabled(false);
                 
-                setcbkMainAddressEnabled(false);
+                setckbMainAddressEnabled(false);
 
                 setTblEnabled(true);
                 
@@ -469,7 +469,7 @@ public class addressScreen extends javax.swing.JFrame {
                 setcbbAddressCountryEnabled(false);
                 setcbbHomeTypeEnabled(false);
 
-                setcbkMainAddressEnabled(false);
+                setckbMainAddressEnabled(false);
 
                 setTblEnabled(true);
                 
@@ -502,7 +502,7 @@ public class addressScreen extends javax.swing.JFrame {
                 setcbbAddressCountryEnabled(false);
                 setcbbHomeTypeEnabled(false);
 
-                setcbkMainAddressEnabled(false);
+                setckbMainAddressEnabled(false);
 
                 setTblEnabled(true);
                 
@@ -535,7 +535,7 @@ public class addressScreen extends javax.swing.JFrame {
                 setcbbAddressCountryEnabled(true);
                 setcbbHomeTypeEnabled(true);
 
-                setcbkMainAddressEnabled(true);
+                setckbMainAddressEnabled(true);
 
                 setTblEnabled(false);
                 
@@ -566,7 +566,7 @@ public class addressScreen extends javax.swing.JFrame {
         cleartxtHomeBlock();
         cleartxtComments();
         
-        clearcbkMainAddress();
+        clearckbMainAddress();
         
         setcbbAddressTypeItemIndex(0);
         setcbbHomeTypeItemIndex(0);
@@ -618,7 +618,7 @@ public class addressScreen extends javax.swing.JFrame {
         this.cbbAddressCountry.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.cbbHomeType.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
 
-        this.cbkMainAddress.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
+        this.ckbMainAddress.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
     
         this.lblRecCount.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.lblAddressNameHeader.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
@@ -639,7 +639,7 @@ public class addressScreen extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        PanelUser = new javax.swing.JPanel();
+        PanelAddress = new javax.swing.JPanel();
         PanelAddressList = new javax.swing.JPanel();
         PanelAddressListHeader = new javax.swing.JPanel();
         lblAddressList = new javax.swing.JLabel();
@@ -682,7 +682,7 @@ public class addressScreen extends javax.swing.JFrame {
         lblAddressComplement = new javax.swing.JLabel();
         txtAddressComplement = new javax.swing.JTextField();
         lblMainAddrFlg = new javax.swing.JLabel();
-        cbkMainAddress = new javax.swing.JCheckBox();
+        ckbMainAddress = new javax.swing.JCheckBox();
         lblNeighborhood = new javax.swing.JLabel();
         txtNeighborhood = new javax.swing.JTextField();
         lblAddressZone = new javax.swing.JLabel();
@@ -711,8 +711,8 @@ public class addressScreen extends javax.swing.JFrame {
         setFont(new java.awt.Font("Calibri", 0, 10)); // NOI18N
         setResizable(false);
 
-        PanelUser.setBackground(new java.awt.Color(255, 255, 255));
-        PanelUser.setPreferredSize(new java.awt.Dimension(1366, 757));
+        PanelAddress.setBackground(new java.awt.Color(255, 255, 255));
+        PanelAddress.setPreferredSize(new java.awt.Dimension(1366, 757));
 
         lblAddressList.setFont(new java.awt.Font("Calibri", 0, 24)); // NOI18N
         lblAddressList.setText("Lista de Endereços");
@@ -720,7 +720,7 @@ public class addressScreen extends javax.swing.JFrame {
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/Lupa white 20x20.png"))); // NOI18N
+        lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/Lupa 20x20.png"))); // NOI18N
 
         cbbAddressListFilter.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         cbbAddressListFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -893,11 +893,11 @@ public class addressScreen extends javax.swing.JFrame {
         jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         btnEdit.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
-        btnEdit.setText("Editar");
-        btnEdit.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
+        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/edit 20x20.png"))); // NOI18N
+        btnEdit.setToolTipText("Editar");
+        btnEdit.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnEdit.setBorderPainted(false);
         btnEdit.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnEdit.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         btnEdit.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 btnEditKeyPressed(evt);
@@ -905,9 +905,10 @@ public class addressScreen extends javax.swing.JFrame {
         });
 
         btnNew.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
-        btnNew.setText("Novo");
-        btnNew.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
-        btnNew.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        btnNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/new 20x20.png"))); // NOI18N
+        btnNew.setToolTipText("Novo");
+        btnNew.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnNew.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnNew.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 btnNewKeyPressed(evt);
@@ -917,10 +918,11 @@ public class addressScreen extends javax.swing.JFrame {
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         btnSave.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
-        btnSave.setText("Salvar");
-        btnSave.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
+        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/save 20x20.png"))); // NOI18N
+        btnSave.setToolTipText("Salvar");
+        btnSave.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnSave.setEnabled(false);
-        btnSave.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        btnSave.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnSave.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 btnSaveKeyPressed(evt);
@@ -928,10 +930,11 @@ public class addressScreen extends javax.swing.JFrame {
         });
 
         btnCancel.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
-        btnCancel.setText("Cancelar");
-        btnCancel.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/cancel 20x20.png"))); // NOI18N
+        btnCancel.setToolTipText("Cancelar");
+        btnCancel.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnCancel.setEnabled(false);
-        btnCancel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        btnCancel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnCancel.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 btnCancelKeyPressed(evt);
@@ -939,11 +942,12 @@ public class addressScreen extends javax.swing.JFrame {
         });
 
         btnDelete.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
-        btnDelete.setText("Excluir");
-        btnDelete.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/delete 20x20.png"))); // NOI18N
+        btnDelete.setToolTipText("Excluir");
+        btnDelete.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnDelete.setBorderPainted(false);
         btnDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnDelete.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        btnDelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnDelete.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 btnDeleteKeyPressed(evt);
@@ -956,23 +960,23 @@ public class addressScreen extends javax.swing.JFrame {
             PanelAddressFormHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelAddressFormHeaderLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblAddressNameHeader, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
-                .addGap(49, 49, 49)
+                .addComponent(lblAddressNameHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblAddressFormInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         PanelAddressFormHeaderLayout.setVerticalGroup(
@@ -982,10 +986,11 @@ public class addressScreen extends javax.swing.JFrame {
                     .addComponent(btnNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jSeparator2)
                     .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblAddressFormInformation, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblAddressNameHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(PanelAddressFormHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblAddressNameHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblAddressFormInformation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(btnEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -1068,7 +1073,7 @@ public class addressScreen extends javax.swing.JFrame {
         });
 
         btnSearchAddress.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
-        btnSearchAddress.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/Lupa 10x10.png"))); // NOI18N
+        btnSearchAddress.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/10px/Lupa 10x10.png"))); // NOI18N
         btnSearchAddress.setEnabled(false);
         btnSearchAddress.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -1179,21 +1184,21 @@ public class addressScreen extends javax.swing.JFrame {
         lblMainAddrFlg.setMinimumSize(new java.awt.Dimension(150, 22));
         lblMainAddrFlg.setPreferredSize(new java.awt.Dimension(150, 22));
 
-        cbkMainAddress.setBackground(new java.awt.Color(255, 255, 255));
-        cbkMainAddress.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        cbkMainAddress.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        cbkMainAddress.setBorderPainted(true);
-        cbkMainAddress.setEnabled(false);
-        cbkMainAddress.setMaximumSize(new java.awt.Dimension(165, 21));
-        cbkMainAddress.setPreferredSize(new java.awt.Dimension(165, 21));
-        cbkMainAddress.addItemListener(new java.awt.event.ItemListener() {
+        ckbMainAddress.setBackground(new java.awt.Color(255, 255, 255));
+        ckbMainAddress.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        ckbMainAddress.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        ckbMainAddress.setBorderPainted(true);
+        ckbMainAddress.setEnabled(false);
+        ckbMainAddress.setMaximumSize(new java.awt.Dimension(165, 21));
+        ckbMainAddress.setPreferredSize(new java.awt.Dimension(165, 21));
+        ckbMainAddress.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbkMainAddressItemStateChanged(evt);
+                ckbMainAddressItemStateChanged(evt);
             }
         });
-        cbkMainAddress.addKeyListener(new java.awt.event.KeyAdapter() {
+        ckbMainAddress.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                cbkMainAddressKeyPressed(evt);
+                ckbMainAddressKeyPressed(evt);
             }
         });
 
@@ -1457,7 +1462,7 @@ public class addressScreen extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(lblMainAddrFlg, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(cbkMainAddress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(ckbMainAddress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(PanelFormAddressLayout.createSequentialGroup()
                             .addComponent(lblZipcode, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1555,7 +1560,7 @@ public class addressScreen extends javax.swing.JFrame {
                             .addComponent(txtRowId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(PanelFormAddressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblMainAddrFlg, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbkMainAddress, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(ckbMainAddress, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PanelFormAddressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelFormAddressLayout.createSequentialGroup()
@@ -1631,16 +1636,16 @@ public class addressScreen extends javax.swing.JFrame {
                 .addGap(110, 110, 110))
         );
 
-        javax.swing.GroupLayout PanelUserLayout = new javax.swing.GroupLayout(PanelUser);
-        PanelUser.setLayout(PanelUserLayout);
-        PanelUserLayout.setHorizontalGroup(
-            PanelUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout PanelAddressLayout = new javax.swing.GroupLayout(PanelAddress);
+        PanelAddress.setLayout(PanelAddressLayout);
+        PanelAddressLayout.setHorizontalGroup(
+            PanelAddressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(PanelAddressList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(PanelAddressForm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        PanelUserLayout.setVerticalGroup(
-            PanelUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelUserLayout.createSequentialGroup()
+        PanelAddressLayout.setVerticalGroup(
+            PanelAddressLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelAddressLayout.createSequentialGroup()
                 .addComponent(PanelAddressList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PanelAddressForm, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1650,11 +1655,11 @@ public class addressScreen extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PanelUser, javax.swing.GroupLayout.DEFAULT_SIZE, 1012, Short.MAX_VALUE)
+            .addComponent(PanelAddress, javax.swing.GroupLayout.DEFAULT_SIZE, 1012, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PanelUser, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
+            .addComponent(PanelAddress, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
         );
 
         pack();
@@ -1738,17 +1743,17 @@ public class addressScreen extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cbbAddressTypeItemStateChanged
 
-    private void cbkMainAddressKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbkMainAddressKeyPressed
+    private void ckbMainAddressKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ckbMainAddressKeyPressed
         if((evt.getKeyCode() == KeyEvent.VK_ENTER) || (evt.getKeyCode() == KeyEvent.VK_TAB)){
             setFocus("BAIRRO");
         }
-    }//GEN-LAST:event_cbkMainAddressKeyPressed
+    }//GEN-LAST:event_ckbMainAddressKeyPressed
 
-    private void cbkMainAddressItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbkMainAddressItemStateChanged
+    private void ckbMainAddressItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ckbMainAddressItemStateChanged
         if(evt.getStateChange() == ItemEvent.SELECTED){
             setFocus("BAIRRO");
         }
-    }//GEN-LAST:event_cbkMainAddressItemStateChanged
+    }//GEN-LAST:event_ckbMainAddressItemStateChanged
 
     private void btnDeleteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnDeleteKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_TAB){
@@ -1943,13 +1948,13 @@ public class addressScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCommentsKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel PanelAddress;
     private javax.swing.JPanel PanelAddressForm;
     private javax.swing.JPanel PanelAddressFormHeader;
     private javax.swing.JPanel PanelAddressList;
     private javax.swing.JPanel PanelAddressListHeader;
     private javax.swing.JPanel PanelFormAddress;
     private javax.swing.JPanel PanelListAddress;
-    private javax.swing.JPanel PanelUser;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnEdit;
@@ -1962,7 +1967,7 @@ public class addressScreen extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbbAddressType;
     private javax.swing.JComboBox<String> cbbAddressZone;
     private javax.swing.JComboBox<String> cbbHomeType;
-    private javax.swing.JCheckBox cbkMainAddress;
+    private javax.swing.JCheckBox ckbMainAddress;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
@@ -2009,4 +2014,4 @@ public class addressScreen extends javax.swing.JFrame {
     private javax.swing.JTextField txtZipcodePart1;
     private javax.swing.JTextField txtZipcodePart2;
     // End of variables declaration//GEN-END:variables
-}
+}

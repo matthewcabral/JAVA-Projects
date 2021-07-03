@@ -5,7 +5,6 @@
  */
 package settingsModule;
 
-import databaseModule.DataController;
 import databaseModule.exceptionsController;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
@@ -40,9 +39,9 @@ public class DbSettingsController {
     exceptionsController exc;
     
     // Database Variables
-    private final String confFile;
-    private final String SplitBy;
-    private final String pattern;
+    private final String confFile = System.getProperty("user.home") +"\\SalesPoint\\Settings\\db_conf.conf";
+    private final String SplitBy = ";";
+    private final String pattern = "dd-MM-yyyy HH:mm:ss";
     public Connection conn = null;
     public Statement statement;
     private String dbDriverName;
@@ -62,8 +61,6 @@ public class DbSettingsController {
     private boolean firstSettingsOK;
 
     public DbSettingsController() {
-        this.confFile = System.getProperty("user.home") +"\\SalesPoint\\Settings\\db_conf.conf";
-        this.SplitBy = ";";
         this.dbDriverName = null;
         this.dbDriver = null;
         this.dbURL = null;
@@ -74,9 +71,7 @@ public class DbSettingsController {
         this.dbUser = null;
         this.dbPassword = null;
         this.driverType = null;
-        //this.firstSettings = false;
         this.firstSettingsOK = false;
-        this.pattern = "dd-MM-yyyy HH:mm:ss";
         simpleDateFormat = new SimpleDateFormat(pattern);
     }
     
@@ -170,6 +165,7 @@ public class DbSettingsController {
     public boolean verifyFileExists(){
         file = new File(confFile);
         return (file.exists());
+        //verificar por que está dando problema aqui
     }
     
     public boolean isParametersOk() {
@@ -182,19 +178,19 @@ public class DbSettingsController {
                     StringTokenizer st = new StringTokenizer(line, SplitBy);
                     driverType = st.nextToken();
                     if("SID".equals(driverType)){
-                        dbSetScreen.setCbbDriverName(0);
+                        this.setDbDriverName("SID");
                     } else if("Service Name".equals(driverType)){
-                        dbSetScreen.setCbbDriverName(1);
+                        this.setDbDriverName("Service Name");
                     } else {
-                        dbSetScreen.setCbbDriverName(2);
+                        this.setDbDriverName("TNS");
                     }
 
-                    dbSetScreen.settxtDriver(st.nextToken());
-                    dbSetScreen.settxtURL(st.nextToken());
-                    dbSetScreen.settxtLocal(st.nextToken());
-                    dbSetScreen.settxtPort(st.nextToken());
-                    dbSetScreen.settxtDBName(st.nextToken());
-                    dbSetScreen.settxtOwner(st.nextToken());
+                    this.setDbDriver(st.nextToken());
+                    this.setDbURL(st.nextToken());
+                    this.setDbLocal(st.nextToken());
+                    this.setDbPort(st.nextToken());
+                    this.setDbName(st.nextToken());
+                    this.setDbOwner(st.nextToken());
                 }
                 i++;
             }

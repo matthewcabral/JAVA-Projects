@@ -1143,7 +1143,7 @@ public class UserScreen extends javax.swing.JFrame {
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/Lupa white 20x20.png"))); // NOI18N
+        lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/Lupa 20x20.png"))); // NOI18N
 
         cbbUserListFilter.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         cbbUserListFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -1316,9 +1316,9 @@ public class UserScreen extends javax.swing.JFrame {
         jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         btnEditUser.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
-        btnEditUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/edit 20x20.png"))); // NOI18N
-        btnEditUser.setText("Editar");
-        btnEditUser.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
+        btnEditUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/edit 20x20.png"))); // NOI18N
+        btnEditUser.setToolTipText("Editar");
+        btnEditUser.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnEditUser.setBorderPainted(false);
         btnEditUser.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnEditUser.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -1330,11 +1330,13 @@ public class UserScreen extends javax.swing.JFrame {
         });
 
         btnNewUser.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
-        btnNewUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/new 20x20.png"))); // NOI18N
-        btnNewUser.setText("Novo");
-        btnNewUser.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 5));
+        btnNewUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/new 20x20.png"))); // NOI18N
+        btnNewUser.setToolTipText("Novo");
+        btnNewUser.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnNewUser.setBorderPainted(false);
+        btnNewUser.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnNewUser.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        btnNewUser.setIconTextGap(3);
+        btnNewUser.setIconTextGap(0);
         btnNewUser.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btnNewUser.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -1345,9 +1347,9 @@ public class UserScreen extends javax.swing.JFrame {
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         btnSaveUser.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
-        btnSaveUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/save 20x20.png"))); // NOI18N
-        btnSaveUser.setText("Salvar");
-        btnSaveUser.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
+        btnSaveUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/save 20x20.png"))); // NOI18N
+        btnSaveUser.setToolTipText("Salvar");
+        btnSaveUser.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnSaveUser.setEnabled(false);
         btnSaveUser.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         btnSaveUser.setIconTextGap(3);
@@ -1358,11 +1360,10 @@ public class UserScreen extends javax.swing.JFrame {
         });
 
         btnCancelUser.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
-        btnCancelUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/cancel 20x20.png"))); // NOI18N
-        btnCancelUser.setText("Cancelar");
-        btnCancelUser.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 5));
+        btnCancelUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/cancel 20x20.png"))); // NOI18N
+        btnCancelUser.setToolTipText("Cancelar");
+        btnCancelUser.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnCancelUser.setEnabled(false);
-        btnCancelUser.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnCancelUser.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         btnCancelUser.setIconTextGap(3);
         btnCancelUser.setMargin(new java.awt.Insets(2, 5, 2, 5));
@@ -1373,12 +1374,11 @@ public class UserScreen extends javax.swing.JFrame {
         });
 
         btnDelete.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
-        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/delete 20x20.png"))); // NOI18N
-        btnDelete.setText("Excluir");
-        btnDelete.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/delete 20x20.png"))); // NOI18N
+        btnDelete.setToolTipText("Excluir");
+        btnDelete.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnDelete.setBorderPainted(false);
         btnDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnDelete.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnDelete.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         btnDelete.setIconTextGap(3);
         btnDelete.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -1399,17 +1399,17 @@ public class UserScreen extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnNewUser, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnEditUser, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnEditUser, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnNewUser, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnSaveUser, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSaveUser, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCancelUser, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCancelUser, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         PanelUserFormHeaderLayout.setVerticalGroup(
