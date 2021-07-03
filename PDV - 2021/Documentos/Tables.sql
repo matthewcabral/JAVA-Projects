@@ -28,7 +28,7 @@ CREATE TABLE PDV.T_LST_OF_VAL (
 	RPLCTN_LVL_CD VARCHAR2(30 CHAR) DEFAULT 'All' NOT NULL,             -- NIVEL DE REPLICACAO
 	TYPE VARCHAR2(30 CHAR) NOT NULL,                                    -- TIPO
 	NAME VARCHAR2(50 CHAR) NOT NULL,                                    -- CODIGO INDEPENDENTE DE IDIOMA
-	VAL VARCHAR2(30 CHAR) NOT NULL,                                     -- VALOR
+	VAL VARCHAR2(50 CHAR) NOT NULL,                                     -- VALOR
 	ACTIVE_FLG CHAR(1 CHAR) DEFAULT 'Y',                                -- ATIVO
 	ORDER_BY NUMBER(22, 7),                                             -- ORDEM
 	CODE VARCHAR2(30 CHAR),                                             -- CODIGO

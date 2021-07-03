@@ -48,8 +48,8 @@ public class contactController extends DataController {
 
     public void setListenerConMgrScreen(WindowListener listener) { conMgr.addWindowListener(listener); }
 
-    public ArrayList<contactRowIdClass> getContRowId() { return contRowIdArray; }
-    public ArrayList<SocialMediaRowIdClass> getContXRowId() { return socialMediaRowIdArray; }
+    public ArrayList<contactRowIdClass> getContRowIdArray() { return contRowIdArray; }
+    public ArrayList<SocialMediaRowIdClass> getSocialMediaRowIdArray() { return socialMediaRowIdArray; }
     
     public String getUserId() { return userId; }
     public void setUserId(String userId) { this.userId = userId; }

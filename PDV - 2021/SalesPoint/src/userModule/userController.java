@@ -728,7 +728,7 @@ public class userController extends DataController {
         
         if(super.wishDeleteRecord()){
             ArrayList<ContactClass> contact = null;
-            ArrayList<SocialMediaClass> socialMedia = null;            
+            ArrayList<SocialMediaClass> socialMedia = null;
             super.clearCondition();
             
             contact = super.queryContactRecord("SELECT *\nFROM " + super.getDbOwner() + "." + getTblContact() + "\nWHERE PAR_USR_ID = '" + userScreen.gettxtRowId() + "'\nAND PAR_ROW_ID = '" + userScreen.gettxtRowId() + "'");

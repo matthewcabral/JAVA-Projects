@@ -47,6 +47,10 @@ public class addressController extends DataController {
         this.cepList = null;
     }
 
+    public void setListenerAddressScreen(WindowListener listener) { addrScr.addWindowListener(listener); }
+    
+    public ArrayList<addressRowIdClass> getAddressRowIdArray() { return this.addrRowIdArray; }
+    
     public String getUserId() { return userId; }
     public void setUserId(String userId) { this.userId = userId; }
 
@@ -66,8 +70,6 @@ public class addressController extends DataController {
     public void setCount(int count) { this.count = count; }
     public void clearCount() { this.count = 0; }
     
-    public void setListenerAddressScreen(WindowListener listener) { addrScr.addWindowListener(listener); }
-
     public void openAddressScreen(String query, String function) {
         if(this.getOpenFromScreen() != null && !"".equals(this.getOpenFromScreen())){
             switch(this.getOpenFromScreen()){
