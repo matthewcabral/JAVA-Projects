@@ -80,7 +80,7 @@ public class contactController extends DataController {
         this.accountId = "";
         this.userId = "";
     }
-        
+    
     public void openContactScreen(String query, String function){
         if(!"".equals(function) && function != null){
             switch(function){

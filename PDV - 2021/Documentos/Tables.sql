@@ -38,6 +38,45 @@ CREATE TABLE PDV.T_LST_OF_VAL (
 	CONSTRAINT pk_lov_id PRIMARY KEY (ROW_ID)
 );
 
+-- TABELA DE POSICAO DO USUARIO
+CREATE TABLE PDV.T_POSITION (
+	ROW_ID VARCHAR2(15 CHAR) NOT NULL,                              	-- ID
+	CREATED TIMESTAMP DEFAULT SYSDATE NOT NULL,                         -- CRIADO
+	CREATED_BY VARCHAR2(15 CHAR) NOT NULL,                          	-- CRIADO POR
+	LAST_UPD TIMESTAMP DEFAULT SYSDATE NOT NULL,                        -- ATUALIZADO
+	LAST_UPD_BY VARCHAR2(15 CHAR) NOT NULL,                         	-- ATUALIZADO POR
+	MODIFICATION_NUM NUMBER(10, 0) DEFAULT 0 NOT NULL,              	-- NUMERO DE MODIFICAÇÃO
+	PAR_ROW_ID VARCHAR2(15 CHAR),			                          	-- PARENT ROW ID
+	DB_LAST_UPD TIMESTAMP DEFAULT SYSDATE,                              -- ULTIMA ATUALIZAÇÃO NO BANCO DE DADOS
+	NAME VARCHAR2(50 CHAR) NOT NULL,                                    -- NOME POSICAO
+	POSTN_TYPE_CD VARCHAR2(30 CHAR),                                    -- TIPO POSICAO
+	DESC_TEXT VARCHAR2(255 CHAR),                                       -- COMENTARIOS
+	PAR_POSTN_ID VARCHAR2(15 CHAR),                                     -- PARENT POSITION ID
+	
+	CONSTRAINT pk_position_id PRIMARY KEY (ROW_ID)
+);
+
+-- TABELA DE PERMISSÕES DE USUÁRIO
+CREATE TABLE PDV.T_POSTN_PER (
+	ROW_ID VARCHAR2(15 CHAR) NOT NULL,                              	-- ID
+	CREATED TIMESTAMP DEFAULT SYSDATE NOT NULL,                         -- CRIADO
+	CREATED_BY VARCHAR2(15 CHAR) NOT NULL,                          	-- CRIADO POR
+	LAST_UPD TIMESTAMP DEFAULT SYSDATE NOT NULL,                        -- ATUALIZADO
+	LAST_UPD_BY VARCHAR2(15 CHAR) NOT NULL,                         	-- ATUALIZADO POR
+	MODIFICATION_NUM NUMBER(10, 0) DEFAULT 0 NOT NULL,              	-- NUMERO DE MODIFICAÇÃO
+	PAR_ROW_ID VARCHAR2(15 CHAR),                          				-- PARENT POSITION
+	DB_LAST_UPD TIMESTAMP DEFAULT SYSDATE,                              -- ULTIMA ATUALIZAÇÃO NO BANCO DE DADOS
+	PERMITION_NAME VARCHAR2(50 CHAR),                                   -- POSITION NAME (LOV NAME)
+	--PERMITION_TYPE VARCHAR2(50 CHAR),                                   -- POSITION TYPE (LOV NAME)
+	PERMITION_VALUE VARCHAR2(50 CHAR),                                  -- POSITION TYPE (LOV TYPE)
+	PERMITION_FLG VARCHAR2(1 CHAR),                                     -- PERMITION FLAG
+	PERMITION_DESC VARCHAR2(255 CHAR),                                  -- PERMITION DESC (LOV DESC)
+	ORDER_BY NUMBER(22, 7),
+	COMMENTS VARCHAR2(250 CHAR),                                    	-- COMENTARIOS
+	
+	CONSTRAINT pk_user_per_id PRIMARY KEY (ROW_ID)
+);
+
 -- TABELA DE USUÁRIOS DO SISTEMA
 CREATE TABLE PDV.T_USER (                                         
 	ROW_ID VARCHAR2(15 CHAR) NOT NULL,                              	-- ID
@@ -89,45 +128,6 @@ CREATE TABLE PDV.T_USER (
 	COMMENTS VARCHAR2(250 CHAR),                                    	-- COMENTARIOS
 	
 	CONSTRAINT pk_user_id PRIMARY KEY (ROW_ID)
-);
-
--- TABELA DE POSICAO DO USUARIO
-CREATE TABLE PDV.T_POSITION (
-	ROW_ID VARCHAR2(15 CHAR) NOT NULL,                              	-- ID
-	CREATED TIMESTAMP DEFAULT SYSDATE NOT NULL,                         -- CRIADO
-	CREATED_BY VARCHAR2(15 CHAR) NOT NULL,                          	-- CRIADO POR
-	LAST_UPD TIMESTAMP DEFAULT SYSDATE NOT NULL,                        -- ATUALIZADO
-	LAST_UPD_BY VARCHAR2(15 CHAR) NOT NULL,                         	-- ATUALIZADO POR
-	MODIFICATION_NUM NUMBER(10, 0) DEFAULT 0 NOT NULL,              	-- NUMERO DE MODIFICAÇÃO
-	PAR_ROW_ID VARCHAR2(15 CHAR),			                          	-- PARENT ROW ID
-	DB_LAST_UPD TIMESTAMP DEFAULT SYSDATE,                              -- ULTIMA ATUALIZAÇÃO NO BANCO DE DADOS
-	NAME VARCHAR2(50 CHAR) NOT NULL,                                    -- NOME POSICAO
-	POSTN_TYPE_CD VARCHAR2(30 CHAR),                                    -- TIPO POSICAO
-	DESC_TEXT VARCHAR2(255 CHAR),                                       -- COMENTARIOS
-	PAR_POSTN_ID VARCHAR2(15 CHAR),                                     -- PARENT POSITION ID
-	
-	CONSTRAINT pk_position_id PRIMARY KEY (ROW_ID)
-);
-
--- TABELA DE PERMISSÕES DE USUÁRIO
-CREATE TABLE PDV.T_POSTN_PER (
-	ROW_ID VARCHAR2(15 CHAR) NOT NULL,                              	-- ID
-	CREATED TIMESTAMP DEFAULT SYSDATE NOT NULL,                         -- CRIADO
-	CREATED_BY VARCHAR2(15 CHAR) NOT NULL,                          	-- CRIADO POR
-	LAST_UPD TIMESTAMP DEFAULT SYSDATE NOT NULL,                        -- ATUALIZADO
-	LAST_UPD_BY VARCHAR2(15 CHAR) NOT NULL,                         	-- ATUALIZADO POR
-	MODIFICATION_NUM NUMBER(10, 0) DEFAULT 0 NOT NULL,              	-- NUMERO DE MODIFICAÇÃO
-	PAR_ROW_ID VARCHAR2(15 CHAR),                          				-- PARENT POSITION
-	DB_LAST_UPD TIMESTAMP DEFAULT SYSDATE,                              -- ULTIMA ATUALIZAÇÃO NO BANCO DE DADOS
-	PERMITION_NAME VARCHAR2(50 CHAR),                                   -- POSITION NAME (LOV NAME)
-	PERMITION_TYPE VARCHAR2(50 CHAR),                                   -- POSITION TYPE (LOV NAME)
-	PERMITION_VALUE VARCHAR2(50 CHAR),                                  -- POSITION TYPE (LOV TYPE)
-	PERMITION_FLG VARCHAR2(1 CHAR),                                     -- PERMITION FLAG
-	PERMITION_DESC VARCHAR2(255 CHAR),                                  -- PERMITION DESC (LOV DESC)
-	ORDER_BY NUMBER(22, 7),
-	COMMENTS VARCHAR2(250 CHAR),                                    	-- COMENTARIOS
-	
-	CONSTRAINT pk_user_per_id PRIMARY KEY (ROW_ID)
 );
 
 X_PAY_BOX_MANAGER VARCHAR2(1 CHAR),									-- Principal > Caixa e Vendas > Abrir/Fechar Caixa
