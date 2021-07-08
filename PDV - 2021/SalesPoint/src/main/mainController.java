@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import settingsModule.ListOfValuesController;
 import userModule.userController;
 
 
@@ -26,6 +27,7 @@ public class mainController {
     AboutSystemScreen about;
     DbSettingsController dbSetCtrl;
     userController usrCtrl;
+    ListOfValuesController lovCtrl;
     
     private boolean mainScreenVisible = false;
     private boolean settingScreenVisible = false;
@@ -87,6 +89,7 @@ public class mainController {
         //mainScreen.setListenerOpenLOV_XML_ConverterScreen(new openLOV_XML_Converter());
         mainScreen.setListenerOpenDBSettings(new openDBSettings());
         mainScreen.setListenerbtnOpenUserManagement(new openUserModule());
+        mainScreen.setListenerbtnOpenListOfValues(new openListOfValues());
         setScrVisible("Principal", true);
         //dbParamTest = new DBParametersTest();
         //this.openScreen("Principal");
@@ -134,11 +137,21 @@ public class mainController {
         
     }
     
+    public class openListOfValues implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            lovCtrl = new ListOfValuesController();
+            lovCtrl.openLOVScreen();
+        }
+        
+    }
+    
     public class openUserModule implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            usrCtrl.openUserScreen("MAIN");
+            usrCtrl.openUserScreen("MAIN", "");
             usrCtrl.setUser(getUser());
             usrCtrl.setPassword(getPassword());
         }
@@ -207,5 +220,7 @@ public class mainController {
         public void windowDeactivated(WindowEvent we) { }
         
     }
+    
+    
     
 }

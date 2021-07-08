@@ -71,7 +71,7 @@ public class contactController extends DataController {
 
     public String getLastContXUpd() { return lastSocialMediaUpd; }
     public void setLastContXUpd(String lastContXUpd) { this.lastSocialMediaUpd = lastContXUpd; }
-
+    
     public int getCount() { return count; }
     public void setCount(int count) { this.count += count; }
     public void clearCount() { this.count = 0; }
@@ -111,6 +111,11 @@ public class contactController extends DataController {
             }
         }
         
+        
+        conMgr.setLocationRelativeTo(null);
+        conMgr.setVisible(true);
+        conMgr.FocusTraversalKeys();
+        
         conMgr.clearFields();
         conMgr.clearComboBoxes();
         conMgr.enableFields("LOAD_SCREEN");
@@ -125,6 +130,7 @@ public class contactController extends DataController {
         
         this.fillListContactScreen(query);
         conMgr.setFocus("FILTRO_VALOR");
+        
     }
     
     public void fillListContactScreen(String query){
@@ -327,9 +333,8 @@ public class contactController extends DataController {
             switch(this.getOpenFromScreen()){
                 case "USER":
                     switch(function){
-                        case "LOAD_RECORD":
-                            
-                            ArrayList<UserClass> userList = super.queryUserRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblUser() + "\nWHERE ROW_ID = '" + getUserId() + "'");
+                        case "LOAD_RECORD":                            
+                            ArrayList<UserClass> userList = super.queryUserRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblUser() + "\nWHERE ROW_ID = '" + this.getUserId() + "'");
                             if(userList.size() > 0){
                                 ArrayList<ContactClass> contList = super.queryContactRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblContact()+ "\nWHERE ROW_ID = '" + conMgr.gettxtRowId() + "'");
                                 if(contList.size() > 0){
@@ -338,21 +343,66 @@ public class contactController extends DataController {
 
                                         for(int i = 0; i < socialMediaRowIdArray.size(); i++){
                                             if(i == 0){
-                                                super.setCondition("\n\t\t'" + socialMediaRowIdArray.get(i).getRow_id() + "'");
+                                                super.setCondition("\n\t'" + socialMediaRowIdArray.get(i).getRow_id() + "'");
                                             } else {
-                                                super.setCondition(",\n\t\t'" + socialMediaRowIdArray.get(i).getRow_id() + "'");
+                                                super.setCondition(",\n\t'" + socialMediaRowIdArray.get(i).getRow_id() + "'");
                                             }                            
                                         }
-                                        this.fillListSocialMediaScreen("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblSocialMedia()+ "\nWHERE (\n\tPAR_ROW_ID = '" + conMgr.gettxtRowId() + "'\n\tAND PAR_USR_ID = '" + this.getUserId() + "'\n\tAND ACTIVE_FLG = 'Y'\n)\nOR (\n\tROW_ID IN (" + super.getCondition() + "\n\t)\n\tAND ACTIVE_FLG = 'Y'\n\tAND PAR_ROW_ID IS NULL\n\tAND CREATED >= SYSDATE - 1\n\tAND CREATED_BY = '" + this.getUserId() + "'\n)");
+                                        this.fillListSocialMediaScreen("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblSocialMedia()+ "\nWHERE (\n\tPAR_ROW_ID = '" + conMgr.gettxtRowId() + "'\n\tAND PAR_USR_ID = '" + this.getUserId() + "'\n)\nOR ROW_ID IN (" + super.getCondition() + "\n)");
                                     } else {
-                                        this.fillListSocialMediaScreen("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblSocialMedia()+ "\nWHERE PAR_ROW_ID = '" + conMgr.gettxtRowId() + "'\nAND PAR_USR_ID = '" + this.getUserId() + "'\nAND ACTIVE_FLG = 'Y'");
-                                    }
-                                   
+                                        this.fillListSocialMediaScreen("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblSocialMedia()+ "\nWHERE PAR_ROW_ID = '" + conMgr.gettxtRowId() + "'\nAND PAR_USR_ID = '" + this.getUserId() + "'");
+                                    }                                   
                                 } else {
-                                    this.fillListSocialMediaScreen("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblSocialMedia()+ "\nWHERE PAR_ROW_ID IS NULL\nAND PAR_ACCNT_ID IS NULL\nAND PAR_USR_ID IS NULL\nAND ACTIVE_FLG = 'Y'\nAND STATUS_CD = 'Ativo'\nAND CREATED >= SYSDATE - 0.1\nAND CREATED_BY = '" + super.getUserIdByLogin() + "'");
+                                    if(socialMediaRowIdArray.size() > 0){
+                                        super.clearCondition();
+
+                                        for(int i = 0; i < socialMediaRowIdArray.size(); i++){
+                                            if(i == 0){
+                                                super.setCondition("\n\t'" + socialMediaRowIdArray.get(i).getRow_id() + "'");
+                                            } else {
+                                                super.setCondition(",\n\t'" + socialMediaRowIdArray.get(i).getRow_id() + "'");
+                                            }                            
+                                        }
+                                        this.fillListSocialMediaScreen("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblSocialMedia()+ "\nWHERE ROW_ID IN (" + super.getCondition() + "\n)\nOR PAR_USR_ID = '" + this.getUserId() + "'");
+                                    } else {
+                                        // Force to not find any Social Media
+                                        this.fillListSocialMediaScreen("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblSocialMedia()+ "\nWHERE PAR_ROW_ID = '" + conMgr.gettxtRowId() + "'");
+                                    }
                                 }
                             } else {
-                                this.fillListSocialMediaScreen("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblSocialMedia()+ "\nWHERE PAR_ROW_ID = '" + conMgr.gettxtRowId() + "'\nAND PAR_USR_ID = '" + this.getUserId() + "'\nAND ACTIVE_FLG = 'Y'");
+                                ArrayList<ContactClass> contList = super.queryContactRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblContact()+ "\nWHERE ROW_ID = '" + conMgr.gettxtRowId() + "'");
+                                if(contList.size() > 0){
+                                    if(socialMediaRowIdArray.size() > 0){
+                                        super.clearCondition();
+
+                                        for(int i = 0; i < socialMediaRowIdArray.size(); i++){
+                                            if(i == 0){
+                                                super.setCondition("\n\t'" + socialMediaRowIdArray.get(i).getRow_id() + "'");
+                                            } else {
+                                                super.setCondition(",\n\t'" + socialMediaRowIdArray.get(i).getRow_id() + "'");
+                                            }                            
+                                        }
+                                        this.fillListSocialMediaScreen("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblSocialMedia()+ "\nWHERE (\n\tPAR_ROW_ID = '" + conMgr.gettxtRowId() + "'\n)\nOR ROW_ID IN (" + super.getCondition() + "\n)");
+                                    } else {
+                                        this.fillListSocialMediaScreen("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblSocialMedia()+ "\nWHERE PAR_ROW_ID = '" + conMgr.gettxtRowId() + "'");
+                                    }                                   
+                                } else {
+                                    if(socialMediaRowIdArray.size() > 0){
+                                        super.clearCondition();
+
+                                        for(int i = 0; i < socialMediaRowIdArray.size(); i++){
+                                            if(i == 0){
+                                                super.setCondition("\n\t'" + socialMediaRowIdArray.get(i).getRow_id() + "'");
+                                            } else {
+                                                super.setCondition(",\n\t'" + socialMediaRowIdArray.get(i).getRow_id() + "'");
+                                            }                            
+                                        }
+                                        this.fillListSocialMediaScreen("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblSocialMedia()+ "\nWHERE ROW_ID IN (" + super.getCondition() + "\n)");
+                                    } else {
+                                        // Force to not find any Social Media
+                                        this.fillListSocialMediaScreen("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblSocialMedia()+ "\nWHERE PAR_ROW_ID = '" + conMgr.gettxtRowId() + "'");
+                                    }
+                                }
                             }
                             break;
                         case "NEW_RECORD":
@@ -366,7 +416,10 @@ public class contactController extends DataController {
                                         super.setCondition(",\n\t'" + socialMediaRowIdArray.get(i).getRow_id() + "'");
                                     }                            
                                 }
-                                this.fillListSocialMediaScreen("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblSocialMedia()+ "\nWHERE (\nROW_ID IN (" + super.getCondition() + "\n)\nAND ACTIVE_FLG = 'Y' AND\nPAR_ROW_ID IS NULL\n)\nOR PAR_ROW_ID = '" + conMgr.gettxtRowId() + "'");
+                                this.fillListSocialMediaScreen("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblSocialMedia()+ "\nWHERE ROW_ID IN (" + super.getCondition() + "\n)\nOR PAR_ROW_ID = '" + conMgr.gettxtRowId() + "'");
+                            } else {
+                                // Force to not find any Social Media
+                                this.fillListSocialMediaScreen("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblSocialMedia()+ "\nWHERE PAR_ROW_ID = '" + conMgr.gettxtRowId() + "'");
                             }
                             break;
                         default:
@@ -378,6 +431,9 @@ public class contactController extends DataController {
             }
         }
         
+        socMedMgr.setLocationRelativeTo(null);
+        socMedMgr.setVisible(true);
+        socMedMgr.FocusTraversalKeys();
         socMedMgr.enableFields("LOAD_SCREEN");
         
     }
@@ -594,6 +650,7 @@ public class contactController extends DataController {
     
     public boolean insertContact(){
         String contactId = "";
+        String condition = "";
         if(validateContactFields()){
             contactId = super.getNextRowId();
             super.clearColumns();
@@ -610,12 +667,22 @@ public class contactController extends DataController {
             if(this.getOpenFromScreen() != null && !"".equals(this.getOpenFromScreen())){
                 switch(this.getOpenFromScreen()){
                     case "USER":                        
-                        super.setColumns(",\n\t" + "PAR_USR_ID"); if(!"".equals(this.getUserId()) && this.getUserId() != null) { super.setValues(",\n\t" + "'" + this.getUserId() + "'"); } else { super.setValues(",\n\t" + "NULL"); }
-                        super.setColumns(",\n\t" + "PAR_ROW_ID"); if(!"".equals(this.getUserId()) && this.getUserId() != null) { super.setValues(",\n\t" + "'" + this.getUserId() + "'"); } else { super.setValues(",\n\t" + "NULL"); }
+                        super.setColumns(",\n\t" + "PAR_USR_ID"); super.setValues(",\n\t" + "NULL");
+                        super.setColumns(",\n\t" + "PAR_ROW_ID"); super.setValues(",\n\t" + "NULL");
                         super.setColumns(",\n\t" + "EMP_FLG"); super.setValues(",\n\t" + "'Y'");
                         
-                        ArrayList<ContactClass> contList = super.queryContactRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblContact() + "\nWHERE PAR_USR_ID = '" + this.getUserId() + "' AND PR_CON_FLG = 'Y'");
+                        
                         if("Y".equals(conMgr.getckbMainConFlg())){
+                            if(contRowIdArray.size() > 0){
+                                for(int i = 0; i < contRowIdArray.size(); i++) {
+                                    if(i != contRowIdArray.size() - 1){
+                                        condition += "'" + contRowIdArray.get(i).getRow_id() + "',\n\t\t";
+                                    } else {
+                                        condition += "'" + contRowIdArray.get(i).getRow_id() + "'\n\t";
+                                    }
+                                }
+                            }
+                            ArrayList<ContactClass> contList = super.queryContactRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblContact() + " CON\nWHERE CON.PAR_USR_ID = '" + this.getUserId() + "'\nAND CON.PR_CON_FLG = 'Y'" + ((!"".equals(condition)) ? "\nOR (\n\tCON.ROW_ID IN (\n\t\t" + condition + ")\n\tAND CON.PR_CON_FLG = 'Y'\n)" : ""));
                             if(contList.size() > 0){
                                 for(int i = 0; i < contList.size(); i++){
                                     if("Y".equals(contList.get(i).getPR_CON_FLG())){
@@ -765,73 +832,138 @@ public class contactController extends DataController {
     }
     
     public boolean updateContact(String screen, String columnsValues, String condition, String rowId){
+        boolean retorno = false;
         super.clearColumnsValues();
         super.clearCondition();
-        if("CONTACT".equals(screen)){
-            if(validateContactFields()){
-                this.setLastContUpd(rowId);
-                
-                if("Y".equals(conMgr.getckbMainConFlg())){
-                    ArrayList<ContactClass> contList = super.queryContactRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblContact() + "\nWHERE PAR_USR_ID = '" + this.getUserId() + "'\nAND ROW_ID <> '" + rowId + "'\nAND PR_CON_FLG = 'Y'");
-                    if(contList.size() > 0){
-                        for(int i = 0; i < contList.size(); i++){
-                            if("Y".equals(contList.get(i).getPR_CON_FLG())){
-                                super.clearColumnsValues();
-                                super.clearCondition();
-                                super.setColumnsValues("PR_CON_FLG = 'N'");
-                                super.setCondition("ROW_ID = '" + contList.get(i).getRow_id() + "'");
-                                try{
-                                    this.clearCount();                                            
-                                    this.setCount(super.updateRecord(super.getTblContact(), super.getColumnsValues(), super.getCondition()));
-                                    if(this.getCount() > 0){
-                                        super.clearColumnsValues();
-                                        super.clearCondition();
-                                        super.setColumnsValues("PR_CON_FLG = 'Y'");
-                                    } else {
+        switch(screen) {
+            case "CONTACT":
+                if(validateContactFields()){
+                    this.setLastContUpd(rowId);
+
+                    if("Y".equals(conMgr.getckbMainConFlg())){
+                        ArrayList<ContactClass> contList = super.queryContactRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblContact() + "\nWHERE PAR_USR_ID = '" + this.getUserId() + "'\nAND ROW_ID <> '" + rowId + "'\nAND PR_CON_FLG = 'Y'");
+                        if(contList.size() > 0){
+                            for(int i = 0; i < contList.size(); i++){
+                                if("Y".equals(contList.get(i).getPR_CON_FLG())){
+                                    super.clearColumnsValues();
+                                    super.clearCondition();
+                                    super.setColumnsValues("PR_CON_FLG = 'N'");
+                                    super.setCondition("ROW_ID = '" + contList.get(i).getRow_id() + "'");
+                                    try{
+                                        this.clearCount();                                            
+                                        this.setCount(super.updateRecord(super.getTblContact(), super.getColumnsValues(), super.getCondition()));
+                                        if(this.getCount() > 0){
+                                            super.clearColumnsValues();
+                                            super.clearCondition();
+                                            super.setColumnsValues("PR_CON_FLG = 'Y'");
+                                        } else {
+                                            super.clearColumnsValues();
+                                            super.clearCondition();
+                                            super.setColumnsValues("PR_CON_FLG = 'N'");
+                                        }
+                                    } catch (Exception e) {
                                         super.clearColumnsValues();
                                         super.clearCondition();
                                         super.setColumnsValues("PR_CON_FLG = 'N'");
                                     }
-                                } catch (Exception e) {
-                                    super.clearColumnsValues();
-                                    super.clearCondition();
-                                    super.setColumnsValues("PR_CON_FLG = 'N'");
                                 }
                             }
+                        } else {
+                            super.setColumnsValues("PR_CON_FLG = 'Y'");
                         }
                     } else {
-                        super.setColumnsValues("PR_CON_FLG = 'Y'");
+                        super.setColumnsValues("PR_CON_FLG = 'N'");
+                    }
+                    super.setColumnsValues(",\n\t" + "LAST_UPD = SYSDATE");
+                    super.setColumnsValues(",\n\t" + "LAST_UPD_BY = '" + super.getUserIdByLogin() + "'");
+                    super.setColumnsValues(",\n\t" + "ACTIVE_FLG = 'Y'");
+                    super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
+                    super.setColumnsValues(",\n\t" + "MODIFICATION_NUM = (SELECT MODIFICATION_NUM + 1 FROM " + super.getDbOwner() + "." + super.getTblContact() + " WHERE ROW_ID = '" + rowId + "')");
+                    super.setColumnsValues(",\n\t" + "STATUS_CD = '" + super.LookupValue("ACCOUNT_STATUS", "Active") + "'");                
+                    super.setColumnsValues(",\n\t" + "SUPPRESS_EMAIL_FLG = '" + conMgr.getckbAllowEmailFlg() + "'");
+                    super.setColumnsValues(",\n\t" + "SEND_NEWS_FLG = '" + conMgr.getckbSendNewsFlg() + "'");
+                    super.setColumnsValues(",\n\t" + "SEND_PROMOTES_FLG = '" + conMgr.getckbSendPromFlg() + "'");
+                    super.setColumnsValues(",\n\t" + "SUPPRESS_CALL_FLG = '" + conMgr.getckbAllowCallFlg() + "'");
+                    super.setColumnsValues(",\n\t" + "WHATSAPP_FLG = '" + conMgr.getckbWhatsAppFlg() + "'");
+                    if(conMgr.gettxtContactMPhone() != null){ super.setColumnsValues(",\n\t" + "MAIN_PH_NUM = '" + conMgr.gettxtContactMPhone() + "'"); } else { super.setColumnsValues(",\n\t" + "MAIN_PH_NUM = NULL"); }
+                    if(conMgr.gettxtContactPhone() != null){ super.setColumnsValues(",\n\t" + "ALT_PH_NUM = '" + conMgr.gettxtContactPhone() + "'"); } else { super.setColumnsValues(",\n\t" + "ALT_PH_NUM = NULL"); }
+                    if(conMgr.gettxtContactEnterprise() != null){ super.setColumnsValues(",\n\t" + "WORK_PH_NUM = '" + conMgr.gettxtContactEnterprise() + "'"); } else { super.setColumnsValues(",\n\t" + "WORK_PH_NUM = NULL"); }
+                    if(conMgr.gettxtContactEmail() != null) {
+                        if(conMgr.getcbbContactEmailType() != null) {
+                            super.setColumnsValues(",\n\t" + "EMAIL_ADDR = '" + conMgr.gettxtContactEmail() + "@" + conMgr.getcbbContactEmailType() + "'");
+                            super.setColumnsValues(",\n\t" + "EMAIL_TYPE = '" + super.LookupName("EMAIL_ADDR_TYPE", conMgr.getcbbContactEmailType()) + "'");
+                        } else { 
+                            super.setColumnsValues(",\n\t" + "EMAIL_ADDR = NULL");
+                            super.setColumnsValues(",\n\t" + "EMAIL_TYPE = NULL"); 
+                        }                    
+                    } else { 
+                        super.setColumnsValues(",\n\t" + "EMAIL_ADDR = NULL");
+                        super.setColumnsValues(",\n\t" + "EMAIL_TYPE = NULL"); 
+                    }
+
+                    if(!"".equals(columnsValues) && columnsValues != null){
+                        super.setColumnsValues(columnsValues);
+                    }
+                    super.setCondition("ROW_ID = '" + rowId + "'");
+                    if(!"".equals(condition) && condition != null){
+                        super.setCondition(condition);
+                    }
+
+                    try{
+                        this.clearCount();
+                        this.setCount(super.updateRecord(super.getTblContact(), super.getColumnsValues(), super.getCondition()));
+                        if(this.getCount() > 0){
+                            JOptionPane.showMessageDialog(null, "Registros atualizados com sucesso!\nTotal de registros alterados: " + this.getCount());
+                            super.clearColumnsValues();
+                            super.clearCondition();
+
+                            if(socialMediaRowIdArray.size() > 0){
+                                for(int i = 0; i < socialMediaRowIdArray.size(); i ++){
+                                    super.clearColumnsValues();
+                                    super.clearCondition();
+                                    super.setColumnsValues(",\n\t" + "PAR_ROW_ID = '" + rowId + "'");
+                                    if(this.getOpenFromScreen() != null && !"".equals(this.getOpenFromScreen())){
+                                        switch(this.getOpenFromScreen()){
+                                            case "USER":
+                                                if(!"".equals(this.getUserId()) && this.getUserId() != null) { super.setColumnsValues(",\n\t" + "PAR_USR_ID = '" + this.getUserId() + "'"); } else { super.setColumnsValues(",\n\t" + "PAR_USR_ID = NULL"); }
+                                                break;
+                                            default:
+                                                break;
+                                        }
+                                    }                            
+                                    super.setCondition("\nAND " + "PAR_ROW_ID IS NULL");
+                                    try{
+                                        updateSocialMedia("CONTACT", super.getColumnsValues(), super.getCondition(), socialMediaRowIdArray.get(i).getRow_id());
+                                    } catch(Exception e) {
+                                        System.out.println(super.getDateTime() + "\tContactModule.ContactController\t\tUpdateContact\nUpdateSocialMedia\tError Exception\tError: " + e);
+                                    }
+                                }
+                            }
+
+                            retorno = true;
+                        } else {
+                            super.clearColumnsValues();
+                            super.clearCondition();
+                            retorno = false;
+                        }
+                    } catch (Exception e) {
+                        super.clearColumnsValues();
+                        super.clearCondition();
+                        retorno = false;
                     }
                 } else {
-                    super.setColumnsValues("PR_CON_FLG = 'N'");
+                    retorno = false;
                 }
-                super.setColumnsValues(",\n\t" + "LAST_UPD = SYSDATE");
+                break;
+            case "USER":
+                this.setLastContUpd(rowId);
+                super.clearColumnsValues();
+                super.clearCondition();
+                super.setColumnsValues("LAST_UPD = SYSDATE");
                 super.setColumnsValues(",\n\t" + "LAST_UPD_BY = '" + super.getUserIdByLogin() + "'");
                 super.setColumnsValues(",\n\t" + "ACTIVE_FLG = 'Y'");
                 super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
                 super.setColumnsValues(",\n\t" + "MODIFICATION_NUM = (SELECT MODIFICATION_NUM + 1 FROM " + super.getDbOwner() + "." + super.getTblContact() + " WHERE ROW_ID = '" + rowId + "')");
-                super.setColumnsValues(",\n\t" + "STATUS_CD = '" + super.LookupValue("ACCOUNT_STATUS", "Active") + "'");                
-                super.setColumnsValues(",\n\t" + "SUPPRESS_EMAIL_FLG = '" + conMgr.getckbAllowEmailFlg() + "'");
-                super.setColumnsValues(",\n\t" + "SEND_NEWS_FLG = '" + conMgr.getckbSendNewsFlg() + "'");
-                super.setColumnsValues(",\n\t" + "SEND_PROMOTES_FLG = '" + conMgr.getckbSendPromFlg() + "'");
-                super.setColumnsValues(",\n\t" + "SUPPRESS_CALL_FLG = '" + conMgr.getckbAllowCallFlg() + "'");
-                super.setColumnsValues(",\n\t" + "WHATSAPP_FLG = '" + conMgr.getckbWhatsAppFlg() + "'");
-                if(conMgr.gettxtContactMPhone() != null){ super.setColumnsValues(",\n\t" + "MAIN_PH_NUM = '" + conMgr.gettxtContactMPhone() + "'"); } else { super.setColumnsValues(",\n\t" + "MAIN_PH_NUM = NULL"); }
-                if(conMgr.gettxtContactPhone() != null){ super.setColumnsValues(",\n\t" + "ALT_PH_NUM = '" + conMgr.gettxtContactPhone() + "'"); } else { super.setColumnsValues(",\n\t" + "ALT_PH_NUM = NULL"); }
-                if(conMgr.gettxtContactEnterprise() != null){ super.setColumnsValues(",\n\t" + "WORK_PH_NUM = '" + conMgr.gettxtContactEnterprise() + "'"); } else { super.setColumnsValues(",\n\t" + "WORK_PH_NUM = NULL"); }
-                if(conMgr.gettxtContactEmail() != null) {
-                    if(conMgr.getcbbContactEmailType() != null) {
-                        super.setColumnsValues(",\n\t" + "EMAIL_ADDR = '" + conMgr.gettxtContactEmail() + "@" + conMgr.getcbbContactEmailType() + "'");
-                        super.setColumnsValues(",\n\t" + "EMAIL_TYPE = '" + super.LookupName("EMAIL_ADDR_TYPE", conMgr.getcbbContactEmailType()) + "'");
-                    } else { 
-                        super.setColumnsValues(",\n\t" + "EMAIL_ADDR = NULL");
-                        super.setColumnsValues(",\n\t" + "EMAIL_TYPE = NULL"); 
-                    }                    
-                } else { 
-                    super.setColumnsValues(",\n\t" + "EMAIL_ADDR = NULL");
-                    super.setColumnsValues(",\n\t" + "EMAIL_TYPE = NULL"); 
-                }
-
                 if(!"".equals(columnsValues) && columnsValues != null){
                     super.setColumnsValues(columnsValues);
                 }
@@ -839,55 +971,29 @@ public class contactController extends DataController {
                 if(!"".equals(condition) && condition != null){
                     super.setCondition(condition);
                 }
-                
+
                 try{
                     this.clearCount();
                     this.setCount(super.updateRecord(super.getTblContact(), super.getColumnsValues(), super.getCondition()));
                     if(this.getCount() > 0){
-                        JOptionPane.showMessageDialog(null, "Registros atualizados com sucesso!\nTotal de registros alterados: " + this.getCount());
                         super.clearColumnsValues();
                         super.clearCondition();
-                        
-                        if(socialMediaRowIdArray.size() > 0){
-                            for(int i = 0; i < socialMediaRowIdArray.size(); i ++){
-                                super.clearColumnsValues();
-                                super.clearCondition();
-                                super.setColumnsValues(",\n\t" + "PAR_ROW_ID = '" + rowId + "'");
-                                if(this.getOpenFromScreen() != null && !"".equals(this.getOpenFromScreen())){
-                                    switch(this.getOpenFromScreen()){
-                                        case "USER":
-                                            if(!"".equals(this.getUserId()) && this.getUserId() != null) { super.setColumnsValues(",\n\t" + "PAR_USR_ID = '" + this.getUserId() + "'"); } else { super.setColumnsValues(",\n\t" + "PAR_USR_ID = NULL"); }
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                }                            
-                                super.setCondition("\nAND " + "PAR_ROW_ID IS NULL");
-                                try{
-                                    updateSocialMedia("CONTACT", super.getColumnsValues(), super.getCondition(), socialMediaRowIdArray.get(i).getRow_id());
-                                } catch(Exception e) {
-                                    System.out.println(super.getDateTime() + "\tContactModule.ContactController\t\tUpdateContact\nUpdateSocialMedia\tError Exception\tError: " + e);
-                                }
-                            }
-                        }
-                        
-                        return true;
+                        retorno = true;
                     } else {
                         super.clearColumnsValues();
                         super.clearCondition();
-                        return false;
+                        retorno = false;
                     }
                 } catch (Exception e) {
                     super.clearColumnsValues();
                     super.clearCondition();
-                    return false;
+                    retorno = false;
                 }
-            } else {
-                return false;
-            }
-        } else{
-            return false;
+                break;
+            default:
+                break;
         }
+        return retorno;
     }
     
     public boolean deleteContact(){
@@ -968,19 +1074,52 @@ public class contactController extends DataController {
     }
     
     public void saveContact(){
-        try{
+        String condition = "";
+        try{            
             ArrayList<ContactClass> contList = queryContactRecord("SELECT *\nFROM " + getDbOwner() + "." + getTblContact() + "\nWHERE ROW_ID = '" + conMgr.gettxtRowId() + "'");
             if(contList.size() > 0) {
                 if(updateContact("CONTACT", null, null, conMgr.gettxtRowId())) {
                     conMgr.enableFields("SALVAR");
-                    openContactScreen(
-                        "SELECT *\n" +
-                        "FROM " + getDbOwner() + "." + getTblContact() + " CON\n" +
-                        "WHERE CON.PAR_ROW_ID = '" + getUserId() + "'\n" +
-                        "ORDER BY CON.FST_NAME ASC",
-                        null
-                    );
-
+                    
+                    switch(this.getOpenFromScreen()){
+                        case "USER":
+                            ArrayList<UserClass> userList = super.queryUserRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblUser() + " USR\nWHERE USR.ROW_ID = '" + this.getUserId() + "'");
+                            if(userList.size() > 0){
+                                if(contRowIdArray.size() > 0){
+                                    for(int i = 0; i < contRowIdArray.size(); i++) {
+                                        if(i != contRowIdArray.size() - 1){
+                                            condition += "'" + contRowIdArray.get(i).getRow_id() + "',\n\t";
+                                        } else {
+                                            condition += "'" + contRowIdArray.get(i).getRow_id() + "'\n";
+                                        }
+                                    }
+                                    openContactScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblContact() + " CON\nWHERE CON.PAR_ROW_ID = '" + this.getUserId() + "'\nOR CON.ROW_ID IN (\n\t" + condition + ")", "SAVE_CONTACT");
+                                } else {
+                                    openContactScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblContact() + " CON\nWHERE CON.PAR_ROW_ID = '" + this.getUserId() + "'", "SAVE_CONTACT");
+                                }
+                            } else {
+                                if(contRowIdArray.size() > 0){
+                                    for(int i = 0; i < contRowIdArray.size(); i++) {
+                                        if(i != contRowIdArray.size() - 1){
+                                            condition += "'" + contRowIdArray.get(i).getRow_id() + "',\n\t";
+                                        } else {
+                                            condition += "'" + contRowIdArray.get(i).getRow_id() + "'\n";
+                                        }
+                                    }
+                                    openContactScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblContact() + " CON\nWHERE CON.ROW_ID IN (\n\t" + condition + ")", "SAVE_CONTACT");
+                                } else {
+                                    // Force to not find any Contact
+                                    openContactScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblContact() + " CON\nWHERE CON.PAR_ROW_ID = '" + this.getUserId() + "'", "SAVE_CONTACT");
+                                }
+                            }
+                            break;
+                        case "MAIN":
+                            openContactScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblContact() + " CON", "SAVE_CONTACT");
+                        default:
+                            openContactScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblContact() + " CON", "SAVE_CONTACT");
+                            break;
+                    }
+                    
                     boolean foundRow = true;
                     int i = 0;
                     int o = conMgr.getNumOfListRows();
@@ -1009,14 +1148,46 @@ public class contactController extends DataController {
             } else {
                 if(insertContact()){
                     conMgr.enableFields("SALVAR");
-                    openContactScreen(
-                        "SELECT *\n" +
-                        "FROM " + getDbOwner() + "." + getTblContact() + " CON\n" +
-                        "WHERE CON.PAR_ROW_ID = '" + getUserId() + "'\n" +
-                        "ORDER BY CON.FST_NAME ASC",
-                        null
-                    );
-
+                    
+                    switch(this.getOpenFromScreen()){
+                        case "USER":
+                            ArrayList<UserClass> userList = super.queryUserRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblUser() + " USR\nWHERE USR.ROW_ID = '" + this.getUserId() + "'");
+                            if(userList.size() > 0){
+                                if(contRowIdArray.size() > 0){
+                                    for(int i = 0; i < contRowIdArray.size(); i++) {
+                                        if(i != contRowIdArray.size() - 1){
+                                            condition += "'" + contRowIdArray.get(i).getRow_id() + "',\n\t";
+                                        } else {
+                                            condition += "'" + contRowIdArray.get(i).getRow_id() + "'\n";
+                                        }
+                                    }
+                                    openContactScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblContact() + " CON\nWHERE CON.PAR_ROW_ID = '" + this.getUserId() + "'\nOR CON.ROW_ID IN (\n\t" + condition + ")", "SAVE_CONTACT");
+                                } else {
+                                    openContactScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblContact() + " CON\nWHERE CON.PAR_ROW_ID = '" + this.getUserId() + "'", "SAVE_CONTACT");
+                                }
+                            } else {
+                                if(contRowIdArray.size() > 0){
+                                    for(int i = 0; i < contRowIdArray.size(); i++) {
+                                        if(i != contRowIdArray.size() - 1){
+                                            condition += "'" + contRowIdArray.get(i).getRow_id() + "',\n\t";
+                                        } else {
+                                            condition += "'" + contRowIdArray.get(i).getRow_id() + "'\n";
+                                        }
+                                    }
+                                    openContactScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblContact() + " CON\nWHERE CON.ROW_ID IN (\n\t" + condition + ")", "SAVE_CONTACT");
+                                } else {
+                                    // Force to not find any Contact
+                                    openContactScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblContact() + " CON\nWHERE CON.PAR_ROW_ID = '" + this.getUserId() + "'", "SAVE_CONTACT");
+                                }
+                            }
+                            break;
+                        case "MAIN":
+                            openContactScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblContact() + " CON", "SAVE_CONTACT");
+                        default:
+                            openContactScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblContact() + " CON", "SAVE_CONTACT");
+                            break;
+                    }
+                    
                     boolean foundRow = true;
                     int i = 0;
                     int o = conMgr.getNumOfListRows();
@@ -1107,7 +1278,62 @@ public class contactController extends DataController {
     }
     
     public boolean updateSocialMedia(String screen, String columnsValues, String condition, String rowId){
-        if("SOCIAL_MEDIA".equals(screen)){
+        boolean retorno = false;
+        
+        super.clearColumnsValues();
+        super.clearCondition();
+        
+        super.setColumnsValues("LAST_UPD = SYSDATE");
+        super.setColumnsValues(",\n\t" + "LAST_UPD_BY = '" + super.getUserIdByLogin() + "'");
+        super.setColumnsValues(",\n\t" + "ACTIVE_FLG = 'Y'");
+        super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
+        super.setColumnsValues(",\n\t" + "MODIFICATION_NUM = (SELECT MODIFICATION_NUM + 1 FROM " + super.getDbOwner() + "." + super.getTblSocialMedia() + " WHERE ROW_ID = '" + ((rowId != null) ? rowId : socMedMgr.gettxtRowId()) + "')");
+        super.setColumnsValues(",\n\t" + "STATUS_CD = '" + super.LookupValue("ACCOUNT_STATUS", "Active") + "'");
+        
+        switch(screen) {
+            case "SOCIAL_MEDIA":
+                this.setLastContXUpd(socMedMgr.gettxtRowId());
+                super.setColumnsValues(",\n\t" + "SOCIAL_M_NAME = '" + socMedMgr.getcbbSocialMediaType() + "'");
+                super.setColumnsValues(",\n\t" + "SOCIAL_M_VALUE = '" + socMedMgr.gettxtSocialMediaValue() + "'");
+                break;
+            case "CONTACT":
+                this.setLastContXUpd(rowId);
+                break;
+            case "USER":
+                this.setLastContXUpd(rowId);
+                break;
+            default:
+                break;
+        }
+        
+        if(!"".equals(columnsValues) && columnsValues != null){
+            super.setColumnsValues(columnsValues);
+        }
+        super.setCondition("ROW_ID = '" + ((rowId != null) ? rowId : socMedMgr.gettxtRowId()) + "'");
+        if(!"".equals(condition) && condition != null){
+            super.setCondition(condition);
+        }
+
+        try{
+            this.clearCount();
+            this.setCount(super.updateRecord(super.getTblSocialMedia(), super.getColumnsValues(), super.getCondition()));
+            if(this.getCount() > 0){
+                super.clearColumnsValues();
+                super.clearCondition();
+                retorno = true;
+            } else {
+                super.clearColumnsValues();
+                super.clearCondition();
+                retorno = false;
+            }
+        } catch (Exception e) {
+            super.clearColumnsValues();
+            super.clearCondition();
+            retorno = false;
+        }
+        
+        return retorno;
+        /*if("SOCIAL_MEDIA".equals(screen)){
             if(validateSocialMediaFields()){        
                 this.setLastContXUpd(socMedMgr.gettxtRowId());
                 super.clearColumnsValues();
@@ -1176,10 +1402,10 @@ public class contactController extends DataController {
                 super.clearColumnsValues();
                 super.clearCondition();
                 return false;
-            }            
+            }
         } else {
             return false;
-        }
+        }*/
         
     }
     
@@ -1236,15 +1462,47 @@ public class contactController extends DataController {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
+            String condition = "";
             if(deleteContact()){
                 conMgr.enableFields("DELETAR");
-                openContactScreen(
-                    "SELECT *\n" +
-                    "FROM " + getDbOwner() + "." + getTblContact() + " CON\n" +
-                    "WHERE CON.PAR_ROW_ID = '" + getUserId() + "'\n" +
-                    "ORDER BY CON.FST_NAME ASC",
-                    null
-                );
+                switch(getOpenFromScreen()){
+                    case "USER":
+                        ArrayList<UserClass> userList = queryUserRecord("SELECT *\nFROM " + getDbOwner() + "." + getTblUser() + " USR\nWHERE USR.ROW_ID = '" + getUserId() + "'");
+                        if(userList.size() > 0){
+                            if(contRowIdArray.size() > 0){
+                                for(int i = 0; i < contRowIdArray.size(); i++) {
+                                    if(i != contRowIdArray.size() - 1){
+                                        condition += "'" + contRowIdArray.get(i).getRow_id() + "',\n\t";
+                                    } else {
+                                        condition += "'" + contRowIdArray.get(i).getRow_id() + "'\n";
+                                    }
+                                }
+                                openContactScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblContact() + " CON\nWHERE CON.PAR_ROW_ID = '" + getUserId() + "'\nOR CON.ROW_ID IN (\n\t" + condition + ")", "DELETE_CONTACT");
+                            } else {
+                                openContactScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblContact() + " CON\nWHERE CON.PAR_ROW_ID = '" + getUserId() + "'", "DELETE_CONTACT");
+                            }
+                        } else {
+                            if(contRowIdArray.size() > 0){
+                                for(int i = 0; i < contRowIdArray.size(); i++) {
+                                    if(i != contRowIdArray.size() - 1){
+                                        condition += "'" + contRowIdArray.get(i).getRow_id() + "',\n\t";
+                                    } else {
+                                        condition += "'" + contRowIdArray.get(i).getRow_id() + "'\n";
+                                    }
+                                }
+                                openContactScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblContact() + " CON\nWHERE CON.ROW_ID IN (\n\t" + condition + ")", "DELETE_CONTACT");
+                            } else {
+                                // Force to not find any Contact
+                                openContactScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblContact() + " CON\nWHERE CON.PAR_ROW_ID = '" + getUserId() + "'", "DELETE_CONTACT");
+                            }
+                        }
+                        break;
+                    case "MAIN":
+                        openContactScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblContact() + " CON", "DELETE_CONTACT");
+                    default:
+                        openContactScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblContact() + " CON", "DELETE_CONTACT");
+                        break;
+            }
                 
             } else {
                 conMgr.enableFields("SALVAR");
@@ -1482,8 +1740,9 @@ public class contactController extends DataController {
             socMedMgr.setListenerBtnDelete(new deleteSocialMedia());
             socMedMgr.setListenerContactSocialMediaScreen(new contactSocialMediaScreenListener());
             socMedMgr.setListenerTblContactSocialMediaListSelection(new contactSocialMediaListSelected());
+            
             conMgr.setEnabled(false);
-                        
+            
             openSocialMediaScreen("LOAD_RECORD");
         }        
     }

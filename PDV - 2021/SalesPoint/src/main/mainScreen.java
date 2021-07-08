@@ -43,7 +43,8 @@ public class mainScreen extends javax.swing.JFrame {
     public void setListenerOpenDBSettings(ActionListener listener) { btnOpenDBSettings.addActionListener(listener); }
     public void setListenerAboutSystem(ActionListener listener) { aboutSystemMenuBtn.addActionListener(listener); }
     public void setListenerbtnOpenUserManagement(ActionListener listener) { btnOpenUserManagement.addActionListener(listener); }
-        
+    public void setListenerbtnOpenListOfValues(ActionListener listener) { btnOpenListOfValues.addActionListener(listener); }
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -76,7 +77,7 @@ public class mainScreen extends javax.swing.JFrame {
         btnOpenUserManagement = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         btnOpenDBSettings1 = new javax.swing.JButton();
-        btnOpenDBSettings2 = new javax.swing.JButton();
+        btnOpenListOfValues = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         btnOpenUserManagement1 = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
@@ -326,7 +327,7 @@ public class mainScreen extends javax.swing.JFrame {
             .addGap(0, 99, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("     ORDENS     ", PanelOrders);
+        jTabbedPane1.addTab("     ORDENS DE VENDAS     ", PanelOrders);
 
         PanelSettings.setBackground(new java.awt.Color(255, 255, 255));
         PanelSettings.setForeground(new java.awt.Color(255, 255, 255));
@@ -386,19 +387,18 @@ public class mainScreen extends javax.swing.JFrame {
         btnOpenDBSettings1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         btnOpenDBSettings1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
-        btnOpenDBSettings2.setBackground(new java.awt.Color(237, 237, 237));
-        btnOpenDBSettings2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/50px/LOV 50x50.png"))); // NOI18N
-        btnOpenDBSettings2.setText("Lista de Valores");
-        btnOpenDBSettings2.setToolTipText("");
-        btnOpenDBSettings2.setActionCommand("");
-        btnOpenDBSettings2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        btnOpenDBSettings2.setBorderPainted(false);
-        btnOpenDBSettings2.setContentAreaFilled(false);
-        btnOpenDBSettings2.setEnabled(false);
-        btnOpenDBSettings2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnOpenDBSettings2.setIconTextGap(0);
-        btnOpenDBSettings2.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        btnOpenDBSettings2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnOpenListOfValues.setBackground(new java.awt.Color(237, 237, 237));
+        btnOpenListOfValues.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/50px/LOV 50x50.png"))); // NOI18N
+        btnOpenListOfValues.setText("Lista de Valores");
+        btnOpenListOfValues.setToolTipText("");
+        btnOpenListOfValues.setActionCommand("");
+        btnOpenListOfValues.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnOpenListOfValues.setBorderPainted(false);
+        btnOpenListOfValues.setContentAreaFilled(false);
+        btnOpenListOfValues.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnOpenListOfValues.setIconTextGap(0);
+        btnOpenListOfValues.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        btnOpenListOfValues.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         jLabel8.setBackground(new java.awt.Color(237, 237, 237));
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -431,7 +431,7 @@ public class mainScreen extends javax.swing.JFrame {
             .addGroup(PanelSettingsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PanelSettingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnOpenDBSettings2, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+                    .addComponent(btnOpenListOfValues, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -470,7 +470,7 @@ public class mainScreen extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(PanelSettingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(PanelSettingsLayout.createSequentialGroup()
-                                .addComponent(btnOpenDBSettings2, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnOpenListOfValues, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel8))
                             .addGroup(PanelSettingsLayout.createSequentialGroup()
@@ -693,8 +693,8 @@ public class mainScreen extends javax.swing.JFrame {
     private javax.swing.JButton btnOpenClientCreator3;
     private javax.swing.JButton btnOpenDBSettings;
     private javax.swing.JButton btnOpenDBSettings1;
-    private javax.swing.JButton btnOpenDBSettings2;
     private javax.swing.JButton btnOpenLOV_XML_ConverterScreen;
+    private javax.swing.JButton btnOpenListOfValues;
     private javax.swing.JButton btnOpenUserManagement;
     private javax.swing.JButton btnOpenUserManagement1;
     private javax.swing.JMenuItem closeMenuBtn;

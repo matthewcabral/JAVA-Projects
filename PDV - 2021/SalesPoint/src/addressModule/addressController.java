@@ -241,6 +241,7 @@ public class addressController extends DataController {
     
     public boolean insertAddress(){
         String addressId = "";
+        String condition = "";
         if(validateFields()){
             addressId = super.getNextRowId();
             super.clearColumns();
@@ -258,11 +259,20 @@ public class addressController extends DataController {
             if(this.getOpenFromScreen() != null && !"".equals(this.getOpenFromScreen())){
                 switch(this.getOpenFromScreen()){
                     case "USER":                        
-                        super.setColumns(",\n\t" + "PAR_ROW_ID"); super.setValues((!"".equals(this.getUserId()) && this.getUserId() != null) ? ",\n\t" + "'" + this.getUserId() + "'" : ",\n\t" + "NULL");
+                        super.setColumns(",\n\t" + "PAR_ROW_ID"); super.setValues(",\n\t" + "NULL");
                         //super.setColumns(",\n\t" + "PAR_CON_ID"); super.setValues((!"".equals(this.getUserId()) && this.getUserId() != null) ? ",\n\t" + "'" + this.getUserId() + "'" : ",\n\t" + "NULL");
                         
                         if("Y".equals(addrScr.getckbMainAddress())){
-                            ArrayList<AddressClass> addrList = super.queryAddressRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblAddress() + "\nWHERE PAR_ROW_ID = '" + this.getUserId() + "' AND PR_ADDR_FLG = 'Y'");
+                            if(this.addrRowIdArray.size() > 0){
+                                for(int i = 0; i < this.addrRowIdArray.size(); i++) {
+                                    if(i != this.addrRowIdArray.size() - 1){
+                                        condition += "'" + this.addrRowIdArray.get(i).getRow_id() + "',\n\t\t";
+                                    } else {
+                                        condition += "'" + this.addrRowIdArray.get(i).getRow_id() + "'\n\t";
+                                    }
+                                }
+                            }
+                            ArrayList<AddressClass> addrList = super.queryAddressRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblAddress() + " ADDR\nWHERE ADDR.PAR_ROW_ID = '" + this.getUserId() + "'\nAND ADDR.PR_ADDR_FLG = 'Y'" + ((!"".equals(condition)) ? "\nOR (\n\tADDR.ROW_ID IN (\n\t\t" + condition + ")\n\tAND ADDR.PR_ADDR_FLG = 'Y'\n)" : ""));
                             if(addrList.size() > 0){
                                 for(int i = 0; i < addrList.size(); i++){
                                     if("Y".equals(addrList.get(i).getPR_ADDR_FLG())){
@@ -863,19 +873,52 @@ public class addressController extends DataController {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
+            String condition = "";
             try{
                 ArrayList<AddressClass> addrList = queryAddressRecord("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + "\nWHERE ROW_ID = '" + addrScr.gettxtRowId() + "'");
 
                 if(addrList.size() > 0){
                     if(updateAddress("ADDRESS", null, null, addrScr.gettxtRowId())){
                         addrScr.enableFields("SALVAR");
-                        openAddressScreen(
-                            "SELECT *\n" +
-                            "FROM " + getDbOwner() + "." + getTblAddress() + " ADDR\n" +
-                            "WHERE ADDR.PAR_ROW_ID = '" + getUserId() + "'\n" +
-                            "ORDER BY ADDR.ROW_ID ASC",
-                            "SAVE_ADDRESS"
-                        );
+                        
+                        switch(getOpenFromScreen()){
+                        case "USER":
+                            ArrayList<UserClass> userList = queryUserRecord("SELECT *\nFROM " + getDbOwner() + "." + getTblUser() + " USR\nWHERE USR.ROW_ID = '" + getUserId() + "'");
+                            if(userList.size() > 0){
+                                if(addrRowIdArray.size() > 0){
+                                    for(int i = 0; i < addrRowIdArray.size(); i++) {
+                                        if(i != addrRowIdArray.size() - 1){
+                                            condition += "'" + addrRowIdArray.get(i).getRow_id() + "',\n\t";
+                                        } else {
+                                            condition += "'" + addrRowIdArray.get(i).getRow_id() + "'\n";
+                                        }
+                                    }
+                                    openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR\nWHERE ADDR.PAR_ROW_ID = '" + getUserId() + "'\nOR ADDR.ROW_ID IN (\n\t" + condition + ")", "SAVE_ADDRESS");
+                                } else {
+                                    openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR\nWHERE ADDR.PAR_ROW_ID = '" + getUserId() + "'", "SAVE_ADDRESS");
+                                }
+                            } else {
+                                if(addrRowIdArray.size() > 0){
+                                    for(int i = 0; i < addrRowIdArray.size(); i++) {
+                                        if(i != addrRowIdArray.size() - 1){
+                                            condition += "'" + addrRowIdArray.get(i).getRow_id() + "',\n\t";
+                                        } else {
+                                            condition += "'" + addrRowIdArray.get(i).getRow_id() + "'\n";
+                                        }
+                                    }
+                                    openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR\nWHERE ADDR.ROW_ID IN (\n\t" + condition + ")", "SAVE_ADDRESS");
+                                } else {
+                                    // Force to not find any Address
+                                    openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR\nWHERE ADDR.PAR_ROW_ID = '" + getUserId() + "'", "SAVE_ADDRESS");
+                                }
+                            }
+                            break;
+                        case "MAIN":
+                            openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR", "SAVE_ADDRESS");
+                        default:
+                            openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR", "SAVE_ADDRESS");
+                            break;
+                        }
                         
                         boolean foundRow = true;
                         int i = 0;
@@ -904,14 +947,46 @@ public class addressController extends DataController {
                 } else {
                     if(insertAddress()){
                         addrScr.enableFields("SALVAR");
-                        openAddressScreen(
-                            "SELECT *\n" +
-                            "FROM " + getDbOwner() + "." + getTblAddress() + " ADDR\n" +
-                            "WHERE ADDR.PAR_ROW_ID = '" + getUserId() + "'\n" +
-                            "ORDER BY ADDR.ROW_ID ASC",
-                            "SAVE_ADDRESS"
-                        );
-
+                        
+                        switch(getOpenFromScreen()){
+                        case "USER":
+                            ArrayList<UserClass> userList = queryUserRecord("SELECT *\nFROM " + getDbOwner() + "." + getTblUser() + " USR\nWHERE USR.ROW_ID = '" + getUserId() + "'");
+                            if(userList.size() > 0){
+                                if(addrRowIdArray.size() > 0){
+                                    for(int i = 0; i < addrRowIdArray.size(); i++) {
+                                        if(i != addrRowIdArray.size() - 1){
+                                            condition += "'" + addrRowIdArray.get(i).getRow_id() + "',\n\t";
+                                        } else {
+                                            condition += "'" + addrRowIdArray.get(i).getRow_id() + "'\n";
+                                        }
+                                    }
+                                    openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR\nWHERE ADDR.PAR_ROW_ID = '" + getUserId() + "'\nOR ADDR.ROW_ID IN (\n\t" + condition + ")", "SAVE_ADDRESS");
+                                } else {
+                                    openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR\nWHERE ADDR.PAR_ROW_ID = '" + getUserId() + "'", "SAVE_ADDRESS");
+                                }                                
+                            } else {
+                                if(addrRowIdArray.size() > 0){
+                                    for(int i = 0; i < addrRowIdArray.size(); i++) {
+                                        if(i != addrRowIdArray.size() - 1){
+                                            condition += "'" + addrRowIdArray.get(i).getRow_id() + "',\n\t";
+                                        } else {
+                                            condition += "'" + addrRowIdArray.get(i).getRow_id() + "'\n";
+                                        }
+                                    }
+                                    openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR\nWHERE ADDR.ROW_ID IN (\n\t" + condition + ")", "SAVE_ADDRESS");
+                                } else {
+                                    // Force to not find any Address
+                                    openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR\nWHERE ADDR.PAR_ROW_ID = '" + getUserId() + "'", "SAVE_ADDRESS");
+                                }
+                            }
+                            break;
+                        case "MAIN":
+                            openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR", "SAVE_ADDRESS");
+                        default:
+                            openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR", "SAVE_ADDRESS");
+                            break;
+                        }
+                        
                         boolean foundRow = true;
                         int i = 0;
                         int o = addrScr.getNumOfListRows();
@@ -966,16 +1041,49 @@ public class addressController extends DataController {
     private class deleteAddress implements ActionListener {
 
         @Override
-        public void actionPerformed(ActionEvent ae) {            
+        public void actionPerformed(ActionEvent ae) {
+            String condition = "";
             if(deleteAddress("DELETE_BUTTON", "ROW_ID = '" + addrScr.gettxtRowId() + "'")){
                 addrScr.enableFields("DELETAR");
-                openAddressScreen(
-                    "SELECT *\n" +
-                    "FROM " + getDbOwner() + "." + getTblAddress() + " ADDR\n" +
-                    "WHERE ADDR.PAR_ROW_ID = '" + getUserId() + "'\n" +
-                    "ORDER BY ADDR.ROW_ID ASC",
-                    "USER"
-                );
+                
+                switch(getOpenFromScreen()){
+                    case "USER":
+                        ArrayList<UserClass> userList = queryUserRecord("SELECT *\nFROM " + getDbOwner() + "." + getTblUser() + " USR\nWHERE USR.ROW_ID = '" + getUserId() + "'");
+                        if(userList.size() > 0){
+                            if(addrRowIdArray.size() > 0){
+                                for(int i = 0; i < addrRowIdArray.size(); i++) {
+                                    if(i != addrRowIdArray.size() - 1){
+                                        condition += "'" + addrRowIdArray.get(i).getRow_id() + "',\n\t";
+                                    } else {
+                                        condition += "'" + addrRowIdArray.get(i).getRow_id() + "'\n";
+                                    }
+                                }
+                                openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR\nWHERE ADDR.PAR_ROW_ID = '" + getUserId() + "'\nOR ADDR.ROW_ID IN (\n\t" + condition + ")", "DELETE_ADDRESS");
+                            } else {
+                                openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR\nWHERE ADDR.PAR_ROW_ID = '" + getUserId() + "'", "DELETE_ADDRESS");
+                            }
+                        } else {
+                            if(addrRowIdArray.size() > 0){
+                                for(int i = 0; i < addrRowIdArray.size(); i++) {
+                                    if(i != addrRowIdArray.size() - 1){
+                                        condition += "'" + addrRowIdArray.get(i).getRow_id() + "',\n\t";
+                                    } else {
+                                        condition += "'" + addrRowIdArray.get(i).getRow_id() + "'\n";
+                                    }
+                                }
+                                openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR\nWHERE ADDR.ROW_ID IN (\n\t" + condition + ")", "DELETE_ADDRESS");
+                            } else {
+                                // Force to not find any Address
+                                openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR\nWHERE ADDR.PAR_ROW_ID = '" + getUserId() + "'", "DELETE_ADDRESS");
+                            }
+                        }
+                        break;
+                    case "MAIN":
+                        openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR", "DELETE_ADDRESS");
+                    default:
+                        openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR", "DELETE_ADDRESS");
+                        break;
+                }
                 
             } else {
                 addrScr.enableFields("SALVAR");

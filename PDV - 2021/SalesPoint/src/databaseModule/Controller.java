@@ -153,6 +153,7 @@ public abstract class Controller {
     // Close Database Connection
     public abstract String closeConnection(String message);
     
+    public abstract String createUser(String sqlCommand, String user);
     public abstract String insertRecord(String table, String columns, String values);
     public abstract int updateRecord(String table, String columnsValues, String condition);
     public abstract int deleteRecord(String table, String condition);

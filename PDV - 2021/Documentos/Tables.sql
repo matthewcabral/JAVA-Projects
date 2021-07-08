@@ -78,7 +78,7 @@ CREATE TABLE PDV.T_POSTN_PER (
 );
 
 -- TABELA DE USUÁRIOS DO SISTEMA
-CREATE TABLE PDV.T_USER (                                         
+CREATE TABLE PDV.T_USER (
 	ROW_ID VARCHAR2(15 CHAR) NOT NULL,                              	-- ID
 	CREATED TIMESTAMP DEFAULT SYSDATE NOT NULL,                         -- CRIADO
 	CREATED_BY VARCHAR2(15 CHAR) NOT NULL,                          	-- CRIADO POR
@@ -124,7 +124,7 @@ CREATE TABLE PDV.T_USER (
 	PR_ADDR_ID VARCHAR2(15 CHAR),                                       -- ID ENDERECO PRINCIPAL
 	PR_CON_ID VARCHAR2(15 CHAR),                                        -- ID CONTATO PRINCIPAL
 	PR_PHONE_ID VARCHAR2(15 CHAR),                                      -- ID TELEFONE PRINCIPAL
-	STATUS_CD VARCHAR2(30 CHAR),                                        -- STATUS CLIENTE
+	STATUS_CD VARCHAR2(30 CHAR),                                        -- STATUS USUÁRIO
 	COMMENTS VARCHAR2(250 CHAR),                                    	-- COMENTARIOS
 	
 	CONSTRAINT pk_user_id PRIMARY KEY (ROW_ID)

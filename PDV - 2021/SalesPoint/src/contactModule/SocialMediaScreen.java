@@ -26,9 +26,6 @@ public class SocialMediaScreen extends javax.swing.JFrame {
      */
     public SocialMediaScreen() {
         initComponents();
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
-        this.FocusTraversalKeys();
     }
     
     // Listeners

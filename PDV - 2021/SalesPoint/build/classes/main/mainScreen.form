@@ -487,8 +487,8 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                  <JTabbedPaneConstraints tabName="     ORDENS     ">
-                    <Property name="tabTitle" type="java.lang.String" value="     ORDENS     "/>
+                  <JTabbedPaneConstraints tabName="     ORDENS DE VENDAS     ">
+                    <Property name="tabTitle" type="java.lang.String" value="     ORDENS DE VENDAS     "/>
                   </JTabbedPaneConstraints>
                 </Constraint>
               </Constraints>
@@ -532,7 +532,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="btnOpenDBSettings2" pref="113" max="32767" attributes="0"/>
+                              <Component id="btnOpenListOfValues" pref="113" max="32767" attributes="0"/>
                               <Component id="jLabel8" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -580,7 +580,7 @@
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <Component id="btnOpenDBSettings2" min="-2" pref="67" max="-2" attributes="0"/>
+                                          <Component id="btnOpenListOfValues" min="-2" pref="67" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                                       </Group>
@@ -705,7 +705,7 @@
                     <Property name="verticalTextPosition" type="int" value="3"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JButton" name="btnOpenDBSettings2">
+                <Component class="javax.swing.JButton" name="btnOpenListOfValues">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ed" green="ed" red="ed" type="rgb"/>
@@ -723,7 +723,6 @@
                     </Property>
                     <Property name="borderPainted" type="boolean" value="false"/>
                     <Property name="contentAreaFilled" type="boolean" value="false"/>
-                    <Property name="enabled" type="boolean" value="false"/>
                     <Property name="horizontalTextPosition" type="int" value="0"/>
                     <Property name="iconTextGap" type="int" value="0"/>
                     <Property name="verticalAlignment" type="int" value="3"/>

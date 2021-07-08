@@ -25,9 +25,6 @@ public class ContactScreen extends javax.swing.JFrame {
      */
     public ContactScreen() {
         initComponents();
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
-        this.FocusTraversalKeys();
     }
     
     // Listeners

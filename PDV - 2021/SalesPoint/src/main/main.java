@@ -41,7 +41,7 @@ public class main{
             java.util.logging.Logger.getLogger(mainScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         
-        //mainController mainCtrl = new mainController();
+        mainController mainCtrl = new mainController();
         /*for(int i = 0; i < 200; i++) {
             System.out.println(i);
         }*/
