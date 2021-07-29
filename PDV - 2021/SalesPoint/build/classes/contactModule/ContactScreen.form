@@ -406,7 +406,7 @@
                       <Font name="Calibri" size="12" style="1"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/Images/icons/20px/edit 20x20.png"/>
+                      <Image iconType="3" name="/Images/icons/20px/Edit 20x20.png"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" value="Editar"/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -431,7 +431,7 @@
                       <Font name="Calibri" size="12" style="1"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/Images/icons/20px/new 20x20.png"/>
+                      <Image iconType="3" name="/Images/icons/20px/New 20x20.png"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" value="Novo"/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -457,7 +457,7 @@
                       <Font name="Calibri" size="12" style="1"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/Images/icons/20px/save 20x20.png"/>
+                      <Image iconType="3" name="/Images/icons/20px/Save 20x20.png"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" value="Salvar"/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -479,7 +479,7 @@
                       <Font name="Calibri" size="12" style="1"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/Images/icons/20px/cancel 20x20.png"/>
+                      <Image iconType="3" name="/Images/icons/20px/Cancel 20x20.png"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" value="Cancelar"/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -500,7 +500,7 @@
                       <Font name="Calibri" size="12" style="1"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/Images/icons/20px/delete 20x20.png"/>
+                      <Image iconType="3" name="/Images/icons/20px/Delete 20x20.png"/>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" value="Excluir"/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">

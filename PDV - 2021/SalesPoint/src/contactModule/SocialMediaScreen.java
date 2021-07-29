@@ -433,7 +433,7 @@ public class SocialMediaScreen extends javax.swing.JFrame {
         jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         btnDelete.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
-        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/delete 20x20.png"))); // NOI18N
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/Delete 20x20.png"))); // NOI18N
         btnDelete.setToolTipText("Excluir");
         btnDelete.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnDelete.setBorderPainted(false);
@@ -450,7 +450,7 @@ public class SocialMediaScreen extends javax.swing.JFrame {
         });
 
         btnNew.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
-        btnNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/new 20x20.png"))); // NOI18N
+        btnNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/New 20x20.png"))); // NOI18N
         btnNew.setToolTipText("Novo");
         btnNew.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnNew.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -467,7 +467,7 @@ public class SocialMediaScreen extends javax.swing.JFrame {
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         btnSave.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
-        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/save 20x20.png"))); // NOI18N
+        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/Save 20x20.png"))); // NOI18N
         btnSave.setToolTipText("Salvar");
         btnSave.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnSave.setEnabled(false);
@@ -483,7 +483,7 @@ public class SocialMediaScreen extends javax.swing.JFrame {
         });
 
         btnCancel.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
-        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/cancel 20x20.png"))); // NOI18N
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/Cancel 20x20.png"))); // NOI18N
         btnCancel.setToolTipText("Cancelar");
         btnCancel.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnCancel.setEnabled(false);
@@ -498,7 +498,7 @@ public class SocialMediaScreen extends javax.swing.JFrame {
         });
 
         btnEdit.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
-        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/edit 20x20.png"))); // NOI18N
+        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/Edit 20x20.png"))); // NOI18N
         btnEdit.setToolTipText("Editar");
         btnEdit.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnEdit.setBorderPainted(false);

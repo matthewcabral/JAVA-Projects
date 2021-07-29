@@ -11,7 +11,9 @@ import java.awt.GraphicsEnvironment;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Collections;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -45,87 +47,106 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
     public void setListenerBtnCancel(ActionListener listener) { this.btnCancel.addActionListener(listener); }
     public void setListenerBtnDelete(ActionListener listener) { this.btnDelete.addActionListener(listener); }
     
+    public void setListenercbbListFilterValue(ItemListener listener) { this.cbbListFilter.addItemListener(listener); }
+    public void setListenertxtListFilterValue(KeyListener listener) { this.txtListFilterValue.addKeyListener(listener); }
+    //public void setListenercbbLOVType(KeyListener listener) { this.cbbLOVType.addKeyListener(listener); }
+    public void setListenertxtOrder(KeyListener listener) { this.txtOrder.addKeyListener(listener); }
+    
     // Table
     public DefaultTableModel getTableModel(){ return (DefaultTableModel) tblLOVList.getModel(); }    
-    public void setListenerTblLOVListSelection(ListSelectionListener listener) { this.tblLOVList.getSelectionModel().addListSelectionListener(listener); }
-    public String getSelectedLOVListId() { try { return (String) this.tblLOVList.getValueAt(this.tblLOVList.getSelectedRow(), 0); } catch (Exception e) { return ""; } }
+    public void setListenerTblListSelection(ListSelectionListener listener) { this.tblLOVList.getSelectionModel().addListSelectionListener(listener); }
+    //public String getSelectedListId() { try { return (String) this.tblLOVList.getValueAt(this.tblLOVList.getSelectedRow(), 0); } catch (Exception e) { return ""; } }
     public void setSelectedRowColumnList(int row, int column){ this.tblLOVList.changeSelection(row, column, false, false); }
+    public void unselectRowList() { try { this.tblLOVList.removeRowSelectionInterval(this.getSelectedRowList(), this.getSelectedRowList()); } catch (Exception e) {} }
+    public void removeRowFromList(int row) { try { this.getTableModel().removeRow(row); } catch (Exception e) {} this.tblLOVList.paintImmediately(this.tblLOVList.getVisibleRect()); }
+    public void setListRowCount(int count) { this.getTableModel().setRowCount(count); this.tblLOVList.paintImmediately(this.tblLOVList.getVisibleRect()); }
     public int getSelectedRowList() { return this.tblLOVList.getSelectedRow(); }
     public int getNumOfListRows() { return this.tblLOVList.getRowCount(); }
     
     // Component Setters
-    public void settxtLOVListFilterValue(String value) { this.txtLOVListFilterValue.setText(value); this.txtLOVListFilterValue.paintImmediately(this.txtLOVListFilterValue.getVisibleRect()); }
+    public void settxtListFilterValue(String value) { this.txtListFilterValue.setText(value); this.txtListFilterValue.paintImmediately(this.txtListFilterValue.getVisibleRect()); }
     public void settxtRowId(String value) { this.txtRowId.setText(value); this.txtRowId.paintImmediately(this.txtRowId.getVisibleRect()); }
-    public void settxtLOVType(String value) { this.txtLOVType.setText(value); this.txtLOVType.paintImmediately(this.txtLOVType.getVisibleRect()); }
     public void settxtName(String value) { this.txtName.setText(value); this.txtName.paintImmediately(this.txtName.getVisibleRect()); }
     public void settxtValue(String value) { this.txtValue.setText(value); this.txtValue.paintImmediately(this.txtValue.getVisibleRect()); }
-    public void settxtLanguage(String value) { this.txtLanguage.setText(value); this.txtLanguage.paintImmediately(this.txtLanguage.getVisibleRect()); }
     public void settxtOrder(String value) { this.txtOrder.setText(value); this.txtOrder.paintImmediately(this.txtOrder.getVisibleRect()); }
     public void settxtReplicationLevel(String value) { this.txtReplicationLevel.setText(value); this.txtReplicationLevel.paintImmediately(this.txtReplicationLevel.getVisibleRect()); }
     public void settxtCode(String value) { this.txtCode.setText(value); this.txtCode.paintImmediately(this.txtCode.getVisibleRect()); }
-    public void settxtSubtype(String value) { this.txtSubtype.setText(value); this.txtSubtype.paintImmediately(this.txtSubtype.getVisibleRect()); }
+    public void settxtSubType(String value) { this.txtSubType.setText(value); this.txtSubType.paintImmediately(this.txtSubType.getVisibleRect()); }
     public void settxtDescription(String value) { this.txtDescription.setText(value); this.txtDescription.paintImmediately(this.txtDescription.getVisibleRect()); }
     
-    public void setcbbUserListFilter(String value) { this.cbbLOVListFilter.addItem(value); this.cbbLOVListFilter.paintImmediately(this.cbbLOVListFilter.getVisibleRect()); }
+    public void setcbbListFilter(String value) { this.cbbListFilter.addItem(value); this.cbbListFilter.paintImmediately(this.cbbListFilter.getVisibleRect()); }
+    public void setcbbLOVType(String value) { this.cbbLOVType.addItem(value); this.cbbLOVType.paintImmediately(this.cbbLOVType.getVisibleRect()); }
+    public void setcbbLanguage(String value) { this.cbbLanguage.addItem(value); this.cbbLanguage.paintImmediately(this.cbbLanguage.getVisibleRect()); }
+       
+    
     public void setckbActiveFlg(String value) { this.ckbActiveFlg.setSelected(("Y".equals(value))); this.ckbActiveFlg.paintImmediately(this.ckbActiveFlg.getVisibleRect()); }
 
+    public void setlblRecCount(String value) { this.lblRecCount.setText("Registros: " + value); this.lblRecCount.paintImmediately(this.lblRecCount.getVisibleRect()); }
+    
     // ComboBox Specific Setters
-    public void setcbbLOVListFilterItemIndex(int value) { this.cbbLOVListFilter.setSelectedIndex(value); }
+    public void setcbbListFilterItemIndex(int value) { this.cbbListFilter.setSelectedIndex(value); }
+    public void setcbbLOVTypeItemIndex(int value) { this.cbbLOVType.setSelectedIndex(value); }
+    public void setcbbLanguageItemIndex(int value) { this.cbbLanguage.setSelectedIndex(value); }
     
     // Component Getters
+    public String gettxtListFilterValue() { return ((!"".equals(this.txtListFilterValue.getText()) && this.txtListFilterValue.getText() != null) ? this.txtListFilterValue.getText() : null); }
     public String gettxtRowId() { return ((!"".equals(this.txtRowId.getText()) && this.txtRowId.getText() != null) ? this.txtRowId.getText() : null); }
-    public String gettxtLOVType() { return ((!"".equals(this.txtLOVType.getText()) && this.txtLOVType.getText() != null) ? this.txtLOVType.getText() : null); }
     public String gettxtName() { return ((!"".equals(this.txtName.getText()) && this.txtName.getText() != null) ? this.txtName.getText() : null); }
     public String gettxtValue() { return ((!"".equals(this.txtValue.getText()) && this.txtValue.getText() != null) ? this.txtValue.getText() : null); }
-    public String gettxtLanguage() { return ((!"".equals(this.txtLanguage.getText()) && this.txtLanguage.getText() != null) ? this.txtLanguage.getText() : null); }
     public String gettxtOrder() { return ((!"".equals(this.txtOrder.getText()) && this.txtOrder.getText() != null) ? this.txtOrder.getText() : null); }
     public String gettxtReplicationLevel() { return ((!"".equals(this.txtReplicationLevel.getText()) && this.txtReplicationLevel.getText() != null) ? this.txtReplicationLevel.getText() : null); }
     public String gettxtCode() { return ((!"".equals(this.txtCode.getText()) && this.txtCode.getText() != null) ? this.txtCode.getText() : null); }
-    public String gettxtSubtype() { return ((!"".equals(this.txtSubtype.getText()) && this.txtSubtype.getText() != null) ? this.txtSubtype.getText() : null); }
+    public String gettxtSubType() { return ((!"".equals(this.txtSubType.getText()) && this.txtSubType.getText() != null) ? this.txtSubType.getText() : null); }
     public String gettxtDescription() { return ((!"".equals(this.txtDescription.getText()) && this.txtDescription.getText() != null) ? this.txtDescription.getText() : null); }
     
-    public String getcbbUserListFilter() { if(!"".equals(this.cbbLOVListFilter.getSelectedItem().toString()) && !"Selecione...".equals(this.cbbLOVListFilter.getSelectedItem().toString()) && this.cbbLOVListFilter.getSelectedItem().toString() != null) { return this.cbbLOVListFilter.getSelectedItem().toString(); } else { return null; } }
+    public String getcbbListFilter() { return ((!"".equals(this.cbbListFilter.getSelectedItem().toString()) && !"Selecione...".equals(this.cbbListFilter.getSelectedItem().toString()) && this.cbbListFilter.getSelectedItem().toString() != null) ? this.cbbListFilter.getSelectedItem().toString() : null); }
+    public String getcbbLOVType() { return ((!"".equals(this.cbbLOVType.getSelectedItem().toString()) && !"Selecione...".equals(this.cbbLOVType.getSelectedItem().toString()) && this.cbbLOVType.getSelectedItem().toString() != null) ? this.cbbLOVType.getSelectedItem().toString() : null); }
+    public String getcbbLanguage() { return ((!"".equals(this.cbbLanguage.getSelectedItem().toString()) && !"Selecione...".equals(this.cbbLanguage.getSelectedItem().toString()) && this.cbbLanguage.getSelectedItem().toString() != null) ? this.cbbLanguage.getSelectedItem().toString() : null); }
     public String getckbActiveFlg() { return (this.ckbActiveFlg.isSelected()) ? "Y" : "N"; }
     
     // ComboBox Specific Getters
-    public int getcbbUserListFilterItemIndex(String value) { if(!"".equals(value) && value != null) { for(int i = 0; i < this.cbbLOVListFilter.getItemCount(); i++){ if(value.equals(this.cbbLOVListFilter.getItemAt(i))){ return i; }}} else { return 0; } return 0; }
+    public int getcbbListFilterItemIndex(String value) { if(!"".equals(value) && value != null) { for(int i = 0; i < this.cbbListFilter.getItemCount(); i++){ if(value.equals(this.cbbListFilter.getItemAt(i))){ return i; }}} else { return 0; } return 0; }
+    public int getcbbLOVTypeItemIndex(String value) { if(!"".equals(value) && value != null) { for(int i = 0; i < this.cbbLOVType.getItemCount(); i++){ if(value.equals(this.cbbLOVType.getItemAt(i))){ return i; }}} else { return 0; } return 0; }
+    public int getcbbLanguageItemIndex(String value) { if(!"".equals(value) && value != null) { for(int i = 0; i < this.cbbLanguage.getItemCount(); i++){ if(value.equals(this.cbbLanguage.getItemAt(i))){ return i; }}} else { return 0; } return 0; }
     
     public String getlblRecCount() { return this.lblRecCount.getText(); }
     public String getlblLOVNameHeader() { return this.lblLOVNameHeader.getText(); }
     
     // Component Clear
-    public void cleartxtLOVTypeListFilterValue() { this.txtLOVListFilterValue.setText(""); this.txtLOVListFilterValue.paintImmediately(this.txtLOVListFilterValue.getVisibleRect()); }
+    public void cleartxtListFilterValue() { this.txtListFilterValue.setText(""); this.txtListFilterValue.paintImmediately(this.txtListFilterValue.getVisibleRect()); }
     public void cleartxtRowId() { this.txtRowId.setText(""); this.txtRowId.paintImmediately(this.txtRowId.getVisibleRect()); }
-    public void cleartxtLOVType() { this.txtLOVType.setText(""); this.txtLOVType.paintImmediately(this.txtLOVType.getVisibleRect()); }
     public void cleartxtName() { this.txtName.setText(""); this.txtName.paintImmediately(this.txtName.getVisibleRect()); }
     public void cleartxtValue() { this.txtValue.setText(""); this.txtValue.paintImmediately(this.txtValue.getVisibleRect()); }
-    public void cleartxtLanguage() { this.txtLanguage.setText(""); this.txtLanguage.paintImmediately(this.txtLanguage.getVisibleRect()); }
     public void cleartxtOrder() { this.txtOrder.setText(""); this.txtOrder.paintImmediately(this.txtOrder.getVisibleRect()); }
     public void cleartxtReplicationLevel() { this.txtReplicationLevel.setText(""); this.txtReplicationLevel.paintImmediately(this.txtReplicationLevel.getVisibleRect()); }
     public void cleartxtCode() { this.txtCode.setText(""); this.txtCode.paintImmediately(this.txtCode.getVisibleRect()); }
-    public void cleartxtSubtype() { this.txtSubtype.setText(""); this.txtSubtype.paintImmediately(this.txtSubtype.getVisibleRect()); }
+    public void cleartxtSubType() { this.txtSubType.setText(""); this.txtSubType.paintImmediately(this.txtSubType.getVisibleRect()); }
     public void cleartxtDescription() { this.txtDescription.setText(""); this.txtDescription.paintImmediately(this.txtDescription.getVisibleRect()); }
     
-    public void clearcbbUserListFilter() { this.cbbLOVListFilter.removeAllItems(); this.cbbLOVListFilter.paintImmediately(this.cbbLOVListFilter.getVisibleRect()); }
+    public void clearcbbListFilter() { this.cbbListFilter.removeAllItems(); this.cbbListFilter.paintImmediately(this.cbbListFilter.getVisibleRect()); }
+    public void clearcbbLOVType() { this.cbbLOVType.removeAllItems(); this.cbbLOVType.paintImmediately(this.cbbLOVType.getVisibleRect()); }
+    public void clearcbbLanguage() { this.cbbLanguage.removeAllItems(); this.cbbLanguage.paintImmediately(this.cbbLanguage.getVisibleRect()); }
+    
     public void clearckbActiveFlg() { this.ckbActiveFlg.setSelected(false); this.ckbActiveFlg.paintImmediately(this.ckbActiveFlg.getVisibleRect()); }
     
     public void clearlblRecCount() { this.lblRecCount.setText(""); this.lblRecCount.paintImmediately(this.lblRecCount.getVisibleRect()); }
     public void clearlblLOVNameHeader() { this.lblLOVNameHeader.setText(""); this.lblLOVNameHeader.paintImmediately(this.lblLOVNameHeader.getVisibleRect()); }
 
     // Enable or Disable Components
-    public void settxtLOVTypeListFilterValueEnabled(boolean status) { this.txtLOVListFilterValue.setEnabled(status); }
+    public void settxtLOVTypeListFilterValueEnabled(boolean status) { this.txtListFilterValue.setEnabled(status); }
     public void settxtRowIdEnabled(boolean status) { this.txtRowId.setEnabled(status); }
-    public void settxtLOVTypeEnabled(boolean status) { this.txtLOVType.setEnabled(status); }
+    
     public void settxtNameEnabled(boolean status) { this.txtName.setEnabled(status); }
     public void settxtValueEnabled(boolean status) { this.txtValue.setEnabled(status); }
-    public void settxtLanguageEnabled(boolean status) { this.txtLanguage.setEnabled(status); }
     public void settxtOrderEnabled(boolean status) { this.txtOrder.setEnabled(status); }
     public void settxtReplicationLevelEnabled(boolean status) { this.txtReplicationLevel.setEnabled(status); }
     public void settxtCodeEnabled(boolean status) { this.txtCode.setEnabled(status); }
-    public void settxtSubtypeEnabled(boolean status) { this.txtSubtype.setEnabled(status); }
+    public void settxtSubTypeEnabled(boolean status) { this.txtSubType.setEnabled(status); }
     public void settxtDescriptionEnabled(boolean status) { this.txtDescription.setEnabled(status); }
     
-    public void setcbbUserListFilterEnabled(boolean status) { this.cbbLOVListFilter.setEnabled(status); }
+    public void setcbbListFilterEnabled(boolean status) { this.cbbListFilter.setEnabled(status); }
+    public void setcbbLOVTypeEnabled(boolean status) { this.cbbLOVType.setEnabled(status); }
+    public void setcbbLanguageEnabled(boolean status) { this.cbbLanguage.setEnabled(status); }
     public void setckbActiveFlgEnabled(boolean status) { this.ckbActiveFlg.setEnabled(status); }
     
     public void setlblRecCountEnabled(boolean status) { this.lblRecCount.setEnabled(status); }
@@ -140,19 +161,19 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
     public void setbtnCancelEnabled(boolean status) { this.btnCancel.setEnabled(status); }
 
     // Return componet status
-    public boolean istxtLOVTypeListFilterValueEnabled() { return this.txtLOVListFilterValue.isEnabled(); }
+    public boolean istxtLOVTypeListFilterValueEnabled() { return this.txtListFilterValue.isEnabled(); }
     public boolean istxtRowIdEnabled() { return this.txtRowId.isEnabled(); }
-    public boolean istxtLOVTypeEnabled() { return this.txtLOVType.isEnabled(); }
     public boolean istxtNameEnabled() { return this.txtName.isEnabled(); }
     public boolean istxtValueEnabled() { return this.txtValue.isEnabled(); }
-    public boolean istxtLanguageEnabled() { return this.txtLanguage.isEnabled(); }
     public boolean istxtOrderEnabled() { return this.txtOrder.isEnabled(); }
     public boolean istxtReplicationLevelEnabled() { return this.txtReplicationLevel.isEnabled(); }
     public boolean istxtCodeEnabled() { return this.txtCode.isEnabled(); }
-    public boolean istxtSubtypeEnabled() { return this.txtSubtype.isEnabled(); }
+    public boolean istxtSubTypeEnabled() { return this.txtSubType.isEnabled(); }
     public boolean istxtDescriptionEnabled() { return this.txtDescription.isEnabled(); }
     
-    public boolean iscbbUserListFilterEnabled() { return this.cbbLOVListFilter.isEnabled(); }
+    public boolean iscbbListFilterEnabled() { return this.cbbListFilter.isEnabled(); }
+    public boolean iscbbLOVTypeEnabled() { return this.cbbLOVType.isEnabled(); }
+    public boolean iscbbLanguageEnabled() { return this.cbbLanguage.isEnabled(); }
     public boolean isckbActiveFlgEnabled() { return this.ckbActiveFlg.isEnabled(); }
     
     public boolean islblRecCountEnabled() { return this.lblRecCount.isEnabled(); }
@@ -175,13 +196,13 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
     public void setFocus(String component) {
         switch (component) {
         case "FILTRO_VALOR":
-            this.txtLOVListFilterValue.requestFocus();
+            this.txtListFilterValue.requestFocus();
             break;
         case "ID":
             this.txtRowId.requestFocus();
             break;
         case "TYPE":
-            this.txtLOVType.requestFocus();
+            this.cbbLOVType.requestFocus();
             break;
         case "NAME":
             this.txtName.requestFocus();
@@ -190,7 +211,7 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
             this.txtValue.requestFocus();
             break;
         case "LANGUAGE":
-            this.txtLanguage.requestFocus();
+            this.cbbLanguage.requestFocus();
             break;
         case "ORDER":
             this.txtOrder.requestFocus();
@@ -202,13 +223,13 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
             this.txtCode.requestFocus();
             break;
         case "SUBTYPE":
-            this.txtSubtype.requestFocus();
+            this.txtSubType.requestFocus();
             break;
         case "DESCRIPTION":
             this.txtDescription.requestFocus();
             break;
         case "FILTRO":
-            this.cbbLOVListFilter.requestFocus();
+            this.cbbListFilter.requestFocus();
             break;
         case "ATIVO":
             this.ckbActiveFlg.requestFocus();
@@ -238,17 +259,18 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
             case "LOAD_SCREEN":
                 settxtLOVTypeListFilterValueEnabled(true);
                 settxtRowIdEnabled(false);
-                settxtLOVTypeEnabled(false);
                 settxtNameEnabled(false);
                 settxtValueEnabled(false);
-                settxtLanguageEnabled(false);
                 settxtOrderEnabled(false);
                 settxtReplicationLevelEnabled(false);
                 settxtCodeEnabled(false);
-                settxtSubtypeEnabled(false);
+                settxtSubTypeEnabled(false);
                 settxtDescriptionEnabled(false);
 
-                setcbbUserListFilterEnabled(true);
+                setcbbListFilterEnabled(true);
+                setcbbLOVTypeEnabled(false);
+                setcbbLanguageEnabled(false);
+                //setcbbSubtypeEnabled(false);
                 setckbActiveFlgEnabled(false);
                 
                 setTblEnabled(true);
@@ -262,17 +284,18 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
             case "NOVO":
                 settxtLOVTypeListFilterValueEnabled(true);
                 settxtRowIdEnabled(false);
-                settxtLOVTypeEnabled(true);
                 settxtNameEnabled(true);
                 settxtValueEnabled(true);
-                settxtLanguageEnabled(true);
                 settxtOrderEnabled(true);
                 settxtReplicationLevelEnabled(true);
                 settxtCodeEnabled(true);
-                settxtSubtypeEnabled(true);
+                settxtSubTypeEnabled(true);
                 settxtDescriptionEnabled(true);
 
-                setcbbUserListFilterEnabled(true);
+                setcbbListFilterEnabled(true);
+                setcbbLOVTypeEnabled(true);
+                setcbbLanguageEnabled(true);
+                //setcbbSubtypeEnabled(true);
                 setckbActiveFlgEnabled(true);
 
                 setTblEnabled(false);
@@ -286,17 +309,18 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
             case "EDITAR":
                 settxtLOVTypeListFilterValueEnabled(true);
                 settxtRowIdEnabled(false);
-                settxtLOVTypeEnabled(true);
                 settxtNameEnabled(true);
                 settxtValueEnabled(true);
-                settxtLanguageEnabled(true);
                 settxtOrderEnabled(true);
                 settxtReplicationLevelEnabled(true);
                 settxtCodeEnabled(true);
-                settxtSubtypeEnabled(true);
+                settxtSubTypeEnabled(true);
                 settxtDescriptionEnabled(true);
 
-                setcbbUserListFilterEnabled(true);
+                setcbbListFilterEnabled(true);
+                setcbbLOVTypeEnabled(true);
+                setcbbLanguageEnabled(true);
+                //setcbbSubtypeEnabled(true);
                 setckbActiveFlgEnabled(true);
 
                 setTblEnabled(false);
@@ -310,17 +334,18 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
             case "CANCELAR":
                 settxtLOVTypeListFilterValueEnabled(true);
                 settxtRowIdEnabled(false);
-                settxtLOVTypeEnabled(false);
                 settxtNameEnabled(false);
                 settxtValueEnabled(false);
-                settxtLanguageEnabled(false);
                 settxtOrderEnabled(false);
                 settxtReplicationLevelEnabled(false);
                 settxtCodeEnabled(false);
-                settxtSubtypeEnabled(false);
+                settxtSubTypeEnabled(false);
                 settxtDescriptionEnabled(false);
 
-                setcbbUserListFilterEnabled(true);
+                setcbbListFilterEnabled(true);
+                setcbbLOVTypeEnabled(false);
+                setcbbLanguageEnabled(false);
+                //setcbbSubtypeEnabled(false);
                 setckbActiveFlgEnabled(false);
 
                 setTblEnabled(true);
@@ -334,17 +359,18 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
             case "DELETAR":
                 settxtLOVTypeListFilterValueEnabled(true);
                 settxtRowIdEnabled(false);
-                settxtLOVTypeEnabled(false);
                 settxtNameEnabled(false);
                 settxtValueEnabled(false);
-                settxtLanguageEnabled(false);
                 settxtOrderEnabled(false);
                 settxtReplicationLevelEnabled(false);
                 settxtCodeEnabled(false);
-                settxtSubtypeEnabled(false);
+                settxtSubTypeEnabled(false);
                 settxtDescriptionEnabled(false);
                 
-                setcbbUserListFilterEnabled(true);                
+                setcbbListFilterEnabled(true);                
+                setcbbLOVTypeEnabled(false);
+                setcbbLanguageEnabled(false);
+                //setcbbSubtypeEnabled(false);
                 setckbActiveFlgEnabled(false);
 
                 setTblEnabled(true);
@@ -358,17 +384,18 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
             case "SALVAR":
                 settxtLOVTypeListFilterValueEnabled(true);
                 settxtRowIdEnabled(false);
-                settxtLOVTypeEnabled(false);
                 settxtNameEnabled(false);
                 settxtValueEnabled(false);
-                settxtLanguageEnabled(false);
                 settxtOrderEnabled(false);
                 settxtReplicationLevelEnabled(false);
                 settxtCodeEnabled(false);
-                settxtSubtypeEnabled(false);
+                settxtSubTypeEnabled(false);
                 settxtDescriptionEnabled(false);
 
-                setcbbUserListFilterEnabled(true);
+                setcbbListFilterEnabled(true);
+                setcbbLOVTypeEnabled(false);
+                setcbbLanguageEnabled(false);
+                //setcbbSubtypeEnabled(false);
                 setckbActiveFlgEnabled(false);
 
                 setTblEnabled(true);
@@ -385,46 +412,57 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
     }
 
     public void clearFields() {
-        cleartxtLOVTypeListFilterValue();
+        //cleartxtLOVTypeListFilterValue();
         cleartxtRowId();
-        cleartxtLOVType();
+        //clearcbbLOVType();
         cleartxtName();
         cleartxtValue();
-        cleartxtLanguage();
+        //clearcbbLanguage();
         cleartxtOrder();
         cleartxtReplicationLevel();
         cleartxtCode();
-        cleartxtSubtype();
+        cleartxtSubType();
         cleartxtDescription();
         
-        setcbbLOVListFilterItemIndex(0);        
+        //setcbbListFilterItemIndex(0);        
         clearckbActiveFlg();
         
         clearlblLOVNameHeader();
     }
     
+    public void clearFilters() {
+        setcbbListFilterItemIndex(0);
+        cleartxtListFilterValue();
+    }
+    
     public void clearComboBoxes(){
-        clearcbbUserListFilter();
+        clearcbbListFilter();
+        clearcbbLOVType();
+        clearcbbLanguage();
+        //clearcbbSubType();
     }
     
     public void insertSelectComboBox(){
-        this.setcbbUserListFilter("Selecione...");
+        this.setcbbListFilter("Selecione...");
+        this.setcbbLOVType("Selecione...");
+        this.setcbbLanguage("Selecione...");
+        //this.setcbbSubType("Selecione...");
     }
     
     public final void FocusTraversalKeys(){
-        this.txtLOVListFilterValue.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
+        this.txtListFilterValue.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.txtRowId.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
-        this.txtLOVType.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
+        this.cbbLOVType.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.txtName.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.txtValue.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
-        this.txtLanguage.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
+        this.cbbLanguage.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.txtOrder.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.txtReplicationLevel.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.txtCode.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
-        this.txtSubtype.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
+        this.txtSubType.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.txtDescription.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
 
-        this.cbbLOVListFilter.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
+        this.cbbListFilter.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.ckbActiveFlg.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         
         this.lblRecCount.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
@@ -445,8 +483,8 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
         lblLOVList = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         lblImage = new javax.swing.JLabel();
-        cbbLOVListFilter = new javax.swing.JComboBox<>();
-        txtLOVListFilterValue = new javax.swing.JTextField();
+        cbbListFilter = new javax.swing.JComboBox<>();
+        txtListFilterValue = new javax.swing.JTextField();
         lblInformation = new javax.swing.JLabel();
         lblRecCount = new javax.swing.JLabel();
         PanelListLOV = new javax.swing.JPanel();
@@ -468,13 +506,11 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
         lblRowId = new javax.swing.JLabel();
         txtRowId = new javax.swing.JTextField();
         lblLOVType = new javax.swing.JLabel();
-        txtLOVType = new javax.swing.JTextField();
         lblName = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
         lblValue = new javax.swing.JLabel();
         txtValue = new javax.swing.JTextField();
         lblLanguage = new javax.swing.JLabel();
-        txtLanguage = new javax.swing.JTextField();
         lblOrder = new javax.swing.JLabel();
         txtOrder = new javax.swing.JTextField();
         lblActiveFlg = new javax.swing.JLabel();
@@ -484,9 +520,11 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
         lblCode = new javax.swing.JLabel();
         txtCode = new javax.swing.JTextField();
         lblSubtype = new javax.swing.JLabel();
-        txtSubtype = new javax.swing.JTextField();
         lblDescription = new javax.swing.JLabel();
         txtDescription = new javax.swing.JTextField();
+        cbbLOVType = new javax.swing.JComboBox<>();
+        cbbLanguage = new javax.swing.JComboBox<>();
+        txtSubType = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Lista de Valores");
@@ -501,20 +539,15 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
 
         lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/Lupa 20x20.png"))); // NOI18N
 
-        cbbLOVListFilter.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
-        cbbLOVListFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbbLOVListFilter.setMaximumSize(new java.awt.Dimension(250, 32767));
-        cbbLOVListFilter.setPreferredSize(new java.awt.Dimension(250, 23));
-        cbbLOVListFilter.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbbLOVListFilterItemStateChanged(evt);
-            }
-        });
+        cbbListFilter.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+        cbbListFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbbListFilter.setMaximumSize(new java.awt.Dimension(250, 32767));
+        cbbListFilter.setPreferredSize(new java.awt.Dimension(250, 23));
 
-        txtLOVListFilterValue.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
-        txtLOVListFilterValue.setToolTipText("");
-        txtLOVListFilterValue.setMaximumSize(new java.awt.Dimension(250, 2147483647));
-        txtLOVListFilterValue.setPreferredSize(new java.awt.Dimension(250, 23));
+        txtListFilterValue.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+        txtListFilterValue.setToolTipText("");
+        txtListFilterValue.setMaximumSize(new java.awt.Dimension(250, 2147483647));
+        txtListFilterValue.setPreferredSize(new java.awt.Dimension(250, 23));
 
         lblInformation.setBackground(new java.awt.Color(255, 255, 255));
         lblInformation.setText("Pressione Enter para pesquisar");
@@ -522,7 +555,8 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
 
         lblRecCount.setBackground(new java.awt.Color(255, 255, 255));
         lblRecCount.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblRecCount.setText("Total de Registros: 100");
+        lblRecCount.setText("Registro: 0 - 100");
+        lblRecCount.setToolTipText("");
         lblRecCount.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblRecCount.setMaximumSize(new java.awt.Dimension(410, 14));
 
@@ -538,13 +572,13 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblImage)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cbbLOVListFilter, 0, 297, Short.MAX_VALUE)
+                .addComponent(cbbListFilter, 0, 332, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtLOVListFilterValue, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+                .addComponent(txtListFilterValue, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblInformation)
                 .addGap(59, 59, 59)
-                .addComponent(lblRecCount, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+                .addComponent(lblRecCount, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
                 .addContainerGap())
         );
         PanelLOVListHeaderLayout.setVerticalGroup(
@@ -552,13 +586,13 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelLOVListHeaderLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PanelLOVListHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cbbLOVListFilter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbbListFilter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblLOVList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jSeparator1)
                     .addComponent(lblImage, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblRecCount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblInformation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtLOVListFilterValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(txtListFilterValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -605,7 +639,7 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false, false, false, false
@@ -622,6 +656,11 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
         tblLOVList.setGridColor(new java.awt.Color(204, 204, 204));
         tblLOVList.setRowHeight(22);
         tblLOVList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblLOVList.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tblLOVListKeyPressed(evt);
+            }
+        });
         sPanelLOVList.setViewportView(tblLOVList);
 
         javax.swing.GroupLayout PanelListLOVLayout = new javax.swing.GroupLayout(PanelListLOV);
@@ -632,7 +671,7 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
         );
         PanelListLOVLayout.setVerticalGroup(
             PanelListLOVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(sPanelLOVList, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
+            .addComponent(sPanelLOVList, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout PanelLOVListLayout = new javax.swing.GroupLayout(PanelLOVList);
@@ -670,9 +709,8 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
         jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         btnEdit.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
-        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/edit 20x20.png"))); // NOI18N
+        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/Edit 20x20.png"))); // NOI18N
         btnEdit.setToolTipText("Editar");
-        btnEdit.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnEdit.setBorderPainted(false);
         btnEdit.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnEdit.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -684,9 +722,8 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
         });
 
         btnNew.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
-        btnNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/new 20x20.png"))); // NOI18N
+        btnNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/New 20x20.png"))); // NOI18N
         btnNew.setToolTipText("Novo");
-        btnNew.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnNew.setBorderPainted(false);
         btnNew.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnNew.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -701,9 +738,8 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         btnSave.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
-        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/save 20x20.png"))); // NOI18N
+        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/Save 20x20.png"))); // NOI18N
         btnSave.setToolTipText("Salvar");
-        btnSave.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnSave.setEnabled(false);
         btnSave.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         btnSave.setIconTextGap(3);
@@ -714,9 +750,8 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
         });
 
         btnCancel.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
-        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/cancel 20x20.png"))); // NOI18N
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/Cancel 20x20.png"))); // NOI18N
         btnCancel.setToolTipText("Cancelar");
-        btnCancel.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnCancel.setEnabled(false);
         btnCancel.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         btnCancel.setIconTextGap(3);
@@ -728,9 +763,8 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
         });
 
         btnDelete.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
-        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/delete 20x20.png"))); // NOI18N
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/Delete 20x20.png"))); // NOI18N
         btnDelete.setToolTipText("Excluir");
-        btnDelete.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnDelete.setBorderPainted(false);
         btnDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnDelete.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -782,7 +816,6 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        sPanelLOVForm.setBorder(null);
         sPanelLOVForm.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         sPanelLOVForm.setMinimumSize(new java.awt.Dimension(0, 0));
         sPanelLOVForm.setPreferredSize(new java.awt.Dimension(2000, 607));
@@ -809,16 +842,6 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
         lblLOVType.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
         lblLOVType.setEnabled(false);
         lblLOVType.setOpaque(true);
-
-        txtLOVType.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        txtLOVType.setText("jTextField1");
-        txtLOVType.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.background")), javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 5)));
-        txtLOVType.setEnabled(false);
-        txtLOVType.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtLOVTypeKeyPressed(evt);
-            }
-        });
 
         lblName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         lblName.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -860,16 +883,6 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
         lblLanguage.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
         lblLanguage.setEnabled(false);
         lblLanguage.setOpaque(true);
-
-        txtLanguage.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        txtLanguage.setText("jTextField1");
-        txtLanguage.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.background")), javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 5)));
-        txtLanguage.setEnabled(false);
-        txtLanguage.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtLanguageKeyPressed(evt);
-            }
-        });
 
         lblOrder.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         lblOrder.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -955,16 +968,6 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
         lblSubtype.setEnabled(false);
         lblSubtype.setOpaque(true);
 
-        txtSubtype.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        txtSubtype.setText("jTextField1");
-        txtSubtype.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.background")), javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 5)));
-        txtSubtype.setEnabled(false);
-        txtSubtype.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtSubtypeKeyPressed(evt);
-            }
-        });
-
         lblDescription.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         lblDescription.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblDescription.setText("Descrição:");
@@ -982,6 +985,24 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
             }
         });
 
+        cbbLOVType.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        cbbLOVType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbbLOVType.setEnabled(false);
+
+        cbbLanguage.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        cbbLanguage.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbbLanguage.setEnabled(false);
+
+        txtSubType.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        txtSubType.setText("jTextField1");
+        txtSubType.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.background")), javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 5)));
+        txtSubType.setEnabled(false);
+        txtSubType.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSubTypeKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout PanelFormUserLayout = new javax.swing.GroupLayout(PanelFormUser);
         PanelFormUser.setLayout(PanelFormUserLayout);
         PanelFormUserLayout.setHorizontalGroup(
@@ -993,8 +1014,8 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
                     .addComponent(lblRowId, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblLOVType, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtLOVType, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblLOVType, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                    .addComponent(cbbLOVType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelFormUserLayout.createSequentialGroup()
@@ -1007,8 +1028,8 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
                         .addComponent(lblValue, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtLanguage, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblLanguage, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblLanguage, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                    .addComponent(cbbLanguage, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1026,9 +1047,9 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
                     .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblCode, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtSubtype, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblSubtype, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblSubtype, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSubType, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1050,28 +1071,30 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
                         .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtReplicationLevel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSubtype, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSubType, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(PanelFormUserLayout.createSequentialGroup()
                         .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblLanguage, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtLanguage, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtOrder, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                            .addComponent(cbbLanguage)))
                     .addGroup(PanelFormUserLayout.createSequentialGroup()
-                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblRowId, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblLOVType, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblValue, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblValue, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblRowId, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblLOVType, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtRowId, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtLOVType, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtValue, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtRowId, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtValue, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cbbLOVType)))
                     .addGroup(PanelFormUserLayout.createSequentialGroup()
                         .addComponent(lblActiveFlg, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1087,7 +1110,7 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
             PanelLOVFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelLOVFormLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(sPanelLOVForm, javax.swing.GroupLayout.DEFAULT_SIZE, 1189, Short.MAX_VALUE)
+                .addComponent(sPanelLOVForm, javax.swing.GroupLayout.DEFAULT_SIZE, 1296, Short.MAX_VALUE)
                 .addContainerGap())
             .addComponent(PanelLOVFormHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -1120,21 +1143,15 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PanelLOV, javax.swing.GroupLayout.DEFAULT_SIZE, 1209, Short.MAX_VALUE)
+            .addComponent(PanelLOV, javax.swing.GroupLayout.DEFAULT_SIZE, 1316, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PanelLOV, javax.swing.GroupLayout.DEFAULT_SIZE, 636, Short.MAX_VALUE)
+            .addComponent(PanelLOV, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void cbbLOVListFilterItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbbLOVListFilterItemStateChanged
-        if(evt.getStateChange() == ItemEvent.SELECTED){
-            setFocus("FILTRO_VALOR");
-        }
-    }//GEN-LAST:event_cbbLOVListFilterItemStateChanged
 
     private void btnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnEditKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_TAB){
@@ -1164,104 +1181,61 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDeleteKeyPressed
 
-    private void txtLOVTypeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLOVTypeKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER || evt.getKeyCode() == KeyEvent.VK_TAB){
-            setFocus("SENHA");
-        }
-    }//GEN-LAST:event_txtLOVTypeKeyPressed
-
-    private void txtLanguageKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLanguageKeyPressed
-        if((evt.getKeyCode() == KeyEvent.VK_ENTER) || (evt.getKeyCode() == KeyEvent.VK_TAB)){
-            setFocus("RESPOSTA_SEG_1");
-        }
-    }//GEN-LAST:event_txtLanguageKeyPressed
-
     private void txtOrderKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtOrderKeyPressed
         if((evt.getKeyCode() == KeyEvent.VK_ENTER) || (evt.getKeyCode() == KeyEvent.VK_TAB)){
-            setFocus("PERGUNTA_SEG_2");
+            setFocus("ATIVO");
         }
     }//GEN-LAST:event_txtOrderKeyPressed
 
     private void txtReplicationLevelKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtReplicationLevelKeyPressed
         if((evt.getKeyCode() == KeyEvent.VK_ENTER) || (evt.getKeyCode() == KeyEvent.VK_TAB)){
-            setFocus("RESPOSTA_SEG_2");
+            setFocus("CODE");
         }
     }//GEN-LAST:event_txtReplicationLevelKeyPressed
 
     private void txtCodeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodeKeyPressed
         if((evt.getKeyCode() == KeyEvent.VK_ENTER) || (evt.getKeyCode() == KeyEvent.VK_TAB)){
-            setFocus("PERGUNTA_SEG_3");
+            setFocus("SUBTYPE");
         }
     }//GEN-LAST:event_txtCodeKeyPressed
 
-    private void txtSubtypeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSubtypeKeyPressed
-        if((evt.getKeyCode() == KeyEvent.VK_ENTER) || (evt.getKeyCode() == KeyEvent.VK_TAB)){
-            setFocus("RESPOSTA_SEG_3");
-        }
-    }//GEN-LAST:event_txtSubtypeKeyPressed
-
     private void txtDescriptionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescriptionKeyPressed
         if((evt.getKeyCode() == KeyEvent.VK_ENTER) || (evt.getKeyCode() == KeyEvent.VK_TAB)){
-            /*if(this.iscbbDocTypeEnabled()){
-                setFocus("DOCUMENTO_TIPO");
-            }*/
+            setFocus("BOTAO_SALVAR");
         }
     }//GEN-LAST:event_txtDescriptionKeyPressed
 
     private void ckbActiveFlgItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ckbActiveFlgItemStateChanged
         if(evt.getStateChange() == ItemEvent.SELECTED){
-            setFocus("WHATSAPP_FLG");
+            setFocus("REPLICATION_LEVEL");
         }
     }//GEN-LAST:event_ckbActiveFlgItemStateChanged
 
     private void ckbActiveFlgKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ckbActiveFlgKeyPressed
         if((evt.getKeyCode() == KeyEvent.VK_ENTER) || (evt.getKeyCode() == KeyEvent.VK_TAB)){
-            setFocus("WHATSAPP_FLG");
+            setFocus("REPLICATION_LEVEL");
         }
     }//GEN-LAST:event_ckbActiveFlgKeyPressed
 
     private void txtNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNameKeyPressed
-        // TODO add your handling code here:
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER || evt.getKeyCode() == KeyEvent.VK_TAB){
+            setFocus("VAL");
+        }
     }//GEN-LAST:event_txtNameKeyPressed
 
     private void txtValueKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtValueKeyPressed
-        // TODO add your handling code here:
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER || evt.getKeyCode() == KeyEvent.VK_TAB){
+            setFocus("LANGUAGE");
+        }
     }//GEN-LAST:event_txtValueKeyPressed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ListOfValuesScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ListOfValuesScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ListOfValuesScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ListOfValuesScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void tblLOVListKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblLOVListKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblLOVListKeyPressed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ListOfValuesScreen().setVisible(true);
-            }
-        });
-    }
+    private void txtSubTypeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSubTypeKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSubTypeKeyPressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelFormUser;
@@ -1276,7 +1250,9 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnSave;
-    private javax.swing.JComboBox<String> cbbLOVListFilter;
+    private javax.swing.JComboBox<String> cbbLOVType;
+    private javax.swing.JComboBox<String> cbbLanguage;
+    private javax.swing.JComboBox<String> cbbListFilter;
     private javax.swing.JCheckBox ckbActiveFlg;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
@@ -1303,14 +1279,12 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
     private javax.swing.JTable tblLOVList;
     private javax.swing.JTextField txtCode;
     private javax.swing.JTextField txtDescription;
-    private javax.swing.JTextField txtLOVListFilterValue;
-    private javax.swing.JTextField txtLOVType;
-    private javax.swing.JTextField txtLanguage;
+    private javax.swing.JTextField txtListFilterValue;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtOrder;
     private javax.swing.JTextField txtReplicationLevel;
     private javax.swing.JTextField txtRowId;
-    private javax.swing.JTextField txtSubtype;
+    private javax.swing.JTextField txtSubType;
     private javax.swing.JTextField txtValue;
     // End of variables declaration//GEN-END:variables
 }

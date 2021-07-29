@@ -248,9 +248,9 @@ public class addressController extends DataController {
             super.clearValues();
             super.setColumns("ROW_ID"); super.setValues("'" + addressId + "'");
             super.setColumns(",\n\t" + "CREATED"); super.setValues(",\n\t" + "SYSDATE");
-            super.setColumns(",\n\t" + "CREATED_BY"); super.setValues(",\n\t" + "'" + super.getUserIdByLogin() + "'");
+            super.setColumns(",\n\t" + "CREATED_BY"); super.setValues(",\n\t" + "'" + super.getConnectedUserId() + "'");
             super.setColumns(",\n\t" + "LAST_UPD"); super.setValues(",\n\t" + "SYSDATE");
-            super.setColumns(",\n\t" + "LAST_UPD_BY"); super.setValues(",\n\t" + "'" + super.getUserIdByLogin() + "'");
+            super.setColumns(",\n\t" + "LAST_UPD_BY"); super.setValues(",\n\t" + "'" + super.getConnectedUserId() + "'");
             super.setColumns(",\n\t" + "ACTIVE_FLG"); super.setValues(",\n\t" + "'Y'");
             super.setColumns(",\n\t" + "DB_LAST_UPD"); super.setValues(",\n\t" + "SYSDATE");
             //super.setColumns(",\n\t" + "STATUS_CD"); super.setValues(",\n\t" + "'" + super.LookupValue("ACCOUNT_STATUS", "Active") + "'");
@@ -413,7 +413,7 @@ public class addressController extends DataController {
                 }
                 
                 super.setColumnsValues(",\n\t" + "LAST_UPD = SYSDATE");
-                super.setColumnsValues(",\n\t" + "LAST_UPD_BY = '" + super.getUserIdByLogin() + "'");
+                super.setColumnsValues(",\n\t" + "LAST_UPD_BY = '" + super.getConnectedUserId() + "'");
                 super.setColumnsValues(",\n\t" + "ACTIVE_FLG = 'Y'");
                 super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
                 super.setColumnsValues(",\n\t" + "MODIFICATION_NUM = (SELECT MODIFICATION_NUM + 1 FROM " + super.getDbOwner() + "." + super.getTblAddress() + " WHERE ROW_ID = '" + rowId + "')");
@@ -481,7 +481,7 @@ public class addressController extends DataController {
             super.clearColumnsValues();
             super.clearCondition();
             super.setColumnsValues("LAST_UPD = SYSDATE");
-            super.setColumnsValues(",\n\t" + "LAST_UPD_BY = '" + super.getUserIdByLogin() + "'");
+            super.setColumnsValues(",\n\t" + "LAST_UPD_BY = '" + super.getConnectedUserId() + "'");
             super.setColumnsValues(",\n\t" + "ACTIVE_FLG = 'Y'");
             super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
             super.setColumnsValues(",\n\t" + "MODIFICATION_NUM = (SELECT MODIFICATION_NUM + 1 FROM " + super.getDbOwner() + "." + super.getTblAddress() + " WHERE ROW_ID = '" + rowId + "')");

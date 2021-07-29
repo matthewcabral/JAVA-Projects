@@ -54,6 +54,7 @@ public abstract class Controller {
     private final String tblOrderItem = "T_ORDER_ITEM";
     private final String tblSSAId = "T_SSA_ID";
     private final String tblValMsg = "T_VALDN_MSG";
+    private final String tblLang = "T_LANG";
     
     // Database exceptions list
     exceptionsController exc;
@@ -138,6 +139,7 @@ public abstract class Controller {
     public String getTblOrderItem() { return tblOrderItem; }
     public String getTblSSAId() { return tblSSAId; }
     public String getTblValMsg() { return tblValMsg; }
+    public String getTblLang() { return tblLang; }
 
     public String getConfFile() { return confFile; }
     public String getSplitBy() { return SplitBy; }
@@ -154,6 +156,7 @@ public abstract class Controller {
     public abstract String closeConnection(String message);
     
     public abstract String createUser(String sqlCommand, String user);
+    public abstract void generateRowIdTrigger();
     public abstract String insertRecord(String table, String columns, String values);
     public abstract int updateRecord(String table, String columnsValues, String condition);
     public abstract int deleteRecord(String table, String condition);
@@ -164,13 +167,22 @@ public abstract class Controller {
     public abstract ArrayList<DataController.AddressClass> queryAddressRecord(String query);
     public abstract ArrayList<DataController.ContactClass> queryContactRecord(String query);
     public abstract ArrayList<DataController.SocialMediaClass> querySocialMediaRecord(String query);
+    public abstract ArrayList<DataController.LanguageClass> queryLanguageRecord(String query);
     public abstract String getNextRowId();
-    public abstract String getUserIdByLogin();
+    public abstract String getConnectedUserId();
+    public abstract String getUserIdByLogin(String login);
     public abstract String getPositionIdByName(String positionType);
     public abstract String LookupValueSubtype(String type, String name, String subtype);
     public abstract String LookupValue(String type, String name);
     public abstract String LookupNameSubtype(String type, String value, String subtype);
     public abstract String LookupName(String type, String value);
     public abstract ArrayList<DataController.ListOfValuesClass> LookupList(String type);
+    public abstract ArrayList<DataController.LanguageClass> LookupLangList();
+    public abstract String LookupLangValue(String name);
+    public abstract String LookupLangValueByCode(String code);
+    public abstract String LookupLangName(String value);
+    public abstract String LookupLangNameByCode(String code);
+    public abstract String LookupLangCodeByName(String name);
+    public abstract String LookupLangCodeByValue(String value);
     public abstract ArrayList<DataController.ListOfValuesClass> queryListOfValues(String query);
 }

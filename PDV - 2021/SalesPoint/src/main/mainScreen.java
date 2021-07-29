@@ -143,7 +143,7 @@ public class mainScreen extends javax.swing.JFrame {
         jLabel1.setOpaque(true);
 
         btnOpenClientCreator.setBackground(new java.awt.Color(237, 237, 237));
-        btnOpenClientCreator.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/50px/shopping 50x50.png"))); // NOI18N
+        btnOpenClientCreator.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/50px/Shopping 50x50.png"))); // NOI18N
         btnOpenClientCreator.setText("Venda Avulsa");
         btnOpenClientCreator.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnOpenClientCreator.setBorderPainted(false);
@@ -187,7 +187,7 @@ public class mainScreen extends javax.swing.JFrame {
         });
 
         btnExit1.setBackground(new java.awt.Color(237, 237, 237));
-        btnExit1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/50px/Block 50x50.png"))); // NOI18N
+        btnExit1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/50px/Lock 50x50.png"))); // NOI18N
         btnExit1.setText("Bloquear");
         btnExit1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnExit1.setBorderPainted(false);
@@ -209,7 +209,7 @@ public class mainScreen extends javax.swing.JFrame {
         });
 
         btnOpenClientCreator2.setBackground(new java.awt.Color(237, 237, 237));
-        btnOpenClientCreator2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/50px/delivery 50x50.png"))); // NOI18N
+        btnOpenClientCreator2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/50px/Delivery 50x50.png"))); // NOI18N
         btnOpenClientCreator2.setText("Venda na Mesa");
         btnOpenClientCreator2.setBorderPainted(false);
         btnOpenClientCreator2.setContentAreaFilled(false);
@@ -221,7 +221,7 @@ public class mainScreen extends javax.swing.JFrame {
         btnOpenClientCreator2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         btnOpenClientCreator3.setBackground(new java.awt.Color(237, 237, 237));
-        btnOpenClientCreator3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/50px/delivery 50x50.png"))); // NOI18N
+        btnOpenClientCreator3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/50px/Delivery 50x50.png"))); // NOI18N
         btnOpenClientCreator3.setText("Venda Delivery");
         btnOpenClientCreator3.setBorderPainted(false);
         btnOpenClientCreator3.setContentAreaFilled(false);
@@ -334,14 +334,14 @@ public class mainScreen extends javax.swing.JFrame {
         PanelSettings.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
 
         btnOpenDBSettings.setBackground(new java.awt.Color(237, 237, 237));
-        btnOpenDBSettings.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/50px/database 50x50.png"))); // NOI18N
+        btnOpenDBSettings.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/50px/Database 50x50.png"))); // NOI18N
         btnOpenDBSettings.setText("Banco de Dados");
         btnOpenDBSettings.setToolTipText("");
         btnOpenDBSettings.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnOpenDBSettings.setBorderPainted(false);
         btnOpenDBSettings.setContentAreaFilled(false);
         btnOpenDBSettings.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnOpenDBSettings.setIconTextGap(0);
+        btnOpenDBSettings.setIconTextGap(3);
         btnOpenDBSettings.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         btnOpenDBSettings.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
@@ -356,14 +356,14 @@ public class mainScreen extends javax.swing.JFrame {
         jSeparator2.setEnabled(false);
 
         btnOpenUserManagement.setBackground(new java.awt.Color(237, 237, 237));
-        btnOpenUserManagement.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/50px/User group 50x50.png"))); // NOI18N
+        btnOpenUserManagement.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/50px/User Group Green 50x50.png"))); // NOI18N
         btnOpenUserManagement.setText("Funcionários");
         btnOpenUserManagement.setToolTipText("");
         btnOpenUserManagement.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnOpenUserManagement.setBorderPainted(false);
         btnOpenUserManagement.setContentAreaFilled(false);
         btnOpenUserManagement.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnOpenUserManagement.setIconTextGap(0);
+        btnOpenUserManagement.setIconTextGap(5);
         btnOpenUserManagement.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         btnOpenUserManagement.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
@@ -396,7 +396,6 @@ public class mainScreen extends javax.swing.JFrame {
         btnOpenListOfValues.setBorderPainted(false);
         btnOpenListOfValues.setContentAreaFilled(false);
         btnOpenListOfValues.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnOpenListOfValues.setIconTextGap(0);
         btnOpenListOfValues.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         btnOpenListOfValues.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
@@ -417,7 +416,6 @@ public class mainScreen extends javax.swing.JFrame {
         btnOpenUserManagement1.setContentAreaFilled(false);
         btnOpenUserManagement1.setEnabled(false);
         btnOpenUserManagement1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnOpenUserManagement1.setIconTextGap(0);
         btnOpenUserManagement1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         btnOpenUserManagement1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
@@ -482,7 +480,7 @@ public class mainScreen extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("     ADMINISTRAÇÃO     ", PanelSettings);
+        jTabbedPane1.addTab("ADMINISTRAÇÃO ", new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/Settings 20x20.png")), PanelSettings); // NOI18N
 
         jTabbedPane1.setSelectedComponent(PanelHome);
 
@@ -505,7 +503,7 @@ public class mainScreen extends javax.swing.JFrame {
         PanelLogoLayout.setVerticalGroup(
             PanelLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelLogoLayout.createSequentialGroup()
-                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
                 .addGap(6, 6, 6))
         );
 
