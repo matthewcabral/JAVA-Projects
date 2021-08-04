@@ -109,9 +109,9 @@
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="lblImage" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="cbbUserListFilter" max="32767" attributes="0"/>
+                          <Component id="cbbListFilter" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="txtUserListFilterValue" max="32767" attributes="0"/>
+                          <Component id="txtListFilterValue" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="lblInformation" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -125,13 +125,13 @@
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="cbbUserListFilter" max="32767" attributes="0"/>
+                              <Component id="cbbListFilter" max="32767" attributes="0"/>
                               <Component id="lblUserList" alignment="1" max="32767" attributes="0"/>
                               <Component id="jSeparator1" alignment="1" max="32767" attributes="0"/>
                               <Component id="lblImage" alignment="0" max="32767" attributes="0"/>
                               <Component id="lblRecCount" alignment="1" max="32767" attributes="0"/>
                               <Component id="lblInformation" alignment="1" max="32767" attributes="0"/>
-                              <Component id="txtUserListFilterValue" alignment="1" max="32767" attributes="0"/>
+                              <Component id="txtListFilterValue" alignment="1" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -159,7 +159,7 @@
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="cbbUserListFilter">
+                <Component class="javax.swing.JComboBox" name="cbbListFilter">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Calibri" size="14" style="0"/>
@@ -180,13 +180,13 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cbbUserListFilterItemStateChanged"/>
+                    <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cbbListFilterItemStateChanged"/>
                   </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JTextField" name="txtUserListFilterValue">
+                <Component class="javax.swing.JTextField" name="txtListFilterValue">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Calibri" size="14" style="0"/>

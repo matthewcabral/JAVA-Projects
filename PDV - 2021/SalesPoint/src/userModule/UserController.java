@@ -12,6 +12,8 @@ import databaseModule.EncryptDecryptWord;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.time.LocalDate;
@@ -96,6 +98,8 @@ public class UserController extends DataController {
                 userScreen.setListenerBtnPermitions(new viewUserPermitions());
                 userScreen.setListenerBtnAddContact(new manageContact());
                 userScreen.setListenerTblUserListSelection(new userListSelected());
+                userScreen.setListenercbbListFilterValue(new CbbListFilterItemState());
+                userScreen.setListenertxtListFilterValue(new TxtListFilterValue());
                 query = "SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblUser() + " USR\nORDER BY USR.FST_NAME ASC";
                 break;
             case "USER":
@@ -108,6 +112,7 @@ public class UserController extends DataController {
         userScreen.clearComboBoxes();
         userScreen.enableFields("LOAD_SCREEN");
         userScreen.insertSelectComboBox();
+        this.fillComboBoxes("USER_FILTER");
         this.fillComboBoxes("POSITION_TYPE");
         this.fillComboBoxes("DOC_TYPE");
         this.fillComboBoxes("SEX_MF");
@@ -318,6 +323,9 @@ public class UserController extends DataController {
                     if(null == LovType){
                         JOptionPane.showMessageDialog(null, "O LOV_TYPE 'null' não existe!");
                     } else switch (LovType) {
+                        case "USER_FILTER":
+                            userScreen.setcbbListFilter(lov.get(i).getValue());
+                            break;
                         case "POSITION_TYPE":
                             userScreen.setcbbPosition(lov.get(i).getValue());
                             break;
@@ -755,11 +763,24 @@ public class UserController extends DataController {
         super.clearColumns();
         super.clearValues();
         super.setColumns("ROW_ID"); super.setValues("'" + userId + "'");
-        super.setColumns(",\n\t" + "CREATED"); super.setValues(",\n\t" + "SYSDATE");
+        super.setColumns(",\n\t" + "CREATED");
+        super.setColumns(",\n\t" + "LAST_UPD");
+        super.setColumns(",\n\t" + "DB_LAST_UPD");
+        if(super.getDbDriver().toUpperCase().contains("ORACLE")) {
+            super.setValues(",\n\t" + "SYSDATE");
+            super.setValues(",\n\t" + "SYSDATE");
+            super.setValues(",\n\t" + "SYSDATE");
+        } else if (super.getDbDriver().toUpperCase().contains("MYSQL")) {
+            super.setValues(",\n\t" + "SYSDATE()");
+            super.setValues(",\n\t" + "SYSDATE()");
+            super.setValues(",\n\t" + "SYSDATE()");
+        } else {
+            super.setValues(",\n\t" + "SYSDATE");
+            super.setValues(",\n\t" + "SYSDATE");
+            super.setValues(",\n\t" + "SYSDATE");
+        }
         super.setColumns(",\n\t" + "CREATED_BY"); super.setValues(",\n\t" + "'" + super.getConnectedUserId() + "'");
-        super.setColumns(",\n\t" + "LAST_UPD"); super.setValues(",\n\t" + "SYSDATE");
         super.setColumns(",\n\t" + "LAST_UPD_BY"); super.setValues(",\n\t" + "'" + super.getConnectedUserId() + "'");
-        super.setColumns(",\n\t" + "DB_LAST_UPD"); super.setValues(",\n\t" + "SYSDATE");
         super.setColumns(",\n\t" + "STATUS_CD"); super.setValues(",\n\t" + "'" + super.LookupName("USER_STATUS", ("Y".equals(userScreen.getckbActiveUserFlg()) ? "Ativo" : "Inativo")) + "'");
         super.setColumns(",\n\t" + "PAR_ROW_ID"); super.setValues(",\n\t" + "NULL");
         super.setColumns(",\n\t" + "PAR_POSTN_ID");
@@ -907,9 +928,17 @@ public class UserController extends DataController {
             case "USER":
                 this.setLastUserUpd(userId);
                 
-                super.setColumnsValues("LAST_UPD = SYSDATE");
-                super.setColumnsValues(",\n\t" + "LAST_UPD_BY = '" + super.getConnectedUserId() + "'");
-                super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
+                if(super.getDbDriver().toUpperCase().contains("ORACLE")) {
+                    super.setColumnsValues("LAST_UPD = SYSDATE");
+                    super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
+                } else if (super.getDbDriver().toUpperCase().contains("MYSQL")) {
+                    super.setColumnsValues("LAST_UPD = SYSDATE()");
+                    super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE()");
+                } else {
+                    super.setColumnsValues("LAST_UPD = SYSDATE");
+                    super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
+                }
+                super.setColumnsValues(",\n\t" + "LAST_UPD_BY = '" + super.getConnectedUserId() + "'");                
                 super.setColumnsValues(",\n\t" + "STATUS_CD = '" + super.LookupName("USER_STATUS", ("Y".equals(userScreen.getckbActiveUserFlg()) ? "Ativo" : "Inativo")) + "'");
                 super.setColumnsValues(",\n\t" + "PAR_ROW_ID = NULL");
                 
@@ -1404,6 +1433,47 @@ public class UserController extends DataController {
                 }
             }
         }
+    }
+    
+    private class CbbListFilterItemState implements java.awt.event.ItemListener {
+
+        @Override
+        public void itemStateChanged(ItemEvent ie) {
+            if(ie.getStateChange() == ItemEvent.SELECTED){
+                if(userScreen.getcbbListFilter() == null) {
+                    userScreen.cleartxtListFilterValue();
+                }
+                userScreen.setFocus("FILTRO_VALOR");
+            }
+        }
+        
+    }
+    
+    private class TxtListFilterValue implements java.awt.event.KeyListener {
+
+        @Override
+        public void keyTyped(KeyEvent ke) { }
+
+        @Override
+        public void keyPressed(KeyEvent ke) {
+            if(ke.getKeyCode() == KeyEvent.VK_ENTER){
+                userScreen.unselectRowList();
+                if(userScreen.getcbbListFilter() != null && userScreen.gettxtListFilterValue() != null) {
+                    fillList(
+                        "SELECT *\n" +
+                        "FROM " + getDbOwner() + "." + getTblUser() + " USR\n" +
+                        "WHERE " + processFilterCondition(userScreen.getcbbListFilter(), userScreen.gettxtListFilterValue(), "USER_FILTER", "USR") +
+                        "ORDER BY USR.FST_NAME ASC"
+                    );
+                } else {
+                    fillList("SELECT *\nFROM " + getDbOwner() + "." + getTblUser() + " USR\nORDER BY USR.FST_NAME ASC");
+                }
+            }
+        }
+
+        @Override
+        public void keyReleased(KeyEvent ke) { }
+        
     }
     
     private class userListSelected implements ListSelectionListener {

@@ -943,7 +943,7 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
 
         PanelFormUser.setBackground(new java.awt.Color(255, 255, 255));
         PanelFormUser.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        PanelFormUser.setPreferredSize(new java.awt.Dimension(1427, 80));
+        PanelFormUser.setPreferredSize(new java.awt.Dimension(1500, 80));
 
         lblRowId.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         lblRowId.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -1177,10 +1177,10 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
                     .addComponent(lblSubtype, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtSubType, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+                    .addComponent(lblDescription, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         PanelFormUserLayout.setVerticalGroup(
             PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

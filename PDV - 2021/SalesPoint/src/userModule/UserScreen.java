@@ -10,7 +10,9 @@ import java.awt.GraphicsEnvironment;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Collections;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -47,16 +49,20 @@ public class UserScreen extends javax.swing.JFrame {
     public void setListenerBtnAddAddress(ActionListener listener) { this.btnAddAddress.addActionListener(listener); }
     public void setListenerBtnPermitions(ActionListener listener) { this.btnPermitions.addActionListener(listener); }
     
+    public void setListenercbbListFilterValue(ItemListener listener) { this.cbbListFilter.addItemListener(listener); }
+    public void setListenertxtListFilterValue(KeyListener listener) { this.txtListFilterValue.addKeyListener(listener); }
+    
     // Table
     public DefaultTableModel getTableModel(){ return (DefaultTableModel) tblUserList.getModel(); }    
     public void setListenerTblUserListSelection(ListSelectionListener listener) { this.tblUserList.getSelectionModel().addListSelectionListener(listener); }
     public String getSelectedUserListId() { try { return (String) this.tblUserList.getValueAt(this.tblUserList.getSelectedRow(), 0); } catch (Exception e) { return ""; } }
     public void setSelectedRowColumnList(int row, int column){ this.tblUserList.changeSelection(row, column, false, false); }
+    public void unselectRowList() { try { this.tblUserList.removeRowSelectionInterval(this.getSelectedRowList(), this.getSelectedRowList()); } catch (Exception e) {} }
     public int getSelectedRowList() { return this.tblUserList.getSelectedRow(); }
     public int getNumOfListRows() { return this.tblUserList.getRowCount(); }
     
     // Component Setters
-    public void settxtUserListFilterValue(String value) { this.txtUserListFilterValue.setText(value); this.txtUserListFilterValue.paintImmediately(this.txtUserListFilterValue.getVisibleRect()); }
+    public void settxtListFilterValue(String value) { this.txtListFilterValue.setText(value); this.txtListFilterValue.paintImmediately(this.txtListFilterValue.getVisibleRect()); }
     public void settxtRowId(String value) { this.txtRowId.setText(value); this.txtRowId.paintImmediately(this.txtRowId.getVisibleRect()); }
     public void settxtUser(String value) { this.txtUser.setText(value); this.txtUser.paintImmediately(this.txtUser.getVisibleRect()); }
     public void settxtPass(String value) { this.txtPass.setText(value); this.txtPass.paintImmediately(this.txtPass.getVisibleRect()); }
@@ -92,7 +98,7 @@ public class UserScreen extends javax.swing.JFrame {
     public void settxtTwitter(String value) { this.txtTwitter.setText(value); this.txtTwitter.paintImmediately(this.txtTwitter.getVisibleRect()); }
     public void settxtFullAddress(String value) { this.txtFullAddress.setText(value); this.txtFullAddress.paintImmediately(this.txtFullAddress.getVisibleRect()); }
     
-    public void setcbbUserListFilter(String value) { this.cbbUserListFilter.addItem(value); this.cbbUserListFilter.paintImmediately(this.cbbUserListFilter.getVisibleRect()); }
+    public void setcbbListFilter(String value) { this.cbbListFilter.addItem(value); this.cbbListFilter.paintImmediately(this.cbbListFilter.getVisibleRect()); }
     public void setcbbCivilState(String value) { this.cbbCivilState.addItem(value); this.cbbCivilState.paintImmediately(this.cbbCivilState.getVisibleRect()); }
     public void setcbbDay(String value) { this.cbbDay.addItem(value); this.cbbDay.paintImmediately(this.cbbDay.getVisibleRect()); }
     public void setcbbDocType(String value) { this.cbbDocType.addItem(value); this.cbbDocType.paintImmediately(this.cbbDocType.getVisibleRect()); }
@@ -105,7 +111,7 @@ public class UserScreen extends javax.swing.JFrame {
     public void setckbActiveUserFlg(String value) { this.ckbActiveUserFlg.setSelected(("Y".equals(value))); this.ckbActiveUserFlg.paintImmediately(this.ckbActiveUserFlg.getVisibleRect()); }
 
     // ComboBox Specific Setters
-    public void setcbbUserListFilterItemIndex(int value) { this.cbbUserListFilter.setSelectedIndex(value); }
+    public void setcbbUserListFilterItemIndex(int value) { this.cbbListFilter.setSelectedIndex(value); }
     public void setcbbCivilStateItemIndex(int value) { this.cbbCivilState.setSelectedIndex(value); }
     public void setcbbDayItemIndex(int value) { this.cbbDay.setSelectedIndex(value); }
     public void setcbbDocTypeItemIndex(int value) { this.cbbDocType.setSelectedIndex(value); }
@@ -145,7 +151,7 @@ public class UserScreen extends javax.swing.JFrame {
     public String gettxtValidThru() { if(!"".equals(this.txtValidThru.getText()) && this.txtValidThru.getText() != null) { return this.txtValidThru.getText(); } else { return null; } }
     public String gettxtNaturalness() { if(!"".equals(this.txtNaturalness.getText()) && this.txtNaturalness.getText() != null) { return this.txtNaturalness.getText(); } else { return null; } }
     public String gettxtNationality() { if(!"".equals(this.txtNationality.getText()) && this.txtNationality.getText() != null) { return this.txtNationality.getText(); } else { return null; } }
-    public String gettxtUserListFilterValue() { if(!"".equals(this.txtUserListFilterValue.getText()) && this.txtUserListFilterValue.getText() != null) { return this.txtUserListFilterValue.getText(); } else { return null; } }
+    public String gettxtListFilterValue() { if(!"".equals(this.txtListFilterValue.getText()) && this.txtListFilterValue.getText() != null) { return this.txtListFilterValue.getText(); } else { return null; } }
     public String gettxtContactMPhone() { if(!"".equals(this.txtContactMPhone.getText()) && this.txtContactMPhone.getText() != null) { return this.txtContactMPhone.getText(); } else { return null; } }
     public String gettxtContactEmail() { if(!"".equals(this.txtContactEmail.getText()) && this.txtContactEmail.getText() != null) { return this.txtContactEmail.getText(); } else { return null; } }
     public String gettxtContactPhone() { if(!"".equals(this.txtContactPhone.getText()) && this.txtContactPhone.getText() != null) { return this.txtContactPhone.getText(); } else { return null; } }
@@ -155,7 +161,7 @@ public class UserScreen extends javax.swing.JFrame {
     public String gettxtTwitter() { if(!"".equals(this.txtTwitter.getText()) && this.txtTwitter.getText() != null) { return this.txtTwitter.getText(); } else { return null; } }    
     public String gettxtFullAddress() { if(!"".equals(this.txtFullAddress.getText()) && this.txtFullAddress.getText() != null) { return this.txtFullAddress.getText(); } else { return null; } }
     
-    public String getcbbUserListFilter() { if(!"".equals(this.cbbUserListFilter.getSelectedItem().toString()) && !"Selecione...".equals(this.cbbUserListFilter.getSelectedItem().toString()) && this.cbbUserListFilter.getSelectedItem().toString() != null) { return this.cbbUserListFilter.getSelectedItem().toString(); } else { return null; } }
+    public String getcbbListFilter() { if(!"".equals(this.cbbListFilter.getSelectedItem().toString()) && !"Selecione...".equals(this.cbbListFilter.getSelectedItem().toString()) && this.cbbListFilter.getSelectedItem().toString() != null) { return this.cbbListFilter.getSelectedItem().toString(); } else { return null; } }
     public String getcbbCivilState() { if(!"".equals(this.cbbCivilState.getSelectedItem().toString()) && !"Selecione...".equals(this.cbbCivilState.getSelectedItem().toString()) && this.cbbCivilState.getSelectedItem().toString() != null) { return this.cbbCivilState.getSelectedItem().toString(); } else { return null; } }
     public String getcbbDay() { if(!"".equals(this.cbbDay.getSelectedItem().toString()) && !"Selecione...".equals(this.cbbDay.getSelectedItem().toString()) && this.cbbDay.getSelectedItem().toString() != null) { return this.cbbDay.getSelectedItem().toString(); } else { return null; } }
     public String getcbbDocType() { if(!"".equals(this.cbbDocType.getSelectedItem().toString()) && !"Selecione...".equals(this.cbbDocType.getSelectedItem().toString()) && this.cbbDocType.getSelectedItem().toString() != null) { return this.cbbDocType.getSelectedItem().toString(); } else { return null; } }
@@ -168,7 +174,7 @@ public class UserScreen extends javax.swing.JFrame {
     public String getckbActiveUserFlg() { return (this.ckbActiveUserFlg.isSelected()) ? "Y" : "N"; }
     
     // ComboBox Specific Getters
-    public int getcbbUserListFilterItemIndex(String value) { if(!"".equals(value) && value != null) { for(int i = 0; i < this.cbbUserListFilter.getItemCount(); i++){ if(value.equals(this.cbbUserListFilter.getItemAt(i))){ return i; }}} else { return 0; } return 0; }
+    public int getcbbUserListFilterItemIndex(String value) { if(!"".equals(value) && value != null) { for(int i = 0; i < this.cbbListFilter.getItemCount(); i++){ if(value.equals(this.cbbListFilter.getItemAt(i))){ return i; }}} else { return 0; } return 0; }
     public int getcbbCivilStateItemIndex(String value) { if(!"".equals(value) && value != null) { for(int i = 0; i < this.cbbCivilState.getItemCount(); i++){ if(value.equals(this.cbbCivilState.getItemAt(i))){ return i; }}} else { return 0; } return 0; }
     public int getcbbDayItemIndex(String value) { if(!"".equals(value) && value != null) { for(int i = 0; i < this.cbbDay.getItemCount(); i++){ if(value.equals(this.cbbDay.getItemAt(i))){ return i; }}} else { return 0; } return 0; }
     public int getcbbDocTypeItemIndex(String value) { if(!"".equals(value) && value != null) { for(int i = 0; i < this.cbbDocType.getItemCount(); i++){ if(value.equals(this.cbbDocType.getItemAt(i))){ return i; }}} else { return 0; } return 0; }
@@ -183,7 +189,7 @@ public class UserScreen extends javax.swing.JFrame {
     
 
     // Component Clear
-    public void cleartxtUserListFilterValue() { this.txtUserListFilterValue.setText(""); this.txtUserListFilterValue.paintImmediately(this.txtUserListFilterValue.getVisibleRect()); }
+    public void cleartxtListFilterValue() { this.txtListFilterValue.setText(""); this.txtListFilterValue.paintImmediately(this.txtListFilterValue.getVisibleRect()); }
     public void cleartxtRowId() { this.txtRowId.setText(""); this.txtRowId.paintImmediately(this.txtRowId.getVisibleRect()); }
     public void cleartxtUser() { this.txtUser.setText(""); this.txtUser.paintImmediately(this.txtUser.getVisibleRect()); }
     public void cleartxtPass() { this.txtPass.setText(""); this.txtPass.paintImmediately(this.txtPass.getVisibleRect()); }
@@ -219,7 +225,7 @@ public class UserScreen extends javax.swing.JFrame {
     public void cleartxtTwitter() { this.txtTwitter.setText(""); this.txtTwitter.paintImmediately(this.txtTwitter.getVisibleRect()); }    
     public void cleartxtFullAddress() { this.txtFullAddress.setText(""); this.txtFullAddress.paintImmediately(this.txtFullAddress.getVisibleRect()); }
     
-    public void clearcbbUserListFilter() { this.cbbUserListFilter.removeAllItems(); this.cbbUserListFilter.paintImmediately(this.cbbUserListFilter.getVisibleRect()); }
+    public void clearcbbUserListFilter() { this.cbbListFilter.removeAllItems(); this.cbbListFilter.paintImmediately(this.cbbListFilter.getVisibleRect()); }
     public void clearcbbCivilState() { this.cbbCivilState.removeAllItems(); this.cbbCivilState.paintImmediately(this.cbbCivilState.getVisibleRect()); }
     public void clearcbbDay() { this.cbbDay.removeAllItems(); this.cbbDay.paintImmediately(this.cbbDay.getVisibleRect()); }
     public void clearcbbDocType() { this.cbbDocType.removeAllItems(); this.cbbDocType.paintImmediately(this.cbbDocType.getVisibleRect()); }
@@ -235,7 +241,7 @@ public class UserScreen extends javax.swing.JFrame {
     public void clearlblUserNameHeader() { this.lblUserNameHeader.setText(""); this.lblUserNameHeader.paintImmediately(this.lblUserNameHeader.getVisibleRect()); }
 
     // Enable or Disable Components
-    public void settxtUserListFilterValueEnabled(boolean status) { this.txtUserListFilterValue.setEnabled(status); }
+    public void settxtUserListFilterValueEnabled(boolean status) { this.txtListFilterValue.setEnabled(status); }
     public void settxtRowIdEnabled(boolean status) { this.txtRowId.setEnabled(status); }
     public void settxtUserEnabled(boolean status) { this.txtUser.setEnabled(status); }
     public void settxtPassEnabled(boolean status) { this.txtPass.setEnabled(status); }
@@ -271,7 +277,7 @@ public class UserScreen extends javax.swing.JFrame {
     public void settxtTwitterEnabled(boolean status) { this.txtTwitter.setEnabled(status); }    
     public void settxtFullAddressEnabled(boolean status) { this.txtFullAddress.setEnabled(status); }
     
-    public void setcbbUserListFilterEnabled(boolean status) { this.cbbUserListFilter.setEnabled(status); }
+    public void setcbbUserListFilterEnabled(boolean status) { this.cbbListFilter.setEnabled(status); }
     public void setcbbCivilStateEnabled(boolean status) { this.cbbCivilState.setEnabled(status); }
     public void setcbbDayEnabled(boolean status) { this.cbbDay.setEnabled(status); }
     public void setcbbDocTypeEnabled(boolean status) { this.cbbDocType.setEnabled(status); }
@@ -298,7 +304,7 @@ public class UserScreen extends javax.swing.JFrame {
     public void setbtnPermitionsEnabled(boolean status) { this.btnPermitions.setEnabled(status); }
 
     // Return componet status
-    public boolean istxtUserListFilterValueEnabled() { return this.txtUserListFilterValue.isEnabled(); }
+    public boolean istxtUserListFilterValueEnabled() { return this.txtListFilterValue.isEnabled(); }
     public boolean istxtRowIdEnabled() { return this.txtRowId.isEnabled(); }
     public boolean istxtUserEnabled() { return this.txtUser.isEnabled(); }
     public boolean istxtPassEnabled() { return this.txtPass.isEnabled(); }
@@ -334,7 +340,7 @@ public class UserScreen extends javax.swing.JFrame {
     public boolean istxtTwitterEnabled() { return this.txtTwitter.isEnabled(); }    
     public boolean istxtFullAddressEnabled() { return this.txtFullAddress.isEnabled(); }
     
-    public boolean iscbbUserListFilterEnabled() { return this.cbbUserListFilter.isEnabled(); }
+    public boolean iscbbUserListFilterEnabled() { return this.cbbListFilter.isEnabled(); }
     public boolean iscbbCivilStateEnabled() { return this.cbbCivilState.isEnabled(); }
     public boolean iscbbDayEnabled() { return this.cbbDay.isEnabled(); }
     public boolean iscbbDocTypeEnabled() { return this.cbbDocType.isEnabled(); }
@@ -369,7 +375,7 @@ public class UserScreen extends javax.swing.JFrame {
     public void setFocus(String component) {
         switch (component) {
         case "FILTRO_VALOR":
-            this.txtUserListFilterValue.requestFocus();
+            this.txtListFilterValue.requestFocus();
             break;
         case "ID":
             this.txtRowId.requestFocus();
@@ -468,7 +474,7 @@ public class UserScreen extends javax.swing.JFrame {
             this.txtNationality.requestFocus();
             break;
         case "FILTRO":
-            this.cbbUserListFilter.requestFocus();
+            this.cbbListFilter.requestFocus();
             break;
         case "ESTADO_CIVIL":
             this.cbbCivilState.requestFocus();
@@ -900,7 +906,7 @@ public class UserScreen extends javax.swing.JFrame {
     }
 
     public void clearFields() {
-        cleartxtUserListFilterValue();
+        cleartxtListFilterValue();
         cleartxtRowId();
         cleartxtUser();
         cleartxtPass();
@@ -964,7 +970,7 @@ public class UserScreen extends javax.swing.JFrame {
     }
     
     public void insertSelectComboBox(){
-        this.setcbbUserListFilter("Selecione...");
+        this.setcbbListFilter("Selecione...");
         this.setcbbCivilState("Selecione...");
         this.setcbbDay("Selecione...");
         this.setcbbDocType("Selecione...");
@@ -976,7 +982,7 @@ public class UserScreen extends javax.swing.JFrame {
     }
     
     public final void FocusTraversalKeys(){
-        this.txtUserListFilterValue.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
+        this.txtListFilterValue.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.txtRowId.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.txtUser.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.txtPass.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
@@ -1012,7 +1018,7 @@ public class UserScreen extends javax.swing.JFrame {
         this.txtTwitter.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.txtFullAddress.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
 
-        this.cbbUserListFilter.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
+        this.cbbListFilter.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.cbbCivilState.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.cbbDay.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.cbbDocType.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
@@ -1043,8 +1049,8 @@ public class UserScreen extends javax.swing.JFrame {
         lblUserList = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         lblImage = new javax.swing.JLabel();
-        cbbUserListFilter = new javax.swing.JComboBox<>();
-        txtUserListFilterValue = new javax.swing.JTextField();
+        cbbListFilter = new javax.swing.JComboBox<>();
+        txtListFilterValue = new javax.swing.JTextField();
         lblInformation = new javax.swing.JLabel();
         lblRecCount = new javax.swing.JLabel();
         PanelListUser = new javax.swing.JPanel();
@@ -1179,20 +1185,20 @@ public class UserScreen extends javax.swing.JFrame {
 
         lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/Lupa 20x20.png"))); // NOI18N
 
-        cbbUserListFilter.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
-        cbbUserListFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbbUserListFilter.setMaximumSize(new java.awt.Dimension(250, 32767));
-        cbbUserListFilter.setPreferredSize(new java.awt.Dimension(250, 23));
-        cbbUserListFilter.addItemListener(new java.awt.event.ItemListener() {
+        cbbListFilter.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+        cbbListFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbbListFilter.setMaximumSize(new java.awt.Dimension(250, 32767));
+        cbbListFilter.setPreferredSize(new java.awt.Dimension(250, 23));
+        cbbListFilter.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbbUserListFilterItemStateChanged(evt);
+                cbbListFilterItemStateChanged(evt);
             }
         });
 
-        txtUserListFilterValue.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
-        txtUserListFilterValue.setToolTipText("");
-        txtUserListFilterValue.setMaximumSize(new java.awt.Dimension(250, 2147483647));
-        txtUserListFilterValue.setPreferredSize(new java.awt.Dimension(250, 23));
+        txtListFilterValue.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+        txtListFilterValue.setToolTipText("");
+        txtListFilterValue.setMaximumSize(new java.awt.Dimension(250, 2147483647));
+        txtListFilterValue.setPreferredSize(new java.awt.Dimension(250, 23));
 
         lblInformation.setBackground(new java.awt.Color(255, 255, 255));
         lblInformation.setText("Pressione Enter para pesquisar");
@@ -1216,9 +1222,9 @@ public class UserScreen extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblImage)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cbbUserListFilter, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(cbbListFilter, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtUserListFilterValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txtListFilterValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblInformation)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1230,13 +1236,13 @@ public class UserScreen extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelUserListHeaderLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PanelUserListHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cbbUserListFilter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbbListFilter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblUserList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jSeparator1)
                     .addComponent(lblImage, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblRecCount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblInformation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtUserListFilterValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(txtListFilterValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -3083,11 +3089,11 @@ public class UserScreen extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnCancelUserKeyPressed
 
-    private void cbbUserListFilterItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbbUserListFilterItemStateChanged
+    private void cbbListFilterItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbbListFilterItemStateChanged
         if(evt.getStateChange() == ItemEvent.SELECTED){
             setFocus("FILTRO_VALOR");
         }
-    }//GEN-LAST:event_cbbUserListFilterItemStateChanged
+    }//GEN-LAST:event_cbbListFilterItemStateChanged
 
     private void btnDeleteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnDeleteKeyPressed
         // TODO add your handling code here:
@@ -3126,10 +3132,10 @@ public class UserScreen extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbbDocType;
     private javax.swing.JComboBox<String> cbbEmissionUF;
     private javax.swing.JComboBox<String> cbbIdentityType;
+    private javax.swing.JComboBox<String> cbbListFilter;
     private javax.swing.JComboBox<String> cbbMonth;
     private javax.swing.JComboBox<String> cbbPosition;
     private javax.swing.JComboBox<String> cbbSex;
-    private javax.swing.JComboBox<String> cbbUserListFilter;
     private javax.swing.JCheckBox ckbActiveUserFlg;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
@@ -3209,6 +3215,7 @@ public class UserScreen extends javax.swing.JFrame {
     private javax.swing.JTextField txtFatherName;
     private javax.swing.JTextField txtFullAddress;
     private javax.swing.JTextField txtInstagram;
+    private javax.swing.JTextField txtListFilterValue;
     private javax.swing.JTextField txtMotherName;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtNationality;
@@ -3229,7 +3236,6 @@ public class UserScreen extends javax.swing.JFrame {
     private javax.swing.JTextField txtSurname;
     private javax.swing.JTextField txtTwitter;
     private javax.swing.JTextField txtUser;
-    private javax.swing.JTextField txtUserListFilterValue;
     private javax.swing.JTextField txtValidThru;
     private javax.swing.JTextField txtYear;
     // End of variables declaration//GEN-END:variables

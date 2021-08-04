@@ -656,12 +656,25 @@ public class ContactController extends DataController {
             super.clearColumns();
             super.clearValues();
             super.setColumns("ROW_ID"); super.setValues("'" + contactId + "'");
-            super.setColumns(",\n\t" + "CREATED"); super.setValues(",\n\t" + "SYSDATE");
+            super.setColumns(",\n\t" + "CREATED");
+            super.setColumns(",\n\t" + "LAST_UPD");
+            super.setColumns(",\n\t" + "DB_LAST_UPD");
+            if(super.getDbDriver().toUpperCase().contains("ORACLE")) {
+                super.setValues(",\n\t" + "SYSDATE");
+                super.setValues(",\n\t" + "SYSDATE");
+                super.setValues(",\n\t" + "SYSDATE");
+            } else if (super.getDbDriver().toUpperCase().contains("MYSQL")) {
+                super.setValues(",\n\t" + "SYSDATE()");
+                super.setValues(",\n\t" + "SYSDATE()");
+                super.setValues(",\n\t" + "SYSDATE()");
+            } else {
+                super.setValues(",\n\t" + "SYSDATE");
+                super.setValues(",\n\t" + "SYSDATE");
+                super.setValues(",\n\t" + "SYSDATE");
+            }            
             super.setColumns(",\n\t" + "CREATED_BY"); super.setValues(",\n\t" + "'" + super.getConnectedUserId() + "'");
-            super.setColumns(",\n\t" + "LAST_UPD"); super.setValues(",\n\t" + "SYSDATE");
             super.setColumns(",\n\t" + "LAST_UPD_BY"); super.setValues(",\n\t" + "'" + super.getConnectedUserId() + "'");
             super.setColumns(",\n\t" + "ACTIVE_FLG"); super.setValues(",\n\t" + "'Y'");
-            super.setColumns(",\n\t" + "DB_LAST_UPD"); super.setValues(",\n\t" + "SYSDATE");
             super.setColumns(",\n\t" + "STATUS_CD"); super.setValues(",\n\t" + "'" + super.LookupValue("ACCOUNT_STATUS", "Active") + "'");
                         
             if(this.getOpenFromScreen() != null && !"".equals(this.getOpenFromScreen())){
@@ -874,10 +887,19 @@ public class ContactController extends DataController {
                     } else {
                         super.setColumnsValues("PR_CON_FLG = 'N'");
                     }
-                    super.setColumnsValues(",\n\t" + "LAST_UPD = SYSDATE");
+                    if(super.getDbDriver().toUpperCase().contains("ORACLE")) {
+                        super.setColumnsValues(",\n\t" + "LAST_UPD = SYSDATE");
+                        super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
+                    } else if (super.getDbDriver().toUpperCase().contains("MYSQL")) {
+                        super.setColumnsValues(",\n\t" + "LAST_UPD = SYSDATE()");
+                        super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE()");
+                    } else {
+                        super.setColumnsValues(",\n\t" + "LAST_UPD = SYSDATE");
+                        super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
+                    }
+                    
                     super.setColumnsValues(",\n\t" + "LAST_UPD_BY = '" + super.getConnectedUserId() + "'");
                     super.setColumnsValues(",\n\t" + "ACTIVE_FLG = 'Y'");
-                    super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
                     super.setColumnsValues(",\n\t" + "MODIFICATION_NUM = (SELECT MODIFICATION_NUM + 1 FROM " + super.getDbOwner() + "." + super.getTblContact() + " WHERE ROW_ID = '" + rowId + "')");
                     super.setColumnsValues(",\n\t" + "STATUS_CD = '" + super.LookupValue("ACCOUNT_STATUS", "Active") + "'");                
                     super.setColumnsValues(",\n\t" + "SUPPRESS_EMAIL_FLG = '" + conMgr.getckbAllowEmailFlg() + "'");
@@ -959,10 +981,19 @@ public class ContactController extends DataController {
                 this.setLastContUpd(rowId);
                 super.clearColumnsValues();
                 super.clearCondition();
-                super.setColumnsValues("LAST_UPD = SYSDATE");
+                if(super.getDbDriver().toUpperCase().contains("ORACLE")) {
+                    super.setColumnsValues("LAST_UPD = SYSDATE");
+                    super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
+                } else if (super.getDbDriver().toUpperCase().contains("MYSQL")) {
+                    super.setColumnsValues("LAST_UPD = SYSDATE()");
+                    super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE()");
+                } else {
+                    super.setColumnsValues("LAST_UPD = SYSDATE");
+                    super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
+                }
+                
                 super.setColumnsValues(",\n\t" + "LAST_UPD_BY = '" + super.getConnectedUserId() + "'");
                 super.setColumnsValues(",\n\t" + "ACTIVE_FLG = 'Y'");
-                super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
                 super.setColumnsValues(",\n\t" + "MODIFICATION_NUM = (SELECT MODIFICATION_NUM + 1 FROM " + super.getDbOwner() + "." + super.getTblContact() + " WHERE ROW_ID = '" + rowId + "')");
                 if(!"".equals(columnsValues) && columnsValues != null){
                     super.setColumnsValues(columnsValues);
@@ -1226,9 +1257,23 @@ public class ContactController extends DataController {
             super.clearColumns();
             super.clearValues();
             super.setColumns("ROW_ID"); super.setValues("'" + super.getNextRowId() + "'");
-            super.setColumns(",\n\t" + "CREATED"); super.setValues(",\n\t" + "SYSDATE");
+            super.setColumns(",\n\t" + "CREATED");
+            super.setColumns(",\n\t" + "LAST_UPD");
+            super.setColumns(",\n\t" + "DB_LAST_UPD");
+            if(super.getDbDriver().toUpperCase().contains("ORACLE")) {
+                super.setValues(",\n\t" + "SYSDATE");
+                super.setValues(",\n\t" + "SYSDATE");
+                super.setValues(",\n\t" + "SYSDATE");
+            } else if (super.getDbDriver().toUpperCase().contains("MYSQL")) {
+                super.setValues(",\n\t" + "SYSDATE()");
+                super.setValues(",\n\t" + "SYSDATE()");
+                super.setValues(",\n\t" + "SYSDATE()");
+            } else {
+                super.setValues(",\n\t" + "SYSDATE");
+                super.setValues(",\n\t" + "SYSDATE");
+                super.setValues(",\n\t" + "SYSDATE");
+            }
             super.setColumns(",\n\t" + "CREATED_BY"); super.setValues(",\n\t" + "'" + super.getConnectedUserId() + "'");
-            super.setColumns(",\n\t" + "LAST_UPD"); super.setValues(",\n\t" + "SYSDATE");
             super.setColumns(",\n\t" + "LAST_UPD_BY"); super.setValues(",\n\t" + "'" + super.getConnectedUserId() + "'");
             if(this.getOpenFromScreen() != null && !"".equals(this.getOpenFromScreen())){
                 switch(this.getOpenFromScreen()){
@@ -1245,7 +1290,6 @@ public class ContactController extends DataController {
                 }
             }
             super.setColumns(",\n\t" + "ACTIVE_FLG"); super.setValues(",\n\t" + "'Y'");
-            super.setColumns(",\n\t" + "DB_LAST_UPD"); super.setValues(",\n\t" + "SYSDATE");
             super.setColumns(",\n\t" + "SOCIAL_M_NAME"); super.setValues(",\n\t" + "'" + socMedMgr.getcbbSocialMediaType() + "'");
             super.setColumns(",\n\t" + "SOCIAL_M_VALUE"); super.setValues(",\n\t" + "'" + socMedMgr.gettxtSocialMediaValue() + "'");
             super.setColumns(",\n\t" + "STATUS_CD"); super.setValues(",\n\t" + "'" + super.LookupValue("ACCOUNT_STATUS", "Active") + "'");
@@ -1283,10 +1327,19 @@ public class ContactController extends DataController {
         super.clearColumnsValues();
         super.clearCondition();
         
-        super.setColumnsValues("LAST_UPD = SYSDATE");
+        if(super.getDbDriver().toUpperCase().contains("ORACLE")) {
+            super.setColumnsValues("LAST_UPD = SYSDATE");
+            super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
+        } else if (super.getDbDriver().toUpperCase().contains("MYSQL")) {
+            super.setColumnsValues("LAST_UPD = SYSDATE()");
+            super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE()");
+        } else {
+            super.setColumnsValues("LAST_UPD = SYSDATE");
+            super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
+        }
+        
         super.setColumnsValues(",\n\t" + "LAST_UPD_BY = '" + super.getConnectedUserId() + "'");
         super.setColumnsValues(",\n\t" + "ACTIVE_FLG = 'Y'");
-        super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
         super.setColumnsValues(",\n\t" + "MODIFICATION_NUM = (SELECT MODIFICATION_NUM + 1 FROM " + super.getDbOwner() + "." + super.getTblSocialMedia() + " WHERE ROW_ID = '" + ((rowId != null) ? rowId : socMedMgr.gettxtRowId()) + "')");
         super.setColumnsValues(",\n\t" + "STATUS_CD = '" + super.LookupValue("ACCOUNT_STATUS", "Active") + "'");
         
