@@ -1,0 +1,631 @@
+-- TABELA DE ROW_ID
+CREATE TABLE PDV.T_SSA_ID (
+	ROW_ID VARCHAR(15) NOT NULL,                                  	-- ID
+	CREATED DATETIME(6) DEFAULT SYSDATE() NOT NULL,             	-- CRIADO
+	CREATED_BY VARCHAR(15) NOT NULL,                              	-- CRIADO POR
+	LAST_UPD DATETIME(6) DEFAULT SYSDATE() NOT NULL,                -- ATUALIZADO
+	LAST_UPD_BY VARCHAR(15) NOT NULL,                             	-- ATUALIZADO POR
+	MODIFICATION_NUM BIGINT DEFAULT 0 NOT NULL,                  	-- 
+	DB_LAST_UPD DATETIME(6) DEFAULT SYSDATE(),                      --
+	P_NEXT_ID VARCHAR(15) NOT NULL,                               	-- PROXIMO ID
+	P_PREFIX BIGINT DEFAULT 0 NOT NULL,                  			-- PREFIXO
+	P_SUFFIX BIGINT DEFAULT 0 NOT NULL,                  			-- SUFIXO	
+	
+	PRIMARY KEY (ROW_ID)
+);
+
+-- IDIOMA DO SISTEMA
+CREATE TABLE PDV.T_LANG (
+	ROW_ID VARCHAR(15) NOT NULL,
+	CREATED DATETIME(6) DEFAULT SYSDATE() NOT NULL,
+	CREATED_BY VARCHAR(15) NOT NULL,
+	LAST_UPD DATETIME(6) DEFAULT SYSDATE() NOT NULL,
+	LAST_UPD_BY VARCHAR(15) NOT NULL,
+	MODIFICATION_NUM BIGINT DEFAULT 0 NOT NULL,
+	DB_LAST_UPD DATETIME(6) DEFAULT SYSDATE(),
+	LANG_CD VARCHAR(5),
+	NAME VARCHAR(50),
+	VALUE VARCHAR(50),
+	ORDER_BY BIGINT,
+
+	PRIMARY KEY (ROW_ID)
+)
+
+-- TABELA DE LISTA DE VALORES
+CREATE TABLE PDV.T_LST_OF_VAL (
+	ROW_ID VARCHAR(15) NOT NULL,                                  	-- ID
+	CREATED DATETIME(6) DEFAULT SYSDATE() NOT NULL,               	-- CRIADO
+	CREATED_BY VARCHAR(15) NOT NULL,                              	-- CRIADO POR
+	LAST_UPD DATETIME(6) DEFAULT SYSDATE() NOT NULL,              	-- ATUALIZADO
+	LAST_UPD_BY VARCHAR(15) NOT NULL,                             	-- ATUALIZADO POR
+	MODIFICATION_NUM BIGINT DEFAULT 0 NOT NULL,                  	-- SQLINES DEMO *** AÇÃO
+	PAR_ROW_ID VARCHAR(15),                                       	-- PARENT ROW ID
+	DB_LAST_UPD DATETIME(6) DEFAULT SYSDATE(),                      -- SQLINES DEMO *** ÃO NO BANCO DE DADOS
+	LANG_ID VARCHAR(15) DEFAULT 'PTB' NOT NULL,                   	-- IDIOMA	
+	RPLCTN_LVL_CD VARCHAR(30) DEFAULT 'All' NOT NULL,             	-- NIVEL DE REPLICACAO
+	TYPE VARCHAR(30) NOT NULL,                                    	-- TIPO
+	NAME VARCHAR(50) NOT NULL,                                    	-- SQLINES DEMO *** TE DE IDIOMA
+	VAL VARCHAR(50) NOT NULL,                                     	-- VALOR
+	ACTIVE_FLG CHAR(1) DEFAULT 'Y',                                	-- ATIVO
+	ORDER_BY BIGINT,                                             	-- ORDEM
+	CODE VARCHAR(30),                                             	-- CODIGO
+	DESC_TEXT VARCHAR(255),                                       	-- DESCRICAO
+	SUB_TYPE VARCHAR(30),                                         	-- SUBTIPO
+	
+	PRIMARY KEY (ROW_ID)
+);
+
+-- TABELA DE POSICAO DO USUARIO
+CREATE TABLE PDV.T_POSITION (
+	ROW_ID VARCHAR(15) NOT NULL,                              	-- ID
+	CREATED DATETIME(6) DEFAULT SYSDATE() NOT NULL,             -- CRIADO
+	CREATED_BY VARCHAR(15) NOT NULL,                          	-- CRIADO POR
+	LAST_UPD DATETIME(6) DEFAULT SYSDATE() NOT NULL,            -- ATUALIZADO
+	LAST_UPD_BY VARCHAR(15) NOT NULL,                         	-- ATUALIZADO POR
+	MODIFICATION_NUM BIGINT DEFAULT 0 NOT NULL,
+	PAR_ROW_ID VARCHAR(15),			                        	-- PARENT ROW ID
+	DB_LAST_UPD DATETIME(6) DEFAULT SYSDATE(),                  
+	NAME VARCHAR(50) NOT NULL,                                  -- NOME POSICAO
+	POSTN_TYPE_CD VARCHAR(30),                                  -- TIPO POSICAO
+	DESC_TEXT VARCHAR(255),                                     -- COMENTARIOS
+	PAR_POSTN_ID VARCHAR(15),                                   -- PARENT POSITION ID
+	
+	PRIMARY KEY (ROW_ID)
+);
+
+-- TABELA DE PERMISSÕES DE USUÁRIO
+CREATE TABLE PDV.T_POSTN_PER (
+	ROW_ID VARCHAR(15) NOT NULL,                              	-- ID
+	CREATED DATETIME(6) DEFAULT SYSDATE() NOT NULL,             -- CRIADO
+	CREATED_BY VARCHAR(15) NOT NULL,                          	-- CRIADO POR
+	LAST_UPD DATETIME(6) DEFAULT SYSDATE() NOT NULL,            -- ATUALIZADO
+	LAST_UPD_BY VARCHAR(15) NOT NULL,                         	-- ATUALIZADO POR
+	MODIFICATION_NUM BIGINT DEFAULT 0 NOT NULL,              	-- SQLINES DEMO *** AÇÃO
+	PAR_ROW_ID VARCHAR(15),                          			-- PARENT POSITION
+	DB_LAST_UPD DATETIME(6) DEFAULT SYSDATE(),                  
+	PERMITION_NAME VARCHAR(50),                                 
+	PERMITION_VALUE VARCHAR(50),                                
+	PERMITION_FLG VARCHAR(1),                                   -- PERMITION FLAG
+	PERMITION_DESC VARCHAR(255),                                -- 
+	ORDER_BY BIGINT,
+	COMMENTS VARCHAR(250),                                    	-- COMENTARIOS
+	
+	PRIMARY KEY (ROW_ID)
+);
+
+-- TABELA DE USUÁRIOS DO SISTEMA
+CREATE TABLE PDV.T_USER (
+	ROW_ID VARCHAR(15) NOT NULL,                              	-- ID
+	CREATED DATETIME(6) DEFAULT SYSDATE() NOT NULL,             -- CRIADO
+	CREATED_BY VARCHAR(15) NOT NULL,                          	-- CRIADO POR
+	LAST_UPD DATETIME(6) DEFAULT SYSDATE() NOT NULL,            -- ATUALIZADO
+	LAST_UPD_BY VARCHAR(15) NOT NULL,                         	-- ATUALIZADO POR
+	MODIFICATION_NUM BIGINT DEFAULT 0 NOT NULL,              	-- NUMERO DE MODIFICAÇÃO
+	PAR_ROW_ID VARCHAR(15),			                          	-- PARENT ROW ID
+	PAR_POSTN_ID VARCHAR(15),									-- PARENT POSITON ID
+	LOGIN VARCHAR(50) NOT NULL,                               	-- LOGIN
+	PASSWORD VARCHAR(175) NOT NULL,                             -- SENHA (MAX 30 Caracteres)
+	USER_FLG CHAR(1) DEFAULT 'Y',                     			-- FLAG DE USUÁRIO
+	DB_LAST_UPD DATETIME(6) DEFAULT SYSDATE(),                  -- ULTIMA ATUALIZAÇÃO NO BANCO DE DADOS
+	LAST_LOGIN_TS DATETIME,                                     -- DATA DO ULTIMO LOGIN
+	DOC_TYPE VARCHAR(30),                                       -- TIPO DOCUMENTO
+	DOC_NUM VARCHAR(30),                                        -- NUMERO DOCUMENTO
+	FST_NAME VARCHAR(50),                                		-- PRIMEIRO NOME
+	LAST_NAME VARCHAR(50),                               		-- SOBRENOME
+	FULL_NAME VARCHAR(100),                                     -- NOME COMPLETO
+	NICK_NAME VARCHAR(50),                                      -- APELIDO
+	AGE INT,                                         			-- IDADE
+	BIRTH_DT DATE,                                          -- DATA DE NASCIMENTO
+	PLACE_OF_BIRTH VARCHAR(100),                                -- LOCAL DE NASCIMENTO
+	SEX_MF VARCHAR(30),                                         -- SEXO
+	MARITAL_STAT_CD VARCHAR(30),                                -- ESTADO CIVIL
+	NAME_CONJUGE VARCHAR(100),                                  -- NOME CONJUJE
+	MOTHER_FULL_NAME VARCHAR(100),								-- NOME DA MÃE COMPLETO
+	FATHER_FULL_NAME VARCHAR(100),								-- NOME DO PAI COMPLETO
+	IDENTITY_DOC_TYPE VARCHAR(30),                              -- TIPO DOCUMENTO (RG, CARTEIRA DE MOTORISTA)
+	REGISTER_NUM VARCHAR(30),									-- NUMERO REGISTRO
+	REGISTER_SERIE VARCHAR(30),                                 -- NUMERO DE SERIE
+	ORGAO_EMISSOR VARCHAR(30),                                  -- ORGAO EMISSOR
+	UF_EMISSAO VARCHAR(30),                                     -- UF EMISSAO	
+	EMISSION_DT DATE,                                       	-- DATA DE EMISSAO
+	VALIDATION_DT DATE,                                     	-- DATA DE VALIDADE	
+	NATURALNESS VARCHAR(100),                                   -- NATURALIDADE
+	NATIONALITY VARCHAR(100),                                   -- NACIONALIDADE
+	CHALLENGE_QUESTION_1 VARCHAR(500),                        	-- PERGUNTA DE SEGURANÇA 1 (MAX 100 Caracteres)
+	CHALLENGE_ANSWER_1 VARCHAR(500),                          	-- RESPOSTA DE SEGURANÇA 1 (MAX 100 Caracteres)
+	CHALLENGE_QUESTION_2 VARCHAR(500),                        	-- PERGUNTA DE SEGURANÇA 2 (MAX 100 Caracteres)
+	CHALLENGE_ANSWER_2 VARCHAR(500),                          	-- RESPOSTA DE SEGURANÇA 2 (MAX 100 Caracteres)
+	CHALLENGE_QUESTION_3 VARCHAR(500),                        	-- PERGUNTA DE SEGURANÇA 4 (MAX 100 Caracteres)
+	CHALLENGE_ANSWER_3 VARCHAR(500),                          	-- RESPOSTA DE SEGURANÇA 3 (MAX 100 Caracteres)
+	PR_ADDR_ID VARCHAR(15),                                     -- ID ENDERECO PRINCIPAL
+	PR_CON_ID VARCHAR(15),                                      -- ID CONTATO PRINCIPAL
+	PR_PHONE_ID VARCHAR(15),                                    -- ID TELEFONE PRINCIPAL
+	STATUS_CD VARCHAR(30),                                      -- STATUS USUÁRIO
+	COMMENTS VARCHAR(250),                                    	-- COMENTARIOS
+	
+	PRIMARY KEY (ROW_ID)
+);
+
+X_PAY_BOX_MANAGER VARCHAR2(1 CHAR),									-- Principal > Caixa e Vendas > Abrir/Fechar Caixa
+X_NEW_SALE VARCHAR2(1 CHAR),										-- Principal > Caixa e Vendas > Nova Venda
+X_DELIVERY VARCHAR2(1 CHAR),										-- Principal > Caixa e Vendas > Delivery
+X_VIEW_CLIENT VARCHAR2(1 CHAR),    									-- Principal > Cliente > Visualizar Cliente
+X_ADD_CLIENT VARCHAR2(1 CHAR),     									-- Principal > Cliente > Adicionar Cliente
+X_UPD_CLIENT VARCHAR2(1 CHAR),     									-- Principal > Cliente > Atualizar Cliente
+X_DEL_CLIENT VARCHAR2(1 CHAR),     									-- Principal > Cliente > Deletar Cliente
+X_CASH_REPORT VARCHAR2(1 CHAR), 									-- Principal > Relatórios > Histórico de caixa
+X_SALES_REPORT VARCHAR2(1 CHAR),									-- Principal > Relatórios > Histórico de Vendas
+X_VIEW_PROD VARCHAR2(1 CHAR),      									-- Produtos > Produtos > Visualizar Produto
+X_ADD_PROD VARCHAR2(1 CHAR),       									-- Produtos > Produtos > Adicionar Produto
+X_UPD_PROD VARCHAR2(1 CHAR),       									-- Produtos > Produtos > Atualizar Produto
+X_DEL_PROD VARCHAR2(1 CHAR),       									-- Produtos > Produtos > Deletar Produto
+X_VIEW_COMP VARCHAR2(1 CHAR),      									-- Produtos > Complementos > Visualizar Complemento
+X_ADD_COMP VARCHAR2(1 CHAR),       									-- Produtos > Complementos > Adicionar Complemento
+X_UPD_COMP VARCHAR2(1 CHAR),       									-- Produtos > Complementos > Atualizar Complemento
+X_DEL_COMP VARCHAR2(1 CHAR),       									-- Produtos > Complementos > Deletar Complemento
+X_VIEW_CAT VARCHAR2(1 CHAR),       									-- Produtos > Categorias > Visualizar Categoria
+X_ADD_CAT VARCHAR2(1 CHAR),        									-- Produtos > Categorias > Adicionar Categoria
+X_UPD_CAT VARCHAR2(1 CHAR),        									-- Produtos > Categorias > Atualizar Categoria
+X_DEL_CAT VARCHAR2(1 CHAR),        									-- Produtos > Categorias > Deletar Categoria
+X_VIEW_SIZE VARCHAR2(1 CHAR),      									-- Produtos > Tipos e Tamanhos > Visualizar Tipos e Tamanhos
+X_ADD_SIZE VARCHAR2(1 CHAR),       									-- Produtos > Tipos e Tamanhos > Adicionar Tipos e Tamanhos
+X_UPD_SIZE VARCHAR2(1 CHAR),       									-- Produtos > Tipos e Tamanhos > Atualizar Tipos e Tamanhos
+X_DEL_SIZE VARCHAR2(1 CHAR),       									-- Produtos > Tipos e Tamanhos > Deletar Tipos e Tamanhos
+X_VIEW_USER VARCHAR2(1 CHAR),      									-- Configurações > Usuários > Visualizar Usuários
+X_ADD_USER VARCHAR2(1 CHAR),       									-- Configurações > Usuários > Adicionar Usuários
+X_UPD_USER VARCHAR2(1 CHAR),       									-- Configurações > Usuários > Atualizar Usuários
+X_DEL_USER VARCHAR2(1 CHAR),       									-- Configurações > Usuários > Deletar Usuários
+
+-- TABELA DE CLIENTES
+CREATE TABLE PDV.T_ACCOUNT (
+	ROW_ID VARCHAR2(15 CHAR) NOT NULL,                              	-- ID
+	CREATED TIMESTAMP DEFAULT SYSDATE NOT NULL,                         -- CRIADO
+	CREATED_BY VARCHAR2(15 CHAR) NOT NULL,                          	-- CRIADO POR
+	LAST_UPD TIMESTAMP DEFAULT SYSDATE NOT NULL,                        -- ATUALIZADO
+	LAST_UPD_BY VARCHAR2(15 CHAR) NOT NULL,                         	-- ATUALIZADO POR
+	MODIFICATION_NUM NUMBER(10, 0) DEFAULT 0 NOT NULL,              	-- NUMERO DE MODIFICAÇÃO
+	PAR_ROW_ID VARCHAR2(15 CHAR),                  						-- PARENT ID
+	ACTIVE_FLG CHAR(1 CHAR) DEFAULT 'Y' NOT NULL,                       -- ATIVO
+	ACCNT_NUMBER VARCHAR2(50 CHAR),										-- NUMERO CLIENTE
+	ACCNT_FLG CHAR(1 CHAR) DEFAULT 'Y',                        -- CLIENTE FLAG
+	DOC_TYPE VARCHAR2(30 CHAR),                                       	-- TIPO DOCUMENTO
+	DOC_NUM VARCHAR2(30 CHAR),                                        	-- NUMERO DOCUMENTO
+	ALIAS_NAME VARCHAR2(50 CHAR),                                       -- NOME EMPRESA
+	NOME_FANTASIA VARCHAR2(100 CHAR),                                   -- NOME FANTASIA
+	FST_NAME VARCHAR2(50 CHAR),                                -- PRIMEIRO NOME
+	LAST_NAME VARCHAR2(50 CHAR),                               -- SOBRENOME
+	FULL_NAME VARCHAR2(100 CHAR),                                       -- NOME COMPLETO
+	NICK_NAME VARCHAR2(50 CHAR),                                        -- APELIDO
+	AGE NUMBER(22, 7),                                                  -- IDADE
+	BIRTH_DT DATE,                                                      -- DATA DE NASCIMENTO
+	PLACE_OF_BIRTH VARCHAR2(100 CHAR),                                  -- LOCAL DE NASCIMENTO
+	SEX_MF VARCHAR2(30 CHAR),                                           -- SEXO
+	MARITAL_STAT_CD VARCHAR2(30 CHAR),                                  -- ESTADO CIVIL
+	NAME_CONJUGE VARCHAR2(100 CHAR),                                   	-- NOME CONJUJE
+	MOTHER_FULL_NAME VARCHAR2(100 CHAR),								-- NOME DA MÃE COMPLETO
+	FATHER_FULL_NAME VARCHAR2(100 CHAR),								-- NOME DO PAI COMPLETO
+	POTENTIAL_FLG CHAR(1 CHAR) DEFAULT 'N',                    -- CLIENTE POTENCIAL FLAG
+	ENTERPRISE_FLAG CHAR(1 CHAR) DEFAULT 'N',                           -- EMPRESA FLAG
+	DB_LAST_UPD TIMESTAMP DEFAULT SYSDATE,                              -- ULTIMA ATUALIZAÇÃO NO BANCO DE DADOS
+	PARTNER_FLG CHAR(1 CHAR),                                           -- PARCEIRO FLAG
+	ACCNT_TYPE_CD VARCHAR2(30 CHAR),                                    -- TIPO DE PESSOA (PESSOA FISICA/JURIDICA)
+	CREATOR_LOGIN VARCHAR2(50 CHAR),                                    -- ID DO CRIADOR
+	DESC_TEXT VARCHAR2(255 CHAR),                                       -- DESCRICAO
+	PR_ADDR_ID VARCHAR2(15 CHAR),                                       -- ID ENDERECO PRINCIPAL
+	PR_CON_ID VARCHAR2(15 CHAR),                                        -- ID CONTATO PRINCIPAL
+	PR_PHONE_ID VARCHAR2(15 CHAR),                                      -- ID TELEFONE PRINCIPAL
+	STATUS_CD VARCHAR2(30 CHAR),                                        -- STATUS CLIENTE
+	ATIV_COMERCIAL VARCHAR2(30 CHAR),                                 	-- RAMO ATIVIDADE COMERCIAL
+	INSCR_MUNICIPAL VARCHAR2(30 CHAR),                                	-- INSCRICAO MUNICIPAL
+	INSCR_ESTADUAL VARCHAR2(30 CHAR),                                 	-- INSCRICAO ESTADUAL
+	DOCUMENT_TYPE VARCHAR2(30 CHAR),                                    -- TIPO DOCUMENTO (RG, CARTEIRA DE MOTORISTA)
+	REGISTER_NUM VARCHAR2(30 CHAR),										-- NUMERO REGISTRO
+	REGISTER_SERIE VARCHAR2(30 CHAR),                                   -- NUMERO DE SERIE
+	ORGAO_EMISSOR VARCHAR2(30 CHAR),                                  	-- ORGAO EMISSOR
+	UF_EMISSAO VARCHAR2(30 CHAR),                                       -- UF EMISSAO
+	NATURALNESS VARCHAR2(100 CHAR),                                     -- NATURALIDADE
+	NATIONALITY VARCHAR2(100 CHAR),                                     -- NACIONALIDADE
+	EMISSION_DT DATE,                                                   -- DATA DE EMISSAO
+	VALIDATION_DT DATE,                                                 -- DATA DE VALIDADE
+	PODER_PUBLICO_FLG CHAR(1 CHAR) DEFAULT 'N',                       	-- EMPRESA PUBLICA
+	
+	CONSTRAINT pk_account_id PRIMARY KEY (ROW_ID)
+);
+
+-- TABELA DE CONTATOS (CLIENTES E USUÁRIOS)
+CREATE TABLE PDV.T_CONTACT (
+	ROW_ID VARCHAR2(15 CHAR) NOT NULL,									-- ID
+	CREATED TIMESTAMP DEFAULT SYSDATE NOT NULL,                         -- CRIADO
+	CREATED_BY VARCHAR2(15 CHAR) NOT NULL,                              -- CRIADO POR
+	LAST_UPD TIMESTAMP DEFAULT SYSDATE NOT NULL,                        -- ATUALIZADO
+	LAST_UPD_BY VARCHAR2(15 CHAR) NOT NULL,                             -- ATUALIZADO POR
+	MODIFICATION_NUM NUMBER(10, 0) DEFAULT 0 NOT NULL,					-- NUMERO DE MODIFICAÇÃO
+	PAR_ROW_ID VARCHAR2(15 CHAR),										-- PARENT ROW ID
+	PAR_USR_ID VARCHAR2(15 CHAR),                                       -- PARENT USER ID
+	DB_LAST_UPD TIMESTAMP DEFAULT SYSDATE,                              -- ULTIMA ATUALIZAÇÃO NO BANCO DE DADOS
+	ACTIVE_FLG CHAR(1 CHAR) DEFAULT 'Y' NOT NULL,						-- ATIVO
+	PR_CON_FLG CHAR(1 CHAR) DEFAULT 'N' NOT NULL,						-- CONTATO PRINCIPAL
+	EMP_FLG CHAR(1 CHAR) DEFAULT 'N',									-- EMPREGADO FLG
+	DOC_TYPE VARCHAR2(30 CHAR),                                       	-- TIPO DOCUMENTO
+	DOC_NUM VARCHAR2(30 CHAR),                                        	-- NUMERO DOCUMENTO
+	ALIAS_NAME VARCHAR2(50 CHAR),                                       -- NOME EMPRESA
+	NOME_FANTASIA VARCHAR2(100 CHAR),                                   -- NOME FANTASIA
+	FST_NAME VARCHAR2(50 CHAR),                                			-- PRIMEIRO NOME
+	LAST_NAME VARCHAR2(50 CHAR),                               			-- SOBRENOME
+	FULL_NAME VARCHAR2(100 CHAR),                                       -- NOME COMPLETO
+	NICK_NAME VARCHAR2(50 CHAR),                                        -- APELIDO
+	AGE NUMBER(22, 7),                                                  -- IDADE
+	BIRTH_DT DATE,                                                      -- DATA DE NASCIMENTO
+	PLACE_OF_BIRTH VARCHAR2(100 CHAR),                                  -- LOCAL DE NASCIMENTO
+	SEX_MF VARCHAR2(30 CHAR),                                           -- SEXO
+	MARITAL_STAT_CD VARCHAR2(30 CHAR),                                  -- ESTADO CIVIL
+	NAME_CONJUGE VARCHAR2(100 CHAR),                                   	-- NOME CONJUJE
+	MOTHER_FULL_NAME VARCHAR2(100 CHAR),								-- NOME DA MÃE COMPLETO
+	FATHER_FULL_NAME VARCHAR2(100 CHAR),								-- NOME DO PAI COMPLETO
+	POTENTIAL_FLG CHAR(1 CHAR) DEFAULT 'N',			                    -- CLIENTE POTENCIAL
+	SUPPRESS_EMAIL_FLG CHAR(1 CHAR) DEFAULT 'N',		                -- PERMITIR ENVIO DE EMAIL
+	ENTERPRISE_FLAG CHAR(1 CHAR) DEFAULT 'N',                           -- EMPRESA
+	RELATIONSHIP_TYPE VARCHAR2(50 CHAR),                                -- PARENTESCO OU RELAÇÃO COM O CLIENTE
+	MEMBER_FLG CHAR(1 CHAR) DEFAULT 'N',                                -- MEMBRO
+	SEND_NEWS_FLG CHAR(1 CHAR) DEFAULT 'N',                             -- ENVIAR NOVIDADES
+	SEND_PROMOTES_FLG CHAR(1 CHAR) DEFAULT 'N',                         -- ENVIAR PROMOCOES
+	SUPPRESS_CALL_FLG CHAR(1 CHAR) DEFAULT 'N',                         -- PERMITIR CHAMADAS DE LIGACAO
+	CONSUMER_FLG CHAR(1 CHAR) DEFAULT 'Y',                              -- CLIENTE FLAG
+	MAIN_PH_NUM VARCHAR2(40 CHAR),                                      -- NUMERO DO CELULAR
+	ALT_PH_NUM VARCHAR2(40 CHAR),                                       -- NUMERO FIXO
+	WORK_PH_NUM VARCHAR2(40 CHAR),                                      -- NUMERO TRABALHO
+	ASST_PH_NUM VARCHAR2(40 CHAR),                                      -- NUMERO DA ASSISTENTE
+	FAX_PH_NUM VARCHAR2(40 CHAR),                                       -- NUMERO DO FAX
+	CALL_FREQUENCY VARCHAR2(30 CHAR),                                   -- FREQUENCIA DE LIGAÇÕES	
+	CREATOR_LOGIN VARCHAR2(50 CHAR),                                    -- LOGIN DO CRIADOR
+	EMAIL_TYPE VARCHAR2(50 CHAR), 										-- TIPO DE EMAIL (GMAIL, OUTLOOK, YAHOO, ICLOUD)
+	EMAIL_ADDR VARCHAR2(100 CHAR),                                      -- EMAIL	
+	SITE_ADDR VARCHAR2(100 CHAR),                                       -- SITE
+	WHATSAPP_FLG CHAR(1 CHAR) DEFAULT 'Y',                              -- WHATSAPP FLAG
+	LOGIN VARCHAR2(50 CHAR),                                            -- LOGIN
+	OCCUPATION VARCHAR2(50 CHAR),                                       -- PROFISSAO
+	PASSWORD VARCHAR2(20 CHAR),                                         -- SENHA
+	PR_CON_ADDR_ID VARCHAR2(15 CHAR),                                   -- ID CONTATO PRINCIPAL
+	PR_EMAIL_ADDR_ID VARCHAR2(15 CHAR),                                 -- ID EMAIL PRINCIPAL
+	PR_ADDR_ID VARCHAR2(15 CHAR),                                       -- ID ENDERECO PRINCIPAL
+	STATUS_CD VARCHAR2(30 CHAR),                                        -- STATUS
+	
+	CONSTRAINT pk_contact_id PRIMARY KEY (ROW_ID)
+);
+
+CREATE TABLE PDV.T_CONTACT_X (
+	ROW_ID VARCHAR2(15 CHAR) NOT NULL,									-- ID
+	CREATED TIMESTAMP DEFAULT SYSDATE NOT NULL,                         -- CRIADO
+	CREATED_BY VARCHAR2(15 CHAR) NOT NULL,                              -- CRIADO POR
+	LAST_UPD TIMESTAMP DEFAULT SYSDATE NOT NULL,                        -- ATUALIZADO
+	LAST_UPD_BY VARCHAR2(15 CHAR) NOT NULL,                             -- ATUALIZADO POR
+	MODIFICATION_NUM NUMBER(10, 0) DEFAULT 0 NOT NULL,					-- NUMERO DE MODIFICAÇÃO
+	PAR_ROW_ID VARCHAR2(15 CHAR),										-- PARENT CONTACT ID
+	PAR_ACCNT_ID VARCHAR2(15 CHAR),                                     -- PARENT ACCOUNT ID
+	PAR_USR_ID VARCHAR2(15 CHAR),                                       -- PARENT USER ID
+	ACTIVE_FLG CHAR(1 CHAR) DEFAULT 'Y' NOT NULL,						-- ATIVO
+	DB_LAST_UPD TIMESTAMP DEFAULT SYSDATE,                              -- ULTIMA ATUALIZAÇÃO NO BANCO DE DADOS
+	SOCIAL_M_NAME VARCHAR2(50 CHAR),									-- TIPO REDE SOCIAL (TWITTER, FACEBOOK, INSTAGRAM, ETC)
+	SOCIAL_M_VALUE VARCHAR2(100 CHAR),                                  -- VALOR DA REDE SOCIAL
+	STATUS_CD VARCHAR2(30 CHAR),                                        -- STATUS
+	
+	CONSTRAINT pk_cont_social_id PRIMARY KEY (ROW_ID)
+);
+
+-- TABELA DE ENDEREÇO (CLIENTE E USUÁRIOS)
+CREATE TABLE PDV.T_ADDRESS (
+	ROW_ID VARCHAR2(15 CHAR) NOT NULL,                                  -- ID
+	CREATED TIMESTAMP DEFAULT SYSDATE NOT NULL,                         -- CRIADO
+	CREATED_BY VARCHAR2(15 CHAR) NOT NULL,                              -- CRIADO POR
+	LAST_UPD TIMESTAMP DEFAULT SYSDATE NOT NULL,                        -- ATUALIZADO
+	LAST_UPD_BY VARCHAR2(15 CHAR) NOT NULL,                             -- ATUALIZADO POR
+	MODIFICATION_NUM NUMBER(10, 0) DEFAULT 0 NOT NULL,                  -- NUMERO DE MODIFICAÇÃO
+	PAR_ROW_ID VARCHAR2(15 CHAR),										-- PARENT ROW ID
+	PAR_CON_ID VARCHAR2(15 CHAR),										-- PARENT CONTACT
+	PAR_ADDR_ID VARCHAR2(15 CHAR),										-- PARENT ADDRESS ID
+	ACTIVE_FLG CHAR(1 CHAR),                                            -- ATIVO
+	DB_LAST_UPD TIMESTAMP DEFAULT SYSDATE,                              -- ULTIMA ATUALIZAÇÃO NO BANCO DE DADOS
+	PR_ADDR_FLG CHAR(1 CHAR) DEFAULT 'N',								-- ENDERECO PRINCIPAL
+	ZIPCODE VARCHAR2(30 CHAR),                                          -- CEP
+	ADDR_TYPE_CD VARCHAR2(30 CHAR),                                     -- TIPO DE ENDERECO (RUA, AV, ETC)
+	ADDR VARCHAR2(200 CHAR),                                            -- RUA
+	ADDR_NUM VARCHAR2(30 CHAR),                                         -- NUMERO
+	NEIGHBORHOOD VARCHAR2(50 CHAR),										-- BAIRRO
+	X_ZONA VARCHAR2(30 CHAR),											-- ZONA
+	CITY VARCHAR2(50 CHAR),                                             -- CIDADE
+	STATE VARCHAR2(10 CHAR),                                            -- ESTADO
+	NATIONALITY VARCHAR2(30 CHAR) DEFAULT 'Brasileiro(a)',				-- NACIONALIDADE
+	COUNTRY VARCHAR2(60 CHAR) DEFAULT 'Brasil',                         -- PAIS
+	COUNTRY_CODE VARCHAR2(10 CHAR) DEFAULT '1058',					    -- CODIGO PAIS
+	COUNTRY_INITIAL VARCHAR2(2 CHAR) DEFAULT 'BR',                      -- SIGLA PAIS
+	PROPERTY_TYPE_CD VARCHAR2(30 CHAR),									-- TIPO DE IMÓVEL (CASA, AP, COMERCIAL)
+	ADDR_LINE_2 VARCHAR2(100 CHAR),                                     -- COMPLEMENTO
+	X_ANDAR VARCHAR2(30 CHAR),                                          -- ANDAR
+	X_NUM_AP VARCHAR2(30 CHAR),                                         -- NUMERO APARTAMENTO
+	X_COD_BLOCO VARCHAR2(30 CHAR),                                      -- BLOCO
+	ADDR_NAME VARCHAR2(500 CHAR) DEFAULT 'x' NOT NULL,                  -- ENDEREÇO COMPLETO
+	COMMENTS VARCHAR2(255 CHAR),                                        -- COMENTARIOS
+	
+	CONSTRAINT pk_address_id PRIMARY KEY (ROW_ID)
+);
+
+CREATE TABLE PDV.T_ORDER (
+	ROW_ID VARCHAR2(15 CHAR) NOT NULL,                                  -- ID
+	CREATED TIMESTAMP DEFAULT SYSDATE NOT NULL,                         -- CRIADO
+	CREATED_BY VARCHAR2(15 CHAR) NOT NULL,                              -- CRIADO POR
+	LAST_UPD TIMESTAMP DEFAULT SYSDATE NOT NULL,                        -- ATUALIZADO
+	LAST_UPD_BY VARCHAR2(15 CHAR) NOT NULL,                             -- ATUALIZADO POR
+	MODIFICATION_NUM NUMBER(10, 0) DEFAULT 0 NOT NULL,                  -- NUMERO DE MODIFICAÇÃO
+	PAR_ROW_ID VARCHAR2(15 CHAR),                                       -- PARENT ROW ID
+	DB_LAST_UPD TIMESTAMP DEFAULT SYSDATE,                              -- ULTIMA ATUALIZAÇÃO NO BANCO DE DADOS
+	STATUS_CD VARCHAR2(30 CHAR),                                        -- STATUS DA ORDEM
+	ORDER_CAT_CD VARCHAR2(30 CHAR) DEFAULT 'x' NOT NULL,                -- CATEGORIA
+	ORDER_NUM VARCHAR2(30 CHAR) NOT NULL,                               -- NUMERO DA ORDEM
+	ORDER_TYPE VARCHAR2(60 CHAR) DEFAULT 'x' NOT NULL,                  -- TIPO DA ORDEM
+	ORDER_DT TIMESTAMP,                                                 -- DATA DA ORDEM
+	ACCNT_ADDR_ID VARCHAR2(15 CHAR),                                    -- ID ENDERECO DA CONTA DA ORDEM
+	ACCNT_ID VARCHAR2(15 CHAR),                                         -- ID DA CONTA
+	ACCNT_ORDER_NUM VARCHAR2(50 CHAR),                                  -- NUMERO DA CONTA
+	COMMENTS VARCHAR2(250 CHAR),                                        -- COMENTARIOS DA ORDEM
+	CONTACT_ID VARCHAR2(15 CHAR),                                       -- ID DO CONTATO
+	CURCY_CD VARCHAR2(20 CHAR) DEFAULT 'R$',                            -- MOEDA
+	DESC_TEXT VARCHAR2(255 CHAR),                                       -- DESCRICAO
+	INTEGRATION_ID VARCHAR2(30 CHAR),                                   -- ID ORDEM
+	PAYMENT_TYPE_CD VARCHAR2(30 CHAR),                                  -- TIPO PAGAMENTO
+	ORDER_PRICE VARCHAR2(30 CHAR),                                      -- PRECO DA ORDEM
+	ORDER_PRICE_DISCOUNT VARCHAR2(30 CHAR),                             -- TOTAL DE DESCONTOS
+	ORDER_PRICE_TOTAL VARCHAR2(30 CHAR),                                -- PRECO FINAL
+	ORDER_ITEM_TOTAL VARCHAR2(30 CHAR),                                 -- TOTAL DE ITENS
+	TOTAL_PAID VARCHAR2(30 CHAR),                                       -- TOTAL PAGO
+	CHANGE VARCHAR2(30 CHAR),                                           -- TROCO
+	TRANSACTION_ID VARCHAR2(100 CHAR),                                  -- TRANSACAO
+	OPERATION_CODE VARCHAR2(100 CHAR),                                  -- CODIGO DA OPERACAO
+	SECURITY_KEY VARCHAR2(100 CHAR),                                    -- CHAVE DE SEGURANCA
+	BANK_AUTHENTICATION VARCHAR2(100 CHAR),                             -- AUTENTICACAO BANCARIA
+	
+	CONSTRAINT pk_order_id PRIMARY KEY (ROW_ID)
+);
+
+CREATE TABLE PDV.T_ORDER_ITEM (
+	ROW_ID VARCHAR2(15 CHAR) NOT NULL,                                  -- ID
+	CREATED TIMESTAMP DEFAULT SYSDATE NOT NULL,                         -- CRIADO
+	CREATED_BY VARCHAR2(15 CHAR) NOT NULL,                              -- CRIADO POR
+	LAST_UPD TIMESTAMP DEFAULT SYSDATE NOT NULL,                        -- ATUALIZADO
+	LAST_UPD_BY VARCHAR2(15 CHAR) NOT NULL,                             -- ATUALIZADO POR
+	MODIFICATION_NUM NUMBER(10, 0) DEFAULT 0 NOT NULL,                  -- NUMERO DE MODIFICAÇÃO
+	PAR_ROW_ID VARCHAR2(15 CHAR),                                       -- PARENT ROW ID
+	DB_LAST_UPD TIMESTAMP DEFAULT SYSDATE,                              -- ULTIMA ATUALIZAÇÃO NO BANCO DE DADOS
+	ORDER_ID VARCHAR2(15 CHAR) NOT NULL,
+	PROCESSED_FLG CHAR(1 CHAR) DEFAULT 'N' NOT NULL,
+	PROMO_ITEM_FLG CHAR(1 CHAR) DEFAULT 'N' NOT NULL,
+	ROLLUP_FLG CHAR(1 CHAR) DEFAULT 'N' NOT NULL,
+	SHIP_COMPLETE_FLG CHAR(1 CHAR) DEFAULT 'N' NOT NULL,
+	SHIP_TOGETHER_FLG CHAR(1 CHAR) DEFAULT 'N' NOT NULL,
+	SINGLE_SRC_FLG CHAR(1 CHAR) DEFAULT 'N' NOT NULL,
+	WRNTY_RCVR_FLG CHAR(1 CHAR) DEFAULT 'N' NOT NULL,
+	SVC_CHG_INC_FLG CHAR(1 CHAR) DEFAULT 'N',
+	TAX_INC_FLG CHAR(1 CHAR) DEFAULT 'N',
+	WAIVED_FLG CHAR(1 CHAR) DEFAULT 'N',
+	ADDL_QTY_RCVD NUMBER(22, 7),
+	ADJ_UNIT_PRI NUMBER(22, 7),
+	AMT_DT DATE,
+	ATP_STATUS_DT DATE,
+	AVAIL_DT DATE,
+	AVAIL_QTY NUMBER(22, 7),
+	BACK_ORDER_QTY NUMBER(22, 7),
+	BASE_UNIT_PRI NUMBER(22, 7),
+	BONUS_QTY NUMBER(22, 7),
+	BONUS_THRESHOLD NUMBER(22, 7),
+	CFG_VALDN_STAT_DT DATE,
+	COMPLETED_DT DATE,
+	COST_AMT NUMBER(22, 7),
+	COST_EXCH_DT DATE,
+	DISCNT_AMT NUMBER(22, 7),
+	DISCNT_PERCENT NUMBER(22, 7),
+	DISC_AMT_RC NUMBER(22, 7),
+	DISC_PERCT_RC NUMBER(22, 7),
+	EAI_SYNC_DT DATE,
+	EXTD_QTY NUMBER(22, 7),
+	EXTENDED_QTY NUMBER(22, 7),
+	EXTND_PRICE NUMBER(22, 7),
+	EXTND_TAX NUMBER(22, 7),
+	FRGHT_AMT NUMBER(22, 7),
+	GROSS_VOL NUMBER(22, 7),
+	GROSS_WGHT NUMBER(22, 7),
+	LN_NUM2 NUMBER(22, 7),
+	MAX_PRICE NUMBER(10, 0),
+	MIN_LOT NUMBER(22, 7),
+	MUST_DLVR_BY_DT DATE,
+	NET_PRI NUMBER(22, 7),
+	NUM_OCCURRENCE NUMBER(10, 0),
+	ONETIME_CHG_SUBTOT NUMBER(22, 7),
+	ORDER_ITM_EXCH_DT DATE,
+	PER_MTH_CHG_SUBTOT NUMBER(22, 7),
+	PRI_ADJ_AMT NUMBER(22, 7),
+	QTY_CANCELLED NUMBER(22, 7),
+	QTY_INVCD NUMBER(22, 7),
+	QTY_MAIN NUMBER(22, 7),
+	QTY_MINOR NUMBER(22, 7),
+	QTY_REQ NUMBER(22, 7),
+	QTY_SHIPPED NUMBER(22, 7),
+	QTY_TO_INVC NUMBER(22, 7),
+	REQ_SHIP_DT DATE,
+	RESERVE_TM_INTRVL NUMBER(22, 7),
+	ROLLUP_PRI NUMBER(22, 7),
+	SERVICE_TS DATE,
+	SPRD_DISCNT_AMT NUMBER(22, 7),
+	STATUS_CHANGED_FLG CHAR(1 CHAR),
+	STATUS_DT DATE,
+	SUBSCRBD_CRSE_NUM NUMBER(10, 0),
+	SVC_PER_PROD_AMT NUMBER(22, 7),
+	SVC_PER_PROD_PCT NUMBER(22, 7),
+	TAX_AMT NUMBER(22, 7),
+	TAX_EXEMPT_FLG CHAR(1 CHAR),
+	TAX_VAL1 NUMBER(22, 7),
+	TAX_VAL2 NUMBER(22, 7),
+	TAX_VAL3 NUMBER(22, 7),
+	TAX_VAL4 NUMBER(22, 7),
+	UNIT_PRI NUMBER(22, 7),
+	UNIT_PRI_RC NUMBER(22, 7),
+	UNIT_TAX_AMT NUMBER(22, 7),
+	ACCNT_ORDER_NUM VARCHAR2(50 CHAR),
+	ACTION_CD VARCHAR2(30 CHAR),
+	ACT_PRDINT_ID VARCHAR2(15 CHAR),
+	AGREE_ID VARCHAR2(15 CHAR),
+	AMT_CURCY_CD VARCHAR2(20 CHAR),
+	ASSET_ID VARCHAR2(15 CHAR),
+	ASSET_INTEG_ID VARCHAR2(30 CHAR),
+	ATP_MSG VARCHAR2(250 CHAR),
+	ATP_STATUS_CD VARCHAR2(30 CHAR),
+	AUC_ITEM_ID VARCHAR2(15 CHAR),
+	BILL_ACCNT_ID VARCHAR2(15 CHAR),
+	BK_PERIOD_ID VARCHAR2(15 CHAR),
+	BL_STATUS_CD VARCHAR2(30 CHAR),
+	BOOKING_ID VARCHAR2(15 CHAR),
+	BO_ORDER_NUM VARCHAR2(50 CHAR),
+	CARRIER_CD VARCHAR2(30 CHAR),
+	CARRIER_PRIO_CD VARCHAR2(30 CHAR),
+	CFG_STATE_CD VARCHAR2(30 CHAR),
+	CFG_TYPE_CD VARCHAR2(30 CHAR),
+	CFG_VALDN_STAT_CD VARCHAR2(30 CHAR),
+	CMPNS_STATUS_CD VARCHAR2(30 CHAR),
+	COMMIT_TYPE_CD VARCHAR2(30 CHAR),
+	CONTACT_ID VARCHAR2(15 CHAR),
+	COST_CURCY_CD VARCHAR2(20 CHAR),
+	CRSE_OFFR_ID VARCHAR2(15 CHAR),
+	CRSE_REG_ID VARCHAR2(15 CHAR),
+	CVRD_ASSET_ID VARCHAR2(15 CHAR),
+	DESC_TEXT VARCHAR2(250 CHAR),
+	DEST_INVLOC_ID VARCHAR2(15 CHAR),
+	DISCNT_METH_CD VARCHAR2(30 CHAR),
+	DISPLAY_NAME VARCHAR2(100 CHAR),
+	DLVRY_STATUS_CD VARCHAR2(30 CHAR),
+	EAI_EXPRT_STAT_CD VARCHAR2(30 CHAR),
+	EDI_LN_NUM VARCHAR2(50 CHAR),
+	EFF_PRI_PERIOD_ID VARCHAR2(15 CHAR),
+	ELIG_REASON VARCHAR2(500 CHAR),
+	ELIG_STATUS_CD VARCHAR2(30 CHAR),
+	ENTLMNT_ID VARCHAR2(15 CHAR),
+	EXT_FULFL_LOC_CD VARCHAR2(30 CHAR),
+	FRGHT_TERMS_CD VARCHAR2(30 CHAR),
+	FUNCTION_ID VARCHAR2(15 CHAR),
+	HOLD_REASON_CD VARCHAR2(30 CHAR),
+	INTEGRATION_ID VARCHAR2(30 CHAR),
+	ITEM_GROUP_NAME VARCHAR2(50 CHAR),
+	LINE_NOTE VARCHAR2(2000 CHAR),
+	LN_TYPE_CD VARCHAR2(30 CHAR),
+	ORDER_ITM_CURCY_CD VARCHAR2(20 CHAR),
+	ORG_PROD_ID VARCHAR2(15 CHAR),
+	ORG_REF_ORD_ITM_ID VARCHAR2(15 CHAR),
+	PAR_ORDER_ITEM_ID VARCHAR2(15 CHAR),
+	PORT_VALID_PROD_ID VARCHAR2(15 CHAR),
+	PREV_ITEM_REV_ID VARCHAR2(15 CHAR),
+	PRICING_COMMENT VARCHAR2(250 CHAR),
+	PRI_LST_ID VARCHAR2(15 CHAR),
+	PRI_METH_CD VARCHAR2(30 CHAR),
+	PROD_ID VARCHAR2(15 CHAR),
+	PROD_NAME VARCHAR2(100 CHAR),
+	PROD_OPT1_VAL_CD VARCHAR2(30 CHAR),
+	PROD_OPT2_VAL_CD VARCHAR2(30 CHAR),
+	PROD_PORT_ID VARCHAR2(15 CHAR),
+	PROD_STATUS_CD VARCHAR2(30 CHAR),
+	PROD_SUB_CAT_ID VARCHAR2(15 CHAR),
+	PROMOTION_ID VARCHAR2(15 CHAR),
+	PROMO_ID VARCHAR2(15 CHAR),
+	PROM_INTEG_ID VARCHAR2(30 CHAR),
+	PROM_ITEM_ID VARCHAR2(15 CHAR),
+	PROM_SRC_INTG_ID VARCHAR2(30 CHAR),
+	QUOTE_ITEM_ID VARCHAR2(15 CHAR),
+	QUOTE_SOLN_ID VARCHAR2(15 CHAR),
+	RESERVE_STATUS_CD VARCHAR2(30 CHAR),
+	REVENUE_TYPE_CD VARCHAR2(30 CHAR),
+	ROOT_ORDER_ITEM_ID VARCHAR2(15 CHAR),
+	RSRV_TM_INTRVL_CD VARCHAR2(30 CHAR),
+	RTRN_ADDR_ID VARCHAR2(15 CHAR),
+	RTRN_CON_ID VARCHAR2(15 CHAR),
+	RTRN_OU_ID VARCHAR2(15 CHAR),
+	SERVICE_NUM VARCHAR2(100 CHAR),
+	SERV_ACCNT_ID VARCHAR2(15 CHAR),
+	SHIP_ADDR_ID VARCHAR2(15 CHAR),
+	SHIP_CON_ID VARCHAR2(15 CHAR),
+	SHIP_INSTRUCTIONS VARCHAR2(250 CHAR),
+	SHIP_METH_CD VARCHAR2(30 CHAR),
+	SHIP_OU_ID VARCHAR2(15 CHAR),
+	SHIP_PER_ADDR_ID VARCHAR2(15 CHAR),
+	SP_NUM VARCHAR2(250 CHAR),
+	SRC_INVLOC_ID VARCHAR2(15 CHAR),
+	STATUS_CD VARCHAR2(30 CHAR),
+	SVCD_ORDER_ITEM_ID VARCHAR2(15 CHAR),
+	SVCD_PROD_ID VARCHAR2(15 CHAR),
+	TAX_EXEMPT_NUM VARCHAR2(30 CHAR),
+	TAX_EXEMPT_REASON VARCHAR2(80 CHAR),
+	TIER_PRI_INFO VARCHAR2(250 CHAR),
+	USAGE_BL_PLAN_ID VARCHAR2(15 CHAR),
+	VOL_DISCNT_ID VARCHAR2(15 CHAR),
+	VOL_DISCNT_ITEM_ID VARCHAR2(15 CHAR),
+	VOL_UOM_CD VARCHAR2(30 CHAR),
+	VOL_UPSELL_ITEM_ID VARCHAR2(15 CHAR),
+	VOL_UPSELL_MSG_TXT VARCHAR2(250 CHAR),
+	WGHT_UOM_CD VARCHAR2(30 CHAR),
+	X_AREA_ORIGEM_ID VARCHAR2(15 CHAR),
+	X_AREA_RESPONSAVEL_ID VARCHAR2(15 CHAR),
+	X_EQUIPAMENTO_ID VARCHAR2(15 CHAR),
+	X_GARANTIA_ID VARCHAR2(15 CHAR),
+	X_OPTY_ID VARCHAR2(15 CHAR),
+	X_PRAZO_AGENERSA_DT DATE,
+	X_PRAZO_CEG_DT DATE,
+	X_DT_LOTE_IMPRESSAO DATE,
+	X_LOTE_IMPRESSAO NUMBER(10, 0),
+	X_USUARIO_LOTE_IMPRESSAO VARCHAR2(15 CHAR),
+	X_ATENDIMENTO_ID VARCHAR2(15 CHAR),
+	X_AREA_AGENDAMENTO_ID VARCHAR2(15 CHAR),
+	X_OFICINA_ID VARCHAR2(15 CHAR),
+	X_TPO_ID VARCHAR2(15 CHAR),
+	X_VEICULO_ID VARCHAR2(15 CHAR),
+	X_NUM_ALBARAN_OS VARCHAR2(22 CHAR),
+	X_REQ_REVENDA_CD VARCHAR2(30 CHAR),
+	X_DT_ENVIO_RTR DATE,
+	X_SEQ_CTRL NUMBER(10, 0),
+	X_QTD_AGENDAMENTO VARCHAR2(3 CHAR),
+	X_REVISAO_PREVENTIVA VARCHAR2(7 CHAR),
+	X_STATUS_ENVIO_APOLO VARCHAR2(30 CHAR),
+	X_QTDE_TENTV_RET_MED NUMBER(10, 0),
+	X_QTDE_TENTV_REPR_ATC NUMBER(10, 0),
+) 
+
+-- TABELA DE MENSAGEM DE ERRO
+CREATE TABLE PDV.T_VALDN_MSG (
+	ROW_ID VARCHAR2(15 CHAR) NOT NULL,                                 	-- ID
+	CREATED DATE DEFAULT sysdate NOT NULL,                             	-- CRIADO
+	CREATED_BY VARCHAR2(15 CHAR) NOT NULL,                             	-- CRIADO POR
+	LAST_UPD DATE DEFAULT sysdate NOT NULL,                            	-- ATUALIZADO
+	LAST_UPD_BY VARCHAR2(15 CHAR) NOT NULL,                            	-- ATUALIZADO POR
+	MODIFICATION_NUM NUMBER(10, 0) DEFAULT 0 NOT NULL,                 	-- NUMERO DE MODIFICAÇÃO
+	DB_LAST_UPD TIMESTAMP DEFAULT SYSDATE,                              -- ULTIMA ATUALIZAÇÃO NO BANCO DE DADOS
+	MSG_LVL_CD VARCHAR2(30 CHAR) NOT NULL,                              -- NÍVEL DA MENSAGEM
+	MSG_SRC_TYPE_CD VARCHAR2(30 CHAR) NOT NULL,                         -- ORIGEM DA MENSAGEM
+	MSG_TYPE_CD VARCHAR2(30 CHAR) NOT NULL,                             -- CODIGO DA MENSAGEM
+	MSG_TEXT VARCHAR2(250 CHAR) NOT NULL,                               -- MENSAGEM DE ERRO
+	DESC_TEXT VARCHAR2(250 CHAR),                                       -- DESCRICAO
+	
+	CONSTRAINT pk_row_id PRIMARY KEY (ROW_ID)
+)
+
+-- PREFERENCIAS DE SISTEMA
+CREATE TABLE SIEBEL.S_SYS_PREF 
+(
+  ROW_ID VARCHAR2(15 CHAR) NOT NULL 
+, CREATED DATE DEFAULT sysdate NOT NULL 
+, CREATED_BY VARCHAR2(15 CHAR) NOT NULL 
+, LAST_UPD DATE DEFAULT sysdate NOT NULL 
+, LAST_UPD_BY VARCHAR2(15 CHAR) NOT NULL 
+, DCKING_NUM NUMBER(22, 7) DEFAULT 0 
+, MODIFICATION_NUM NUMBER(10, 0) DEFAULT 0 NOT NULL 
+, CONFLICT_ID VARCHAR2(15 CHAR) DEFAULT '0' NOT NULL 
+, SYS_PREF_CD VARCHAR2(30 CHAR) NOT NULL 
+, VAL VARCHAR2(100 CHAR) NOT NULL 
+, COMMENTS VARCHAR2(250 CHAR) 
+, NODE_TYPE_ID VARCHAR2(15 CHAR) 
+) 
+
+	PAR_ROW_ID VARCHAR(15),			                          	-- PARENT ROW ID

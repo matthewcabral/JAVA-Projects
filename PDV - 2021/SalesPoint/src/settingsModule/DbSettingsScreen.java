@@ -8,15 +8,6 @@ package settingsModule;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -39,11 +30,11 @@ public class DbSettingsScreen extends javax.swing.JFrame {
     public void setListenerBtnTestDB(ActionListener listener) { btnTestDB.addActionListener(listener); }
     public void setListenerBtnSaveDBParam(ActionListener listener) { btnSaveDBParam.addActionListener(listener); }
     public void setListenerCbbDriverName(ItemListener listener) { cbbDriverName.addItemListener(listener); }
+    public void setListenerCbbDriver(ItemListener listener) { cbbDriver.addItemListener(listener); }
     
     // Control functions
     
-    // Functions to insert data on Components
-    public void settxtDriver(String item){ txtDriver.setText(item); txtDriver.paintImmediately(txtDriver.getVisibleRect()); }
+    // Functions to insert data on Components    
     public void settxtURL(String item){ txtURL.setText(item); txtURL.paintImmediately(txtURL.getVisibleRect()); }
     public void settxtLocal(String item){ txtLocal.setText(item); txtLocal.paintImmediately(txtLocal.getVisibleRect()); }
     public void settxtPort(String item){ txtPort.setText(item); txtPort.paintImmediately(txtPort.getVisibleRect()); }
@@ -51,11 +42,14 @@ public class DbSettingsScreen extends javax.swing.JFrame {
     public void settxtOwner(String item){ txtOwner.setText(item); txtOwner.paintImmediately(txtOwner.getVisibleRect()); }
     public void settxtUser(String item) { txtUser.setText(item); txtUser.paintImmediately(txtUser.getVisibleRect()); }
     public void settxtPassword(String item) { txtPassword.setText(item); txtPassword.paintImmediately(txtPassword.getVisibleRect()); }
-    public void setCbbDriverName(int item) { cbbDriverName.setSelectedIndex(item); cbbDriverName.paintImmediately(cbbDriverName.getVisibleRect()); }
+    public void setcbbDriver(String item){ cbbDriver.addItem(item); cbbDriver.paintImmediately(cbbDriver.getVisibleRect()); }
+    public void setcbbDriverName(String item){ cbbDriverName.addItem(item); cbbDriverName.paintImmediately(cbbDriverName.getVisibleRect()); }
+    
+    public void setCbbDriverItemIndex(int item) { cbbDriver.setSelectedIndex(item); cbbDriver.paintImmediately(cbbDriver.getVisibleRect()); }
+    public void setCbbDriverNameItemIndex(int item) { cbbDriverName.setSelectedIndex(item); cbbDriverName.paintImmediately(cbbDriverName.getVisibleRect()); }
     public void setLblPath(String item) { lblPath.setText(item); lblPath.paintImmediately(lblPath.getVisibleRect()); }
     
-    // Functions to clear the Components data 
-    public void cleartxtDriver(){ txtDriver.setText(""); txtDriver.paintImmediately(txtDriver.getVisibleRect()); }
+    // Functions to clear the Components data    
     public void cleartxtURL(){ txtURL.setText(""); txtURL.paintImmediately(txtURL.getVisibleRect()); }
     public void cleartxtLocal(){ txtLocal.setText(""); txtLocal.paintImmediately(txtLocal.getVisibleRect()); }
     public void cleartxtPort(){ txtPort.setText(""); txtPort.paintImmediately(txtPort.getVisibleRect()); }
@@ -63,21 +57,26 @@ public class DbSettingsScreen extends javax.swing.JFrame {
     public void cleartxtOwner(){ txtOwner.setText(""); txtOwner.paintImmediately(txtOwner.getVisibleRect()); }
     public void cleartxtUser() { txtUser.setText(""); txtUser.paintImmediately(txtUser.getVisibleRect()); }
     public void cleartxtPassword() { txtPassword.setText(""); txtPassword.paintImmediately(txtPassword.getVisibleRect()); }
+    public void clearcbbDriver() { cbbDriver.removeAllItems(); cbbDriver.paintImmediately(cbbDriver.getVisibleRect()); }
+    public void clearcbbDriverName(){ cbbDriverName.removeAllItems(); cbbDriverName.paintImmediately(cbbDriverName.getVisibleRect()); }
     public void clearLblPath() { lblPath.setText(""); lblPath.paintImmediately(lblPath.getVisibleRect()); }
     
     // Functions to return data from Components
-    public String gettxtDriver(){ return txtDriver.getText(); }
     public String gettxtURL(){ return txtURL.getText(); }
     public String gettxtLocal(){ return txtLocal.getText(); }
     public String gettxtPort(){ return txtPort.getText(); }
     public String gettxtDBName(){ return txtDBName.getText(); }
     public String gettxtOwner(){ return txtOwner.getText(); }
-    public String getCbbDriverName() { return cbbDriverName.getSelectedItem().toString(); }
+    public String getcbbDriver(){ return ((!"Selecione...".equals(cbbDriver.getSelectedItem().toString()) && cbbDriver.getSelectedItem().toString() != null) ? cbbDriver.getSelectedItem().toString() : null); }
+    public String getCbbDriverName() { return ((!"Selecione...".equals(cbbDriverName.getSelectedItem().toString()) && cbbDriverName.getSelectedItem().toString() != null) ? cbbDriverName.getSelectedItem().toString() : null ); }
     public String gettxtUser() { return txtUser.getText(); }
     public String gettxtPassword() { return txtPassword.getText(); }
-        
+
+    public int getCbbDriverItemIndex(String value) { if(!"".equals(value) && value != null) { for(int i = 0; i < this.cbbDriver.getItemCount(); i++){ if(value.equals(this.cbbDriver.getItemAt(i))){ return i; }}} else { return 0; } return 0; }
+    public int getCbbDriverNameItemIndex(String value) { if(!"".equals(value) && value != null) { for(int i = 0; i < this.cbbDriverName.getItemCount(); i++){ if(value.equals(this.cbbDriverName.getItemAt(i))){ return i; }}} else { return 0; } return 0; }
+    
     // Functions to enable or disable Components
-    public void settxtDriverEnabled(boolean status){ this.txtDriver.setEnabled(status); }
+    public void setcbbDriverEnabled(boolean status){ this.cbbDriver.setEnabled(status); }
     public void settxtURLEnabled(boolean status){ this.txtURL.setEnabled(status); }
     public void settxtLocalEnabled(boolean status){ this.txtLocal.setEnabled(status); }
     public void settxtPortEnabled(boolean status){ this.txtPort.setEnabled(status); }
@@ -89,7 +88,7 @@ public class DbSettingsScreen extends javax.swing.JFrame {
     public void settxtPasswordEnabled(boolean status) { this.txtPassword.setEnabled(status); }
         
     // Functions to return the Components Status
-    public boolean istxtDriverEnabled(){ return txtDriver.isEnabled(); }
+    public boolean iscbbDriverEnabled(){ return cbbDriver.isEnabled(); }
     public boolean istxtURLEnabled(){ return txtURL.isEnabled(); }
     public boolean istxtLocalEnabled(){ return txtLocal.isEnabled(); }
     public boolean istxtPortEnabled(){ return txtPort.isEnabled(); }
@@ -103,7 +102,7 @@ public class DbSettingsScreen extends javax.swing.JFrame {
     public void setFocus(String component) {
         switch(component) {
             case "TXT_DRIVER":
-                txtDriver.requestFocus();
+                cbbDriver.requestFocus();
                 break;
             case "TXT_URL":
                 txtURL.requestFocus();
@@ -129,6 +128,25 @@ public class DbSettingsScreen extends javax.swing.JFrame {
         }
     }
     
+    public void clearComboBoxes(){
+        clearcbbDriver();
+        clearcbbDriverName();
+    }
+    
+    public void clearFields() {
+        cleartxtDBName();
+        cleartxtLocal();
+        cleartxtOwner();
+        cleartxtPassword();
+        cleartxtPort();
+        cleartxtURL();
+        cleartxtUser();
+    }
+    
+    public void insertSelectComboBox(){
+        this.setcbbDriver("Selecione...");
+        this.setcbbDriverName("Selecione...");
+    }
     
     /** This method is called from within the constructor to
      * initialize the form.
@@ -142,7 +160,6 @@ public class DbSettingsScreen extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         lblScreen = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        txtDriver = new javax.swing.JTextField();
         txtLocal = new javax.swing.JTextField();
         txtPort = new javax.swing.JTextField();
         txtDBName = new javax.swing.JTextField();
@@ -164,6 +181,7 @@ public class DbSettingsScreen extends javax.swing.JFrame {
         lblURL = new javax.swing.JLabel();
         txtURL = new javax.swing.JTextField();
         btnTestDB = new javax.swing.JButton();
+        cbbDriver = new javax.swing.JComboBox<>();
         btnSaveDBParam = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -177,9 +195,6 @@ public class DbSettingsScreen extends javax.swing.JFrame {
         lblScreen.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Personalizar Conexão", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 14))); // NOI18N
-
-        txtDriver.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        txtDriver.setText("oracle.jdbc.OracleDriver");
 
         txtLocal.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txtLocal.setText("localhost");
@@ -244,6 +259,8 @@ public class DbSettingsScreen extends javax.swing.JFrame {
 
         btnTestDB.setText("Testar Conexão");
 
+        cbbDriver.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "ORACLE SQL", "MySQL" }));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -253,14 +270,23 @@ public class DbSettingsScreen extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(lblLlocal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(575, 575, 575))
+                        .addGap(565, 565, 565))
+                    .addComponent(lblPath, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblOwner1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblOwner2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblPath, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jLabel10)))
-                        .addContainerGap())
+                            .addComponent(txtUser)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(btnTestDB)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(txtPassword)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(lblDriver, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbbDriver, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -276,51 +302,42 @@ public class DbSettingsScreen extends javax.swing.JFrame {
                                         .addComponent(lblPort)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(txtPort, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(txtOwner)))
+                                    .addComponent(txtOwner, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 616, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel10)
                             .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                        .addComponent(lblDriver1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(9, 9, 9))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(lblURL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(3, 3, 3)))
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(lblOwner1, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
-                                    .addComponent(lblOwner2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtUser)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(btnTestDB)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(txtPassword)))
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 616, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(lblDriver, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblDriver1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                                    .addComponent(lblURL, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtURL, javax.swing.GroupLayout.PREFERRED_SIZE, 496, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(9, 9, 9)
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(cbbDriverName, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtDriver, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                        .addContainerGap())))
+                                    .addComponent(txtURL)
+                                    .addComponent(cbbDriverName, 0, 497, Short.MAX_VALUE))))))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDriver)
+                    .addComponent(cbbDriver, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDriver1)
                     .addComponent(cbbDriverName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblDriver)
-                    .addComponent(txtDriver, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtURL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblURL))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblURL)
-                    .addComponent(txtURL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblLlocal)
                     .addComponent(txtLocal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -378,7 +395,7 @@ public class DbSettingsScreen extends javax.swing.JFrame {
                 .addComponent(lblScreen)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSaveDBParam)
                 .addContainerGap())
         );
@@ -401,6 +418,7 @@ public class DbSettingsScreen extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSaveDBParam;
     private javax.swing.JButton btnTestDB;
+    private javax.swing.JComboBox<String> cbbDriver;
     private javax.swing.JComboBox<String> cbbDriverName;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JPanel jPanel1;
@@ -418,7 +436,6 @@ public class DbSettingsScreen extends javax.swing.JFrame {
     private javax.swing.JLabel lblScreen;
     private javax.swing.JLabel lblURL;
     private javax.swing.JTextField txtDBName;
-    private javax.swing.JTextField txtDriver;
     private javax.swing.JTextField txtLocal;
     private javax.swing.JTextField txtOwner;
     private javax.swing.JPasswordField txtPassword;

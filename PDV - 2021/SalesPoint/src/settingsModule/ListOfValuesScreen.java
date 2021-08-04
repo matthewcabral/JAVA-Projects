@@ -46,6 +46,8 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
     public void setListenerBtnSave(ActionListener listener) { this.btnSave.addActionListener(listener); }
     public void setListenerBtnCancel(ActionListener listener) { this.btnCancel.addActionListener(listener); }
     public void setListenerBtnDelete(ActionListener listener) { this.btnDelete.addActionListener(listener); }
+    public void setListenerBtnQuery(ActionListener listener) { this.btnQuery.addActionListener(listener); }
+    public void setListenerBtnGoQuery(ActionListener listener) { this.btnGoQuery.addActionListener(listener); }
     
     public void setListenercbbListFilterValue(ItemListener listener) { this.cbbListFilter.addItemListener(listener); }
     public void setListenertxtListFilterValue(KeyListener listener) { this.txtListFilterValue.addKeyListener(listener); }
@@ -81,6 +83,7 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
     
     public void setckbActiveFlg(String value) { this.ckbActiveFlg.setSelected(("Y".equals(value))); this.ckbActiveFlg.paintImmediately(this.ckbActiveFlg.getVisibleRect()); }
 
+    public void setlblLOVNameHeader(String value) { this.lblLOVNameHeader.setText(value); this.lblLOVNameHeader.paintImmediately(this.lblLOVNameHeader.getVisibleRect()); }
     public void setlblRecCount(String value) { this.lblRecCount.setText("Registros: " + value); this.lblRecCount.paintImmediately(this.lblRecCount.getVisibleRect()); }
     
     // ComboBox Specific Setters
@@ -158,6 +161,8 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
     public void setbtnNewEnabled(boolean status) { this.btnNew.setEnabled(status); }
     public void setbtnSaveEnabled(boolean status) { this.btnSave.setEnabled(status); }
     public void setbtnDeleteEnabled(boolean status) { this.btnDelete.setEnabled(status); }
+    public void setbtnQueryEnabled(boolean status) { this.btnQuery.setEnabled(status); }
+    public void setbtnGoQueryEnabled(boolean status) { this.btnGoQuery.setEnabled(status); }
     public void setbtnCancelEnabled(boolean status) { this.btnCancel.setEnabled(status); }
 
     // Return componet status
@@ -184,6 +189,8 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
     public boolean isbtnSaveEnabled() { return this.btnSave.isEnabled(); }
     public boolean isbtnCancelEnabled() { return this.btnCancel.isEnabled(); }
     public boolean isbtnDeleteEnabled() { return this.btnDelete.isEnabled(); }
+    public boolean isbtnQueryEnabled() { return this.btnQuery.isEnabled(); }
+    public boolean isbtnGoQueryEnabled() { return this.btnGoQuery.isEnabled(); }
     
     // Button Functions
     public void clickSave(){ this.btnSave.setEnabled(true); this.btnSave.doClick(); this.btnSave.setEnabled(false); }
@@ -191,6 +198,8 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
     public void clickEdit(){ this.btnEdit.setEnabled(true); this.btnEdit.doClick(); this.btnEdit.setEnabled(false); }
     public void clickCancel(){ this.btnCancel.setEnabled(true); this.btnCancel.doClick(); this.btnCancel.setEnabled(false); }
     public void clickDelete(){ this.btnDelete.setEnabled(true); this.btnDelete.doClick(); this.btnDelete.setEnabled(false); }
+    public void clickQuery(){ this.btnQuery.setEnabled(true); this.btnQuery.doClick(); this.btnQuery.setEnabled(false); }
+    public void clickGoQuery(){ this.btnGoQuery.setEnabled(true); this.btnGoQuery.doClick(); this.btnGoQuery.setEnabled(false); }
     
     // Set Focus on Specific component
     public void setFocus(String component) {
@@ -249,6 +258,12 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
         case "BOTAO_DELETAR":
             this.btnDelete.requestFocus();
             break;
+        case "BOTAO_QUERY":
+            this.btnQuery.requestFocus();
+            break;
+        case "BOTAO_GO_QUERY":
+            this.btnGoQuery.requestFocus();
+            break;
         default:
             break;
         }
@@ -280,6 +295,8 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
                 setbtnSaveEnabled(false);
                 setbtnDeleteEnabled(false);
                 setbtnCancelEnabled(false);
+                setbtnQueryEnabled(true);
+                setbtnGoQueryEnabled(false);
                 break;
             case "NOVO":
                 settxtLOVTypeListFilterValueEnabled(true);
@@ -305,6 +322,8 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
                 setbtnSaveEnabled(true);
                 setbtnCancelEnabled(true);
                 setbtnDeleteEnabled(false);
+                setbtnQueryEnabled(false);
+                setbtnGoQueryEnabled(false);
                 break;
             case "EDITAR":
                 settxtLOVTypeListFilterValueEnabled(true);
@@ -330,6 +349,8 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
                 setbtnNewEnabled(false);
                 setbtnSaveEnabled(true);
                 setbtnCancelEnabled(true);
+                setbtnQueryEnabled(false);
+                setbtnGoQueryEnabled(false);
                 break;
             case "CANCELAR":
                 settxtLOVTypeListFilterValueEnabled(true);
@@ -351,10 +372,12 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
                 setTblEnabled(true);
                 
                 setbtnEditEnabled(true);
-                setbtnDeleteEnabled(true);
+                setbtnDeleteEnabled(false);
                 setbtnNewEnabled(true);
                 setbtnSaveEnabled(false);
                 setbtnCancelEnabled(false);
+                setbtnQueryEnabled(true);
+                setbtnGoQueryEnabled(false);
                 break;
             case "DELETAR":
                 settxtLOVTypeListFilterValueEnabled(true);
@@ -380,6 +403,8 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
                 setbtnNewEnabled(true);
                 setbtnSaveEnabled(false);
                 setbtnCancelEnabled(false);
+                setbtnQueryEnabled(true);
+                setbtnGoQueryEnabled(false);
                 break;
             case "SALVAR":
                 settxtLOVTypeListFilterValueEnabled(true);
@@ -405,6 +430,62 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
                 setbtnNewEnabled(true);
                 setbtnSaveEnabled(false);
                 setbtnCancelEnabled(false);
+                setbtnQueryEnabled(true);
+                setbtnGoQueryEnabled(false);
+                break;
+            case "QUERY":
+                settxtLOVTypeListFilterValueEnabled(false);
+                settxtRowIdEnabled(true);
+                settxtNameEnabled(true);
+                settxtValueEnabled(true);
+                settxtOrderEnabled(true);
+                settxtReplicationLevelEnabled(true);
+                settxtCodeEnabled(true);
+                settxtSubTypeEnabled(true);
+                settxtDescriptionEnabled(true);
+
+                setcbbListFilterEnabled(false);
+                setcbbLOVTypeEnabled(true);
+                setcbbLanguageEnabled(true);
+                //setcbbSubtypeEnabled(false);
+                setckbActiveFlgEnabled(true);
+
+                setTblEnabled(false);
+                
+                setbtnEditEnabled(false);
+                setbtnDeleteEnabled(false);
+                setbtnNewEnabled(false);
+                setbtnSaveEnabled(false);
+                setbtnCancelEnabled(true);
+                setbtnQueryEnabled(false);
+                setbtnGoQueryEnabled(true);
+                break;
+            case "GO_QUERY":
+                settxtLOVTypeListFilterValueEnabled(true);
+                settxtRowIdEnabled(false);
+                settxtNameEnabled(false);
+                settxtValueEnabled(false);
+                settxtOrderEnabled(false);
+                settxtReplicationLevelEnabled(false);
+                settxtCodeEnabled(false);
+                settxtSubTypeEnabled(false);
+                settxtDescriptionEnabled(false);
+
+                setcbbListFilterEnabled(true);
+                setcbbLOVTypeEnabled(false);
+                setcbbLanguageEnabled(false);
+                //setcbbSubtypeEnabled(false);
+                setckbActiveFlgEnabled(false);
+
+                setTblEnabled(true);
+                
+                setbtnEditEnabled(true);
+                setbtnDeleteEnabled(true);
+                setbtnNewEnabled(true);
+                setbtnSaveEnabled(false);
+                setbtnCancelEnabled(false);
+                setbtnQueryEnabled(true);
+                setbtnGoQueryEnabled(false);
                 break;
             default:
                 break;
@@ -468,6 +549,7 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
         this.lblRecCount.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.lblLOVNameHeader.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -501,6 +583,8 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
         btnSave = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
+        btnQuery = new javax.swing.JButton();
+        btnGoQuery = new javax.swing.JButton();
         sPanelLOVForm = new javax.swing.JScrollPane();
         PanelFormUser = new javax.swing.JPanel();
         lblRowId = new javax.swing.JLabel();
@@ -537,7 +621,7 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/Lupa 20x20.png"))); // NOI18N
+        lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/Filter 20x20.png"))); // NOI18N
 
         cbbListFilter.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         cbbListFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -572,13 +656,13 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblImage)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cbbListFilter, 0, 332, Short.MAX_VALUE)
+                .addComponent(cbbListFilter, 0, 331, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtListFilterValue, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
+                .addComponent(txtListFilterValue, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblInformation)
                 .addGap(59, 59, 59)
-                .addComponent(lblRecCount, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+                .addComponent(lblRecCount, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                 .addContainerGap())
         );
         PanelLOVListHeaderLayout.setVerticalGroup(
@@ -596,6 +680,7 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        sPanelLOVList.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         sPanelLOVList.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         sPanelLOVList.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         sPanelLOVList.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
@@ -767,11 +852,40 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
         btnDelete.setToolTipText("Excluir");
         btnDelete.setBorderPainted(false);
         btnDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnDelete.setEnabled(false);
         btnDelete.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         btnDelete.setIconTextGap(3);
         btnDelete.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 btnDeleteKeyPressed(evt);
+            }
+        });
+
+        btnQuery.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
+        btnQuery.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/Lupa 20x20.png"))); // NOI18N
+        btnQuery.setToolTipText("Pesquisar");
+        btnQuery.setBorderPainted(false);
+        btnQuery.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnQuery.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnQuery.setIconTextGap(0);
+        btnQuery.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        btnQuery.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnQueryKeyPressed(evt);
+            }
+        });
+
+        btnGoQuery.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
+        btnGoQuery.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/Go 20x20.png"))); // NOI18N
+        btnGoQuery.setToolTipText("Ir");
+        btnGoQuery.setBorderPainted(false);
+        btnGoQuery.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnGoQuery.setEnabled(false);
+        btnGoQuery.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnGoQuery.setIconTextGap(3);
+        btnGoQuery.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnGoQueryKeyPressed(evt);
             }
         });
 
@@ -785,6 +899,10 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblUserFormInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnQuery, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnGoQuery, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -812,11 +930,14 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
                     .addComponent(btnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblLOVNameHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnQuery, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnGoQuery, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        sPanelLOVForm.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        sPanelLOVForm.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        sPanelLOVForm.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         sPanelLOVForm.setMinimumSize(new java.awt.Dimension(0, 0));
         sPanelLOVForm.setPreferredSize(new java.awt.Dimension(2000, 607));
 
@@ -835,6 +956,11 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
         txtRowId.setText("jTextField1");
         txtRowId.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.background")), javax.swing.BorderFactory.createEmptyBorder(1, 5, 1, 5)));
         txtRowId.setEnabled(false);
+        txtRowId.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtRowIdKeyPressed(evt);
+            }
+        });
 
         lblLOVType.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         lblLOVType.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -1108,11 +1234,11 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
         PanelLOVForm.setLayout(PanelLOVFormLayout);
         PanelLOVFormLayout.setHorizontalGroup(
             PanelLOVFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(PanelLOVFormHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(PanelLOVFormLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(sPanelLOVForm, javax.swing.GroupLayout.DEFAULT_SIZE, 1296, Short.MAX_VALUE)
+                .addComponent(sPanelLOVForm, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
-            .addComponent(PanelLOVFormHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         PanelLOVFormLayout.setVerticalGroup(
             PanelLOVFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1237,6 +1363,20 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSubTypeKeyPressed
 
+    private void btnQueryKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnQueryKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnQueryKeyPressed
+
+    private void btnGoQueryKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnGoQueryKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnGoQueryKeyPressed
+
+    private void txtRowIdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRowIdKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER || evt.getKeyCode() == KeyEvent.VK_TAB){
+            setFocus("TYPE");
+        }
+    }//GEN-LAST:event_txtRowIdKeyPressed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelFormUser;
     private javax.swing.JPanel PanelLOV;
@@ -1248,7 +1388,9 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnGoQuery;
     private javax.swing.JButton btnNew;
+    private javax.swing.JButton btnQuery;
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox<String> cbbLOVType;
     private javax.swing.JComboBox<String> cbbLanguage;

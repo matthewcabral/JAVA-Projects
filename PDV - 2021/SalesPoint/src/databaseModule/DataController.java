@@ -61,7 +61,7 @@ public abstract class DataController extends Controller{
                 } else if(e.toString().contains("ORA-12505, TNS:listener does not currently know of SID given in connect descriptor\n")){
                     JOptionPane.showMessageDialog(null, "O Listener não identificou o SID utilizado no descritor de conexão.","Erro",JOptionPane.ERROR_MESSAGE);
                     System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "O Listener não identificou o SID utilizado no descritor de conexão.");
-                } else if(e.toString().contains("java.sql.SQLException: ORA-01017: invalid username/password; logon denied\n")){
+                } else if(e.toString().contains("java.sql.SQLException: ORA-01017: invalid username/password; logon denied\n") || e.toString().contains("Access denied for user")){
                     JOptionPane.showMessageDialog(null, "Nome de usuário/senha incorreto. Tente novamente.","Erro",JOptionPane.ERROR_MESSAGE);
                     System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "Nome de usuário/senha incorreto. Tente novamente.");
                 } else if(e.toString().contains("java.sql.SQLRecoverableException: Erro de ES: Unknown host specified ")){

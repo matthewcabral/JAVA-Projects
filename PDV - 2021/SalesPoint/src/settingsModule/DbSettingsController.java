@@ -121,8 +121,33 @@ public class DbSettingsController {
     
     public void openDbSettingsScreen(){
         dbSetScreen = new DbSettingsScreen();
+        
+        dbSetScreen.clearFields();
+        dbSetScreen.clearComboBoxes();
+        dbSetScreen.insertSelectComboBox();
+        this.fillComboBoxes("DRIVER_NAME");
+        this.fillComboBoxes("DRIVER");
+        
         dbSetScreen.setListenerBtnTestDB(new testDbConnection());
         dbSetScreen.setListenerBtnSaveDBParam(new saveDbParameters());
+        dbSetScreen.setListenerCbbDriver(new chooseDriverType());
+        
+    }
+    
+    private void fillComboBoxes(String type){
+        switch(type){
+            case "DRIVER_NAME":
+                dbSetScreen.setcbbDriverName("SID");
+                dbSetScreen.setcbbDriverName("Service Name");
+                dbSetScreen.setcbbDriverName("TNS");
+                break;
+            case "DRIVER":
+                dbSetScreen.setcbbDriver("ORACLE SQL");
+                dbSetScreen.setcbbDriver("MySQL");
+                break;
+            default:
+                break;
+        }
     }
     
     public void screenOnLoad() throws IOException{
@@ -134,16 +159,31 @@ public class DbSettingsController {
                 while((line = br.readLine()) != null){
                     if(i > 0){
                         StringTokenizer st = new StringTokenizer(line, SplitBy);
-                        driverType = st.nextToken();
-                        if("SID".equals(driverType)){
-                            dbSetScreen.setCbbDriverName(0);
+                        //driverType = st.nextToken();
+                        
+                        dbSetScreen.setCbbDriverNameItemIndex(dbSetScreen.getCbbDriverNameItemIndex(st.nextToken()));
+                        /*if("SID".equals(driverType)){
+                            
                         } else if("Service Name".equals(driverType)){
-                            dbSetScreen.setCbbDriverName(1);
+                            dbSetScreen.setCbbDriverNameItemIndex(1);
                         } else {
-                            dbSetScreen.setCbbDriverName(2);
+                            dbSetScreen.setCbbDriverNameItemIndex(2);
+                        }*/
+                        
+                        String driver = st.nextToken();
+                        switch(driver){
+                            case "oracle.jdbc.OracleDriver":
+                                dbSetScreen.setCbbDriverItemIndex(dbSetScreen.getCbbDriverItemIndex("ORACLE SQL"));
+                                break;
+                            case "com.mysql.jdbc.Driver":
+                                dbSetScreen.setCbbDriverItemIndex(dbSetScreen.getCbbDriverItemIndex("MySQL"));
+                                break;
+                            default:
+                                dbSetScreen.setCbbDriverItemIndex(dbSetScreen.getCbbDriverItemIndex("ORACLE SQL"));
+                                break;
                         }
                         
-                        dbSetScreen.settxtDriver(st.nextToken());
+                        //dbSetScreen.setcbbDriver(st.nextToken());                        
                         dbSetScreen.settxtURL(st.nextToken());
                         dbSetScreen.settxtLocal(st.nextToken());
                         dbSetScreen.settxtPort(st.nextToken());
@@ -206,6 +246,17 @@ public class DbSettingsController {
     
     private boolean testDbConnection(){
         if(validateFields()){
+            switch(dbSetScreen.getcbbDriver()){
+                case "ORACLE SQL":
+                    setDbDriver("oracle.jdbc.OracleDriver");
+                    break;
+                case "MySQL":
+                    setDbDriver("com.mysql.jdbc.Driver");
+                    break;
+                default:
+                    setDbDriver("oracle.jdbc.OracleDriver");
+                    break;
+            }
             switch(dbSetScreen.getCbbDriverName()) {
                 case "SID":
                     setDbURL(dbSetScreen.gettxtURL());
@@ -217,8 +268,7 @@ public class DbSettingsController {
                     setDbURL(dbSetScreen.gettxtURL() + dbSetScreen.gettxtDBName());
                     break;
             }
-            setDbDriverName(dbSetScreen.getCbbDriverName());
-            setDbDriver(dbSetScreen.gettxtDriver());
+            setDbDriverName(dbSetScreen.getCbbDriverName());            
             setDbName(dbSetScreen.gettxtDBName());
             setDbOwner(dbSetScreen.gettxtOwner());
             setDbLocal(dbSetScreen.gettxtLocal());
@@ -243,7 +293,7 @@ public class DbSettingsController {
     
     private boolean validateFields(){
         return
-        (!"".equals(dbSetScreen.gettxtDriver()) && dbSetScreen.gettxtDriver() != null) &&
+        (!"".equals(dbSetScreen.getcbbDriver()) && dbSetScreen.getcbbDriver() != null) &&
         (!"".equals(dbSetScreen.gettxtURL()) && dbSetScreen.gettxtURL() != null) &&
         (!"".equals(dbSetScreen.gettxtLocal()) && dbSetScreen.gettxtLocal() != null) &&
         (!"".equals(dbSetScreen.gettxtPort()) && dbSetScreen.gettxtPort() != null) &&
@@ -277,7 +327,17 @@ public class DbSettingsController {
                 BufferedWriter buff = new BufferedWriter(new FileWriter(path));
                 buff.append(header);
                 buff.append(dbSetScreen.getCbbDriverName() + ";");
-                buff.append(dbSetScreen.gettxtDriver() + ";");
+                switch(dbSetScreen.getcbbDriver()){
+                    case "ORACLE SQL":
+                        buff.append("oracle.jdbc.OracleDriver" + ";");
+                        break;
+                    case "MySQL":
+                        buff.append("com.mysql.jdbc.Driver" + ";");
+                        break;
+                    default:
+                        buff.append("oracle.jdbc.OracleDriver" + ";");
+                        break;
+                }                
                 buff.append(dbSetScreen.gettxtURL() + ";");
                 buff.append(dbSetScreen.gettxtLocal() + ";");
                 buff.append(dbSetScreen.gettxtPort() + ";");
@@ -317,7 +377,7 @@ public class DbSettingsController {
                 } else if(e.toString().contains("ORA-12505, TNS:listener does not currently know of SID given in connect descriptor")){
                     JOptionPane.showMessageDialog(null, "O Listener não identificou o SID utilizado no descritor de conexão.","Erro",JOptionPane.ERROR_MESSAGE);
                     System.out.println(getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "O Listener não identificou o SID utilizado no descritor de conexão.");
-                } else if(e.toString().contains("java.sql.SQLException: ORA-01017: invalid username/password; logon denied")){
+                } else if(e.toString().contains("java.sql.SQLException: ORA-01017: invalid username/password; logon denied") || e.toString().contains("Access denied for user")){
                     JOptionPane.showMessageDialog(null, "Nome de usuário/senha incorreto. Tente novamente.","Erro",JOptionPane.ERROR_MESSAGE);
                     System.out.println(getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "Nome de usuário/senha incorreto. Tente novamente.");
                 } else if(e.toString().contains("java.sql.SQLRecoverableException: Erro de ES: Unknown host specified")){
@@ -378,33 +438,40 @@ public class DbSettingsController {
         }        
     }
     
-    private class chooseConnectionType implements ItemListener {
+    private class chooseDriverType implements ItemListener {
 
         @Override
         public void itemStateChanged(ItemEvent ie) {
-            if("SID".equals(dbSetScreen.getCbbDriverName())){
-                dbSetScreen.settxtDriver("oracle.jdbc.OracleDriver");
-                dbSetScreen.settxtURL("jdbc:oracle:thin:@");
-                dbSetScreen.settxtLocal("localhost");
-                dbSetScreen.settxtPort("1521");
-                dbSetScreen.settxtDBName("SIEBEL");
-                dbSetScreen.settxtOwner("SIEBEL");
-            } else if("Service Name".equals(dbSetScreen.getCbbDriverName())){
-                dbSetScreen.settxtDriver("oracle.jdbc.OracleDriver");
-                dbSetScreen.settxtURL("jdbc:oracle:thin:@");
-                dbSetScreen.settxtLocal("localhost");
-                dbSetScreen.settxtPort("1521");
-                dbSetScreen.settxtDBName("SIEBEL");
-                dbSetScreen.settxtOwner("SIEBEL");
-            } else {
-                dbSetScreen.settxtDriver("oracle.jdbc.OracleDriver");
-                dbSetScreen.settxtURL("jdbc:oracle:thin:@");
-                dbSetScreen.settxtLocal("localhost");
-                dbSetScreen.settxtPort("1521");
-                dbSetScreen.settxtDBName("SIEBEL");
-                dbSetScreen.settxtOwner("SIEBEL");
+            if(dbSetScreen.getcbbDriver() != null) {
+                switch(dbSetScreen.getcbbDriver()){
+                    case "ORACLE SQL":
+                        dbSetScreen.setCbbDriverNameItemIndex(dbSetScreen.getCbbDriverNameItemIndex("SID"));
+                        dbSetScreen.settxtURL("jdbc:oracle:thin:@");
+                        dbSetScreen.settxtLocal("localhost");
+                        dbSetScreen.settxtPort("1521");
+                        dbSetScreen.settxtDBName("PDV");
+                        dbSetScreen.settxtOwner("PDV");
+                        break;
+                    case "MySQL":
+                        dbSetScreen.setCbbDriverNameItemIndex(dbSetScreen.getCbbDriverNameItemIndex("Service Name"));
+                        dbSetScreen.settxtURL("jdbc:mysql:");
+                        dbSetScreen.settxtLocal("localhost");
+                        dbSetScreen.settxtPort("3306");
+                        dbSetScreen.settxtDBName("PDV");
+                        dbSetScreen.settxtOwner("PDV");
+                        break;
+                    default:
+                        dbSetScreen.setCbbDriverNameItemIndex(dbSetScreen.getCbbDriverNameItemIndex("SID"));
+                        dbSetScreen.settxtURL("jdbc:oracle:thin:@");
+                        dbSetScreen.settxtLocal("localhost");
+                        dbSetScreen.settxtPort("1521");
+                        dbSetScreen.settxtDBName("PDV");
+                        dbSetScreen.settxtOwner("PDV");
+                        break;
+                }
             }
         }
         
     }
+
 }

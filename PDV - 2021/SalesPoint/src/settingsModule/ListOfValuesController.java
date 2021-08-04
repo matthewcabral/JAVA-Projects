@@ -77,6 +77,8 @@ public class ListOfValuesController extends DataController {
         lovScr.setListenerBtnDelete(new buttonDelete());
         lovScr.setListenerBtnSave(new buttonSave());
         lovScr.setListenerBtnCancel(new buttonCancel());
+        lovScr.setListenerBtnQuery(new buttonQuery());
+        lovScr.setListenerBtnGoQuery(new buttonGoQuery());
         lovScr.setListenerTblListSelection(new ListSelected());
         lovScr.setListenercbbListFilterValue(new CbbListFilterItemState());
         lovScr.setListenertxtListFilterValue(new TxtListFilterValue());
@@ -240,6 +242,7 @@ public class ListOfValuesController extends DataController {
         
             if(lovList.size() > 0){
                 for(int i = 0; i < lovList.size(); i++){
+                    lovScr.setlblLOVNameHeader(lovList.get(i).getType());
                     lovScr.settxtRowId(lovList.get(i).getRow_id());
                     lovScr.setcbbLOVTypeItemIndex(lovScr.getcbbLOVTypeItemIndex(lovList.get(i).getType()));
                     lovScr.settxtName(lovList.get(i).getName());
@@ -265,55 +268,63 @@ public class ListOfValuesController extends DataController {
         lovScr.settxtReplicationLevel("All");
     }
     
-    public void filterList(){
-        if((lovScr.getcbbListFilter() != null) && (lovScr.gettxtListFilterValue() != null)) {
+    public String convertSpecialCharacter(String string){
+        String stringProcessed = "";
+        
+        for (int i = 0; i < string.length(); i++) {
+            switch(string.substring(i, i + 1)) {
+                case "*":
+                    stringProcessed += "%";
+                    break;
+                case "?":
+                    stringProcessed += "_";
+                    break;
+                default:
+                    stringProcessed += string.substring(i, i + 1);
+                    break;
+            }
+        }
+        
+        return stringProcessed;        
+    }
+    
+    public String convertReservedWords(String string) {
+        String stringProcessed = "";
+        String stringToUpperCase = string.toUpperCase();
+        
+        for (int i = 0; i < string.length(); i++) {
+            if(string.length() >= (i + 7)) {
+                switch(stringToUpperCase.substring(i, i + 7)) {
+                    case "TODAY()":
+                        stringProcessed += "SYSDATE";
+                        i += 6;
+                        break;
+                    default:
+                        stringProcessed += string.substring(i, i + 1);
+                        break;
+                }
+            } else {
+                stringProcessed += string.substring(i, i + 1);
+            }
+        }
+        
+        return stringProcessed;
+        
+    }
+    
+    public void basicListFilter(String filterColumn, String filterValue, String lovType, String tblAlias){
+        if(filterColumn != null && filterValue != null) {
             int posChrOR = 0;           // OR
             int posChrAND = 0;          // AND
             int posChrGreaterThen = 0;  // >=
             int posChrLessThen = 0;     // <=
             boolean loop = true;
-            String filterProcessing = "";
             String condition = "";
-            String filterValue = lovScr.gettxtListFilterValue();
-            String filterValueUpper = lovScr.gettxtListFilterValue().toUpperCase();
-            
-            for (int i = 0; i < filterValue.length(); i++) {
-                switch(filterValue.substring(i, i + 1)) {
-                    case "*":
-                        filterProcessing += "%";
-                        break;
-                    case "?":
-                        filterProcessing += "_";
-                        break;
-                    default:
-                        filterProcessing += filterValue.substring(i, i + 1);
-                        break;
-                }
-            }
-            
-            filterValue = filterProcessing;
-            filterValueUpper = filterProcessing.toUpperCase();
-            filterProcessing = "";
-            
-            for (int i = 0; i < filterValue.length(); i++) {
-                if(filterValue.length() >= (i + 7)) {
-                    switch(filterValueUpper.substring(i, i + 7)) {
-                        case "TODAY()":
-                            filterProcessing += "SYSDATE";
-                            i += 6;
-                            break;
-                        default:
-                            filterProcessing += filterValue.substring(i, i + 1);
-                            break;
-                    }
-                } else {
-                    filterProcessing += filterValue.substring(i, i + 1);
-                }
-            }
-            
-            filterValue = filterProcessing;
-            filterValueUpper = filterProcessing.toUpperCase();
-            filterProcessing = "";
+            String filterValueUpper = filterValue.toUpperCase();
+                        
+            filterValue = convertSpecialCharacter(filterValue);
+            filterValue = convertReservedWords(filterValue);
+            filterValueUpper = filterValue.toUpperCase();
             
             while(loop) {
                 posChrOR = filterValueUpper.indexOf(" OR ");
@@ -324,61 +335,65 @@ public class ListOfValuesController extends DataController {
                 if (((posChrOR != 0 && posChrOR != -1) && (posChrOR < posChrAND)) || ((posChrOR != 0 && posChrOR != -1) && (posChrAND < 1))) {
                     if ("IS NULL".equals(filterValueUpper.substring(0, posChrOR)) || "IS NOT NULL".equals(filterValueUpper.substring(0, posChrOR))) {
                         if ("IS NULL".equals(filterValueUpper.substring(0, posChrOR))) {
-                            condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " IS NULL\nOR ";
+                            condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " IS NULL\nOR ";
                         } else {
-                            condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " IS NOT NULL\nOR ";
+                            condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " IS NOT NULL\nOR ";
                         }
                     } else if (filterValueUpper.substring(0, posChrOR).contains(">=") || filterValueUpper.substring(0, posChrOR).contains("<=") || filterValueUpper.substring(0, posChrOR).contains("<>")) {
                         if (filterValueUpper.substring(0, posChrOR).contains(">=")) {
                             try {
                                 Integer.valueOf(filterValueUpper.substring(posChrGreaterThen + 3, posChrOR));
-                                condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " >= " + filterValue.substring(posChrGreaterThen + 3, posChrOR) + "\nOR ";
+                                condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " >= " + filterValue.substring(posChrGreaterThen + 3, posChrOR) + "\nOR ";
                             } catch (NumberFormatException e) {
                                 if(filterValueUpper.substring(posChrGreaterThen + 3, posChrOR).contains("SYSDATE")){
-                                    condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " >= " + filterValue.substring(posChrGreaterThen + 3, posChrOR) + "\nOR ";
+                                    condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " >= " + filterValue.substring(posChrGreaterThen + 3, posChrOR) + "\nOR ";
                                 } else {
-                                    condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " >= '" + filterValue.substring(posChrGreaterThen + 3, posChrOR) + "'\nOR ";
+                                    condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " >= '" + filterValue.substring(posChrGreaterThen + 3, posChrOR) + "'\nOR ";
                                 }
                             }
                         } else if (filterValueUpper.substring(0, posChrOR).contains("<=")) {
                             try {
                                 Integer.valueOf(filterValueUpper.substring(posChrLessThen + 3, posChrOR));
-                                condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " <= " + filterValue.substring(posChrLessThen + 3, posChrOR) + "\nOR ";
+                                condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " <= " + filterValue.substring(posChrLessThen + 3, posChrOR) + "\nOR ";
                             } catch (NumberFormatException e) {
                                 if(filterValueUpper.substring(posChrLessThen + 3, posChrOR).contains("SYSDATE")){
-                                    condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " <= " + filterValue.substring(posChrLessThen + 3, posChrOR) + "\nOR ";
+                                    condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " <= " + filterValue.substring(posChrLessThen + 3, posChrOR) + "\nOR ";
                                 } else {
-                                    condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " <= '" + filterValue.substring(posChrLessThen + 3, posChrOR) + "'\nOR ";
+                                    condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " <= '" + filterValue.substring(posChrLessThen + 3, posChrOR) + "'\nOR ";
                                 }
                             }
                         } else {
                             try {
                                 Integer.valueOf(filterValueUpper.substring(posChrLessThen + 3, posChrOR));
-                                condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " <> " + filterValue.substring(posChrLessThen + 3, posChrOR) + "\nOR ";
+                                condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " <> " + filterValue.substring(posChrLessThen + 3, posChrOR) + "\nOR ";
                             } catch (NumberFormatException e) {
                                 if(filterValueUpper.substring(posChrLessThen + 3, posChrOR).contains("SYSDATE")){
-                                    condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " <> " + filterValue.substring(posChrLessThen + 3, posChrOR) + "\nOR ";
+                                    condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " <> " + filterValue.substring(posChrLessThen + 3, posChrOR) + "\nOR ";
                                 } else {
-                                    condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " <> '" + filterValue.substring(posChrLessThen + 3, posChrOR) + "'\nOR ";
+                                    condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " <> '" + filterValue.substring(posChrLessThen + 3, posChrOR) + "'\nOR ";
                                 }
                             }
                         }
                     } else {
                         if (filterValueUpper.substring(0, posChrOR).contains("%") || filterValueUpper.substring(0, posChrOR).contains("_")) {
-                            if("CRIADO POR".equals(lovScr.getcbbListFilter().toUpperCase()) || "ATUALIZADO POR".equals(lovScr.getcbbListFilter().toUpperCase())) {
-                                condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " LIKE '" + super.getUserIdByLogin(filterValue.substring(0, posChrOR)) + "'\nOR ";
+                            if("CRIADO POR".equals(filterColumn.toUpperCase()) || "ATUALIZADO POR".equals(filterColumn.toUpperCase())) {
+                                condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " LIKE '" + super.getUserIdByLogin(filterValue.substring(0, posChrOR)) + "'\nOR ";
                             } else {
-                                condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " LIKE '" + filterValue.substring(0, posChrOR) + "'\nOR ";
+                                condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " LIKE '" + filterValue.substring(0, posChrOR) + "'\nOR ";
                             }
                         } else {
                             try {
                                 Integer.valueOf(filterValue.substring(0, posChrOR));
-                                condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " = " + filterValue.substring(0, posChrOR) + "\nOR ";
+                                condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " = " + filterValue.substring(0, posChrOR) + "\nOR ";
                             } catch (NumberFormatException e) {
-                                if("CRIADO POR".equals(lovScr.getcbbListFilter().toUpperCase()) || "ATUALIZADO POR".equals(lovScr.getcbbListFilter().toUpperCase())) {
-                                    condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " = '" + super.getUserIdByLogin(filterValue.substring(0, posChrOR)) + "'\nOR ";
+                                if("CRIADO POR".equals(filterColumn.toUpperCase()) || "ATUALIZADO POR".equals(filterColumn.toUpperCase())) {
+                                    condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " = '" + super.getUserIdByLogin(filterValue.substring(0, posChrOR)) + "'\nOR ";
                                 } else {
-                                    condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " = '" + filterValue.substring(0, posChrOR) + "'\nOR ";
+                                    if(filterValueUpper.substring(0, posChrOR).contains("SYSDATE")){
+                                        condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " = " + filterValue.substring(0, posChrOR) + "\nOR ";
+                                    } else {
+                                        condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " = '" + filterValue.substring(0, posChrOR) + "'\nOR ";
+                                    }
                                 }
                             }
                         }
@@ -390,61 +405,65 @@ public class ListOfValuesController extends DataController {
                 } else if (posChrAND != 0 && posChrAND != -1) {
                     if ("IS NULL".equals(filterValueUpper.substring(0, posChrAND)) || "IS NOT NULL".equals(filterValueUpper.substring(0, posChrAND))) {
                         if ("IS NULL".equals(filterValueUpper.substring(0, posChrAND))) {
-                            condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " IS NULL\nAND ";
+                            condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " IS NULL\nAND ";
                         } else {
-                            condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " IS NOT NULL\nAND ";
+                            condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " IS NOT NULL\nAND ";
                         }
                     } else if (filterValueUpper.substring(0, posChrAND).contains(">=") || filterValueUpper.substring(0, posChrAND).contains("<=") || filterValueUpper.substring(0, posChrAND).contains("<>")) {
                         if (filterValueUpper.substring(0, posChrAND).contains(">=")) {
                             try {
                                 Integer.valueOf(filterValueUpper.substring(posChrGreaterThen + 3, posChrAND));
-                                condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " >= " + filterValue.substring(posChrGreaterThen + 3, posChrAND) + "\nAND ";
+                                condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " >= " + filterValue.substring(posChrGreaterThen + 3, posChrAND) + "\nAND ";
                             } catch (NumberFormatException e) {
                                 if(filterValueUpper.substring(posChrGreaterThen + 3, posChrAND).contains("SYSDATE")){
-                                    condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " >= " + filterValue.substring(posChrGreaterThen + 3, posChrAND) + "\nAND ";
+                                    condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " >= " + filterValue.substring(posChrGreaterThen + 3, posChrAND) + "\nAND ";
                                 } else {
-                                    condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " >= '" + filterValue.substring(posChrGreaterThen + 3, posChrAND) + "'\nAND ";
+                                    condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " >= '" + filterValue.substring(posChrGreaterThen + 3, posChrAND) + "'\nAND ";
                                 }
                             }
                         } else if (filterValueUpper.substring(0, posChrAND).contains("<=")) {
                             try {
                                 Integer.valueOf(filterValueUpper.substring(posChrLessThen + 3, posChrAND));
-                                condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " <= " + filterValue.substring(posChrLessThen + 3, posChrAND) + "\nAND ";
+                                condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " <= " + filterValue.substring(posChrLessThen + 3, posChrAND) + "\nAND ";
                             } catch (NumberFormatException e) {
                                 if(filterValueUpper.substring(posChrLessThen + 3, posChrAND).contains("SYSDATE")){
-                                    condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " <= " + filterValue.substring(posChrLessThen + 3, posChrAND) + "\nAND ";
+                                    condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " <= " + filterValue.substring(posChrLessThen + 3, posChrAND) + "\nAND ";
                                 } else {
-                                    condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " <= '" + filterValue.substring(posChrLessThen + 3, posChrAND) + "'\nAND ";
+                                    condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " <= '" + filterValue.substring(posChrLessThen + 3, posChrAND) + "'\nAND ";
                                 }
                             }
                         } else {
                             try {
                                 Integer.valueOf(filterValueUpper.substring(posChrLessThen + 3, posChrAND));
-                                condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " <> " + filterValue.substring(posChrLessThen + 3, posChrAND) + "\nAND ";
+                                condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " <> " + filterValue.substring(posChrLessThen + 3, posChrAND) + "\nAND ";
                             } catch (NumberFormatException e) {
                                 if(filterValueUpper.substring(posChrLessThen + 3, posChrAND).contains("SYSDATE")){
-                                    condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " <> " + filterValue.substring(posChrLessThen + 3, posChrAND) + "\nAND ";
+                                    condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " <> " + filterValue.substring(posChrLessThen + 3, posChrAND) + "\nAND ";
                                 } else {
-                                    condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " <> '" + filterValue.substring(posChrLessThen + 3, posChrAND) + "'\nAND ";
+                                    condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " <> '" + filterValue.substring(posChrLessThen + 3, posChrAND) + "'\nAND ";
                                 }
                             }
                         }
                     } else {
                         if (filterValueUpper.substring(0, posChrAND).contains("%") || filterValueUpper.substring(0, posChrAND).contains("_")) {
-                            if("CRIADO POR".equals(lovScr.getcbbListFilter().toUpperCase()) || "ATUALIZADO POR".equals(lovScr.getcbbListFilter().toUpperCase())) {
-                                condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " LIKE '" + super.getUserIdByLogin(filterValue.substring(0, posChrAND)) + "'\nAND ";
+                            if("CRIADO POR".equals(filterColumn.toUpperCase()) || "ATUALIZADO POR".equals(filterColumn.toUpperCase())) {
+                                condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " LIKE '" + super.getUserIdByLogin(filterValue.substring(0, posChrAND)) + "'\nAND ";
                             } else {
-                                condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " LIKE '" + filterValue.substring(0, posChrAND) + "'\nAND ";
+                                condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " LIKE '" + filterValue.substring(0, posChrAND) + "'\nAND ";
                             }
                         } else {
                             try {
                                 Integer.valueOf(filterValue.substring(0, posChrAND));
-                                condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " = " + filterValue.substring(0, posChrAND) + "\nAND ";
+                                condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " = " + filterValue.substring(0, posChrAND) + "\nAND ";
                             } catch (NumberFormatException e) {
-                                if("CRIADO POR".equals(lovScr.getcbbListFilter().toUpperCase()) || "ATUALIZADO POR".equals(lovScr.getcbbListFilter().toUpperCase())) {
-                                    condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " = '" + super.getUserIdByLogin(filterValue.substring(0, posChrAND)) + "'\nAND ";
+                                if("CRIADO POR".equals(filterColumn.toUpperCase()) || "ATUALIZADO POR".equals(filterColumn.toUpperCase())) {
+                                    condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " = '" + super.getUserIdByLogin(filterValue.substring(0, posChrAND)) + "'\nAND ";
                                 } else {
-                                    condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " = '" + filterValue.substring(0, posChrAND) + "'\nAND ";
+                                    if(filterValueUpper.substring(0, posChrAND).contains("SYSDATE")){
+                                        condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " = " + filterValue.substring(0, posChrAND) + "\nAND ";
+                                    } else {
+                                        condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " = '" + filterValue.substring(0, posChrAND) + "'\nAND ";
+                                    }                                    
                                 }
                             }
                         }
@@ -456,61 +475,65 @@ public class ListOfValuesController extends DataController {
                 } else {
                     if ("IS NULL".equals(filterValueUpper) || "IS NOT NULL".equals(filterValueUpper)) {
                         if ("IS NULL".equals(filterValueUpper)) {
-                            condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " IS NULL\n";
+                            condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " IS NULL\n";
                         } else {
-                            condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " IS NOT NULL\n";
+                            condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " IS NOT NULL\n";
                         }
                     } else if (filterValueUpper.contains(">=") || filterValueUpper.contains("<=") || filterValueUpper.contains("<>")) {
                         if (filterValueUpper.contains(">=")) {
                             try {
                                 Integer.valueOf(filterValueUpper.substring(posChrGreaterThen + 3, filterValueUpper.length()));
-                                condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " >= " + filterValue.substring(posChrGreaterThen + 3, filterValueUpper.length()) + "\n";
+                                condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " >= " + filterValue.substring(posChrGreaterThen + 3, filterValueUpper.length()) + "\n";
                             } catch (NumberFormatException e) {
                                 if(filterValueUpper.substring(posChrGreaterThen + 3, filterValueUpper.length()).contains("SYSDATE")){
-                                    condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " >= " + filterValue.substring(posChrGreaterThen + 3, filterValueUpper.length()) + "\n";
+                                    condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " >= " + filterValue.substring(posChrGreaterThen + 3, filterValueUpper.length()) + "\n";
                                 } else {
-                                    condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " >= '" + filterValue.substring(posChrGreaterThen + 3, filterValueUpper.length()) + "'\n";
+                                    condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " >= '" + filterValue.substring(posChrGreaterThen + 3, filterValueUpper.length()) + "'\n";
                                 }
                             }
                         } else if (filterValueUpper.contains("<=")) {
                             try {
                                 Integer.valueOf(filterValueUpper.substring(posChrLessThen + 3, filterValueUpper.length()));
-                                condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " <= " + filterValue.substring(posChrLessThen + 3, filterValueUpper.length()) + "\n";
+                                condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " <= " + filterValue.substring(posChrLessThen + 3, filterValueUpper.length()) + "\n";
                             } catch (NumberFormatException e) {
                                 if(filterValueUpper.substring(posChrLessThen + 3, filterValueUpper.length()).contains("SYSDATE")){
-                                    condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " <= " + filterValue.substring(posChrLessThen + 3, filterValueUpper.length()) + "\n";
+                                    condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " <= " + filterValue.substring(posChrLessThen + 3, filterValueUpper.length()) + "\n";
                                 } else {
-                                    condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " <= '" + filterValue.substring(posChrLessThen + 3, filterValueUpper.length()) + "'\n";
+                                    condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " <= '" + filterValue.substring(posChrLessThen + 3, filterValueUpper.length()) + "'\n";
                                 }
                             }
                         } else {
                             try {
                                 Integer.valueOf(filterValueUpper.substring(posChrLessThen + 3, filterValueUpper.length()));
-                                condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " <> " + filterValue.substring(posChrLessThen + 3, filterValueUpper.length()) + "\n";
+                                condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " <> " + filterValue.substring(posChrLessThen + 3, filterValueUpper.length()) + "\n";
                             } catch (NumberFormatException e) {
                                 if(filterValueUpper.substring(posChrLessThen + 3, filterValueUpper.length()).contains("SYSDATE")){
-                                    condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " <> " + filterValue.substring(posChrLessThen + 3, filterValueUpper.length()) + "\n";
+                                    condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " <> " + filterValue.substring(posChrLessThen + 3, filterValueUpper.length()) + "\n";
                                 } else {
-                                    condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " <> '" + filterValue.substring(posChrLessThen + 3, filterValueUpper.length()) + "'\n";
+                                    condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " <> '" + filterValue.substring(posChrLessThen + 3, filterValueUpper.length()) + "'\n";
                                 }
                             }
                         }
                     } else {
                         if (filterValueUpper.contains("%") || filterValueUpper.contains("_")) {
-                            if("CRIADO POR".equals(lovScr.getcbbListFilter().toUpperCase()) || "ATUALIZADO POR".equals(lovScr.getcbbListFilter().toUpperCase())) {
-                                condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " LIKE '" + super.getUserIdByLogin(filterValue.substring(0, filterValueUpper.length())) + "'\n";
+                            if("CRIADO POR".equals(filterColumn.toUpperCase()) || "ATUALIZADO POR".equals(filterColumn.toUpperCase())) {
+                                condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " LIKE '" + super.getUserIdByLogin(filterValue.substring(0, filterValueUpper.length())) + "'\n";
                             } else {
-                                condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " LIKE '" + filterValue.substring(0, filterValueUpper.length()) + "'\n";
+                                condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " LIKE '" + filterValue.substring(0, filterValueUpper.length()) + "'\n";
                             }
                         } else {
                             try {
                                 Integer.valueOf(filterValue.substring(0, filterValueUpper.length()));
-                                condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " = '" + filterValue.substring(0, filterValueUpper.length()) + "'\n";
+                                condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " = '" + filterValue.substring(0, filterValueUpper.length()) + "'\n";
                             } catch (NumberFormatException e) {
-                                if("CRIADO POR".equals(lovScr.getcbbListFilter().toUpperCase()) || "ATUALIZADO POR".equals(lovScr.getcbbListFilter().toUpperCase())) {
-                                    condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " = '" + super.getUserIdByLogin(filterValue.substring(0, filterValueUpper.length())) + "'\n";
+                                if("CRIADO POR".equals(filterColumn.toUpperCase()) || "ATUALIZADO POR".equals(filterColumn.toUpperCase())) {
+                                    condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " = '" + super.getUserIdByLogin(filterValue.substring(0, filterValueUpper.length())) + "'\n";
                                 } else {
-                                    condition += "LOV." + super.LookupName("LOV_FILTER", lovScr.getcbbListFilter()) + " = '" + filterValue.substring(0, filterValueUpper.length()) + "'\n";
+                                    if(filterValueUpper.substring(0, filterValueUpper.length()).contains("SYSDATE")){
+                                        condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " = " + filterValue.substring(0, filterValueUpper.length()) + "\n";
+                                    } else {
+                                        condition += tblAlias + "." + super.LookupName(lovType, filterColumn) + " = '" + filterValue.substring(0, filterValueUpper.length()) + "'\n";
+                                    }
                                 }
                             }
                         }
@@ -532,6 +555,18 @@ public class ListOfValuesController extends DataController {
         } else {
             fillList("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\nORDER BY LOV.TYPE, LOV.NAME, LOV.VAL, LOV.ORDER_BY ASC", "");
         }
+    }
+    
+    public void complexListFilter(){
+        int posChrOR = 0;           // OR
+        int posChrAND = 0;          // AND
+        int posChrGreaterThen = 0;  // >=
+        int posChrLessThen = 0;     // <=
+        boolean loop = true;
+        String filterProcessing = "";
+        String condition = "";
+        
+        
     }
     
     private boolean validateMandatoryFields(){
@@ -816,7 +851,7 @@ public class ListOfValuesController extends DataController {
         @Override
         public void actionPerformed(ActionEvent ae) {
             lovScr.enableFields("EDITAR");
-            lovScr.setFocus("USUARIO");
+            lovScr.setFocus("NAME");
         }
     }
     
@@ -877,6 +912,30 @@ public class ListOfValuesController extends DataController {
         }
     }
 
+    private class buttonQuery implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            lovScr.enableFields("QUERY");
+            lovScr.clearFields();
+            lovScr.setcbbLOVTypeItemIndex(0);
+            lovScr.setcbbLanguageItemIndex(1);
+            lovScr.setckbActiveFlg("Y");
+            lovScr.setFocus("ID");
+        }
+        
+    }
+    
+    private class buttonGoQuery implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            lovScr.enableFields("GO_QUERY");
+            //lovScr.setFocus("TYPE");
+        }
+        
+    }
+    
     private class ListSelected implements ListSelectionListener {
         
         private int count;
@@ -981,7 +1040,7 @@ public class ListOfValuesController extends DataController {
         public void keyPressed(KeyEvent ke) {
             if(ke.getKeyCode() == KeyEvent.VK_ENTER){
                 lovScr.unselectRowList();
-                filterList();
+                basicListFilter(lovScr.getcbbListFilter(), lovScr.gettxtListFilterValue(), "LOV_FILTER", "LOV");
             }
         }
 

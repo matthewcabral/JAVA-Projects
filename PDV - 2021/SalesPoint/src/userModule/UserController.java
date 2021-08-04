@@ -144,7 +144,7 @@ public class UserController extends DataController {
                 } else if(result.contains("ORA-12505, TNS:listener does not currently know of SID given in connect descriptor")) {
                     loginScreen.setErrorArea("O Listener não identificou o SID utilizado no descritor de conexão.");
                     System.out.println(super.getDateTime() + "\tUserModule.userController\t\tO Listener não identificou o SID utilizado no descritor de conexão.");
-                } else if(result.contains("java.sql.SQLException: ORA-01017")){
+                } else if(result.contains("java.sql.SQLException: ORA-01017")  || result.contains("Access denied for user")){
                     loginScreen.setErrorArea("Nome de usuário/senha incorreto. Tente novamente.");
                     System.out.println(super.getDateTime() + "\tUserModule.userController\t\tNome de usuário/senha incorreto. Tente novamente.");
                 } else if(result.contains("java.sql.SQLRecoverableException: Erro de ES: Unknown host specified")){
