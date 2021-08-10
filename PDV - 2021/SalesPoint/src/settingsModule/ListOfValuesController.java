@@ -382,25 +382,6 @@ public class ListOfValuesController extends DataController {
         String lovId = super.getNextRowId();
         super.clearColumns();
         super.clearValues();
-        super.setColumns("ROW_ID"); super.setValues("'" + lovId + "'");
-        super.setColumns(",\n\t" + "CREATED");
-        super.setColumns(",\n\t" + "LAST_UPD");
-        super.setColumns(",\n\t" + "DB_LAST_UPD");
-        if(super.getDbDriver().toUpperCase().contains("ORACLE")) {
-            super.setValues(",\n\t" + "SYSDATE");
-            super.setValues(",\n\t" + "SYSDATE");
-            super.setValues(",\n\t" + "SYSDATE");
-        } else if (super.getDbDriver().toUpperCase().contains("MYSQL")) {
-            super.setValues(",\n\t" + "SYSDATE()");
-            super.setValues(",\n\t" + "SYSDATE()");
-            super.setValues(",\n\t" + "SYSDATE()");
-        } else {
-            super.setValues(",\n\t" + "SYSDATE");
-            super.setValues(",\n\t" + "SYSDATE");
-            super.setValues(",\n\t" + "SYSDATE");
-        }
-        super.setColumns(",\n\t" + "CREATED_BY"); super.setValues(",\n\t" + "'" + super.getConnectedUserId() + "'");
-        super.setColumns(",\n\t" + "LAST_UPD_BY"); super.setValues(",\n\t" + "'" + super.getConnectedUserId() + "'");
         super.setColumns(",\n\t" + "PAR_ROW_ID"); super.setValues(",\n\t" + "NULL");        
         super.setColumns(",\n\t" + "TYPE"); super.setValues(",\n\t" + ((lovScr.getcbbLOVType() != null) ? "'" + lovScr.getcbbLOVType() + "'" : "NULL"));
         super.setColumns(",\n\t" + "NAME"); super.setValues(",\n\t" + ((lovScr.gettxtName() != null) ? "'" + lovScr.gettxtName() + "'" : "NULL"));
@@ -443,22 +424,8 @@ public class ListOfValuesController extends DataController {
         super.clearColumnsValues();
         super.clearCondition();
         
-        // Default Columns
-        if(super.getDbDriver().toUpperCase().contains("ORACLE")) {
-            super.setColumnsValues("LAST_UPD = SYSDATE");
-            super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
-        } else if (super.getDbDriver().toUpperCase().contains("MYSQL")) {
-            super.setColumnsValues("LAST_UPD = SYSDATE()");
-            super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE()");
-        } else {
-            super.setColumnsValues("LAST_UPD = SYSDATE");
-            super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
-        }
-        
-        super.setColumnsValues(",\n\t" + "LAST_UPD_BY = '" + super.getConnectedUserId() + "'");        
-        super.setColumnsValues(",\n\t" + "MODIFICATION_NUM = (SELECT MODIFICATION_NUM + 1 FROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " WHERE ROW_ID = '" + lovScr.gettxtRowId() + "')");
-        
         // Custom Columns
+        super.setColumnsValues(",\n\t" + "MODIFICATION_NUM = (SELECT MODIFICATION_NUM + 1 FROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " WHERE ROW_ID = '" + lovScr.gettxtRowId() + "')");
         super.setColumnsValues(",\n\t" + "TYPE = " + ((lovScr.getcbbLOVType() != null) ?  "'" + lovScr.getcbbLOVType() + "'" : "NULL"));
         super.setColumnsValues(",\n\t" + "NAME = " + ((lovScr.gettxtName() != null) ?  "'" + lovScr.gettxtName() + "'" : "NULL"));
         super.setColumnsValues(",\n\t" + "VAL = " + ((lovScr.gettxtValue() != null) ?  "'" + lovScr.gettxtValue() + "'" : "NULL"));    

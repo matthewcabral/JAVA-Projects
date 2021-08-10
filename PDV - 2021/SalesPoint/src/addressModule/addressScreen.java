@@ -73,7 +73,7 @@ public class addressScreen extends javax.swing.JFrame {
     
     public void setckbMainAddress(String value) { if("Y".equals(value)) { this.ckbMainAddress.setSelected(true); } else { this.ckbMainAddress.setSelected(false); } this.ckbMainAddress.paintImmediately(this.ckbMainAddress.getVisibleRect()); }
     
-    public void setlblRecCount(String value) { this.lblRecCount.setText("Total de Registros: " + value); this.lblRecCount.paintImmediately(this.lblRecCount.getVisibleRect()); }
+    public void setlblRecCount(String value) { this.lblRecCount.setText("Registros: " + value); this.lblRecCount.paintImmediately(this.lblRecCount.getVisibleRect()); }
     public void setlblAddressNameHeader(String value) { this.lblAddressNameHeader.setText(value); this.lblAddressNameHeader.paintImmediately(this.lblAddressNameHeader.getVisibleRect()); }
     
     // ComboBox Specific Setters
@@ -720,7 +720,7 @@ public class addressScreen extends javax.swing.JFrame {
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/Lupa 20x20.png"))); // NOI18N
+        lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/Filter 20x20.png"))); // NOI18N
 
         cbbAddressListFilter.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         cbbAddressListFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -743,7 +743,7 @@ public class addressScreen extends javax.swing.JFrame {
 
         lblRecCount.setBackground(new java.awt.Color(255, 255, 255));
         lblRecCount.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblRecCount.setText("Total de Registros: 100");
+        lblRecCount.setText("Registro: 0 - 100");
         lblRecCount.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblRecCount.setMaximumSize(new java.awt.Dimension(410, 14));
 
@@ -759,9 +759,9 @@ public class addressScreen extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblImage)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cbbAddressListFilter, 0, 221, Short.MAX_VALUE)
+                .addComponent(cbbAddressListFilter, 0, 236, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtAddressListFilterValue, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+                .addComponent(txtAddressListFilterValue, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblInformation)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -2014,4 +2014,4 @@ public class addressScreen extends javax.swing.JFrame {
     private javax.swing.JTextField txtZipcodePart1;
     private javax.swing.JTextField txtZipcodePart2;
     // End of variables declaration//GEN-END:variables
-}
+}

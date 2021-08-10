@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import settingsModule.LanguageController;
 import settingsModule.ListOfValuesController;
 import userModule.UserController;
 
@@ -28,6 +29,7 @@ public class MainController {
     DbSettingsController dbSetCtrl;
     UserController usrCtrl;
     ListOfValuesController lovCtrl;
+    LanguageController langCtrl;
     
     private boolean mainScreenVisible = false;
     private boolean settingScreenVisible = false;
@@ -89,7 +91,9 @@ public class MainController {
         //mainScreen.setListenerOpenLOV_XML_ConverterScreen(new openLOV_XML_Converter());
         mainScreen.setListenerOpenDBSettings(new openDBSettings());
         mainScreen.setListenerbtnOpenUserManagement(new openUserModule());
-        mainScreen.setListenerbtnOpenListOfValues(new openListOfValues());
+        mainScreen.setListenerbtnOpenListOfValues(new openListOfValuesScreen());
+        mainScreen.setListenerbtnOpenLanguage(new openLanguageScreen());
+        
         setScrVisible("Principal", true);
         //dbParamTest = new DBParametersTest();
         //this.openScreen("Principal");
@@ -137,7 +141,7 @@ public class MainController {
         
     }
     
-    public class openListOfValues implements ActionListener {
+    public class openListOfValuesScreen implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
@@ -151,6 +155,24 @@ public class MainController {
             lovCtrl.setPassword(getPassword());
             lovCtrl.setDbPassword(getPassword());
             lovCtrl.openScreen();
+        }
+        
+    }
+    
+    public class openLanguageScreen implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            try {
+                langCtrl = new LanguageController();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            langCtrl.setUser(getUser());
+            langCtrl.setDbUser(getUser());
+            langCtrl.setPassword(getPassword());
+            langCtrl.setDbPassword(getPassword());
+            langCtrl.openScreen();
         }
         
     }

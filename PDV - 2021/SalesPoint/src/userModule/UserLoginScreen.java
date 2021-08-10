@@ -101,7 +101,7 @@ public class UserLoginScreen extends javax.swing.JFrame {
             }
         });
 
-        jPanel1.setBackground(new java.awt.Color(132, 132, 132));
+        jPanel1.setBackground(new java.awt.Color(150, 150, 150));
 
         jLabel1.setFont(new java.awt.Font("Calibri", 0, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -114,7 +114,7 @@ public class UserLoginScreen extends javax.swing.JFrame {
         jLabel2.setText("Bem - vindo(a) ao SalesPoint");
         jLabel2.setToolTipText("");
 
-        txtUser.setBackground(new java.awt.Color(132, 132, 132));
+        txtUser.setBackground(new java.awt.Color(150, 150, 150));
         txtUser.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         txtUser.setForeground(new java.awt.Color(255, 255, 255));
         txtUser.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -124,7 +124,7 @@ public class UserLoginScreen extends javax.swing.JFrame {
             }
         });
 
-        txtPassword.setBackground(new java.awt.Color(132, 132, 132));
+        txtPassword.setBackground(new java.awt.Color(150, 150, 150));
         txtPassword.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
         txtPassword.setForeground(new java.awt.Color(255, 255, 255));
         txtPassword.setToolTipText("");
@@ -147,7 +147,7 @@ public class UserLoginScreen extends javax.swing.JFrame {
         jScrollPane2.setBorder(null);
 
         txtErrorArea.setEditable(false);
-        txtErrorArea.setBackground(new java.awt.Color(132, 132, 132));
+        txtErrorArea.setBackground(new java.awt.Color(150, 150, 150));
         txtErrorArea.setColumns(20);
         txtErrorArea.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtErrorArea.setForeground(new java.awt.Color(255, 0, 0));

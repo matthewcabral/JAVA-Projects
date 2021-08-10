@@ -55,9 +55,9 @@ public abstract class DataController extends Controller{
                 } else if(e.toString().contains("ORA-12505: TNS: listener does not currently know of SID given in connect descriptor tips\n")){
                     JOptionPane.showMessageDialog(null, "O Listener não identificou o SID utilizado no descritor de conexão.","Erro",JOptionPane.ERROR_MESSAGE);
                     System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "O Listener não identificou o SID utilizado no descritor de conexão.");
-                } else if(e.toString().contains("java.sql.SQLRecoverableException: Erro de ES: The Network Adapter could not establish the connection\n")){
-                    JOptionPane.showMessageDialog(null, "Erro ao tentar realizar conexão com o Banco de dados. Verifique se o listener está ativo.","Erro",JOptionPane.ERROR_MESSAGE);
-                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "Erro ao tentar realizar conexão com o Banco de dados. Verifique se o listener está ativo.");
+                } else if(e.toString().contains("CommunicationsException")){
+                    JOptionPane.showMessageDialog(null, "Erro ao tentar realizar conexão com o Banco de dados. Não foi possível conectar-se ao servidor.","Erro",JOptionPane.ERROR_MESSAGE);
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "Erro ao tentar realizar conexão com o Banco de dados. Não foi possível conectar-se ao servidor.");
                 } else if(e.toString().contains("ORA-12505, TNS:listener does not currently know of SID given in connect descriptor\n")){
                     JOptionPane.showMessageDialog(null, "O Listener não identificou o SID utilizado no descritor de conexão.","Erro",JOptionPane.ERROR_MESSAGE);
                     System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "O Listener não identificou o SID utilizado no descritor de conexão.");
@@ -606,21 +606,10 @@ public abstract class DataController extends Controller{
                 super.clearColumnsValues();
                 super.clearCondition();
 
-                super.setColumnsValues("P_PREFIX = " + V_PREFIX + ",\n\t");
-                super.setColumnsValues("P_SUFFIX = " + V_SUFFIX + ",\n\t");
-                super.setColumnsValues("MODIFICATION_NUM = " + (V_MODIFICATION_NUM + 1) + ",\n\t");
-                super.setColumnsValues("P_NEXT_ID = '" + V_NEXT_ID + "',\n\t");
-                if(super.getDbDriver().toUpperCase().contains("ORACLE")) {
-                    super.setColumnsValues("LAST_UPD = SYSDATE,\n\t");
-                    super.setColumnsValues("DB_LAST_UPD = SYSDATE");
-                } else if (super.getDbDriver().toUpperCase().contains("MYSQL")) {
-                    super.setColumnsValues("LAST_UPD = SYSDATE(),\n\t");
-                    super.setColumnsValues("DB_LAST_UPD = SYSDATE()");
-                } else {
-                    super.setColumnsValues("LAST_UPD = SYSDATE,\n\t");
-                    super.setColumnsValues("DB_LAST_UPD = SYSDATE");
-                }                
-                
+                super.setColumnsValues(",\n\t" + "P_PREFIX = " + V_PREFIX);
+                super.setColumnsValues(",\n\t" + "P_SUFFIX = " + V_SUFFIX);
+                super.setColumnsValues(",\n\t" + "P_NEXT_ID = '" + V_NEXT_ID + "'");
+                super.setColumnsValues(",\n\t" + "MODIFICATION_NUM = " + (V_MODIFICATION_NUM + 1));
                 super.setCondition("1=1");
                 
                 this.updateRecord(super.getTblSSAId(), super.getColumnsValues(), super.getCondition());
@@ -639,8 +628,36 @@ public abstract class DataController extends Controller{
     @Override
     public String insertRecord(String table, String columns, String values) {
         String sqlHeader = "INSERT INTO " + super.getDbOwner() + "." + table;
-        String sqlColumn = " (\n\t" + columns + "\n) ";
-        String sqlValue = "VALUES (\n\t" + values + "\n)";
+        String sqlColumn = " (";
+        sqlColumn += "\n\t" + "ROW_ID";
+        sqlColumn += ",\n\t" + "CREATED";
+        sqlColumn += ",\n\t" + "LAST_UPD";
+        sqlColumn += ",\n\t" + "DB_LAST_UPD";
+        sqlColumn += ",\n\t" + "CREATED_BY";
+        sqlColumn += ",\n\t" + "LAST_UPD_BY";
+        sqlColumn += columns;
+        sqlColumn += "\n) ";
+        
+        String sqlValue = "VALUES (";
+        sqlValue += "\n\t" + "'" + this.getNextRowId() + "'";
+        if(super.getDbDriver().toUpperCase().contains("ORACLE")) {
+            sqlValue += ",\n\t" + "SYSDATE";
+            sqlValue += ",\n\t" + "SYSDATE";
+            sqlValue += ",\n\t" + "SYSDATE";
+        } else if (super.getDbDriver().toUpperCase().contains("MYSQL")) {
+            sqlValue += ",\n\t" + "SYSDATE()";
+            sqlValue += ",\n\t" + "SYSDATE()";
+            sqlValue += ",\n\t" + "SYSDATE()";
+        } else {
+            sqlValue += ",\n\t" + "SYSDATE";
+            sqlValue += ",\n\t" + "SYSDATE";
+            sqlValue += ",\n\t" + "SYSDATE";
+        }
+        sqlValue += ",\n\t" + "'" + this.getConnectedUserId() + "'";
+        sqlValue += ",\n\t" + "'" + this.getConnectedUserId() + "'";
+        sqlValue += values;
+        sqlValue += "\n)";
+        
         long tempoInicial = 0;
         long tempoFinal = 0;
         long tempoExec = 0;
@@ -683,7 +700,22 @@ public abstract class DataController extends Controller{
     @Override
     public int updateRecord(String table, String columnsValues, String condition){
         String sqlHeader = "UPDATE " + super.getDbOwner() + "." + table + "\n";
-        String sqlColumnsValues = "SET " + columnsValues + "\n";
+        String sqlColumnsValues = "SET ";        
+        // Default Columns
+        if(super.getDbDriver().toUpperCase().contains("ORACLE")) {
+            sqlColumnsValues += "LAST_UPD = SYSDATE";
+            sqlColumnsValues += ",\n\t" + "DB_LAST_UPD = SYSDATE";
+        } else if (super.getDbDriver().toUpperCase().contains("MYSQL")) {
+            sqlColumnsValues += "LAST_UPD = SYSDATE()";
+            sqlColumnsValues += ",\n\t" + "DB_LAST_UPD = SYSDATE()";
+        } else {
+            sqlColumnsValues += "LAST_UPD = SYSDATE";
+            sqlColumnsValues += ",\n\t" + "DB_LAST_UPD = SYSDATE";
+        }        
+        sqlColumnsValues += ",\n\t" + "LAST_UPD_BY = '" + this.getConnectedUserId() + "'";
+        // Other Columns
+        sqlColumnsValues += columnsValues + "\n";
+        
         String sqlCondition = "WHERE " + condition;
         long tempoInicial = 0;
         long tempoFinal = 0;
@@ -1387,7 +1419,7 @@ public abstract class DataController extends Controller{
                 statement = conn.createStatement();
                 
                 tempoInicial = System.currentTimeMillis();
-                ResultSet rs = statement.executeQuery("SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblUser() + "\nWHERE LOGIN = '" + super.getDbUser() + "'\nAND ROWNUM < 2");
+                ResultSet rs = statement.executeQuery("SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblUser() + "\nWHERE LOGIN = '" + super.getDbUser() + "'");
                 
                 while(rs.next()){
                     row_id = rs.getString("ROW_ID");
@@ -1436,7 +1468,7 @@ public abstract class DataController extends Controller{
                 statement = conn.createStatement();
                 
                 tempoInicial = System.currentTimeMillis();
-                ResultSet rs = statement.executeQuery("SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblUser() + "\nWHERE LOGIN LIKE '" + login.toUpperCase() + "'\nAND ROWNUM < 2");
+                ResultSet rs = statement.executeQuery("SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblUser() + "\nWHERE LOGIN LIKE '" + login.toUpperCase() + "'");
                 
                 while(rs.next()){
                     row_id = rs.getString("ROW_ID");
@@ -1485,7 +1517,7 @@ public abstract class DataController extends Controller{
                 statement = conn.createStatement();
                 
                 tempoInicial = System.currentTimeMillis();
-                ResultSet rs = statement.executeQuery("SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblPosition() + "\nWHERE POSTN_TYPE_CD = '" + positionType + "'\nAND ROWNUM < 2");
+                ResultSet rs = statement.executeQuery("SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblPosition() + "\nWHERE POSTN_TYPE_CD = '" + positionType + "'");
                 
                 while(rs.next()){
                     row_id = rs.getString("ROW_ID");

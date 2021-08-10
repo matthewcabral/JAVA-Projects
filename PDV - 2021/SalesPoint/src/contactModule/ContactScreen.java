@@ -79,7 +79,7 @@ public class ContactScreen extends javax.swing.JFrame {
     public void setckbSendPromFlg(String value) { if("Y".equals(value)) { this.ckbSendPromFlg.setSelected(true); } else { this.ckbSendPromFlg.setSelected(false); } this.ckbSendPromFlg.paintImmediately(this.ckbSendPromFlg.getVisibleRect()); }
     public void setckbWhatsAppFlg(String value) { if("Y".equals(value)) { this.ckbWhatsAppFlg.setSelected(true); } else { this.ckbWhatsAppFlg.setSelected(false); } this.ckbWhatsAppFlg.paintImmediately(this.ckbWhatsAppFlg.getVisibleRect()); }
     
-    public void setlblRecCount(String value) { this.lblRecCount.setText("Total de Registros: " + value); this.lblRecCount.paintImmediately(this.lblRecCount.getVisibleRect()); }
+    public void setlblRecCount(String value) { this.lblRecCount.setText("Registros: " + value); this.lblRecCount.paintImmediately(this.lblRecCount.getVisibleRect()); }
     public void setlblContactNameHeader(String value) { this.lblContactNameHeader.setText(value); this.lblContactNameHeader.paintImmediately(this.lblContactNameHeader.getVisibleRect()); }
     
     // ComboBox Specific Setters
@@ -878,7 +878,7 @@ public class ContactScreen extends javax.swing.JFrame {
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/Lupa 20x20.png"))); // NOI18N
+        lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/Filter 20x20.png"))); // NOI18N
 
         cbbContactListFilter.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         cbbContactListFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -901,7 +901,7 @@ public class ContactScreen extends javax.swing.JFrame {
 
         lblRecCount.setBackground(new java.awt.Color(255, 255, 255));
         lblRecCount.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblRecCount.setText("Total de Registros: 100");
+        lblRecCount.setText("Registro: 0 - 100");
         lblRecCount.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblRecCount.setMaximumSize(new java.awt.Dimension(410, 14));
 
@@ -1122,16 +1122,16 @@ public class ContactScreen extends javax.swing.JFrame {
             PanelContactFormHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelContactFormHeaderLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblContactNameHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblContactFormInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblContactNameHeader, javax.swing.GroupLayout.DEFAULT_SIZE, 707, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblContactFormInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)

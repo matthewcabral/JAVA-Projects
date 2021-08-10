@@ -371,9 +371,9 @@ public class DbSettingsController {
                 } else if(e.toString().contains("ORA-12505: TNS: listener does not currently know of SID given in connect descriptor tips")){
                     JOptionPane.showMessageDialog(null, "O Listener não identificou o SID utilizado no descritor de conexão.","Erro",JOptionPane.ERROR_MESSAGE);
                     System.out.println(getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "O Listener não identificou o SID utilizado no descritor de conexão.");
-                } else if(e.toString().contains("java.sql.SQLRecoverableException: Erro de ES: The Network Adapter could not establish the connection")){
-                    JOptionPane.showMessageDialog(null, "Erro ao tentar realizar conexão com o Banco de dados. Verifique se o listener está ativo.","Erro",JOptionPane.ERROR_MESSAGE);
-                    System.out.println(getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "Erro ao tentar realizar conexão com o Banco de dados. Verifique se o listener está ativo.");
+                } else if(e.toString().contains("CommunicationsException")){
+                    JOptionPane.showMessageDialog(null, "Erro ao tentar realizar conexão com o Banco de dados. Não foi possível conectar-se ao servidor.","Erro",JOptionPane.ERROR_MESSAGE);
+                    System.out.println(getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "Erro ao tentar realizar conexão com o Banco de dados. Não foi possível conectar-se ao servidor.");
                 } else if(e.toString().contains("ORA-12505, TNS:listener does not currently know of SID given in connect descriptor")){
                     JOptionPane.showMessageDialog(null, "O Listener não identificou o SID utilizado no descritor de conexão.","Erro",JOptionPane.ERROR_MESSAGE);
                     System.out.println(getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "O Listener não identificou o SID utilizado no descritor de conexão.");
@@ -474,4 +474,4 @@ public class DbSettingsController {
         
     }
 
-}
+}                                                                           

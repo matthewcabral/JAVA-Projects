@@ -148,36 +148,6 @@ CREATE TABLE PDV.T_USER (
 	CONSTRAINT pk_user_id PRIMARY KEY (ROW_ID)
 );
 
-X_PAY_BOX_MANAGER VARCHAR2(1 CHAR),									-- Principal > Caixa e Vendas > Abrir/Fechar Caixa
-X_NEW_SALE VARCHAR2(1 CHAR),										-- Principal > Caixa e Vendas > Nova Venda
-X_DELIVERY VARCHAR2(1 CHAR),										-- Principal > Caixa e Vendas > Delivery
-X_VIEW_CLIENT VARCHAR2(1 CHAR),    									-- Principal > Cliente > Visualizar Cliente
-X_ADD_CLIENT VARCHAR2(1 CHAR),     									-- Principal > Cliente > Adicionar Cliente
-X_UPD_CLIENT VARCHAR2(1 CHAR),     									-- Principal > Cliente > Atualizar Cliente
-X_DEL_CLIENT VARCHAR2(1 CHAR),     									-- Principal > Cliente > Deletar Cliente
-X_CASH_REPORT VARCHAR2(1 CHAR), 									-- Principal > Relatórios > Histórico de caixa
-X_SALES_REPORT VARCHAR2(1 CHAR),									-- Principal > Relatórios > Histórico de Vendas
-X_VIEW_PROD VARCHAR2(1 CHAR),      									-- Produtos > Produtos > Visualizar Produto
-X_ADD_PROD VARCHAR2(1 CHAR),       									-- Produtos > Produtos > Adicionar Produto
-X_UPD_PROD VARCHAR2(1 CHAR),       									-- Produtos > Produtos > Atualizar Produto
-X_DEL_PROD VARCHAR2(1 CHAR),       									-- Produtos > Produtos > Deletar Produto
-X_VIEW_COMP VARCHAR2(1 CHAR),      									-- Produtos > Complementos > Visualizar Complemento
-X_ADD_COMP VARCHAR2(1 CHAR),       									-- Produtos > Complementos > Adicionar Complemento
-X_UPD_COMP VARCHAR2(1 CHAR),       									-- Produtos > Complementos > Atualizar Complemento
-X_DEL_COMP VARCHAR2(1 CHAR),       									-- Produtos > Complementos > Deletar Complemento
-X_VIEW_CAT VARCHAR2(1 CHAR),       									-- Produtos > Categorias > Visualizar Categoria
-X_ADD_CAT VARCHAR2(1 CHAR),        									-- Produtos > Categorias > Adicionar Categoria
-X_UPD_CAT VARCHAR2(1 CHAR),        									-- Produtos > Categorias > Atualizar Categoria
-X_DEL_CAT VARCHAR2(1 CHAR),        									-- Produtos > Categorias > Deletar Categoria
-X_VIEW_SIZE VARCHAR2(1 CHAR),      									-- Produtos > Tipos e Tamanhos > Visualizar Tipos e Tamanhos
-X_ADD_SIZE VARCHAR2(1 CHAR),       									-- Produtos > Tipos e Tamanhos > Adicionar Tipos e Tamanhos
-X_UPD_SIZE VARCHAR2(1 CHAR),       									-- Produtos > Tipos e Tamanhos > Atualizar Tipos e Tamanhos
-X_DEL_SIZE VARCHAR2(1 CHAR),       									-- Produtos > Tipos e Tamanhos > Deletar Tipos e Tamanhos
-X_VIEW_USER VARCHAR2(1 CHAR),      									-- Configurações > Usuários > Visualizar Usuários
-X_ADD_USER VARCHAR2(1 CHAR),       									-- Configurações > Usuários > Adicionar Usuários
-X_UPD_USER VARCHAR2(1 CHAR),       									-- Configurações > Usuários > Atualizar Usuários
-X_DEL_USER VARCHAR2(1 CHAR),       									-- Configurações > Usuários > Deletar Usuários
-
 -- TABELA DE CLIENTES
 CREATE TABLE PDV.T_ACCOUNT (
 	ROW_ID VARCHAR2(15 CHAR) NOT NULL,                              	-- ID
@@ -189,13 +159,13 @@ CREATE TABLE PDV.T_ACCOUNT (
 	PAR_ROW_ID VARCHAR2(15 CHAR),                  						-- PARENT ID
 	ACTIVE_FLG CHAR(1 CHAR) DEFAULT 'Y' NOT NULL,                       -- ATIVO
 	ACCNT_NUMBER VARCHAR2(50 CHAR),										-- NUMERO CLIENTE
-	ACCNT_FLG CHAR(1 CHAR) DEFAULT 'Y',                        -- CLIENTE FLAG
+	ACCNT_FLG CHAR(1 CHAR) DEFAULT 'Y',                        			-- CLIENTE FLAG
 	DOC_TYPE VARCHAR2(30 CHAR),                                       	-- TIPO DOCUMENTO
 	DOC_NUM VARCHAR2(30 CHAR),                                        	-- NUMERO DOCUMENTO
 	ALIAS_NAME VARCHAR2(50 CHAR),                                       -- NOME EMPRESA
 	NOME_FANTASIA VARCHAR2(100 CHAR),                                   -- NOME FANTASIA
-	FST_NAME VARCHAR2(50 CHAR),                                -- PRIMEIRO NOME
-	LAST_NAME VARCHAR2(50 CHAR),                               -- SOBRENOME
+	FST_NAME VARCHAR2(50 CHAR),                                			-- PRIMEIRO NOME
+	LAST_NAME VARCHAR2(50 CHAR),                               			-- SOBRENOME
 	FULL_NAME VARCHAR2(100 CHAR),                                       -- NOME COMPLETO
 	NICK_NAME VARCHAR2(50 CHAR),                                        -- APELIDO
 	AGE NUMBER(22, 7),                                                  -- IDADE
@@ -206,7 +176,7 @@ CREATE TABLE PDV.T_ACCOUNT (
 	NAME_CONJUGE VARCHAR2(100 CHAR),                                   	-- NOME CONJUJE
 	MOTHER_FULL_NAME VARCHAR2(100 CHAR),								-- NOME DA MÃE COMPLETO
 	FATHER_FULL_NAME VARCHAR2(100 CHAR),								-- NOME DO PAI COMPLETO
-	POTENTIAL_FLG CHAR(1 CHAR) DEFAULT 'N',                    -- CLIENTE POTENCIAL FLAG
+	POTENTIAL_FLG CHAR(1 CHAR) DEFAULT 'N',                    			-- CLIENTE POTENCIAL FLAG
 	ENTERPRISE_FLAG CHAR(1 CHAR) DEFAULT 'N',                           -- EMPRESA FLAG
 	DB_LAST_UPD TIMESTAMP DEFAULT SYSDATE,                              -- ULTIMA ATUALIZAÇÃO NO BANCO DE DADOS
 	PARTNER_FLG CHAR(1 CHAR),                                           -- PARCEIRO FLAG
@@ -614,19 +584,18 @@ CREATE TABLE PDV.T_VALDN_MSG (
 )
 
 -- PREFERENCIAS DE SISTEMA
-CREATE TABLE SIEBEL.S_SYS_PREF 
-(
-  ROW_ID VARCHAR2(15 CHAR) NOT NULL 
-, CREATED DATE DEFAULT sysdate NOT NULL 
-, CREATED_BY VARCHAR2(15 CHAR) NOT NULL 
-, LAST_UPD DATE DEFAULT sysdate NOT NULL 
-, LAST_UPD_BY VARCHAR2(15 CHAR) NOT NULL 
-, DCKING_NUM NUMBER(22, 7) DEFAULT 0 
-, MODIFICATION_NUM NUMBER(10, 0) DEFAULT 0 NOT NULL 
-, CONFLICT_ID VARCHAR2(15 CHAR) DEFAULT '0' NOT NULL 
-, SYS_PREF_CD VARCHAR2(30 CHAR) NOT NULL 
-, VAL VARCHAR2(100 CHAR) NOT NULL 
-, COMMENTS VARCHAR2(250 CHAR) 
-, NODE_TYPE_ID VARCHAR2(15 CHAR) 
-) 
-
+CREATE TABLE PDV.T_SYS_PREF (
+	ROW_ID VARCHAR2(15 CHAR) NOT NULL,
+	CREATED DATE DEFAULT sysdate NOT NULL,
+	CREATED_BY VARCHAR2(15 CHAR) NOT NULL,
+	LAST_UPD DATE DEFAULT sysdate NOT NULL,
+	LAST_UPD_BY VARCHAR2(15 CHAR) NOT NULL,
+	MODIFICATION_NUM NUMBER(10, 0) DEFAULT 0 NOT NULL,
+	CONFLICT_ID VARCHAR2(15 CHAR) DEFAULT '0' NOT NULL,
+	SYS_PREF_CD VARCHAR2(30 CHAR) NOT NULL,
+	VAL VARCHAR2(100 CHAR) NOT NULL,
+	COMMENTS VARCHAR2(250 CHAR)
+	
+	CONSTRAINT pk_sys_pref_id PRIMARY KEY (ROW_ID)
+);
+     

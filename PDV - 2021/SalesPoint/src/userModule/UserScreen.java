@@ -121,7 +121,7 @@ public class UserScreen extends javax.swing.JFrame {
     public void setcbbPositionItemIndex(int value) { this.cbbPosition.setSelectedIndex(value); }
     public void setcbbSexItemIndex(int value) { this.cbbSex.setSelectedIndex(value); }
     
-    public void setlblRecCount(String value) { this.lblRecCount.setText("Total de Registros: " + value); this.lblRecCount.paintImmediately(this.lblRecCount.getVisibleRect()); }
+    public void setlblRecCount(String value) { this.lblRecCount.setText("Registros: " + value); this.lblRecCount.paintImmediately(this.lblRecCount.getVisibleRect()); }
     public void setlblUserNameHeader(String value) { this.lblUserNameHeader.setText(value); this.lblUserNameHeader.paintImmediately(this.lblUserNameHeader.getVisibleRect()); }
         
     // Component Getters
@@ -906,7 +906,7 @@ public class UserScreen extends javax.swing.JFrame {
     }
 
     public void clearFields() {
-        cleartxtListFilterValue();
+        //cleartxtListFilterValue();
         cleartxtRowId();
         cleartxtUser();
         cleartxtPass();
@@ -950,7 +950,7 @@ public class UserScreen extends javax.swing.JFrame {
         setcbbMonthItemIndex(0);
         setcbbPositionItemIndex(0);
         setcbbSexItemIndex(0);
-        setcbbUserListFilterItemIndex(0);
+        //setcbbUserListFilterItemIndex(0);
         
         clearckbActiveUserFlg();
         
@@ -1067,6 +1067,8 @@ public class UserScreen extends javax.swing.JFrame {
         btnSaveUser = new javax.swing.JButton();
         btnCancelUser = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
+        TabPnlUserForm = new javax.swing.JTabbedPane();
+        PanelUserInfo = new javax.swing.JPanel();
         sPanelUserForm = new javax.swing.JScrollPane();
         PanelFormUser = new javax.swing.JPanel();
         lblUserInformation = new javax.swing.JLabel();
@@ -1094,35 +1096,13 @@ public class UserScreen extends javax.swing.JFrame {
         txtSecQuestion3 = new javax.swing.JTextField();
         lblSecAnswer3 = new javax.swing.JLabel();
         txtSecAnswer3 = new javax.swing.JTextField();
-        lblPersonalData = new javax.swing.JLabel();
-        lblDocType = new javax.swing.JLabel();
-        cbbDocType = new javax.swing.JComboBox<>();
-        lblDocNum = new javax.swing.JLabel();
-        txtDocNum = new javax.swing.JTextField();
-        lblName = new javax.swing.JLabel();
-        txtName = new javax.swing.JTextField();
-        lblSurname = new javax.swing.JLabel();
-        txtSurname = new javax.swing.JTextField();
-        lblNickname = new javax.swing.JLabel();
-        txtNickName = new javax.swing.JTextField();
-        lblSex = new javax.swing.JLabel();
-        cbbSex = new javax.swing.JComboBox<>();
-        lblBirthDate = new javax.swing.JLabel();
-        cbbDay = new javax.swing.JComboBox<>();
-        jLabel2 = new javax.swing.JLabel();
-        cbbMonth = new javax.swing.JComboBox<>();
-        jLabel12 = new javax.swing.JLabel();
-        txtYear = new javax.swing.JTextField();
-        lblBornLocation = new javax.swing.JLabel();
-        txtBornLocation = new javax.swing.JTextField();
-        lblCivilState = new javax.swing.JLabel();
-        cbbCivilState = new javax.swing.JComboBox<>();
-        lblSpouseName = new javax.swing.JLabel();
-        txtSpouseName = new javax.swing.JTextField();
-        lblMotherName = new javax.swing.JLabel();
-        txtMotherName = new javax.swing.JTextField();
-        lblFatherName = new javax.swing.JLabel();
-        txtFatherName = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        lblUserInformation1 = new javax.swing.JLabel();
+        lblPassVerification1 = new javax.swing.JLabel();
+        ckbActiveUserFlg = new javax.swing.JCheckBox();
+        PanelUserIdentity = new javax.swing.JPanel();
+        sPanelUserIdentityForm = new javax.swing.JScrollPane();
+        PanelFormUserIdentity = new javax.swing.JPanel();
         lblIdentityInformation = new javax.swing.JLabel();
         lblIdentityType = new javax.swing.JLabel();
         cbbIdentityType = new javax.swing.JComboBox<>();
@@ -1142,6 +1122,38 @@ public class UserScreen extends javax.swing.JFrame {
         txtNaturalness = new javax.swing.JTextField();
         lblNationality = new javax.swing.JLabel();
         txtNationality = new javax.swing.JTextField();
+        lblBornLocation = new javax.swing.JLabel();
+        txtBornLocation = new javax.swing.JTextField();
+        lblCivilState = new javax.swing.JLabel();
+        cbbCivilState = new javax.swing.JComboBox<>();
+        lblSpouseName = new javax.swing.JLabel();
+        txtSpouseName = new javax.swing.JTextField();
+        lblMotherName = new javax.swing.JLabel();
+        txtMotherName = new javax.swing.JTextField();
+        lblFatherName = new javax.swing.JLabel();
+        txtFatherName = new javax.swing.JTextField();
+        txtNickName = new javax.swing.JTextField();
+        lblBirthDate = new javax.swing.JLabel();
+        lblNickname = new javax.swing.JLabel();
+        lblSurname = new javax.swing.JLabel();
+        lblPersonalData = new javax.swing.JLabel();
+        cbbMonth = new javax.swing.JComboBox<>();
+        jLabel12 = new javax.swing.JLabel();
+        cbbDocType = new javax.swing.JComboBox<>();
+        cbbDay = new javax.swing.JComboBox<>();
+        lblName = new javax.swing.JLabel();
+        txtSurname = new javax.swing.JTextField();
+        txtDocNum = new javax.swing.JTextField();
+        lblDocType = new javax.swing.JLabel();
+        cbbSex = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        txtName = new javax.swing.JTextField();
+        lblDocNum = new javax.swing.JLabel();
+        lblSex = new javax.swing.JLabel();
+        txtYear = new javax.swing.JTextField();
+        PanelUserContAddr = new javax.swing.JPanel();
+        sPanelUserContAddrForm = new javax.swing.JScrollPane();
+        PanelFormUserContAddr = new javax.swing.JPanel();
         lblContactInformation = new javax.swing.JLabel();
         lblAddContact = new javax.swing.JLabel();
         btnAddContact = new javax.swing.JButton();
@@ -1165,10 +1177,6 @@ public class UserScreen extends javax.swing.JFrame {
         btnAddAddress = new javax.swing.JButton();
         lblFullAddress = new javax.swing.JLabel();
         txtFullAddress = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        lblUserInformation1 = new javax.swing.JLabel();
-        lblPassVerification1 = new javax.swing.JLabel();
-        ckbActiveUserFlg = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Colaboradores");
@@ -1183,7 +1191,7 @@ public class UserScreen extends javax.swing.JFrame {
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/Lupa 20x20.png"))); // NOI18N
+        lblImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/Filter 20x20.png"))); // NOI18N
 
         cbbListFilter.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         cbbListFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -1206,7 +1214,8 @@ public class UserScreen extends javax.swing.JFrame {
 
         lblRecCount.setBackground(new java.awt.Color(255, 255, 255));
         lblRecCount.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblRecCount.setText("Total de Registros: 100");
+        lblRecCount.setText("Registro: 0 - 100");
+        lblRecCount.setToolTipText("");
         lblRecCount.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblRecCount.setMaximumSize(new java.awt.Dimension(410, 14));
 
@@ -1245,8 +1254,6 @@ public class UserScreen extends javax.swing.JFrame {
                     .addComponent(txtListFilterValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-
-        lblRecCount.getAccessibleContext().setAccessibleDescription("");
 
         sPanelUserList.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         sPanelUserList.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -1318,7 +1325,7 @@ public class UserScreen extends javax.swing.JFrame {
         );
         PanelListUserLayout.setVerticalGroup(
             PanelListUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(sPanelUserList, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
+            .addComponent(sPanelUserList, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout PanelUserListLayout = new javax.swing.GroupLayout(PanelUserList);
@@ -1468,13 +1475,15 @@ public class UserScreen extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        TabPnlUserForm.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+
         sPanelUserForm.setBorder(null);
         sPanelUserForm.setMinimumSize(new java.awt.Dimension(0, 0));
-        sPanelUserForm.setPreferredSize(new java.awt.Dimension(1329, 607));
+        sPanelUserForm.setPreferredSize(new java.awt.Dimension(1329, 413));
 
         PanelFormUser.setBackground(new java.awt.Color(255, 255, 255));
         PanelFormUser.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        PanelFormUser.setPreferredSize(new java.awt.Dimension(1329, 607));
+        PanelFormUser.setPreferredSize(new java.awt.Dimension(1329, 258));
 
         lblUserInformation.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.light"));
         lblUserInformation.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
@@ -1657,233 +1666,210 @@ public class UserScreen extends javax.swing.JFrame {
             }
         });
 
-        lblPersonalData.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.light"));
-        lblPersonalData.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        lblPersonalData.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblPersonalData.setText("   Dados Pessoais");
-        lblPersonalData.setToolTipText("");
-        lblPersonalData.setEnabled(false);
-        lblPersonalData.setOpaque(true);
+        jLabel1.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jLabel1.setText("<html>\n<font size=\"4\"><b>Sua senha deve:</b></font></br>\n<p>• Ter pelo menos 8 caracteres</p></br>\n<p>• Ter pelo menos 1 letra MAIÚSCULA</p></br>\n<p>• Ter pelo menos 1 letra minúscula</p></br>\n<p>• Ter pelo menos 1 número</p></br>\n<p></br></p>\n<font size=\"4\"><b>Sua senha NÃO deve:</b></font></br>\n<p>• Conter mais de 2 caracteres idênticos consecutivos</p></br>\n<p>• Conter sua data de nascimento</p></br>\n<p>• Ter sido usada no último ano</p></br>\n<p>• Ser a mesma que o nome do usuário</p></br>\n<p>• Ser a mesma que o seu nome</p></br>\n<p>• Ser uma senha comum</p>\n</html>");
+        jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jLabel1.setEnabled(false);
 
-        lblDocType.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        lblDocType.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblDocType.setText("Tipo de Documento*:");
-        lblDocType.setEnabled(false);
+        lblUserInformation1.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.light"));
+        lblUserInformation1.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        lblUserInformation1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblUserInformation1.setText("   Informações de Permissões e Segurança");
+        lblUserInformation1.setToolTipText("");
+        lblUserInformation1.setEnabled(false);
+        lblUserInformation1.setOpaque(true);
 
-        cbbDocType.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        cbbDocType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbbDocType.setEnabled(false);
-        cbbDocType.setPreferredSize(new java.awt.Dimension(165, 22));
-        cbbDocType.addItemListener(new java.awt.event.ItemListener() {
+        lblPassVerification1.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        lblPassVerification1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblPassVerification1.setText("Usuário Ativo:");
+        lblPassVerification1.setEnabled(false);
+
+        ckbActiveUserFlg.setBackground(new java.awt.Color(255, 255, 255));
+        ckbActiveUserFlg.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        ckbActiveUserFlg.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        ckbActiveUserFlg.setBorderPainted(true);
+        ckbActiveUserFlg.setEnabled(false);
+        ckbActiveUserFlg.setMaximumSize(new java.awt.Dimension(165, 21));
+        ckbActiveUserFlg.setPreferredSize(new java.awt.Dimension(165, 21));
+        ckbActiveUserFlg.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbbDocTypeItemStateChanged(evt);
+                ckbActiveUserFlgItemStateChanged(evt);
             }
         });
-        cbbDocType.addKeyListener(new java.awt.event.KeyAdapter() {
+        ckbActiveUserFlg.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                cbbDocTypeKeyPressed(evt);
+                ckbActiveUserFlgKeyPressed(evt);
             }
         });
 
-        lblDocNum.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        lblDocNum.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblDocNum.setText("Documento*:");
-        lblDocNum.setEnabled(false);
+        javax.swing.GroupLayout PanelFormUserLayout = new javax.swing.GroupLayout(PanelFormUser);
+        PanelFormUser.setLayout(PanelFormUserLayout);
+        PanelFormUserLayout.setHorizontalGroup(
+            PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelFormUserLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(PanelFormUserLayout.createSequentialGroup()
+                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelFormUserLayout.createSequentialGroup()
+                                .addComponent(lblPassVerification, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtPassVerification))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelFormUserLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(lblRowId, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtRowId, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PanelFormUserLayout.createSequentialGroup()
+                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(PanelFormUserLayout.createSequentialGroup()
+                                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblUser, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblPass, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txtUser, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                                            .addComponent(txtPass)))
+                                    .addGroup(PanelFormUserLayout.createSequentialGroup()
+                                        .addComponent(lblPassVerification1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(ckbActiveUserFlg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblUserInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 648, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelFormUserLayout.createSequentialGroup()
+                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PanelFormUserLayout.createSequentialGroup()
+                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblPermitions, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblPosition, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(cbbPosition, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnPermitions, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(PanelFormUserLayout.createSequentialGroup()
+                                .addComponent(lblSecQuestion1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtSecQuestion1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PanelFormUserLayout.createSequentialGroup()
+                                .addComponent(lblSecAnswer1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtSecAnswer1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(PanelFormUserLayout.createSequentialGroup()
+                                .addComponent(lblSecQuestion2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtSecQuestion2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PanelFormUserLayout.createSequentialGroup()
+                                .addComponent(lblSecAnswer2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtSecAnswer2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PanelFormUserLayout.createSequentialGroup()
+                                .addComponent(lblSecQuestion3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtSecQuestion3, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PanelFormUserLayout.createSequentialGroup()
+                                .addComponent(lblSecAnswer3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtSecAnswer3, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(lblUserInformation1, javax.swing.GroupLayout.PREFERRED_SIZE, 648, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+        PanelFormUserLayout.setVerticalGroup(
+            PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelFormUserLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelFormUserLayout.createSequentialGroup()
+                        .addComponent(lblUserInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PanelFormUserLayout.createSequentialGroup()
+                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(PanelFormUserLayout.createSequentialGroup()
+                                        .addGap(84, 84, 84)
+                                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(lblPassVerification, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtPassVerification, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(PanelFormUserLayout.createSequentialGroup()
+                                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(lblRowId, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(txtRowId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(PanelFormUserLayout.createSequentialGroup()
+                                                .addGap(28, 28, 28)
+                                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                    .addComponent(lblUser, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(lblPass, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblPassVerification1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(ckbActiveUserFlg, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(PanelFormUserLayout.createSequentialGroup()
+                        .addComponent(lblUserInformation1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PanelFormUserLayout.createSequentialGroup()
+                                .addGap(28, 28, 28)
+                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(btnPermitions)
+                                    .addComponent(lblPermitions, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblSecAnswer2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtSecAnswer2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(cbbPosition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblSecQuestion2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtSecQuestion2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblPosition, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblSecQuestion1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSecQuestion1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblSecQuestion3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSecQuestion3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblSecAnswer1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSecAnswer1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblSecAnswer3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSecAnswer3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
-        txtDocNum.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        txtDocNum.setText("Matheus Cabral Rosa");
-        txtDocNum.setEnabled(false);
-        txtDocNum.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtDocNumKeyPressed(evt);
-            }
-        });
+        sPanelUserForm.setViewportView(PanelFormUser);
 
-        lblName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        lblName.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblName.setText("Nome*:");
-        lblName.setEnabled(false);
+        javax.swing.GroupLayout PanelUserInfoLayout = new javax.swing.GroupLayout(PanelUserInfo);
+        PanelUserInfo.setLayout(PanelUserInfoLayout);
+        PanelUserInfoLayout.setHorizontalGroup(
+            PanelUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1341, Short.MAX_VALUE)
+            .addGroup(PanelUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(sPanelUserForm, javax.swing.GroupLayout.DEFAULT_SIZE, 1341, Short.MAX_VALUE))
+        );
+        PanelUserInfoLayout.setVerticalGroup(
+            PanelUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 258, Short.MAX_VALUE)
+            .addGroup(PanelUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(sPanelUserForm, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE))
+        );
 
-        txtName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        txtName.setText("Matheus Cabral Rosa");
-        txtName.setEnabled(false);
-        txtName.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtNameKeyPressed(evt);
-            }
-        });
+        TabPnlUserForm.addTab("Informações de Usuário", PanelUserInfo);
 
-        lblSurname.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        lblSurname.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblSurname.setText("Sobrenome*:");
-        lblSurname.setEnabled(false);
+        sPanelUserIdentityForm.setBorder(null);
+        sPanelUserIdentityForm.setMinimumSize(new java.awt.Dimension(0, 0));
 
-        txtSurname.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        txtSurname.setText("jTextField1");
-        txtSurname.setEnabled(false);
-        txtSurname.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtSurnameKeyPressed(evt);
-            }
-        });
-
-        lblNickname.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        lblNickname.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblNickname.setText("Apelido:");
-        lblNickname.setEnabled(false);
-
-        txtNickName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        txtNickName.setText("jTextField1");
-        txtNickName.setEnabled(false);
-        txtNickName.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtNickNameKeyPressed(evt);
-            }
-        });
-
-        lblSex.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        lblSex.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblSex.setText("Sexo*:");
-        lblSex.setEnabled(false);
-
-        cbbSex.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        cbbSex.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbbSex.setEnabled(false);
-        cbbSex.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbbSexItemStateChanged(evt);
-            }
-        });
-        cbbSex.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                cbbSexKeyPressed(evt);
-            }
-        });
-
-        lblBirthDate.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        lblBirthDate.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblBirthDate.setText("Data de Nascimento*:");
-        lblBirthDate.setEnabled(false);
-
-        cbbDay.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        cbbDay.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "26" }));
-        cbbDay.setEnabled(false);
-        cbbDay.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbbDayItemStateChanged(evt);
-            }
-        });
-        cbbDay.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                cbbDayKeyPressed(evt);
-            }
-        });
-
-        jLabel2.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jLabel2.setText("/");
-        jLabel2.setEnabled(false);
-
-        cbbMonth.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        cbbMonth.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Janeiro" }));
-        cbbMonth.setEnabled(false);
-        cbbMonth.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbbMonthItemStateChanged(evt);
-            }
-        });
-        cbbMonth.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                cbbMonthKeyPressed(evt);
-            }
-        });
-
-        jLabel12.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jLabel12.setText("/");
-        jLabel12.setEnabled(false);
-
-        txtYear.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        txtYear.setText("1997");
-        txtYear.setEnabled(false);
-        txtYear.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtYearKeyPressed(evt);
-            }
-        });
-
-        lblBornLocation.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        lblBornLocation.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblBornLocation.setText("Local do Nascimento:");
-        lblBornLocation.setEnabled(false);
-
-        txtBornLocation.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        txtBornLocation.setText("jTextField1");
-        txtBornLocation.setEnabled(false);
-        txtBornLocation.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtBornLocationKeyPressed(evt);
-            }
-        });
-
-        lblCivilState.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        lblCivilState.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblCivilState.setText("Estado Civil:");
-        lblCivilState.setEnabled(false);
-
-        cbbCivilState.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        cbbCivilState.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbbCivilState.setEnabled(false);
-        cbbCivilState.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbbCivilStateItemStateChanged(evt);
-            }
-        });
-        cbbCivilState.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                cbbCivilStateKeyPressed(evt);
-            }
-        });
-
-        lblSpouseName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        lblSpouseName.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblSpouseName.setText("Nome do Cônjuje:");
-        lblSpouseName.setEnabled(false);
-
-        txtSpouseName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        txtSpouseName.setText("jTextField1");
-        txtSpouseName.setEnabled(false);
-        txtSpouseName.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtSpouseNameKeyPressed(evt);
-            }
-        });
-
-        lblMotherName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        lblMotherName.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblMotherName.setText("Nome da Mãe:");
-        lblMotherName.setEnabled(false);
-
-        txtMotherName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        txtMotherName.setText("jTextField1");
-        txtMotherName.setEnabled(false);
-        txtMotherName.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtMotherNameKeyPressed(evt);
-            }
-        });
-
-        lblFatherName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        lblFatherName.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblFatherName.setText("Nome do Pai:");
-        lblFatherName.setEnabled(false);
-
-        txtFatherName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        txtFatherName.setText("jTextField1");
-        txtFatherName.setEnabled(false);
-        txtFatherName.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtFatherNameKeyPressed(evt);
-            }
-        });
+        PanelFormUserIdentity.setBackground(new java.awt.Color(255, 255, 255));
+        PanelFormUserIdentity.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        PanelFormUserIdentity.setPreferredSize(new java.awt.Dimension(1329, 258));
 
         lblIdentityInformation.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.light"));
         lblIdentityInformation.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
@@ -2030,6 +2016,471 @@ public class UserScreen extends javax.swing.JFrame {
                 txtNationalityKeyPressed(evt);
             }
         });
+
+        lblBornLocation.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        lblBornLocation.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblBornLocation.setText("Local do Nascimento:");
+        lblBornLocation.setEnabled(false);
+
+        txtBornLocation.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        txtBornLocation.setText("jTextField1");
+        txtBornLocation.setEnabled(false);
+        txtBornLocation.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtBornLocationKeyPressed(evt);
+            }
+        });
+
+        lblCivilState.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        lblCivilState.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblCivilState.setText("Estado Civil:");
+        lblCivilState.setEnabled(false);
+
+        cbbCivilState.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        cbbCivilState.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbbCivilState.setEnabled(false);
+        cbbCivilState.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbbCivilStateItemStateChanged(evt);
+            }
+        });
+        cbbCivilState.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cbbCivilStateKeyPressed(evt);
+            }
+        });
+
+        lblSpouseName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        lblSpouseName.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblSpouseName.setText("Nome do Cônjuje:");
+        lblSpouseName.setEnabled(false);
+
+        txtSpouseName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        txtSpouseName.setText("jTextField1");
+        txtSpouseName.setEnabled(false);
+        txtSpouseName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSpouseNameKeyPressed(evt);
+            }
+        });
+
+        lblMotherName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        lblMotherName.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblMotherName.setText("Nome da Mãe:");
+        lblMotherName.setEnabled(false);
+
+        txtMotherName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        txtMotherName.setText("jTextField1");
+        txtMotherName.setEnabled(false);
+        txtMotherName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtMotherNameKeyPressed(evt);
+            }
+        });
+
+        lblFatherName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        lblFatherName.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblFatherName.setText("Nome do Pai:");
+        lblFatherName.setEnabled(false);
+
+        txtFatherName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        txtFatherName.setText("jTextField1");
+        txtFatherName.setEnabled(false);
+        txtFatherName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtFatherNameKeyPressed(evt);
+            }
+        });
+
+        txtNickName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        txtNickName.setText("jTextField1");
+        txtNickName.setEnabled(false);
+        txtNickName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNickNameKeyPressed(evt);
+            }
+        });
+
+        lblBirthDate.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        lblBirthDate.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblBirthDate.setText("Data de Nascimento*:");
+        lblBirthDate.setEnabled(false);
+
+        lblNickname.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        lblNickname.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblNickname.setText("Apelido:");
+        lblNickname.setEnabled(false);
+
+        lblSurname.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        lblSurname.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblSurname.setText("Sobrenome*:");
+        lblSurname.setEnabled(false);
+
+        lblPersonalData.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.light"));
+        lblPersonalData.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        lblPersonalData.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblPersonalData.setText("   Dados Pessoais");
+        lblPersonalData.setToolTipText("");
+        lblPersonalData.setEnabled(false);
+        lblPersonalData.setOpaque(true);
+
+        cbbMonth.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        cbbMonth.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Janeiro" }));
+        cbbMonth.setEnabled(false);
+        cbbMonth.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbbMonthItemStateChanged(evt);
+            }
+        });
+        cbbMonth.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cbbMonthKeyPressed(evt);
+            }
+        });
+
+        jLabel12.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jLabel12.setText("/");
+        jLabel12.setEnabled(false);
+
+        cbbDocType.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        cbbDocType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbbDocType.setEnabled(false);
+        cbbDocType.setPreferredSize(new java.awt.Dimension(165, 22));
+        cbbDocType.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbbDocTypeItemStateChanged(evt);
+            }
+        });
+        cbbDocType.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cbbDocTypeKeyPressed(evt);
+            }
+        });
+
+        cbbDay.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        cbbDay.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "26" }));
+        cbbDay.setEnabled(false);
+        cbbDay.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbbDayItemStateChanged(evt);
+            }
+        });
+        cbbDay.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cbbDayKeyPressed(evt);
+            }
+        });
+
+        lblName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        lblName.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblName.setText("Nome*:");
+        lblName.setEnabled(false);
+
+        txtSurname.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        txtSurname.setText("jTextField1");
+        txtSurname.setEnabled(false);
+        txtSurname.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSurnameKeyPressed(evt);
+            }
+        });
+
+        txtDocNum.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        txtDocNum.setText("Matheus Cabral Rosa");
+        txtDocNum.setEnabled(false);
+        txtDocNum.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtDocNumKeyPressed(evt);
+            }
+        });
+
+        lblDocType.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        lblDocType.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblDocType.setText("Tipo de Documento*:");
+        lblDocType.setEnabled(false);
+
+        cbbSex.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        cbbSex.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbbSex.setEnabled(false);
+        cbbSex.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbbSexItemStateChanged(evt);
+            }
+        });
+        cbbSex.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cbbSexKeyPressed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jLabel2.setText("/");
+        jLabel2.setEnabled(false);
+
+        txtName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        txtName.setText("Matheus Cabral Rosa");
+        txtName.setEnabled(false);
+        txtName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNameKeyPressed(evt);
+            }
+        });
+
+        lblDocNum.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        lblDocNum.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblDocNum.setText("Documento*:");
+        lblDocNum.setEnabled(false);
+
+        lblSex.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        lblSex.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblSex.setText("Sexo*:");
+        lblSex.setEnabled(false);
+
+        txtYear.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        txtYear.setText("1997");
+        txtYear.setEnabled(false);
+        txtYear.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtYearKeyPressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout PanelFormUserIdentityLayout = new javax.swing.GroupLayout(PanelFormUserIdentity);
+        PanelFormUserIdentity.setLayout(PanelFormUserIdentityLayout);
+        PanelFormUserIdentityLayout.setHorizontalGroup(
+            PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelFormUserIdentityLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(PanelFormUserIdentityLayout.createSequentialGroup()
+                        .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblCivilState, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbbCivilState, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PanelFormUserIdentityLayout.createSequentialGroup()
+                            .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblDocType, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblDocNum, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(PanelFormUserIdentityLayout.createSequentialGroup()
+                                    .addComponent(cbbDocType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(lblBirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(cbbDay, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabel2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(cbbMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabel12)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtYear, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(PanelFormUserIdentityLayout.createSequentialGroup()
+                                    .addComponent(txtDocNum, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(lblBornLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtBornLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PanelFormUserIdentityLayout.createSequentialGroup()
+                                .addComponent(lblSurname, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtSurname, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblSpouseName, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtSpouseName, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PanelFormUserIdentityLayout.createSequentialGroup()
+                                .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(lblSex, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblNickname, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtNickName)
+                                    .addComponent(cbbSex, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(PanelFormUserIdentityLayout.createSequentialGroup()
+                                        .addComponent(lblFatherName, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtFatherName, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(PanelFormUserIdentityLayout.createSequentialGroup()
+                                        .addComponent(lblMotherName, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtMotherName, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addComponent(lblPersonalData, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 648, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblIdentityInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 648, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(PanelFormUserIdentityLayout.createSequentialGroup()
+                        .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(PanelFormUserIdentityLayout.createSequentialGroup()
+                                .addComponent(lblIdentityType, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cbbIdentityType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(PanelFormUserIdentityLayout.createSequentialGroup()
+                                .addComponent(lblRecNum, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtRecNum, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PanelFormUserIdentityLayout.createSequentialGroup()
+                                .addComponent(lblSerieNum, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtSerieNum, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PanelFormUserIdentityLayout.createSequentialGroup()
+                                .addComponent(lblEmissor, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtEmissor, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PanelFormUserIdentityLayout.createSequentialGroup()
+                                .addComponent(lblNaturalness, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtNaturalness, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PanelFormUserIdentityLayout.createSequentialGroup()
+                                .addComponent(lblEmissionDate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtEmissionDate, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PanelFormUserIdentityLayout.createSequentialGroup()
+                                .addComponent(lblValidThru, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtValidThru, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PanelFormUserIdentityLayout.createSequentialGroup()
+                                .addComponent(lblNationality, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtNationality, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(PanelFormUserIdentityLayout.createSequentialGroup()
+                        .addComponent(lblEmissionUF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbbEmissionUF, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+        PanelFormUserIdentityLayout.setVerticalGroup(
+            PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelFormUserIdentityLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelFormUserIdentityLayout.createSequentialGroup()
+                        .addGap(84, 84, 84)
+                        .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cbbCivilState, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblCivilState, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(PanelFormUserIdentityLayout.createSequentialGroup()
+                        .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PanelFormUserIdentityLayout.createSequentialGroup()
+                                .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(PanelFormUserIdentityLayout.createSequentialGroup()
+                                        .addComponent(lblPersonalData, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(lblDocType, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(cbbDocType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblBirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(cbbDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel2)
+                                            .addComponent(cbbMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel12)
+                                            .addComponent(txtYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblDocNum, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(PanelFormUserIdentityLayout.createSequentialGroup()
+                                        .addGap(56, 56, 56)
+                                        .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(txtDocNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblBornLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtBornLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblSurname, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtSurname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblSpouseName, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtSpouseName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblNickname, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtNickName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblMotherName, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtMotherName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(PanelFormUserIdentityLayout.createSequentialGroup()
+                                .addComponent(lblIdentityInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(lblIdentityType, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(cbbIdentityType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(PanelFormUserIdentityLayout.createSequentialGroup()
+                                            .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(lblEmissionDate, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(txtEmissionDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(lblValidThru, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(txtValidThru, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(lblRecNum, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(txtRecNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(lblNaturalness, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(txtNaturalness, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGap(28, 28, 28))
+                                        .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(lblNationality, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtNationality, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblEmissor, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtEmissor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(PanelFormUserIdentityLayout.createSequentialGroup()
+                                .addGap(84, 84, 84)
+                                .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblSerieNum, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtSerieNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(34, 34, 34)
+                                .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblEmissionUF, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cbbEmissionUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelFormUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblSex, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbbSex, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblFatherName, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtFatherName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(57, Short.MAX_VALUE))
+        );
+
+        sPanelUserIdentityForm.setViewportView(PanelFormUserIdentity);
+
+        javax.swing.GroupLayout PanelUserIdentityLayout = new javax.swing.GroupLayout(PanelUserIdentity);
+        PanelUserIdentity.setLayout(PanelUserIdentityLayout);
+        PanelUserIdentityLayout.setHorizontalGroup(
+            PanelUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1341, Short.MAX_VALUE)
+            .addGroup(PanelUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(sPanelUserIdentityForm, javax.swing.GroupLayout.DEFAULT_SIZE, 1341, Short.MAX_VALUE))
+        );
+        PanelUserIdentityLayout.setVerticalGroup(
+            PanelUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 258, Short.MAX_VALUE)
+            .addGroup(PanelUserIdentityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(sPanelUserIdentityForm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        TabPnlUserForm.addTab("Identificação", PanelUserIdentity);
+
+        sPanelUserContAddrForm.setBorder(null);
+        sPanelUserContAddrForm.setMinimumSize(new java.awt.Dimension(0, 0));
+
+        PanelFormUserContAddr.setBackground(new java.awt.Color(255, 255, 255));
+        PanelFormUserContAddr.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        PanelFormUserContAddr.setPreferredSize(new java.awt.Dimension(1329, 258));
 
         lblContactInformation.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.light"));
         lblContactInformation.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
@@ -2203,497 +2654,149 @@ public class UserScreen extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jLabel1.setText("<html>\n<font size=\"4\"><b>Sua senha deve:</b></font></br>\n<p>• Ter pelo menos 8 caracteres</p></br>\n<p>• Ter pelo menos 1 letra MAIÚSCULA</p></br>\n<p>• Ter pelo menos 1 letra minúscula</p></br>\n<p>• Ter pelo menos 1 número</p></br>\n<p></br></p>\n<font size=\"4\"><b>Sua senha NÃO deve:</b></font></br>\n<p>• Conter mais de 2 caracteres idênticos consecutivos</p></br>\n<p>• Conter sua data de nascimento</p></br>\n<p>• Ter sido usada no último ano</p></br>\n<p>• Ser a mesma que o nome do usuário</p></br>\n<p>• Ser a mesma que o seu nome</p></br>\n<p>• Ser uma senha comum</p>\n</html>");
-        jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        jLabel1.setEnabled(false);
-
-        lblUserInformation1.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.light"));
-        lblUserInformation1.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        lblUserInformation1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblUserInformation1.setText("   Informações de Permissões e Segurança");
-        lblUserInformation1.setToolTipText("");
-        lblUserInformation1.setEnabled(false);
-        lblUserInformation1.setOpaque(true);
-
-        lblPassVerification1.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        lblPassVerification1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblPassVerification1.setText("Usuário Ativo:");
-        lblPassVerification1.setEnabled(false);
-
-        ckbActiveUserFlg.setBackground(new java.awt.Color(255, 255, 255));
-        ckbActiveUserFlg.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        ckbActiveUserFlg.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        ckbActiveUserFlg.setBorderPainted(true);
-        ckbActiveUserFlg.setEnabled(false);
-        ckbActiveUserFlg.setMaximumSize(new java.awt.Dimension(165, 21));
-        ckbActiveUserFlg.setPreferredSize(new java.awt.Dimension(165, 21));
-        ckbActiveUserFlg.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                ckbActiveUserFlgItemStateChanged(evt);
-            }
-        });
-        ckbActiveUserFlg.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                ckbActiveUserFlgKeyPressed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout PanelFormUserLayout = new javax.swing.GroupLayout(PanelFormUser);
-        PanelFormUser.setLayout(PanelFormUserLayout);
-        PanelFormUserLayout.setHorizontalGroup(
-            PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelFormUserLayout.createSequentialGroup()
+        javax.swing.GroupLayout PanelFormUserContAddrLayout = new javax.swing.GroupLayout(PanelFormUserContAddr);
+        PanelFormUserContAddr.setLayout(PanelFormUserContAddrLayout);
+        PanelFormUserContAddrLayout.setHorizontalGroup(
+            PanelFormUserContAddrLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelFormUserContAddrLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(PanelFormUserLayout.createSequentialGroup()
-                            .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelFormUserLayout.createSequentialGroup()
-                                    .addComponent(lblPassVerification, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtPassVerification))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelFormUserLayout.createSequentialGroup()
-                                    .addGap(0, 0, Short.MAX_VALUE)
-                                    .addComponent(lblRowId, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtRowId, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                    .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                            .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(lblUser, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(lblPass, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(txtUser, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
-                                                .addComponent(txtPass)))
-                                        .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                            .addComponent(lblPassVerification1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(ckbActiveUserFlg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                    .addGap(0, 0, Short.MAX_VALUE)))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(lblUserInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 648, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(PanelFormUserLayout.createSequentialGroup()
-                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lblPermitions, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblPosition, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(cbbPosition, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnPermitions, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addComponent(lblSecQuestion1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtSecQuestion1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addComponent(lblSecAnswer1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtSecAnswer1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addComponent(lblSecQuestion2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtSecQuestion2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addComponent(lblSecAnswer2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtSecAnswer2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addComponent(lblSecQuestion3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtSecQuestion3, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addComponent(lblSecAnswer3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtSecAnswer3, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(lblUserInformation1, javax.swing.GroupLayout.PREFERRED_SIZE, 648, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblIdentityInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 648, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(PanelFormUserLayout.createSequentialGroup()
-                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addComponent(lblIdentityType, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbbIdentityType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addComponent(lblRecNum, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtRecNum, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addComponent(lblSerieNum, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtSerieNum, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addComponent(lblEmissor, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtEmissor, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addComponent(lblNaturalness, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtNaturalness, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addComponent(lblEmissionDate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtEmissionDate, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addComponent(lblValidThru, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtValidThru, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addComponent(lblNationality, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtNationality, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(PanelFormUserLayout.createSequentialGroup()
-                        .addComponent(lblEmissionUF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(PanelFormUserContAddrLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblContactInformation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(PanelFormUserContAddrLayout.createSequentialGroup()
+                        .addComponent(lblContactEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbbEmissionUF, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtContactEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelFormUserContAddrLayout.createSequentialGroup()
+                        .addGroup(PanelFormUserContAddrLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblAddContact, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblContactMPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelFormUserContAddrLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtContactMPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAddContact, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(PanelFormUserContAddrLayout.createSequentialGroup()
+                        .addComponent(lblContactPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtContactPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelFormUserContAddrLayout.createSequentialGroup()
+                        .addComponent(lblContactEnterprise, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtContactEnterprise, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblPersonalData, javax.swing.GroupLayout.PREFERRED_SIZE, 648, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(PanelFormUserLayout.createSequentialGroup()
-                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(lblSex, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblNickname, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtNickName)
-                                    .addComponent(cbbSex, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addComponent(lblSurname, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtSurname, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblDocType, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblDocNum, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cbbDocType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtDocNum, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(lblBirthDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblBornLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                        .addComponent(cbbDay, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(cbbMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel12)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtYear))
-                                    .addComponent(txtBornLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(lblCivilState, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblSpouseName, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtSpouseName)
-                                    .addComponent(cbbCivilState, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addComponent(lblMotherName, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtMotherName, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addComponent(lblFatherName, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtFatherName, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(PanelFormUserLayout.createSequentialGroup()
-                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblContactInformation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addComponent(lblContactEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtContactEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblAddContact, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblContactMPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtContactMPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnAddContact, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addComponent(lblContactPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtContactPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addComponent(lblContactEnterprise, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtContactEnterprise, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblSocialMedia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addComponent(lblAddAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnAddAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addComponent(lblFullAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtFullAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblAddressInformation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addComponent(lblFacebook, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtFacebook, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addComponent(lblInstagram, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtInstagram, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addComponent(lblTwitter, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtTwitter, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addGroup(PanelFormUserContAddrLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblSocialMedia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(PanelFormUserContAddrLayout.createSequentialGroup()
+                        .addComponent(lblFacebook, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtFacebook, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelFormUserContAddrLayout.createSequentialGroup()
+                        .addComponent(lblInstagram, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtInstagram, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelFormUserContAddrLayout.createSequentialGroup()
+                        .addComponent(lblTwitter, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtTwitter, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(PanelFormUserContAddrLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(PanelFormUserContAddrLayout.createSequentialGroup()
+                        .addComponent(lblAddAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAddAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelFormUserContAddrLayout.createSequentialGroup()
+                        .addComponent(lblFullAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtFullAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblAddressInformation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(354, Short.MAX_VALUE))
         );
-        PanelFormUserLayout.setVerticalGroup(
-            PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelFormUserLayout.createSequentialGroup()
+        PanelFormUserContAddrLayout.setVerticalGroup(
+            PanelFormUserContAddrLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelFormUserContAddrLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PanelFormUserLayout.createSequentialGroup()
-                        .addComponent(lblUserInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                        .addGap(84, 84, 84)
-                                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(lblPassVerification, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtPassVerification, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                .addComponent(lblRowId, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(txtRowId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                                .addGap(28, 28, 28)
-                                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                    .addComponent(lblUser, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(lblPass, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblPassVerification1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(ckbActiveUserFlg, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblUserInformation1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addGap(28, 28, 28)
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(btnPermitions)
-                                    .addComponent(lblPermitions, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblSecAnswer2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtSecAnswer2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(cbbPosition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lblSecQuestion2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtSecQuestion2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblPosition, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblSecQuestion1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSecQuestion1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblSecQuestion3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSecQuestion3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblSecAnswer1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSecAnswer1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblSecAnswer3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSecAnswer3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addComponent(lblIdentityInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(lblIdentityType, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(cbbIdentityType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                            .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                .addComponent(lblEmissionDate, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(txtEmissionDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                .addComponent(lblValidThru, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(txtValidThru, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(lblRecNum, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(txtRecNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                .addComponent(lblNaturalness, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(txtNaturalness, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGap(28, 28, 28))
-                                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(lblNationality, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtNationality, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(lblEmissor, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtEmissor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addGap(84, 84, 84)
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblSerieNum, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtSerieNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(34, 34, 34)
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblEmissionUF, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cbbEmissionUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(PanelFormUserLayout.createSequentialGroup()
-                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addComponent(lblPersonalData, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblDocType, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cbbDocType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblDocNum, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblSurname, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtSurname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblNickname, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtNickName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblSex, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cbbSex, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addGap(28, 28, 28)
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblBirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cbbDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2)
-                                    .addComponent(cbbMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel12)
-                                    .addComponent(txtYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblBornLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtBornLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtDocNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(7, 7, 7)
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblCivilState, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cbbCivilState, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblSpouseName, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtSpouseName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblMotherName, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtMotherName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblFatherName, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtFatherName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(PanelFormUserContAddrLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelFormUserContAddrLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(PanelFormUserContAddrLayout.createSequentialGroup()
+                            .addComponent(lblAddressInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(57, 57, 57))
+                        .addGroup(PanelFormUserContAddrLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PanelFormUserContAddrLayout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addGroup(PanelFormUserContAddrLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(lblFullAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtFullAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(PanelFormUserContAddrLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblAddAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnAddAddress))))
+                    .addGroup(PanelFormUserContAddrLayout.createSequentialGroup()
+                        .addGroup(PanelFormUserContAddrLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblContactInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblSocialMedia, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(PanelFormUserContAddrLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PanelFormUserContAddrLayout.createSequentialGroup()
+                                .addGroup(PanelFormUserContAddrLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(lblAddContact, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnAddContact))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addGroup(PanelFormUserContAddrLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(lblContactMPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtContactMPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(7, 7, 7)
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addGroup(PanelFormUserContAddrLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(lblContactEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtContactEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addGroup(PanelFormUserContAddrLayout.createSequentialGroup()
+                                .addGroup(PanelFormUserContAddrLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(lblFacebook, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtFacebook, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(7, 7, 7)
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addGroup(PanelFormUserContAddrLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(lblInstagram, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtInstagram, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addGroup(PanelFormUserContAddrLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(lblTwitter, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtTwitter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblContactPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtContactPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblContactEnterprise, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtContactEnterprise, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(29, 29, 29))
-                            .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                    .addComponent(lblAddressInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(57, 57, 57))
-                                .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(PanelFormUserLayout.createSequentialGroup()
-                                        .addGap(29, 29, 29)
-                                        .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(lblFullAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtFullAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(PanelFormUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(lblAddAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(btnAddAddress)))))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(PanelFormUserContAddrLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblContactPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtContactPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelFormUserContAddrLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblContactEnterprise, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtContactEnterprise, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(83, Short.MAX_VALUE))
         );
 
-        sPanelUserForm.setViewportView(PanelFormUser);
+        sPanelUserContAddrForm.setViewportView(PanelFormUserContAddr);
+
+        javax.swing.GroupLayout PanelUserContAddrLayout = new javax.swing.GroupLayout(PanelUserContAddr);
+        PanelUserContAddr.setLayout(PanelUserContAddrLayout);
+        PanelUserContAddrLayout.setHorizontalGroup(
+            PanelUserContAddrLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1341, Short.MAX_VALUE)
+            .addGroup(PanelUserContAddrLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(sPanelUserContAddrForm, javax.swing.GroupLayout.DEFAULT_SIZE, 1341, Short.MAX_VALUE))
+        );
+        PanelUserContAddrLayout.setVerticalGroup(
+            PanelUserContAddrLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 258, Short.MAX_VALUE)
+            .addGroup(PanelUserContAddrLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(sPanelUserContAddrForm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        TabPnlUserForm.addTab("Contato e Endereço", PanelUserContAddr);
 
         javax.swing.GroupLayout PanelUserFormLayout = new javax.swing.GroupLayout(PanelUserForm);
         PanelUserForm.setLayout(PanelUserFormLayout);
         PanelUserFormLayout.setHorizontalGroup(
             PanelUserFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(PanelUserFormHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(PanelUserFormLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(sPanelUserForm, javax.swing.GroupLayout.DEFAULT_SIZE, 1346, Short.MAX_VALUE)
+                .addComponent(TabPnlUserForm)
                 .addContainerGap())
-            .addComponent(PanelUserFormHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         PanelUserFormLayout.setVerticalGroup(
             PanelUserFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2701,8 +2804,8 @@ public class UserScreen extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(PanelUserFormHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sPanelUserForm, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(TabPnlUserForm)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout PanelUserLayout = new javax.swing.GroupLayout(PanelUser);
@@ -3113,12 +3216,18 @@ public class UserScreen extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelFormUser;
+    private javax.swing.JPanel PanelFormUserContAddr;
+    private javax.swing.JPanel PanelFormUserIdentity;
     private javax.swing.JPanel PanelListUser;
     private javax.swing.JPanel PanelUser;
+    private javax.swing.JPanel PanelUserContAddr;
     private javax.swing.JPanel PanelUserForm;
     private javax.swing.JPanel PanelUserFormHeader;
+    private javax.swing.JPanel PanelUserIdentity;
+    private javax.swing.JPanel PanelUserInfo;
     private javax.swing.JPanel PanelUserList;
     private javax.swing.JPanel PanelUserListHeader;
+    private javax.swing.JTabbedPane TabPnlUserForm;
     private javax.swing.JButton btnAddAddress;
     private javax.swing.JButton btnAddContact;
     private javax.swing.JButton btnCancelUser;
@@ -3200,7 +3309,9 @@ public class UserScreen extends javax.swing.JFrame {
     private javax.swing.JLabel lblUserList;
     private javax.swing.JLabel lblUserNameHeader;
     private javax.swing.JLabel lblValidThru;
+    private javax.swing.JScrollPane sPanelUserContAddrForm;
     private javax.swing.JScrollPane sPanelUserForm;
+    private javax.swing.JScrollPane sPanelUserIdentityForm;
     private javax.swing.JScrollPane sPanelUserList;
     private javax.swing.JTable tblUserList;
     private javax.swing.JTextField txtBornLocation;

@@ -178,7 +178,7 @@ public class addressController extends DataController {
                 }
             }
             
-            addrScr.setlblRecCount(String.valueOf(countRecord));
+            addrScr.setlblRecCount("0 - " + String.valueOf(countRecord));
             
         } catch(Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao preencher tabela...\nErro: " + e);
@@ -239,32 +239,13 @@ public class addressController extends DataController {
         }
     }
     
-    public boolean insertAddress(){
+    public boolean insert(){
         String addressId = "";
         String condition = "";
         if(validateFields()){
             addressId = super.getNextRowId();
             super.clearColumns();
             super.clearValues();
-            super.setColumns("ROW_ID"); super.setValues("'" + addressId + "'");
-            super.setColumns(",\n\t" + "CREATED");
-            super.setColumns(",\n\t" + "LAST_UPD");
-            super.setColumns(",\n\t" + "DB_LAST_UPD");
-            if (super.getDbDriver().toUpperCase().contains("ORACLE")) {
-                super.setValues(",\n\t" + "SYSDATE");
-                super.setValues(",\n\t" + "SYSDATE");
-                super.setValues(",\n\t" + "SYSDATE");
-            } else if (super.getDbDriver().toUpperCase().contains("MYSQL")) {
-                super.setValues(",\n\t" + "SYSDATE()");
-                super.setValues(",\n\t" + "SYSDATE()");
-                super.setValues(",\n\t" + "SYSDATE()");
-            } else {
-                super.setValues(",\n\t" + "SYSDATE");
-                super.setValues(",\n\t" + "SYSDATE");
-                super.setValues(",\n\t" + "SYSDATE");
-            }            
-            super.setColumns(",\n\t" + "CREATED_BY"); super.setValues(",\n\t" + "'" + super.getConnectedUserId() + "'");
-            super.setColumns(",\n\t" + "LAST_UPD_BY"); super.setValues(",\n\t" + "'" + super.getConnectedUserId() + "'");
             super.setColumns(",\n\t" + "ACTIVE_FLG"); super.setValues(",\n\t" + "'Y'");
             super.setColumns(",\n\t" + "PAR_ADDR_ID"); super.setValues(",\n\t" + "NULL");
                         
@@ -290,7 +271,7 @@ public class addressController extends DataController {
                                     if("Y".equals(addrList.get(i).getPR_ADDR_FLG())){
                                         super.clearColumnsValues();
                                         super.clearCondition();
-                                        super.setColumnsValues("PR_ADDR_FLG = 'N'");
+                                        super.setColumnsValues(",\n\t" + "PR_ADDR_FLG = 'N'");
                                         super.setCondition("ROW_ID = '" + addrList.get(i).getRow_id() + "'");
                                         try{
                                             this.clearCount();                                            
@@ -382,7 +363,7 @@ public class addressController extends DataController {
         }
     }
     
-    public boolean updateAddress(String screen, String columnsValues, String condition, String rowId){
+    public boolean update(String screen, String columnsValues, String condition, String rowId){
         super.clearColumnsValues();
         super.clearCondition();
         if("ADDRESS".equals(screen)){
@@ -396,7 +377,7 @@ public class addressController extends DataController {
                             if("Y".equals(addrList.get(i).getPR_ADDR_FLG())){
                                 super.clearColumnsValues();
                                 super.clearCondition();
-                                super.setColumnsValues("PR_ADDR_FLG = 'N'");
+                                super.setColumnsValues(",\n\t" + "PR_ADDR_FLG = 'N'");
                                 super.setCondition("ROW_ID = '" + addrList.get(i).getRow_id() + "'");
                                 try{
                                     this.clearCount();                                            
@@ -404,38 +385,25 @@ public class addressController extends DataController {
                                     if(this.getCount() > 0){
                                         super.clearColumnsValues();
                                         super.clearCondition();
-                                        super.setColumnsValues("PR_ADDR_FLG = 'Y'");
+                                        super.setColumnsValues(",\n\t" + "PR_ADDR_FLG = 'Y'");
                                     } else {
                                         super.clearColumnsValues();
                                         super.clearCondition();
-                                        super.setColumnsValues("PR_ADDR_FLG = 'N'");
+                                        super.setColumnsValues(",\n\t" + "PR_ADDR_FLG = 'N'");
                                     }
                                 } catch (Exception e) {
                                     super.clearColumnsValues();
                                     super.clearCondition();
-                                    super.setColumnsValues("PR_ADDR_FLG = 'N'");
+                                    super.setColumnsValues(",\n\t" + "PR_ADDR_FLG = 'N'");
                                 }
                             }
                         }
                     } else {
-                        super.setColumnsValues("PR_ADDR_FLG = 'Y'");
+                        super.setColumnsValues(",\n\t" + "PR_ADDR_FLG = 'Y'");
                     }
                 } else {
-                    super.setColumnsValues("PR_ADDR_FLG = 'N'");
+                    super.setColumnsValues(",\n\t" + "PR_ADDR_FLG = 'N'");
                 }
-                
-                if(super.getDbDriver().toUpperCase().contains("ORACLE")) {
-                    super.setColumnsValues(",\n\t" + "LAST_UPD = SYSDATE");
-                    super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
-                } else if (super.getDbDriver().toUpperCase().contains("MYSQL")) {
-                    super.setColumnsValues(",\n\t" + "LAST_UPD = SYSDATE()");
-                    super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE()");
-                } else {
-                    super.setColumnsValues(",\n\t" + "LAST_UPD = SYSDATE");
-                    super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
-                }
-                
-                super.setColumnsValues(",\n\t" + "LAST_UPD_BY = '" + super.getConnectedUserId() + "'");
                 super.setColumnsValues(",\n\t" + "ACTIVE_FLG = 'Y'");
                 super.setColumnsValues(",\n\t" + "MODIFICATION_NUM = (SELECT MODIFICATION_NUM + 1 FROM " + super.getDbOwner() + "." + super.getTblAddress() + " WHERE ROW_ID = '" + rowId + "')");
                 super.setColumnsValues(",\n\t" + "PAR_ADDR_ID = NULL");
@@ -501,10 +469,10 @@ public class addressController extends DataController {
             this.setLastAddrUpd(rowId);
             super.clearColumnsValues();
             super.clearCondition();
-            super.setColumnsValues("LAST_UPD = SYSDATE");
-            super.setColumnsValues(",\n\t" + "LAST_UPD_BY = '" + super.getConnectedUserId() + "'");
+            /*super.setColumnsValues("LAST_UPD = SYSDATE");
+            super.setColumnsValues(",\n\t" + "LAST_UPD_BY = '" + super.getConnectedUserId() + "'");*/
             super.setColumnsValues(",\n\t" + "ACTIVE_FLG = 'Y'");
-            super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
+            //super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
             super.setColumnsValues(",\n\t" + "MODIFICATION_NUM = (SELECT MODIFICATION_NUM + 1 FROM " + super.getDbOwner() + "." + super.getTblAddress() + " WHERE ROW_ID = '" + rowId + "')");
             super.setColumnsValues(",\n\t" + "PAR_ADDR_ID = NULL");
             if(!"".equals(columnsValues) && columnsValues != null){
@@ -538,7 +506,7 @@ public class addressController extends DataController {
         
     }
     
-    public boolean deleteAddress(String function, String condition) {
+    public boolean delete(String function, String condition) {
         if("DELETE_BUTTON".equals(function)){
             if(!super.wishDeleteRecord()){
                 return false;
@@ -899,7 +867,7 @@ public class addressController extends DataController {
                 ArrayList<AddressClass> addrList = queryAddressRecord("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + "\nWHERE ROW_ID = '" + addrScr.gettxtRowId() + "'");
 
                 if(addrList.size() > 0){
-                    if(updateAddress("ADDRESS", null, null, addrScr.gettxtRowId())){
+                    if(update("ADDRESS", null, null, addrScr.gettxtRowId())){
                         addrScr.enableFields("SALVAR");
                         
                         switch(getOpenFromScreen()){
@@ -966,7 +934,7 @@ public class addressController extends DataController {
                         } while(foundRow);
                     }
                 } else {
-                    if(insertAddress()){
+                    if(insert()){
                         addrScr.enableFields("SALVAR");
                         
                         switch(getOpenFromScreen()){
@@ -1033,6 +1001,7 @@ public class addressController extends DataController {
                         } while(foundRow);
                     }
                 }
+                addrScr.setlblRecCount(addrScr.getSelectedRowList() + 1 + " - " + String.valueOf(addrScr.getNumOfListRows()));
             } catch(Exception e) {
                 System.out.println(getDateTime() + "\tContactModule.ContactController\t\tSaveSocialMedia\tInsertUpdateSocialMedia\tError Exception\tError: " + e);
             }
@@ -1064,7 +1033,7 @@ public class addressController extends DataController {
         @Override
         public void actionPerformed(ActionEvent ae) {
             String condition = "";
-            if(deleteAddress("DELETE_BUTTON", "ROW_ID = '" + addrScr.gettxtRowId() + "'")){
+            if(delete("DELETE_BUTTON", "ROW_ID = '" + addrScr.gettxtRowId() + "'")){
                 addrScr.enableFields("DELETAR");
                 
                 switch(getOpenFromScreen()){
@@ -1184,6 +1153,7 @@ public class addressController extends DataController {
                 if(table.getRowCount() > 0) {
                     addrScr.clearFields();
                     fillFieldsAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + "\nWHERE ROW_ID = '" + addrScr.getSelectedRowIdAddressList() + "'");
+                    addrScr.setlblRecCount(addrScr.getSelectedRowList() + 1 + " - " + String.valueOf(addrScr.getNumOfListRows()));
                     addrScr.setbtnEditEnabled(true);
                     addrScr.setbtnDeleteEnabled(true);
                 }

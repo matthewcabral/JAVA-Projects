@@ -201,7 +201,7 @@ public class UserController extends DataController {
                 }
             }
             
-            userScreen.setlblRecCount(String.valueOf(countRecord));
+            userScreen.setlblRecCount("0 - " + String.valueOf(countRecord));
             
         } catch(Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao preencher tabela...\nErro: " + e);
@@ -762,25 +762,6 @@ public class UserController extends DataController {
         String userId = super.getNextRowId();
         super.clearColumns();
         super.clearValues();
-        super.setColumns("ROW_ID"); super.setValues("'" + userId + "'");
-        super.setColumns(",\n\t" + "CREATED");
-        super.setColumns(",\n\t" + "LAST_UPD");
-        super.setColumns(",\n\t" + "DB_LAST_UPD");
-        if(super.getDbDriver().toUpperCase().contains("ORACLE")) {
-            super.setValues(",\n\t" + "SYSDATE");
-            super.setValues(",\n\t" + "SYSDATE");
-            super.setValues(",\n\t" + "SYSDATE");
-        } else if (super.getDbDriver().toUpperCase().contains("MYSQL")) {
-            super.setValues(",\n\t" + "SYSDATE()");
-            super.setValues(",\n\t" + "SYSDATE()");
-            super.setValues(",\n\t" + "SYSDATE()");
-        } else {
-            super.setValues(",\n\t" + "SYSDATE");
-            super.setValues(",\n\t" + "SYSDATE");
-            super.setValues(",\n\t" + "SYSDATE");
-        }
-        super.setColumns(",\n\t" + "CREATED_BY"); super.setValues(",\n\t" + "'" + super.getConnectedUserId() + "'");
-        super.setColumns(",\n\t" + "LAST_UPD_BY"); super.setValues(",\n\t" + "'" + super.getConnectedUserId() + "'");
         super.setColumns(",\n\t" + "STATUS_CD"); super.setValues(",\n\t" + "'" + super.LookupName("USER_STATUS", ("Y".equals(userScreen.getckbActiveUserFlg()) ? "Ativo" : "Inativo")) + "'");
         super.setColumns(",\n\t" + "PAR_ROW_ID"); super.setValues(",\n\t" + "NULL");
         super.setColumns(",\n\t" + "PAR_POSTN_ID");
@@ -894,7 +875,7 @@ public class UserController extends DataController {
                             super.setColumnsValues(",\n\t" + "PAR_ROW_ID = '" + userId + "'");
 
                             try{
-                                addr.updateAddress("USER", super.getColumnsValues(), super.getCondition(), addr.getAddressRowIdArray().get(i).getRow_id());
+                                addr.update("USER", super.getColumnsValues(), super.getCondition(), addr.getAddressRowIdArray().get(i).getRow_id());
                             } catch(Exception e) {
                                 System.out.println(super.getDateTime() + "\tContactModule.ContactController\t\tinsertContact\nUpdateSocialMedia\tError Exception\tError: " + e);
                             }
@@ -927,18 +908,6 @@ public class UserController extends DataController {
         switch(screen) {
             case "USER":
                 this.setLastUserUpd(userId);
-                
-                if(super.getDbDriver().toUpperCase().contains("ORACLE")) {
-                    super.setColumnsValues("LAST_UPD = SYSDATE");
-                    super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
-                } else if (super.getDbDriver().toUpperCase().contains("MYSQL")) {
-                    super.setColumnsValues("LAST_UPD = SYSDATE()");
-                    super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE()");
-                } else {
-                    super.setColumnsValues("LAST_UPD = SYSDATE");
-                    super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
-                }
-                super.setColumnsValues(",\n\t" + "LAST_UPD_BY = '" + super.getConnectedUserId() + "'");                
                 super.setColumnsValues(",\n\t" + "STATUS_CD = '" + super.LookupName("USER_STATUS", ("Y".equals(userScreen.getckbActiveUserFlg()) ? "Ativo" : "Inativo")) + "'");
                 super.setColumnsValues(",\n\t" + "PAR_ROW_ID = NULL");
                 
@@ -1040,7 +1009,7 @@ public class UserController extends DataController {
                                     //super.setCondition("ROW_ID = '" + addr.getAddressRowIdArray().get(i).getRow_id() + "'");
 
                                     try{
-                                        addr.updateAddress("USER", super.getColumnsValues(), super.getCondition(), addr.getAddressRowIdArray().get(i).getRow_id());
+                                        addr.update("USER", super.getColumnsValues(), super.getCondition(), addr.getAddressRowIdArray().get(i).getRow_id());
                                     } catch(Exception e) {
                                         System.out.println(super.getDateTime() + "\tContactModule.ContactController\t\tinsertContact\nUpdateSocialMedia\tError Exception\tError: " + e);
                                     }
@@ -1075,7 +1044,7 @@ public class UserController extends DataController {
         super.clearCondition();
         
         addrList = queryAddressRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblAddress() + " ADDR\nWHERE ADDR.PAR_ROW_ID = '" + userId + "'\nAND ADDR.PR_ADDR_FLG = 'Y'");
-        super.setColumnsValues("PR_ADDR_ID = " + ((addrList.size() > 0) ? "'" + addrList.get(0).getRow_id() + "'": "NULL"));
+        super.setColumnsValues(",\n\t" + "PR_ADDR_ID = " + ((addrList.size() > 0) ? "'" + addrList.get(0).getRow_id() + "'": "NULL"));
 
         contList = queryContactRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblContact()+ " CON\nWHERE CON.PAR_ROW_ID = '" + userId + "'\nAND CON.PAR_USR_ID = '" + userId + "'\nAND CON.PR_CON_FLG = 'Y'");
         super.setColumnsValues(",\n\t" + "PR_CON_ID = " + ((contList.size() > 0) ? "'" + contList.get(0).getRow_id() + "'": "NULL"));
@@ -1256,7 +1225,8 @@ public class UserController extends DataController {
                 } catch (Exception e) {}
                 try{
                     addr.getAddressRowIdArray().clear();
-                } catch (Exception e) {}                
+                } catch (Exception e) {}
+                userScreen.setlblRecCount((userScreen.getSelectedRowList() + 1) + " - " + String.valueOf(userScreen.getNumOfListRows()));
             } catch (Exception e) {
                 System.out.println(getDateTime() + "\tContactModule.ContactController\t\tSaveContact\tInsertUpdateContact\tError Exception\tError: " + e);
             }
@@ -1456,13 +1426,22 @@ public class UserController extends DataController {
 
         @Override
         public void keyPressed(KeyEvent ke) {
+            String filterValue = "";
             if(ke.getKeyCode() == KeyEvent.VK_ENTER){
                 userScreen.unselectRowList();
                 if(userScreen.getcbbListFilter() != null && userScreen.gettxtListFilterValue() != null) {
+                    switch(userScreen.getcbbListFilter()) {
+                        case "Posição":
+                            filterValue = getPositionIdByName(LookupName("POSITION_TYPE", userScreen.gettxtListFilterValue()));
+                            break;
+                        default:
+                            filterValue = userScreen.gettxtListFilterValue();
+                            break;
+                    }
                     fillList(
                         "SELECT *\n" +
                         "FROM " + getDbOwner() + "." + getTblUser() + " USR\n" +
-                        "WHERE " + processFilterCondition(userScreen.getcbbListFilter(), userScreen.gettxtListFilterValue(), "USER_FILTER", "USR") +
+                        "WHERE " + processFilterCondition(userScreen.getcbbListFilter(), filterValue, "USER_FILTER", "USR") +
                         "ORDER BY USR.FST_NAME ASC"
                     );
                 } else {
@@ -1489,6 +1468,7 @@ public class UserController extends DataController {
             if(count < 1){
                 userScreen.clearFields();
                 fillFields("SELECT * FROM " + getDbOwner() + "." + getTblUser() + " WHERE ROW_ID = '" + userScreen.getSelectedUserListId() + "'");
+                userScreen.setlblRecCount((userScreen.getSelectedRowList() + 1) + " - " + String.valueOf(userScreen.getNumOfListRows()));
                 userScreen.setbtnEditUserEnabled(true);
                 userScreen.setbtnDeleteEnabled(true);
                 count++;

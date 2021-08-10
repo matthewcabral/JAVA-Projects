@@ -214,7 +214,7 @@ public class ContactController extends DataController {
                 }
             }
             
-            conMgr.setlblRecCount(String.valueOf(countRecord));
+            conMgr.setlblRecCount("0 - " + String.valueOf(countRecord));
             
         } catch(Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao preencher tabela...\nErro: " + e);
@@ -460,7 +460,7 @@ public class ContactController extends DataController {
                 }                    
             }
             
-            socMedMgr.setlblRecCount(String.valueOf(countRecord));
+            socMedMgr.setlblRecCount("0 - " + String.valueOf(countRecord));
             
         } catch(Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao preencher tabela...\nErro: " + e);
@@ -655,25 +655,6 @@ public class ContactController extends DataController {
             contactId = super.getNextRowId();
             super.clearColumns();
             super.clearValues();
-            super.setColumns("ROW_ID"); super.setValues("'" + contactId + "'");
-            super.setColumns(",\n\t" + "CREATED");
-            super.setColumns(",\n\t" + "LAST_UPD");
-            super.setColumns(",\n\t" + "DB_LAST_UPD");
-            if(super.getDbDriver().toUpperCase().contains("ORACLE")) {
-                super.setValues(",\n\t" + "SYSDATE");
-                super.setValues(",\n\t" + "SYSDATE");
-                super.setValues(",\n\t" + "SYSDATE");
-            } else if (super.getDbDriver().toUpperCase().contains("MYSQL")) {
-                super.setValues(",\n\t" + "SYSDATE()");
-                super.setValues(",\n\t" + "SYSDATE()");
-                super.setValues(",\n\t" + "SYSDATE()");
-            } else {
-                super.setValues(",\n\t" + "SYSDATE");
-                super.setValues(",\n\t" + "SYSDATE");
-                super.setValues(",\n\t" + "SYSDATE");
-            }            
-            super.setColumns(",\n\t" + "CREATED_BY"); super.setValues(",\n\t" + "'" + super.getConnectedUserId() + "'");
-            super.setColumns(",\n\t" + "LAST_UPD_BY"); super.setValues(",\n\t" + "'" + super.getConnectedUserId() + "'");
             super.setColumns(",\n\t" + "ACTIVE_FLG"); super.setValues(",\n\t" + "'Y'");
             super.setColumns(",\n\t" + "STATUS_CD"); super.setValues(",\n\t" + "'" + super.LookupValue("ACCOUNT_STATUS", "Active") + "'");
                         
@@ -701,7 +682,7 @@ public class ContactController extends DataController {
                                     if("Y".equals(contList.get(i).getPR_CON_FLG())){
                                         super.clearColumnsValues();
                                         super.clearCondition();
-                                        super.setColumnsValues("PR_CON_FLG = 'N'");
+                                        super.setColumnsValues(",\n\t" + "PR_CON_FLG = 'N'");
                                         super.setCondition("ROW_ID = '" + contList.get(i).getRow_id() + "'");
                                         try{
                                             this.clearCount();                                            
@@ -860,7 +841,7 @@ public class ContactController extends DataController {
                                 if("Y".equals(contList.get(i).getPR_CON_FLG())){
                                     super.clearColumnsValues();
                                     super.clearCondition();
-                                    super.setColumnsValues("PR_CON_FLG = 'N'");
+                                    super.setColumnsValues(",\n\t" + "PR_CON_FLG = 'N'");
                                     super.setCondition("ROW_ID = '" + contList.get(i).getRow_id() + "'");
                                     try{
                                         this.clearCount();                                            
@@ -868,37 +849,25 @@ public class ContactController extends DataController {
                                         if(this.getCount() > 0){
                                             super.clearColumnsValues();
                                             super.clearCondition();
-                                            super.setColumnsValues("PR_CON_FLG = 'Y'");
+                                            super.setColumnsValues(",\n\t" + "PR_CON_FLG = 'Y'");
                                         } else {
                                             super.clearColumnsValues();
                                             super.clearCondition();
-                                            super.setColumnsValues("PR_CON_FLG = 'N'");
+                                            super.setColumnsValues(",\n\t" + "PR_CON_FLG = 'N'");
                                         }
                                     } catch (Exception e) {
                                         super.clearColumnsValues();
                                         super.clearCondition();
-                                        super.setColumnsValues("PR_CON_FLG = 'N'");
+                                        super.setColumnsValues(",\n\t" + "PR_CON_FLG = 'N'");
                                     }
                                 }
                             }
                         } else {
-                            super.setColumnsValues("PR_CON_FLG = 'Y'");
+                            super.setColumnsValues(",\n\t" + "PR_CON_FLG = 'Y'");
                         }
                     } else {
-                        super.setColumnsValues("PR_CON_FLG = 'N'");
+                        super.setColumnsValues(",\n\t" + "PR_CON_FLG = 'N'");
                     }
-                    if(super.getDbDriver().toUpperCase().contains("ORACLE")) {
-                        super.setColumnsValues(",\n\t" + "LAST_UPD = SYSDATE");
-                        super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
-                    } else if (super.getDbDriver().toUpperCase().contains("MYSQL")) {
-                        super.setColumnsValues(",\n\t" + "LAST_UPD = SYSDATE()");
-                        super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE()");
-                    } else {
-                        super.setColumnsValues(",\n\t" + "LAST_UPD = SYSDATE");
-                        super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
-                    }
-                    
-                    super.setColumnsValues(",\n\t" + "LAST_UPD_BY = '" + super.getConnectedUserId() + "'");
                     super.setColumnsValues(",\n\t" + "ACTIVE_FLG = 'Y'");
                     super.setColumnsValues(",\n\t" + "MODIFICATION_NUM = (SELECT MODIFICATION_NUM + 1 FROM " + super.getDbOwner() + "." + super.getTblContact() + " WHERE ROW_ID = '" + rowId + "')");
                     super.setColumnsValues(",\n\t" + "STATUS_CD = '" + super.LookupValue("ACCOUNT_STATUS", "Active") + "'");                
@@ -981,7 +950,7 @@ public class ContactController extends DataController {
                 this.setLastContUpd(rowId);
                 super.clearColumnsValues();
                 super.clearCondition();
-                if(super.getDbDriver().toUpperCase().contains("ORACLE")) {
+                /*if(super.getDbDriver().toUpperCase().contains("ORACLE")) {
                     super.setColumnsValues("LAST_UPD = SYSDATE");
                     super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
                 } else if (super.getDbDriver().toUpperCase().contains("MYSQL")) {
@@ -992,7 +961,7 @@ public class ContactController extends DataController {
                     super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
                 }
                 
-                super.setColumnsValues(",\n\t" + "LAST_UPD_BY = '" + super.getConnectedUserId() + "'");
+                super.setColumnsValues(",\n\t" + "LAST_UPD_BY = '" + super.getConnectedUserId() + "'");*/
                 super.setColumnsValues(",\n\t" + "ACTIVE_FLG = 'Y'");
                 super.setColumnsValues(",\n\t" + "MODIFICATION_NUM = (SELECT MODIFICATION_NUM + 1 FROM " + super.getDbOwner() + "." + super.getTblContact() + " WHERE ROW_ID = '" + rowId + "')");
                 if(!"".equals(columnsValues) && columnsValues != null){
@@ -1245,6 +1214,7 @@ public class ContactController extends DataController {
                     conMgr.setFocus("FILTRO_VALOR");
                 }
             }
+            conMgr.setlblRecCount((conMgr.getSelectedRowList() + 1) + " - " + String.valueOf(conMgr.getNumOfListRows()));
         } catch (Exception e) {
             System.out.println(getDateTime() + "\tContactModule.ContactController\t\tSaveContact\tInsertUpdateContact\tError Exception\tError: " + e);
         }
@@ -1256,25 +1226,6 @@ public class ContactController extends DataController {
             contxId = super.getNextRowId();
             super.clearColumns();
             super.clearValues();
-            super.setColumns("ROW_ID"); super.setValues("'" + super.getNextRowId() + "'");
-            super.setColumns(",\n\t" + "CREATED");
-            super.setColumns(",\n\t" + "LAST_UPD");
-            super.setColumns(",\n\t" + "DB_LAST_UPD");
-            if(super.getDbDriver().toUpperCase().contains("ORACLE")) {
-                super.setValues(",\n\t" + "SYSDATE");
-                super.setValues(",\n\t" + "SYSDATE");
-                super.setValues(",\n\t" + "SYSDATE");
-            } else if (super.getDbDriver().toUpperCase().contains("MYSQL")) {
-                super.setValues(",\n\t" + "SYSDATE()");
-                super.setValues(",\n\t" + "SYSDATE()");
-                super.setValues(",\n\t" + "SYSDATE()");
-            } else {
-                super.setValues(",\n\t" + "SYSDATE");
-                super.setValues(",\n\t" + "SYSDATE");
-                super.setValues(",\n\t" + "SYSDATE");
-            }
-            super.setColumns(",\n\t" + "CREATED_BY"); super.setValues(",\n\t" + "'" + super.getConnectedUserId() + "'");
-            super.setColumns(",\n\t" + "LAST_UPD_BY"); super.setValues(",\n\t" + "'" + super.getConnectedUserId() + "'");
             if(this.getOpenFromScreen() != null && !"".equals(this.getOpenFromScreen())){
                 switch(this.getOpenFromScreen()){
                     case "USER":
@@ -1326,19 +1277,6 @@ public class ContactController extends DataController {
         
         super.clearColumnsValues();
         super.clearCondition();
-        
-        if(super.getDbDriver().toUpperCase().contains("ORACLE")) {
-            super.setColumnsValues("LAST_UPD = SYSDATE");
-            super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
-        } else if (super.getDbDriver().toUpperCase().contains("MYSQL")) {
-            super.setColumnsValues("LAST_UPD = SYSDATE()");
-            super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE()");
-        } else {
-            super.setColumnsValues("LAST_UPD = SYSDATE");
-            super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
-        }
-        
-        super.setColumnsValues(",\n\t" + "LAST_UPD_BY = '" + super.getConnectedUserId() + "'");
         super.setColumnsValues(",\n\t" + "ACTIVE_FLG = 'Y'");
         super.setColumnsValues(",\n\t" + "MODIFICATION_NUM = (SELECT MODIFICATION_NUM + 1 FROM " + super.getDbOwner() + "." + super.getTblSocialMedia() + " WHERE ROW_ID = '" + ((rowId != null) ? rowId : socMedMgr.gettxtRowId()) + "')");
         super.setColumnsValues(",\n\t" + "STATUS_CD = '" + super.LookupValue("ACCOUNT_STATUS", "Active") + "'");
@@ -1685,6 +1623,7 @@ public class ContactController extends DataController {
                         } while(foundRow);
                     }
                 }
+                socMedMgr.setlblRecCount((socMedMgr.getSelectedRowList() + 1) + " - " + String.valueOf(socMedMgr.getNumOfListRows()));
             } catch(Exception e) {
                 System.out.println(getDateTime() + "\tContactModule.ContactController\t\tSaveSocialMedia\tInsertUpdateSocialMedia\tError Exception\tError: " + e);
             }
@@ -1718,7 +1657,7 @@ public class ContactController extends DataController {
             socMedMgr.setListenerBtnSave(new saveSocialMedia());
             socMedMgr.setListenerBtnDelete(new deleteSocialMedia());
             socMedMgr.setListenerContactSocialMediaScreen(new contactSocialMediaScreenListener());
-            socMedMgr.setListenerTblContactSocialMediaListSelection(new contactSocialMediaListSelected());
+            socMedMgr.setListenerTblContactSocialMediaListSelection(new SocialMediaListSelected());
             
             conMgr.setEnabled(false);
             
@@ -1739,6 +1678,7 @@ public class ContactController extends DataController {
             if(count < 1){
                 conMgr.clearFields();
                 fillFieldsContactScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblContact() + "\nWHERE ROW_ID = '" + conMgr.getSelectedRowIdContactList() + "'");
+                conMgr.setlblRecCount((conMgr.getSelectedRowList() + 1) + " - " + String.valueOf(conMgr.getNumOfListRows()));
                 conMgr.setbtnEditEnabled(true);
                 conMgr.setbtnDeleteEnabled(true);
                 count++;
@@ -1748,11 +1688,11 @@ public class ContactController extends DataController {
         }
     }
     
-    public class contactSocialMediaListSelected implements ListSelectionListener {
+    public class SocialMediaListSelected implements ListSelectionListener {
         
         private int count;
 
-        private contactSocialMediaListSelected() {
+        private SocialMediaListSelected() {
             this.count = 0;
         }
         
@@ -1761,6 +1701,7 @@ public class ContactController extends DataController {
             if(count < 1){
                 socMedMgr.clearFields();
                 fillFieldsSocialMediaScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblSocialMedia() + "\nWHERE ROW_ID = '" + socMedMgr.getSelectedRowIdContactSocialMediaList() + "'");
+                socMedMgr.setlblRecCount((socMedMgr.getSelectedRowList() + 1) + " - " + String.valueOf(socMedMgr.getNumOfListRows()));
                 socMedMgr.setbtnEditEnabled(true);
                 socMedMgr.setbtnDeleteEnabled(true);
                 count++;

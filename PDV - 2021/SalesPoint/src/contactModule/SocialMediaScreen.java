@@ -49,7 +49,7 @@ public class SocialMediaScreen extends javax.swing.JFrame {
     public void settxtSocialMediaValue(String value) { this.txtSocialMediaValue.setText(value); this.txtSocialMediaValue.paintImmediately(this.txtSocialMediaValue.getVisibleRect()); }
     public void setcbbSocialMediaType(String value) { this.cbbSocialMediaType.addItem(value); this.cbbSocialMediaType.paintImmediately(this.cbbSocialMediaType.getVisibleRect()); }
     //public void setckbMainSocialMediaFlg(String value) { if("Y".equals(value)) { this.ckbMainSocialMediaFlg.setSelected(true); } else { this.ckbMainSocialMediaFlg.setSelected(false); } this.ckbMainSocialMediaFlg.paintImmediately(this.ckbMainSocialMediaFlg.getVisibleRect()); }
-    public void setlblRecCount(String value) { this.clearlblRecCount(); this.lblRecCount.setText("Total de Registros: " + value); this.lblRecCount.paintImmediately(this.lblRecCount.getVisibleRect()); }
+    public void setlblRecCount(String value) { this.lblRecCount.setText("Registros: " + value); this.lblRecCount.paintImmediately(this.lblRecCount.getVisibleRect()); }
     public void setlblSocialMediaHeader(String value) { this.lblSocialMediaHeader.setText(value); this.lblSocialMediaHeader.paintImmediately(this.lblSocialMediaHeader.getVisibleRect()); }
         
     // Component Getters
@@ -300,7 +300,7 @@ public class SocialMediaScreen extends javax.swing.JFrame {
 
         lblRecCount.setBackground(new java.awt.Color(255, 255, 255));
         lblRecCount.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblRecCount.setText("Total de Registros: 100");
+        lblRecCount.setText("Registros: 0 - 100");
         lblRecCount.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblRecCount.setMaximumSize(new java.awt.Dimension(410, 14));
 
