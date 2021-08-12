@@ -30,6 +30,7 @@ public class MainController {
     UserController usrCtrl;
     ListOfValuesController lovCtrl;
     LanguageController langCtrl;
+    Runtime run;
     
     private boolean mainScreenVisible = false;
     private boolean settingScreenVisible = false;
@@ -89,10 +90,12 @@ public class MainController {
         }
         mainScreen.setListenerAboutSystem(new AboutSystem());
         //mainScreen.setListenerOpenLOV_XML_ConverterScreen(new openLOV_XML_Converter());
-        mainScreen.setListenerOpenDBSettings(new openDBSettings());
-        mainScreen.setListenerbtnOpenUserManagement(new openUserModule());
-        mainScreen.setListenerbtnOpenListOfValues(new openListOfValuesScreen());
-        mainScreen.setListenerbtnOpenLanguage(new openLanguageScreen());
+        mainScreen.setListenerOpenDBSettings(new BtnOpenDBSettings());
+        mainScreen.setListenerbtnOpenUserManagement(new BtnOpenUserModule());
+        mainScreen.setListenerbtnOpenListOfValues(new BtnOpenListOfValuesScreen());
+        mainScreen.setListenerbtnOpenLanguage(new BtnOpenLanguageScreen());
+        mainScreen.setListenerbtnOpenCalculator(new BtnOpenCalculator());
+        mainScreen.setListenerbtnLockSystem(new BtnLockSystem());
         
         setScrVisible("Principal", true);
         //dbParamTest = new DBParametersTest();
@@ -127,7 +130,7 @@ public class MainController {
         }
     }
     
-    public class openDBSettings implements ActionListener {
+    public class BtnOpenDBSettings implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
             try {
@@ -141,7 +144,7 @@ public class MainController {
         
     }
     
-    public class openListOfValuesScreen implements ActionListener {
+    public class BtnOpenListOfValuesScreen implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
@@ -159,7 +162,7 @@ public class MainController {
         
     }
     
-    public class openLanguageScreen implements ActionListener {
+    public class BtnOpenLanguageScreen implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
@@ -177,13 +180,37 @@ public class MainController {
         
     }
     
-    public class openUserModule implements ActionListener {
+    public class BtnOpenUserModule implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
             usrCtrl.openUserScreen("MAIN", "");
             usrCtrl.setUser(getUser());
             usrCtrl.setPassword(getPassword());
+        }
+        
+    }
+    
+    public class BtnOpenCalculator implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            run = Runtime.getRuntime();
+            try {
+                run.exec("calc");
+            } catch (IOException ex) {
+                Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+    }
+    
+    public class BtnLockSystem implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            mainScreen.dispose();
+            openLoginScreen();
         }
         
     }

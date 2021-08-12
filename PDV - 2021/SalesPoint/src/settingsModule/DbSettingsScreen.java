@@ -187,7 +187,6 @@ public class DbSettingsScreen extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Assistente de Nova Conexão");
         setResizable(false);
-        setType(java.awt.Window.Type.UTILITY);
 
         lblScreen.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         lblScreen.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);

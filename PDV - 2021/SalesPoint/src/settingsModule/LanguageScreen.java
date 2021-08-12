@@ -31,9 +31,9 @@ public class LanguageScreen extends javax.swing.JFrame {
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         int width = gd.getDisplayMode().getWidth();
         int height = gd.getDisplayMode().getHeight();
-        if(width <= 1366 && height <= 768){
+        /*if(width <= 1366 && height <= 768){
             this.setExtendedState(MAXIMIZED_BOTH);
-        }
+        }*/
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.FocusTraversalKeys();
@@ -949,7 +949,7 @@ public class LanguageScreen extends javax.swing.JFrame {
         PanelLanguageLayout.setVerticalGroup(
             PanelLanguageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelLanguageLayout.createSequentialGroup()
-                .addComponent(MainPanelList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(MainPanelList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(MainPanelForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
