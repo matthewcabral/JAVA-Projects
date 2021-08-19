@@ -203,69 +203,28 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
     
     // Set Focus on Specific component
     public void setFocus(String component) {
-        switch (component) {
-        case "FILTRO_VALOR":
-            this.txtListFilterValue.requestFocus();
-            break;
-        case "ID":
-            this.txtRowId.requestFocus();
-            break;
-        case "TYPE":
-            this.cbbLOVType.requestFocus();
-            break;
-        case "NAME":
-            this.txtName.requestFocus();
-            break;
-        case "VAL":
-            this.txtValue.requestFocus();
-            break;
-        case "LANGUAGE":
-            this.cbbLanguage.requestFocus();
-            break;
-        case "ORDER":
-            this.txtOrder.requestFocus();
-            break;
-        case "REPLICATION_LEVEL":
-            this.txtReplicationLevel.requestFocus();
-            break;
-        case "CODE":
-            this.txtCode.requestFocus();
-            break;
-        case "SUBTYPE":
-            this.txtSubType.requestFocus();
-            break;
-        case "DESCRIPTION":
-            this.txtDescription.requestFocus();
-            break;
-        case "FILTRO":
-            this.cbbListFilter.requestFocus();
-            break;
-        case "ATIVO":
-            this.ckbActiveFlg.requestFocus();
-            break;
-        case "BOTAO_EDITAR":
-            this.btnEdit.requestFocus();
-            break;
-        case "BOTAO_NOVO":
-            this.btnNew.requestFocus();
-            break;
-        case "BOTAO_SALVAR":
-            this.btnSave.requestFocus();
-            break;
-        case "BOTAO_CANCELAR":
-            this.btnCancel.requestFocus();
-            break;
-        case "BOTAO_DELETAR":
-            this.btnDelete.requestFocus();
-            break;
-        case "BOTAO_QUERY":
-            this.btnQuery.requestFocus();
-            break;
-        case "BOTAO_GO_QUERY":
-            this.btnGoQuery.requestFocus();
-            break;
-        default:
-            break;
+	switch (component) {
+            case "FILTRO_VALOR": this.txtListFilterValue.requestFocus(); break;
+            case "ID": this.txtRowId.requestFocus(); break;
+            case "TYPE": this.cbbLOVType.requestFocus(); break;
+            case "NAME": this.txtName.requestFocus(); break;
+            case "VAL": this.txtValue.requestFocus(); break;
+            case "LANGUAGE": this.cbbLanguage.requestFocus(); break;
+            case "ORDER": this.txtOrder.requestFocus(); break;
+            case "REPLICATION_LEVEL": this.txtReplicationLevel.requestFocus(); break;
+            case "CODE": this.txtCode.requestFocus(); break;
+            case "SUBTYPE": this.txtSubType.requestFocus(); break;
+            case "DESCRIPTION": this.txtDescription.requestFocus(); break;
+            case "FILTRO": this.cbbListFilter.requestFocus(); break;
+            case "ATIVO": this.ckbActiveFlg.requestFocus(); break;
+            case "BOTAO_EDITAR": this.btnEdit.requestFocus(); break;
+            case "BOTAO_NOVO": this.btnNew.requestFocus(); break;
+            case "BOTAO_SALVAR": this.btnSave.requestFocus(); break;
+            case "BOTAO_CANCELAR": this.btnCancel.requestFocus(); break;
+            case "BOTAO_DELETAR": this.btnDelete.requestFocus(); break;
+            case "BOTAO_QUERY": this.btnQuery.requestFocus(); break;
+            case "BOTAO_GO_QUERY": this.btnGoQuery.requestFocus(); break;
+            default: break;
         }
     }
     
@@ -1030,7 +989,7 @@ public class ListOfValuesScreen extends javax.swing.JFrame {
         lblActiveFlg.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         lblActiveFlg.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblActiveFlg.setText("Ativo:");
-        lblActiveFlg.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        lblActiveFlg.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
         lblActiveFlg.setEnabled(false);
         lblActiveFlg.setOpaque(true);
 

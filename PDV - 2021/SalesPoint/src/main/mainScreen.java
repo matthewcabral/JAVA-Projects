@@ -47,7 +47,7 @@ public class mainScreen extends javax.swing.JFrame {
     public void setListenerbtnOpenLanguage(ActionListener listener) { btnOpenSysLanguage.addActionListener(listener); }
     public void setListenerbtnOpenCalculator(ActionListener listener) { btnOpenCalculator.addActionListener(listener); }
     public void setListenerbtnLockSystem(ActionListener listener) { btnLockSystem.addActionListener(listener); }
-    
+    public void setListenerbtnOpenUserPermition(ActionListener listener) { btnOpenUserPermition.addActionListener(listener); }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -106,7 +106,7 @@ public class mainScreen extends javax.swing.JFrame {
         btnOpenDBSettings1 = new javax.swing.JButton();
         btnOpenListOfValues = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
-        btnOpenUserManagement1 = new javax.swing.JButton();
+        btnOpenUserPermition = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
         btnOpenSysLanguage = new javax.swing.JButton();
         btnOpenUserManagement2 = new javax.swing.JButton();
@@ -398,12 +398,6 @@ public class mainScreen extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(PanelHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelHomeLayout.createSequentialGroup()
-                        .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(PanelHomeLayout.createSequentialGroup()
-                        .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(PanelHomeLayout.createSequentialGroup()
                         .addGroup(PanelHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(PanelHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(PanelHomeLayout.createSequentialGroup()
@@ -437,7 +431,12 @@ public class mainScreen extends javax.swing.JFrame {
                                 .addComponent(btnOpenCalculator, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel11)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(13, Short.MAX_VALUE))
+                    .addGroup(PanelHomeLayout.createSequentialGroup()
+                        .addGroup(PanelHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         jTabbedPane1.addTab("PRINCIPAL", new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/Home 20x20.png")), PanelHome); // NOI18N
@@ -743,17 +742,17 @@ public class mainScreen extends javax.swing.JFrame {
         jLabel8.setEnabled(false);
         jLabel8.setOpaque(true);
 
-        btnOpenUserManagement1.setBackground(new java.awt.Color(237, 237, 237));
-        btnOpenUserManagement1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/50px/User check 50x50.png"))); // NOI18N
-        btnOpenUserManagement1.setText("Permissões");
-        btnOpenUserManagement1.setToolTipText("");
-        btnOpenUserManagement1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        btnOpenUserManagement1.setBorderPainted(false);
-        btnOpenUserManagement1.setContentAreaFilled(false);
-        btnOpenUserManagement1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnOpenUserManagement1.setIconTextGap(2);
-        btnOpenUserManagement1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        btnOpenUserManagement1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnOpenUserPermition.setBackground(new java.awt.Color(237, 237, 237));
+        btnOpenUserPermition.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/50px/User check 50x50.png"))); // NOI18N
+        btnOpenUserPermition.setText("Permissões");
+        btnOpenUserPermition.setToolTipText("");
+        btnOpenUserPermition.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnOpenUserPermition.setBorderPainted(false);
+        btnOpenUserPermition.setContentAreaFilled(false);
+        btnOpenUserPermition.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnOpenUserPermition.setIconTextGap(2);
+        btnOpenUserPermition.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        btnOpenUserPermition.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jSeparator3.setEnabled(false);
@@ -802,7 +801,7 @@ public class mainScreen extends javax.swing.JFrame {
                     .addGroup(PanelSettingsLayout.createSequentialGroup()
                         .addComponent(btnOpenUserManagement, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnOpenUserManagement1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnOpenUserPermition, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnOpenUserManagement2, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -839,7 +838,7 @@ public class mainScreen extends javax.swing.JFrame {
                         .addGroup(PanelSettingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(PanelSettingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(btnOpenUserManagement, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnOpenUserManagement1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnOpenUserPermition, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(btnOpenUserManagement2, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel5))
@@ -1073,8 +1072,8 @@ public class mainScreen extends javax.swing.JFrame {
     private javax.swing.JButton btnOpenListOfValues;
     private javax.swing.JButton btnOpenSysLanguage;
     private javax.swing.JButton btnOpenUserManagement;
-    private javax.swing.JButton btnOpenUserManagement1;
     private javax.swing.JButton btnOpenUserManagement2;
+    private javax.swing.JButton btnOpenUserPermition;
     private javax.swing.JMenuItem closeMenuBtn;
     private javax.swing.JMenuBar defaultMenu;
     private javax.swing.JMenu fileMenuBtn;

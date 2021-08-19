@@ -19,7 +19,7 @@ import javax.jws.WebService;
 import javax.swing.JFrame;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
-import userModule.UserPermitionScreen;
+import userModule.UserPermitionViewScreen;
 
 /**
  *
@@ -94,7 +94,7 @@ public class main{
             /*System.out.println(permitionValue.lastIndexOf(" "));
             permitionValue = permitionValue.substring(permitionValue.lastIndexOf(" ") + 1, permitionValue.length());
             System.out.println(permitionValue);
-            //UserPermitionScreen scr = new UserPermitionScreen();
+            //UserPermitionScreen scr = new UserPermitionViewScreen();
             String texto = "CASH_BOX_VIEW";
             int index = texto.lastIndexOf("_") + 1;
             System.out.println("Indice: " + index);
@@ -148,7 +148,7 @@ public class main{
             /*System.out.println(permitionValue.lastIndexOf(" "));
             permitionValue = permitionValue.substring(permitionValue.lastIndexOf(" ") + 1, permitionValue.length());
             System.out.println(permitionValue);
-            //UserPermitionScreen scr = new UserPermitionScreen();
+            //UserPermitionScreen scr = new UserPermitionViewScreen();
             String texto = "CASH_BOX_VIEW";
             int index = texto.lastIndexOf("_") + 1;
             System.out.println("Indice: " + index);

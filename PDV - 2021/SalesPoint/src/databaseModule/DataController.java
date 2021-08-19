@@ -472,26 +472,31 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\t" + "BEGIN: Preparando a instrução INSERT para inserir dados na tabela");
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\t" + "Owner: " + super.getDbOwner());
         try{
-            if("true".equals(openConnection("Inserindo registro(s)"))){
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\t" + "Criando Statement INSERT");
-                
-                statement = conn.createStatement();
-                tempoInicial = System.currentTimeMillis();
-                statement.execute(sqlCommand);
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instruções:\n" + sqlCommand);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\t" + "END: Instrução INSERT para inserir dados na tabela finalizada");
-                
-                closeConnection("Registro inserido com sucesso...");
-                //JOptionPane.showMessageDialog(null, "Registro inserido com sucesso!");
-            } else {
-                JOptionPane.showMessageDialog(null, "Erro ao executar comandos no banco de dados!");
+            if(!super.isConnectionOpen()) {
+                if(!"true".equals(openConnection("Inserindo registro(s)"))){
+                    JOptionPane.showMessageDialog(null, "Erro ao executar comandos no banco de dados!");
+                    return "false";
+                }
             }
+            
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\t" + "Criando Statement INSERT");
+
+            statement = conn.createStatement();
+            tempoInicial = System.currentTimeMillis();
+            statement.execute(sqlCommand);
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instruções:\n" + sqlCommand);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\t" + "END: Instrução INSERT para inserir dados na tabela finalizada");
+
+            if(!super.isConnectionOpen()) {
+                closeConnection("Registro inserido com sucesso...");
+            }
+            
             return "true";
         } catch (HeadlessException | SQLException e){
             System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instruções:\n" + sqlCommand);
@@ -517,106 +522,110 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Tabela: " + super.getTblSSAId() );
         
         try{
-            if("true".equals(openConnection("Trigger proximo RowId"))){
-                super.statement = super.conn.createStatement();
-                tempoInicial = System.currentTimeMillis();
-                ResultSet rs = super.statement.executeQuery("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblSSAId());
-                
-                while(rs.next()){
-                    V_PREFIX = rs.getInt("P_PREFIX");
-                    V_SUFFIX = rs.getInt("P_SUFFIX");
-                    V_MODIFICATION_NUM = rs.getInt("MODIFICATION_NUM");
-                    V_NEXT_ID = rs.getString("P_NEXT_ID");
-                    count++;
-                }
-                
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblSSAId());
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Prefix Atual: " + V_PREFIX);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Suffix Atual: " + V_SUFFIX);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Id Atual: " + V_NEXT_ID);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Calculando o próximo Id");
-                
-                rs.close();
-                closeConnection("Dados de Usuários retornados com sucesso...");
-                
-                switch(String.valueOf(V_SUFFIX).length()){
-                    case 1:
-                        if(V_SUFFIX == 0) {
-                            V_SUFFIX++;
-                            V_NEXT_ID = String.valueOf(V_PREFIX) + "-0000" + String.valueOf(V_SUFFIX);
-                        } else if(V_SUFFIX < 9) {
-                            V_SUFFIX++;
-                            V_NEXT_ID = String.valueOf(V_PREFIX) + "-0000" + String.valueOf(V_SUFFIX);
-                        } else {
-                            V_SUFFIX += 1;
-                            V_NEXT_ID = String.valueOf(V_PREFIX) + "-000" + String.valueOf(V_SUFFIX);
-                        }
-                        break;
-                    case 2:
-                        if(V_SUFFIX < 99) {
-                            V_SUFFIX++;
-                            V_NEXT_ID = String.valueOf(V_PREFIX) + "-000" + String.valueOf(V_SUFFIX);
-                        } else {
-                            V_SUFFIX++;
-                            V_NEXT_ID = String.valueOf(V_PREFIX) + "-00" + String.valueOf(V_SUFFIX);
-                        }
-                        break;
-                    case 3:
-                        if(V_SUFFIX < 999) {
-                            V_SUFFIX++;
-                            V_NEXT_ID = String.valueOf(V_PREFIX) + "-00" + String.valueOf(V_SUFFIX);
-                        } else {
-                            V_SUFFIX++;
-                            V_NEXT_ID = String.valueOf(V_PREFIX) + "-0" + String.valueOf(V_SUFFIX);
-                        }
-                        break;
-                    case 4:
-                        if(V_SUFFIX < 9999) {
-                            V_SUFFIX++;
-                            V_NEXT_ID = String.valueOf(V_PREFIX) + "-0" + String.valueOf(V_SUFFIX);
-                        } else {
-                            V_SUFFIX++;
-                            V_NEXT_ID = String.valueOf(V_PREFIX) + "-" + String.valueOf(V_SUFFIX);
-                        }
-                        break;
-                    default:
-                        if(V_SUFFIX < 99999) {
-                            V_SUFFIX++;
-                            V_NEXT_ID = String.valueOf(V_PREFIX) + "-" + String.valueOf(V_SUFFIX);
-                        } else {
-                            V_PREFIX++;
-                            V_SUFFIX = 0;
-                            V_NEXT_ID = String.valueOf(V_PREFIX) + "-0000" + String.valueOf(V_SUFFIX);
-                        }
-                        break;
-                }
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Novo Prefix: " + V_PREFIX);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Novo Suffix: " + V_SUFFIX);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Novo Id: " + V_NEXT_ID);
-
-                super.clearColumnsValues();
-                super.clearCondition();
-
-                super.setColumnsValues(",\n\t" + "P_PREFIX = " + V_PREFIX);
-                super.setColumnsValues(",\n\t" + "P_SUFFIX = " + V_SUFFIX);
-                super.setColumnsValues(",\n\t" + "P_NEXT_ID = '" + V_NEXT_ID + "'");
-                super.setColumnsValues(",\n\t" + "MODIFICATION_NUM = " + (V_MODIFICATION_NUM + 1));
-                super.setCondition("1=1");
-                
-                this.updateRecord(super.getTblSSAId(), super.getColumnsValues(), super.getCondition());
-                
-                super.clearColumnsValues();
-                super.clearCondition();
+            if(!super.isConnectionOpen()) {
+                openConnection("Trigger proximo RowId");
             }
+            super.statement = super.conn.createStatement();
+            tempoInicial = System.currentTimeMillis();
+            ResultSet rs = super.statement.executeQuery("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblSSAId());
+
+            while(rs.next()){
+                V_PREFIX = rs.getInt("P_PREFIX");
+                V_SUFFIX = rs.getInt("P_SUFFIX");
+                V_MODIFICATION_NUM = rs.getInt("MODIFICATION_NUM");
+                V_NEXT_ID = rs.getString("P_NEXT_ID");
+                count++;
+            }
+
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblSSAId());
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Prefix Atual: " + V_PREFIX);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Suffix Atual: " + V_SUFFIX);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Id Atual: " + V_NEXT_ID);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Calculando o próximo Id");
+
+            rs.close();
+            
+            if(!super.isConnectionOpen()) {
+                closeConnection("Dados de Usuários retornados com sucesso...");
+            }
+            
+            switch(String.valueOf(V_SUFFIX).length()){
+                case 1:
+                    if(V_SUFFIX == 0) {
+                        V_SUFFIX++;
+                        V_NEXT_ID = String.valueOf(V_PREFIX) + "-0000" + String.valueOf(V_SUFFIX);
+                    } else if(V_SUFFIX < 9) {
+                        V_SUFFIX++;
+                        V_NEXT_ID = String.valueOf(V_PREFIX) + "-0000" + String.valueOf(V_SUFFIX);
+                    } else {
+                        V_SUFFIX += 1;
+                        V_NEXT_ID = String.valueOf(V_PREFIX) + "-000" + String.valueOf(V_SUFFIX);
+                    }
+                    break;
+                case 2:
+                    if(V_SUFFIX < 99) {
+                        V_SUFFIX++;
+                        V_NEXT_ID = String.valueOf(V_PREFIX) + "-000" + String.valueOf(V_SUFFIX);
+                    } else {
+                        V_SUFFIX++;
+                        V_NEXT_ID = String.valueOf(V_PREFIX) + "-00" + String.valueOf(V_SUFFIX);
+                    }
+                    break;
+                case 3:
+                    if(V_SUFFIX < 999) {
+                        V_SUFFIX++;
+                        V_NEXT_ID = String.valueOf(V_PREFIX) + "-00" + String.valueOf(V_SUFFIX);
+                    } else {
+                        V_SUFFIX++;
+                        V_NEXT_ID = String.valueOf(V_PREFIX) + "-0" + String.valueOf(V_SUFFIX);
+                    }
+                    break;
+                case 4:
+                    if(V_SUFFIX < 9999) {
+                        V_SUFFIX++;
+                        V_NEXT_ID = String.valueOf(V_PREFIX) + "-0" + String.valueOf(V_SUFFIX);
+                    } else {
+                        V_SUFFIX++;
+                        V_NEXT_ID = String.valueOf(V_PREFIX) + "-" + String.valueOf(V_SUFFIX);
+                    }
+                    break;
+                default:
+                    if(V_SUFFIX < 99999) {
+                        V_SUFFIX++;
+                        V_NEXT_ID = String.valueOf(V_PREFIX) + "-" + String.valueOf(V_SUFFIX);
+                    } else {
+                        V_PREFIX++;
+                        V_SUFFIX = 0;
+                        V_NEXT_ID = String.valueOf(V_PREFIX) + "-0000" + String.valueOf(V_SUFFIX);
+                    }
+                    break;
+            }
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Novo Prefix: " + V_PREFIX);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Novo Suffix: " + V_SUFFIX);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Novo Id: " + V_NEXT_ID);
+
+            super.clearColumnsValues();
+            super.clearCondition();
+
+            super.setColumnsValues(",\n\t" + "P_PREFIX = " + V_PREFIX);
+            super.setColumnsValues(",\n\t" + "P_SUFFIX = " + V_SUFFIX);
+            super.setColumnsValues(",\n\t" + "P_NEXT_ID = '" + V_NEXT_ID + "'");
+            super.setColumnsValues(",\n\t" + "MODIFICATION_NUM = " + (V_MODIFICATION_NUM + 1));
+            super.setCondition("1=1");
+
+            this.updateRecord(super.getTblSSAId(), super.getColumnsValues(), super.getCondition());
+
+            super.clearColumnsValues();
+            super.clearCondition();
         } catch (HeadlessException | SQLException e){
             System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblSSAId());
             System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + e);
@@ -667,31 +676,113 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\t" + "Tabela: " + table);
         
         try{
-            if("true".equals(openConnection("Inserindo registro(s)"))){
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\t" + "Criando Statement INSERT");
-                
-                statement = conn.createStatement();
-                tempoInicial = System.currentTimeMillis();
-                statement.execute(sqlHeader + sqlColumn + sqlValue);
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução INSERT:\n" + sqlHeader + sqlColumn + sqlValue);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\t" + "END: Instrução INSERT para inserir dados na tabela finalizada");
-                
-                closeConnection("Registro inserido com sucesso...");
-                JOptionPane.showMessageDialog(null, "Registro inserido com sucesso!");
-                this.generateRowIdTrigger();
-            } else {
-                JOptionPane.showMessageDialog(null, "Erro ao inserir registro no banco de dados!");
+            if(!super.isConnectionOpen()){
+                if(!"true".equals(openConnection("Inserindo registro(s)"))){
+                    if(!super.getSilentInsertMode()) { JOptionPane.showMessageDialog(null, "Erro ao inserir registro no banco de dados!"); }
+                    return "false";
+                }
             }
+            
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\t" + "Criando Statement INSERT");
+
+            statement = conn.createStatement();
+            tempoInicial = System.currentTimeMillis();
+            statement.execute(sqlHeader + sqlColumn + sqlValue);
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução INSERT:\n" + sqlHeader + sqlColumn + sqlValue);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\t" + "END: Instrução INSERT para inserir dados na tabela finalizada");
+
+            if(!super.isConnectionOpen()){
+                closeConnection("Registro inserido com sucesso...");
+            }
+            
+            if(!super.getSilentInsertMode()) { JOptionPane.showMessageDialog(null, "Registro inserido com sucesso!"); }
+            this.generateRowIdTrigger();
+            
             return "true";
         } catch (HeadlessException | SQLException e){
             System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução INSERT:\n" + sqlHeader + sqlColumn + sqlValue);
             System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + e);
+            JOptionPane.showMessageDialog(null, "Erro ao inserir registros no banco de dados!\nErro: " + e);
+            return "false";
+        }
+    }
+    
+    @Override
+    public String insertMultipleRecords(String table, ArrayList<InsertMultipleLineClass> sqlColumnsValues) {        
+        String sqlHeader = "";
+        String sqlColumn = "";
+        String sqlValue = "";
+        String sqlFinalCmd = "";
+        long tempoInicial = 0;
+        long tempoFinal = 0;
+        long tempoExec = 0;
+        String cmd = "";
+        
+        System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertMultipleRecords" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\t" + "BEGIN: Preparando a instrução INSERT para inserir dados na tabela");
+        System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertMultipleRecords" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\t" + "Owner: " + super.getDbOwner());
+        System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertMultipleRecords" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\t" + "Tabela: " + table);
+        System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertMultipleRecords" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\t" + "Criando Statement INSERT");
+        try{
+            if("true".equals(openConnection("Inserindo registro(s)"))){
+                super.setConnectionOpen(true);
+                
+                statement = conn.createStatement();
+                tempoInicial = System.currentTimeMillis();
+                for(int i = 0; i < sqlColumnsValues.size(); i++){
+                    sqlHeader += "INSERT INTO " + super.getDbOwner() + "." + table;
+                    sqlColumn += " (ROW_ID, CREATED, LAST_UPD, DB_LAST_UPD, CREATED_BY, LAST_UPD_BY";
+                    sqlColumn += sqlColumnsValues.get(i).getSqlColumns();
+                    sqlValue += ") VALUES (";
+                    sqlValue += "'" + this.getNextRowId() + "'";
+                    if(super.getDbDriver().toUpperCase().contains("ORACLE")) {
+                        sqlValue += ", " + "SYSDATE";
+                        sqlValue += ", " + "SYSDATE";
+                        sqlValue += ", " + "SYSDATE";
+                    } else if (super.getDbDriver().toUpperCase().contains("MYSQL")) {
+                        sqlValue += ", " + "SYSDATE()";
+                        sqlValue += ", " + "SYSDATE()";
+                        sqlValue += ", " + "SYSDATE()";
+                    } else {
+                        sqlValue += ", " + "SYSDATE";
+                        sqlValue += ", " + "SYSDATE";
+                        sqlValue += ", " + "SYSDATE";
+                    }
+                    sqlValue += ", " + "'" + this.getConnectedUserId() + "'";
+                    sqlValue += ", " + "'" + this.getConnectedUserId() + "'";
+                    sqlValue += sqlColumnsValues.get(i).getSqlValues();
+                    sqlValue += ")\n";
+                    sqlFinalCmd += sqlHeader + sqlColumn + sqlValue;
+                    statement.execute(sqlHeader + sqlColumn + sqlValue);
+                    this.generateRowIdTrigger();
+                    sqlHeader = "";
+                    sqlColumn = "";
+                    sqlValue = "";
+                }
+                tempoFinal = System.currentTimeMillis();
+                tempoExec = tempoFinal - tempoInicial;
+                
+                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertMultipleRecords" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução INSERT:\n" + sqlFinalCmd);
+                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertMultipleRecords" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertMultipleRecords" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertMultipleRecords" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertMultipleRecords" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\t" + "END: Instrução INSERT para inserir dados na tabela finalizada");
+                
+                closeConnection("Registro inserido com sucesso...");
+                super.setConnectionOpen(false);
+                if(!super.getSilentInsertMode()) { JOptionPane.showMessageDialog(null, "Registro inserido com sucesso!"); }
+            } else {
+                if(!super.getSilentInsertMode()) { JOptionPane.showMessageDialog(null, "Erro ao inserir registro no banco de dados!"); }
+            }
+            return "true";
+        } catch (HeadlessException | SQLException e){
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertMultipleRecords" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução INSERT:\n" + cmd);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "InsertMultipleRecords" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + e);
             JOptionPane.showMessageDialog(null, "Erro ao inserir registros no banco de dados!\nErro: " + e);
             return "false";
         }
@@ -727,26 +818,32 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "UpdateRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteUpdate" + "\t" + "Tabela: " + table);     
         
         try{
-            if("true".equals(openConnection("Atualizando registro(s)"))){
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "UpdateRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteUpdate" + "\t" + "Criando Statement UPDATE");
-                
-                statement = conn.createStatement();
-                tempoInicial = System.currentTimeMillis();
-                count = statement.executeUpdate(sqlHeader + sqlColumnsValues + sqlCondition);
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "UpdateRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução UPDATE:" + "\n" + sqlHeader + sqlColumnsValues + sqlCondition);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "UpdateRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteUpdate" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "UpdateRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteUpdate" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "UpdateRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteUpdate" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "UpdateRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteUpdate" + "\t" + "Total de registros alterados: " + count);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "UpdateRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteUpdate" + "\t" + "END: Instrução UPDATE para atualizar dados na tabela finalizada");
-                
-                closeConnection("Registro(s) atualizado(s) com sucesso");
-            } else {
-                JOptionPane.showMessageDialog(null, "Erro ao atualizar registro no banco de dados!");
+            if(!super.isConnectionOpen()) {
+                if(!"true".equals(openConnection("Atualizando registro(s)"))){
+                    JOptionPane.showMessageDialog(null, "Erro ao atualizar registro no banco de dados!");
+                    return 0;
+                }
             }
+            
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "UpdateRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteUpdate" + "\t" + "Criando Statement UPDATE");
+
+            statement = conn.createStatement();
+            tempoInicial = System.currentTimeMillis();
+            count = statement.executeUpdate(sqlHeader + sqlColumnsValues + sqlCondition);
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "UpdateRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução UPDATE:" + "\n" + sqlHeader + sqlColumnsValues + sqlCondition);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "UpdateRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteUpdate" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "UpdateRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteUpdate" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "UpdateRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteUpdate" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "UpdateRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteUpdate" + "\t" + "Total de registros alterados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "UpdateRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteUpdate" + "\t" + "END: Instrução UPDATE para atualizar dados na tabela finalizada");
+
+            if(!super.isConnectionOpen()) {
+                closeConnection("Registro(s) atualizado(s) com sucesso");
+            }
+            
             return count;
         } catch (HeadlessException | SQLException e){
             System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "UpdateRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução UPDATE:" + "\n" + sqlHeader + sqlColumnsValues + sqlCondition);
@@ -776,27 +873,32 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "DeleteRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteUpdate" + "\t" + "Condição: " + condition );
         
         try{
-            if("true".equals(openConnection("Deletando registro(s)"))){
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "DeleteRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteUpdate" + "\t" + "Criando Statement DELETE");
-                
-                statement = conn.createStatement();
-                tempoInicial = System.currentTimeMillis();
-                count = statement.executeUpdate(sqlHeader + sqlCondition);
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "DeleteRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução DELETE:" + "\n" + sqlHeader + sqlCondition);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "DeleteRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteUpdate" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "DeleteRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteUpdate" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "DeleteRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteUpdate" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "DeleteRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteUpdate" + "\t" + "Total de registros deletados: " + count);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "DeleteRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteUpdate" + "\t" + "END: Instrução DELETE para deletar dados na tabela finalizada");
-                
-                closeConnection("Registro(s) deletado(s) com sucesso");
-                //JOptionPane.showMessageDialog(null, "Registros removidos com sucesso!\nTotal de registros removidos: " + count);
-            } else {
-                JOptionPane.showMessageDialog(null, "Erro ao remover registros no banco de dados!");
+            if(!super.isConnectionOpen()){
+                if(!"true".equals(openConnection("Deletando registro(s)"))){
+                    JOptionPane.showMessageDialog(null, "Erro ao remover registros no banco de dados!");
+                    return 0;
+                }
             }
+            
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "DeleteRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteUpdate" + "\t" + "Criando Statement DELETE");
+
+            statement = conn.createStatement();
+            tempoInicial = System.currentTimeMillis();
+            count = statement.executeUpdate(sqlHeader + sqlCondition);
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "DeleteRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução DELETE:" + "\n" + sqlHeader + sqlCondition);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "DeleteRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteUpdate" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "DeleteRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteUpdate" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "DeleteRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteUpdate" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "DeleteRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteUpdate" + "\t" + "Total de registros deletados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "DeleteRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteUpdate" + "\t" + "END: Instrução DELETE para deletar dados na tabela finalizada");
+
+            if(!super.isConnectionOpen()){
+                closeConnection("Registro(s) deletado(s) com sucesso");
+            }
+            
             return count;
         } catch (HeadlessException | SQLException e){
             System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "DeleteRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução DELETE:" + "\n" + sqlHeader + sqlCondition);
@@ -822,26 +924,32 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Tabela: " + table );
         
         try{
-            if("true".equals(openConnection("Buscando Registros de usuários..."))){
-                super.statement = super.conn.createStatement();
-                tempoInicial = System.currentTimeMillis();
-                ResultSet rs = super.statement.executeQuery("SELECT\n\tCOUNT(*) AS COUNT\nFROM " + super.getDbOwner() + "." + table + "\nWHERE " + condition);
-                
-                while(rs.next()){
-                    count = rs.getInt("COUNT");
+            if(!super.isConnectionOpen()){
+                if(!"true".equals(openConnection("Buscando Registros de usuários..."))){
+                    return 0;
                 }
-                
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT COUNT(*) AS COUNT\nFROM " + super.getDbOwner() + "." + table + "\nWHERE " + condition);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
-                
-                rs.close();
+            }
+            
+            super.statement = super.conn.createStatement();
+            tempoInicial = System.currentTimeMillis();
+            ResultSet rs = super.statement.executeQuery("SELECT\n\tCOUNT(*) AS COUNT\nFROM " + super.getDbOwner() + "." + table + "\nWHERE " + condition);
+
+            while(rs.next()){
+                count = rs.getInt("COUNT");
+            }
+
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT COUNT(*) AS COUNT\nFROM " + super.getDbOwner() + "." + table + "\nWHERE " + condition);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryTableCount" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
+
+            rs.close();
+            if(!super.isConnectionOpen()){
                 closeConnection("Dados de Usuários retornados com sucesso...");
             }
         } catch (HeadlessException | SQLException e){
@@ -866,89 +974,93 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Tabela: " + super.getTblUser() );
         
         try{
-            if("true".equals(openConnection("Buscando Registros de usuários..."))){
-                super.statement = super.conn.createStatement();
-                tempoInicial = System.currentTimeMillis();
-                ResultSet rs = super.statement.executeQuery(query);
-                
-                while(rs.next()){
-                    UserClass list = new UserClass();
-                    
-                    list.setRow_id(rs.getString("ROW_ID"));
-                    if(!"".equals(rs.getString("CREATED")) && rs.getString("CREATED") != null) {
-                        list.setCreated(rs.getString("CREATED").substring(8, 10) + "/" + rs.getString("CREATED").substring(5, 7) + "/" + rs.getString("CREATED").substring(0, 4));
-                    }
-                    list.setCreated_by(rs.getString("CREATED_BY"));
-                    if(!"".equals(rs.getString("LAST_UPD")) && rs.getString("LAST_UPD") != null) {
-                        list.setUpdated(rs.getString("LAST_UPD").substring(8, 10) + "/" + rs.getString("LAST_UPD").substring(5, 7) + "/" + rs.getString("LAST_UPD").substring(0, 4));
-                    }
-                    list.setUpdated_by(rs.getString("LAST_UPD_BY"));
-                    list.setModification_num(rs.getString("MODIFICATION_NUM"));
-                    list.setPar_row_id(rs.getString("PAR_ROW_ID"));
-                    list.setPAR_POSTN_ID(rs.getString("PAR_POSTN_ID"));
-                    if(!"".equals(rs.getString("DB_LAST_UPD")) && rs.getString("DB_LAST_UPD") != null) {
-                        list.setDb_last_upd(rs.getString("DB_LAST_UPD").substring(8, 10) + "/" + rs.getString("DB_LAST_UPD").substring(5, 7) + "/" + rs.getString("DB_LAST_UPD").substring(0, 4));
-                    }
-                    list.setLOGIN(rs.getString("LOGIN"));
-                    list.setPASSWORD(encryptDecrypt.decryptWord(rs.getString("PASSWORD")));
-                    list.setUSER_FLG(rs.getString("USER_FLG"));
-                    if(!"".equals(rs.getString("LAST_LOGIN_TS")) && rs.getString("LAST_LOGIN_TS") != null) {
-                        list.setLAST_LOGIN_TS(rs.getString("LAST_LOGIN_TS").substring(8, 10) + "/" + rs.getString("LAST_LOGIN_TS").substring(5, 7) + "/" + rs.getString("LAST_LOGIN_TS").substring(0, 4));
-                    }
-                    list.setDOC_TYPE(rs.getString("DOC_TYPE"));
-                    list.setDOC_NUM(rs.getString("DOC_NUM"));
-                    list.setFST_NAME(rs.getString("FST_NAME"));
-                    list.setLAST_NAME(rs.getString("LAST_NAME"));
-                    list.setFULL_NAME(rs.getString("FULL_NAME"));
-                    list.setNICK_NAME(rs.getString("NICK_NAME"));
-                    list.setAGE(rs.getString("AGE"));
-                    if(!"".equals(rs.getString("BIRTH_DT")) && rs.getString("BIRTH_DT") != null) {
-                        list.setBIRTH_DT(rs.getString("BIRTH_DT").substring(8, 10) + "/" + rs.getString("BIRTH_DT").substring(5, 7) + "/" + rs.getString("BIRTH_DT").substring(0, 4));
-                    }
-                    list.setPLACE_OF_BIRTH(rs.getString("PLACE_OF_BIRTH"));
-                    list.setSEX_MF(rs.getString("SEX_MF"));
-                    list.setMARITAL_STAT_CD(rs.getString("MARITAL_STAT_CD"));
-                    list.setNAME_CONJUGE(rs.getString("NAME_CONJUGE"));
-                    list.setMOTHER_FULL_NAME(rs.getString("MOTHER_FULL_NAME"));
-                    list.setFATHER_FULL_NAME(rs.getString("FATHER_FULL_NAME"));
-                    list.setIDENTITY_DOC_TYPE(rs.getString("IDENTITY_DOC_TYPE"));
-                    list.setREGISTER_NUM(rs.getString("REGISTER_NUM"));
-                    list.setREGISTER_SERIE(rs.getString("REGISTER_SERIE"));
-                    list.setORGAO_EMISSOR(rs.getString("ORGAO_EMISSOR"));
-                    list.setUF_EMISSAO(rs.getString("UF_EMISSAO"));
-                    if(!"".equals(rs.getString("EMISSION_DT")) && rs.getString("EMISSION_DT") != null) {
-                        list.setEMISSION_DT(rs.getString("EMISSION_DT").substring(8, 10) + "/" + rs.getString("EMISSION_DT").substring(5, 7) + "/" + rs.getString("EMISSION_DT").substring(0, 4));
-                    }
-                    if(!"".equals(rs.getString("VALIDATION_DT")) && rs.getString("VALIDATION_DT") != null) {
-                        list.setVALIDATION_DT(rs.getString("VALIDATION_DT").substring(8, 10) + "/" + rs.getString("VALIDATION_DT").substring(5, 7) + "/" + rs.getString("VALIDATION_DT").substring(0, 4));
-                    }
-                    list.setNATURALNESS(rs.getString("NATURALNESS"));
-                    list.setNATIONALITY(rs.getString("NATIONALITY"));
-                    list.setCHALLENGE_QUESTION_1(encryptDecrypt.decryptWord(rs.getString("CHALLENGE_QUESTION_1")));
-                    list.setCHALLENGE_ANSWER_1(encryptDecrypt.decryptWord(rs.getString("CHALLENGE_ANSWER_1")));
-                    list.setCHALLENGE_QUESTION_2(encryptDecrypt.decryptWord(rs.getString("CHALLENGE_QUESTION_2")));
-                    list.setCHALLENGE_ANSWER_2(encryptDecrypt.decryptWord(rs.getString("CHALLENGE_ANSWER_2")));
-                    list.setCHALLENGE_QUESTION_3(encryptDecrypt.decryptWord(rs.getString("CHALLENGE_QUESTION_3")));
-                    list.setCHALLENGE_ANSWER_3(encryptDecrypt.decryptWord(rs.getString("CHALLENGE_ANSWER_3")));
-                    list.setPR_ADDR_ID(rs.getString("PR_ADDR_ID"));
-                    list.setPR_CON_ID(rs.getString("PR_CON_ID"));
-                    list.setPR_PHONE_ID(rs.getString("PR_PHONE_ID"));
-                    list.setSTATUS_CD(this.LookupValue("USER_STATUS", rs.getString("STATUS_CD")));
-                    
-                    result.add(list);
-                    count++;
+            if(!super.isConnectionOpen()){
+                openConnection("Buscando Registros de usuários...");
+            }
+            
+            super.statement = super.conn.createStatement();
+            tempoInicial = System.currentTimeMillis();
+            ResultSet rs = super.statement.executeQuery(query);
+
+            while(rs.next()){
+                UserClass list = new UserClass();
+
+                list.setRow_id(rs.getString("ROW_ID"));
+                if(!"".equals(rs.getString("CREATED")) && rs.getString("CREATED") != null) {
+                    list.setCreated(rs.getString("CREATED").substring(8, 10) + "/" + rs.getString("CREATED").substring(5, 7) + "/" + rs.getString("CREATED").substring(0, 4));
                 }
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + query);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
-                
-                rs.close();
+                list.setCreated_by(rs.getString("CREATED_BY"));
+                if(!"".equals(rs.getString("LAST_UPD")) && rs.getString("LAST_UPD") != null) {
+                    list.setUpdated(rs.getString("LAST_UPD").substring(8, 10) + "/" + rs.getString("LAST_UPD").substring(5, 7) + "/" + rs.getString("LAST_UPD").substring(0, 4));
+                }
+                list.setUpdated_by(rs.getString("LAST_UPD_BY"));
+                list.setModification_num(rs.getString("MODIFICATION_NUM"));
+                list.setPar_row_id(rs.getString("PAR_ROW_ID"));
+                list.setPAR_POSTN_ID(rs.getString("PAR_POSTN_ID"));
+                if(!"".equals(rs.getString("DB_LAST_UPD")) && rs.getString("DB_LAST_UPD") != null) {
+                    list.setDb_last_upd(rs.getString("DB_LAST_UPD").substring(8, 10) + "/" + rs.getString("DB_LAST_UPD").substring(5, 7) + "/" + rs.getString("DB_LAST_UPD").substring(0, 4));
+                }
+                list.setLOGIN(rs.getString("LOGIN"));
+                list.setPASSWORD(encryptDecrypt.decryptWord(rs.getString("PASSWORD")));
+                list.setUSER_FLG(rs.getString("USER_FLG"));
+                if(!"".equals(rs.getString("LAST_LOGIN_TS")) && rs.getString("LAST_LOGIN_TS") != null) {
+                    list.setLAST_LOGIN_TS(rs.getString("LAST_LOGIN_TS").substring(8, 10) + "/" + rs.getString("LAST_LOGIN_TS").substring(5, 7) + "/" + rs.getString("LAST_LOGIN_TS").substring(0, 4));
+                }
+                list.setDOC_TYPE(rs.getString("DOC_TYPE"));
+                list.setDOC_NUM(rs.getString("DOC_NUM"));
+                list.setFST_NAME(rs.getString("FST_NAME"));
+                list.setLAST_NAME(rs.getString("LAST_NAME"));
+                list.setFULL_NAME(rs.getString("FULL_NAME"));
+                list.setNICK_NAME(rs.getString("NICK_NAME"));
+                list.setAGE(rs.getString("AGE"));
+                if(!"".equals(rs.getString("BIRTH_DT")) && rs.getString("BIRTH_DT") != null) {
+                    list.setBIRTH_DT(rs.getString("BIRTH_DT").substring(8, 10) + "/" + rs.getString("BIRTH_DT").substring(5, 7) + "/" + rs.getString("BIRTH_DT").substring(0, 4));
+                }
+                list.setPLACE_OF_BIRTH(rs.getString("PLACE_OF_BIRTH"));
+                list.setSEX_MF(rs.getString("SEX_MF"));
+                list.setMARITAL_STAT_CD(rs.getString("MARITAL_STAT_CD"));
+                list.setNAME_CONJUGE(rs.getString("NAME_CONJUGE"));
+                list.setMOTHER_FULL_NAME(rs.getString("MOTHER_FULL_NAME"));
+                list.setFATHER_FULL_NAME(rs.getString("FATHER_FULL_NAME"));
+                list.setIDENTITY_DOC_TYPE(rs.getString("IDENTITY_DOC_TYPE"));
+                list.setREGISTER_NUM(rs.getString("REGISTER_NUM"));
+                list.setREGISTER_SERIE(rs.getString("REGISTER_SERIE"));
+                list.setORGAO_EMISSOR(rs.getString("ORGAO_EMISSOR"));
+                list.setUF_EMISSAO(rs.getString("UF_EMISSAO"));
+                if(!"".equals(rs.getString("EMISSION_DT")) && rs.getString("EMISSION_DT") != null) {
+                    list.setEMISSION_DT(rs.getString("EMISSION_DT").substring(8, 10) + "/" + rs.getString("EMISSION_DT").substring(5, 7) + "/" + rs.getString("EMISSION_DT").substring(0, 4));
+                }
+                if(!"".equals(rs.getString("VALIDATION_DT")) && rs.getString("VALIDATION_DT") != null) {
+                    list.setVALIDATION_DT(rs.getString("VALIDATION_DT").substring(8, 10) + "/" + rs.getString("VALIDATION_DT").substring(5, 7) + "/" + rs.getString("VALIDATION_DT").substring(0, 4));
+                }
+                list.setNATURALNESS(rs.getString("NATURALNESS"));
+                list.setNATIONALITY(rs.getString("NATIONALITY"));
+                list.setCHALLENGE_QUESTION_1(encryptDecrypt.decryptWord(rs.getString("CHALLENGE_QUESTION_1")));
+                list.setCHALLENGE_ANSWER_1(encryptDecrypt.decryptWord(rs.getString("CHALLENGE_ANSWER_1")));
+                list.setCHALLENGE_QUESTION_2(encryptDecrypt.decryptWord(rs.getString("CHALLENGE_QUESTION_2")));
+                list.setCHALLENGE_ANSWER_2(encryptDecrypt.decryptWord(rs.getString("CHALLENGE_ANSWER_2")));
+                list.setCHALLENGE_QUESTION_3(encryptDecrypt.decryptWord(rs.getString("CHALLENGE_QUESTION_3")));
+                list.setCHALLENGE_ANSWER_3(encryptDecrypt.decryptWord(rs.getString("CHALLENGE_ANSWER_3")));
+                list.setPR_ADDR_ID(rs.getString("PR_ADDR_ID"));
+                list.setPR_CON_ID(rs.getString("PR_CON_ID"));
+                list.setPR_PHONE_ID(rs.getString("PR_PHONE_ID"));
+                list.setSTATUS_CD(this.LookupValue("USER_STATUS", rs.getString("STATUS_CD")));
+
+                result.add(list);
+                count++;
+            }
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + query);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
+
+            rs.close();
+            if(!super.isConnectionOpen()){
                 closeConnection("Dados de Usuários retornados com sucesso...");
             }
         } catch (HeadlessException | SQLException e){
@@ -973,47 +1085,50 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryPositionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Tabela: " + super.getTblPosition());
         
         try{
-            if("true".equals(openConnection("Buscando Registros de usuários..."))){
-                super.statement = super.conn.createStatement();
-                tempoInicial = System.currentTimeMillis();
-                ResultSet rs = super.statement.executeQuery(query);
-                
-                while(rs.next()){
-                    PositionClass list = new PositionClass();
-                    
-                    list.setRow_id(rs.getString("ROW_ID"));
-                    if(!"".equals(rs.getString("CREATED")) && rs.getString("CREATED") != null) {
-                        list.setCreated(rs.getString("CREATED").substring(8, 10) + "/" + rs.getString("CREATED").substring(5, 7) + "/" + rs.getString("CREATED").substring(0, 4));
-                    }
-                    list.setCreated_by(rs.getString("CREATED_BY"));
-                    if(!"".equals(rs.getString("LAST_UPD")) && rs.getString("LAST_UPD") != null) {
-                        list.setUpdated(rs.getString("LAST_UPD").substring(8, 10) + "/" + rs.getString("LAST_UPD").substring(5, 7) + "/" + rs.getString("LAST_UPD").substring(0, 4));
-                    }
-                    list.setUpdated_by(rs.getString("LAST_UPD_BY"));
-                    list.setModification_num(rs.getString("MODIFICATION_NUM"));
-                    list.setPar_row_id(rs.getString("PAR_ROW_ID"));
-                    if(!"".equals(rs.getString("DB_LAST_UPD")) && rs.getString("DB_LAST_UPD") != null) {
-                        list.setDb_last_upd(rs.getString("DB_LAST_UPD").substring(8, 10) + "/" + rs.getString("DB_LAST_UPD").substring(5, 7) + "/" + rs.getString("DB_LAST_UPD").substring(0, 4));
-                    }
-                    list.setNAME(rs.getString("NAME"));
-                    list.setPOSTN_TYPE_CD(rs.getString("POSTN_TYPE_CD"));
-                    list.setDESC_TEXT(rs.getString("DESC_TEXT"));
-                    list.setPAR_POSTN_ID(rs.getString("PAR_POSTN_ID"));
-                    
-                    result.add(list);
-                    count++;
+            if(!super.isConnectionOpen()){
+                openConnection("Buscando Registros de usuários...");
+            }
+            super.statement = super.conn.createStatement();
+            tempoInicial = System.currentTimeMillis();
+            ResultSet rs = super.statement.executeQuery(query);
+
+            while(rs.next()){
+                PositionClass list = new PositionClass();
+
+                list.setRow_id(rs.getString("ROW_ID"));
+                if(!"".equals(rs.getString("CREATED")) && rs.getString("CREATED") != null) {
+                    list.setCreated(rs.getString("CREATED").substring(8, 10) + "/" + rs.getString("CREATED").substring(5, 7) + "/" + rs.getString("CREATED").substring(0, 4));
                 }
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryPositionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + query);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryPositionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryPositionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryPositionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryPositionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryPositionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
-                
-                rs.close();
+                list.setCreated_by(rs.getString("CREATED_BY"));
+                if(!"".equals(rs.getString("LAST_UPD")) && rs.getString("LAST_UPD") != null) {
+                    list.setUpdated(rs.getString("LAST_UPD").substring(8, 10) + "/" + rs.getString("LAST_UPD").substring(5, 7) + "/" + rs.getString("LAST_UPD").substring(0, 4));
+                }
+                list.setUpdated_by(rs.getString("LAST_UPD_BY"));
+                list.setModification_num(rs.getString("MODIFICATION_NUM"));
+                list.setPar_row_id(rs.getString("PAR_ROW_ID"));
+                if(!"".equals(rs.getString("DB_LAST_UPD")) && rs.getString("DB_LAST_UPD") != null) {
+                    list.setDb_last_upd(rs.getString("DB_LAST_UPD").substring(8, 10) + "/" + rs.getString("DB_LAST_UPD").substring(5, 7) + "/" + rs.getString("DB_LAST_UPD").substring(0, 4));
+                }
+                list.setNAME(rs.getString("NAME"));
+                list.setPOSTN_TYPE_CD(rs.getString("POSTN_TYPE_CD"));
+                list.setDESC_TEXT(rs.getString("DESC_TEXT"));
+                list.setPAR_POSTN_ID(rs.getString("PAR_POSTN_ID"));
+
+                result.add(list);
+                count++;
+            }
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryPositionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + query);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryPositionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryPositionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryPositionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryPositionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryPositionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
+
+            rs.close();
+            if(!super.isConnectionOpen()){
                 closeConnection("Dados de Usuários retornados com sucesso...");
             }
         } catch (HeadlessException | SQLException e){
@@ -1026,7 +1141,7 @@ public abstract class DataController extends Controller{
     }
     
     @Override
-    public ArrayList<PositionPerClass> queryPositionPerRecord(String query){
+    public ArrayList<PositionPerClass> queryPostnPermissionRecord(String query){
         ArrayList<PositionPerClass> result = new ArrayList<>();
         int count = 0;
         long tempoInicial = 0;
@@ -1038,49 +1153,52 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserPermitionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Tabela: " + super.getTblPositionPermition());
         
         try{
-            if("true".equals(openConnection("Buscando Registros de usuários..."))){
-                super.statement = super.conn.createStatement();
-                tempoInicial = System.currentTimeMillis();
-                ResultSet rs = super.statement.executeQuery(query);
-                
-                while(rs.next()){
-                    PositionPerClass list = new PositionPerClass();
-                    
-                    list.setRow_id(rs.getString("ROW_ID"));
-                    if(!"".equals(rs.getString("CREATED")) && rs.getString("CREATED") != null) {
-                        list.setCreated(rs.getString("CREATED").substring(8, 10) + "/" + rs.getString("CREATED").substring(5, 7) + "/" + rs.getString("CREATED").substring(0, 4));
-                    }
-                    list.setCreated_by(rs.getString("CREATED_BY"));
-                    if(!"".equals(rs.getString("LAST_UPD")) && rs.getString("LAST_UPD") != null) {
-                        list.setUpdated(rs.getString("LAST_UPD").substring(8, 10) + "/" + rs.getString("LAST_UPD").substring(5, 7) + "/" + rs.getString("LAST_UPD").substring(0, 4));
-                    }
-                    list.setUpdated_by(rs.getString("LAST_UPD_BY"));
-                    list.setModification_num(rs.getString("MODIFICATION_NUM"));
-                    list.setPar_row_id(rs.getString("PAR_ROW_ID"));
-                    if(!"".equals(rs.getString("DB_LAST_UPD")) && rs.getString("DB_LAST_UPD") != null) {
-                        list.setDb_last_upd(rs.getString("DB_LAST_UPD").substring(8, 10) + "/" + rs.getString("DB_LAST_UPD").substring(5, 7) + "/" + rs.getString("DB_LAST_UPD").substring(0, 4));
-                    }
-                    list.setPERMITION_NAME(rs.getString("PERMITION_NAME"));
-                    list.setPERMITION_VALUE(rs.getString("PERMITION_VALUE"));
-                    list.setPERMITION_FLG(rs.getString("PERMITION_FLG"));
-                    list.setPERMITION_DESC(rs.getString("PERMITION_DESC"));
-                    list.setORDER_BY(rs.getString("ORDER_BY"));
-                    list.setCOMMENTS(rs.getString("COMMENTS"));                  
-                    
-                    result.add(list);
-                    count++;
+            if(!super.isConnectionOpen()){
+                openConnection("Buscando Registros de usuários...");
+            }
+            super.statement = super.conn.createStatement();
+            tempoInicial = System.currentTimeMillis();
+            ResultSet rs = super.statement.executeQuery(query);
+
+            while(rs.next()){
+                PositionPerClass list = new PositionPerClass();
+
+                list.setRow_id(rs.getString("ROW_ID"));
+                if(!"".equals(rs.getString("CREATED")) && rs.getString("CREATED") != null) {
+                    list.setCreated(rs.getString("CREATED").substring(8, 10) + "/" + rs.getString("CREATED").substring(5, 7) + "/" + rs.getString("CREATED").substring(0, 4));
                 }
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserPermitionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + query);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserPermitionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserPermitionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserPermitionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserPermitionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserPermitionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
-                
-                rs.close();
+                list.setCreated_by(rs.getString("CREATED_BY"));
+                if(!"".equals(rs.getString("LAST_UPD")) && rs.getString("LAST_UPD") != null) {
+                    list.setUpdated(rs.getString("LAST_UPD").substring(8, 10) + "/" + rs.getString("LAST_UPD").substring(5, 7) + "/" + rs.getString("LAST_UPD").substring(0, 4));
+                }
+                list.setUpdated_by(rs.getString("LAST_UPD_BY"));
+                list.setModification_num(rs.getString("MODIFICATION_NUM"));
+                list.setPar_row_id(rs.getString("PAR_ROW_ID"));
+                if(!"".equals(rs.getString("DB_LAST_UPD")) && rs.getString("DB_LAST_UPD") != null) {
+                    list.setDb_last_upd(rs.getString("DB_LAST_UPD").substring(8, 10) + "/" + rs.getString("DB_LAST_UPD").substring(5, 7) + "/" + rs.getString("DB_LAST_UPD").substring(0, 4));
+                }
+                list.setPERMITION_NAME(rs.getString("PERMITION_NAME"));
+                list.setPERMITION_VALUE(rs.getString("PERMITION_VALUE"));
+                list.setPERMITION_FLG(rs.getString("PERMITION_FLG"));
+                list.setPERMITION_DESC(rs.getString("PERMITION_DESC"));
+                list.setORDER_BY(rs.getString("ORDER_BY"));
+                list.setCOMMENTS(rs.getString("COMMENTS"));                  
+
+                result.add(list);
+                count++;
+            }
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserPermitionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + query);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserPermitionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserPermitionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserPermitionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserPermitionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserPermitionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
+
+            rs.close();
+            if(!super.isConnectionOpen()){
                 closeConnection("Dados de Usuários retornados com sucesso...");
             }
         } catch (HeadlessException | SQLException e){
@@ -1105,66 +1223,69 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryAddressRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Tabela: " + super.getTblAddress());
         
         try{
-            if("true".equals(openConnection("Buscando Registros de usuários..."))){
-                super.statement = super.conn.createStatement();
-                tempoInicial = System.currentTimeMillis();
-                ResultSet rs = super.statement.executeQuery(query);
-                
-                while(rs.next()){
-                    AddressClass list = new AddressClass();
-                    
-                    list.setRow_id(rs.getString("ROW_ID"));
-                    if(!"".equals(rs.getString("CREATED")) && rs.getString("CREATED") != null) {
-                        list.setCreated(rs.getString("CREATED").substring(8, 10) + "/" + rs.getString("CREATED").substring(5, 7) + "/" + rs.getString("CREATED").substring(0, 4));
-                    }
-                    list.setCreated_by(rs.getString("CREATED_BY"));
-                    if(!"".equals(rs.getString("LAST_UPD")) && rs.getString("LAST_UPD") != null) {
-                        list.setUpdated(rs.getString("LAST_UPD").substring(8, 10) + "/" + rs.getString("LAST_UPD").substring(5, 7) + "/" + rs.getString("LAST_UPD").substring(0, 4));
-                    }
-                    list.setUpdated_by(rs.getString("LAST_UPD_BY"));
-                    list.setModification_num(rs.getString("MODIFICATION_NUM"));
-                    list.setPar_row_id(rs.getString("PAR_ROW_ID"));
-                    if(!"".equals(rs.getString("DB_LAST_UPD")) && rs.getString("DB_LAST_UPD") != null) {
-                        list.setDb_last_upd(rs.getString("DB_LAST_UPD").substring(8, 10) + "/" + rs.getString("DB_LAST_UPD").substring(5, 7) + "/" + rs.getString("DB_LAST_UPD").substring(0, 4));
-                    }
-                    list.setPAR_CON_ID(rs.getString("PAR_CON_ID"));
-                    list.setPAR_ADDR_ID(rs.getString("PAR_ADDR_ID"));
-                    list.setACTIVE_FLG(rs.getString("ACTIVE_FLG"));
-                    list.setPR_ADDR_FLG(rs.getString("PR_ADDR_FLG"));
-                    list.setZIPCODE(rs.getString("ZIPCODE"));
-                    list.setADDR_TYPE_CD(rs.getString("ADDR_TYPE_CD"));
-                    list.setADDR(rs.getString("ADDR"));
-                    list.setADDR_NUM(rs.getString("ADDR_NUM"));
-                    list.setNEIGHBORHOOD(rs.getString("NEIGHBORHOOD"));
-                    list.setX_ZONA(rs.getString("X_ZONA"));
-                    list.setCITY(rs.getString("CITY"));
-                    list.setSTATE(rs.getString("STATE"));
-                    list.setNATIONALITY(rs.getString("NATIONALITY"));
-                    list.setCOUNTRY(rs.getString("COUNTRY"));
-                    list.setCOUNTRY_CODE(rs.getString("COUNTRY_CODE"));
-                    list.setCOUNTRY_INITIAL(rs.getString("COUNTRY_INITIAL"));
-                    list.setPROPERTY_TYPE_CD(rs.getString("PROPERTY_TYPE_CD"));
-                    list.setADDR_LINE_2(rs.getString("ADDR_LINE_2"));
-                    list.setX_ANDAR(rs.getString("X_ANDAR"));
-                    list.setX_NUM_AP(rs.getString("X_NUM_AP"));
-                    list.setX_COD_BLOCO(rs.getString("X_COD_BLOCO"));
-                    list.setADDR_NAME(rs.getString("ADDR_NAME"));
-                    list.setCOMMENTS(rs.getString("COMMENTS"));
-                    
-                    result.add(list);
-                    count++;
+            if(!super.isConnectionOpen()){
+                openConnection("Buscando Registros de usuários...");
+            }
+            super.statement = super.conn.createStatement();
+            tempoInicial = System.currentTimeMillis();
+            ResultSet rs = super.statement.executeQuery(query);
+
+            while(rs.next()){
+                AddressClass list = new AddressClass();
+
+                list.setRow_id(rs.getString("ROW_ID"));
+                if(!"".equals(rs.getString("CREATED")) && rs.getString("CREATED") != null) {
+                    list.setCreated(rs.getString("CREATED").substring(8, 10) + "/" + rs.getString("CREATED").substring(5, 7) + "/" + rs.getString("CREATED").substring(0, 4));
                 }
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryAddressRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + query);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryAddressRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryAddressRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryAddressRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryAddressRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryAddressRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
-                
-                rs.close();
+                list.setCreated_by(rs.getString("CREATED_BY"));
+                if(!"".equals(rs.getString("LAST_UPD")) && rs.getString("LAST_UPD") != null) {
+                    list.setUpdated(rs.getString("LAST_UPD").substring(8, 10) + "/" + rs.getString("LAST_UPD").substring(5, 7) + "/" + rs.getString("LAST_UPD").substring(0, 4));
+                }
+                list.setUpdated_by(rs.getString("LAST_UPD_BY"));
+                list.setModification_num(rs.getString("MODIFICATION_NUM"));
+                list.setPar_row_id(rs.getString("PAR_ROW_ID"));
+                if(!"".equals(rs.getString("DB_LAST_UPD")) && rs.getString("DB_LAST_UPD") != null) {
+                    list.setDb_last_upd(rs.getString("DB_LAST_UPD").substring(8, 10) + "/" + rs.getString("DB_LAST_UPD").substring(5, 7) + "/" + rs.getString("DB_LAST_UPD").substring(0, 4));
+                }
+                list.setPAR_CON_ID(rs.getString("PAR_CON_ID"));
+                list.setPAR_ADDR_ID(rs.getString("PAR_ADDR_ID"));
+                list.setACTIVE_FLG(rs.getString("ACTIVE_FLG"));
+                list.setPR_ADDR_FLG(rs.getString("PR_ADDR_FLG"));
+                list.setZIPCODE(rs.getString("ZIPCODE"));
+                list.setADDR_TYPE_CD(rs.getString("ADDR_TYPE_CD"));
+                list.setADDR(rs.getString("ADDR"));
+                list.setADDR_NUM(rs.getString("ADDR_NUM"));
+                list.setNEIGHBORHOOD(rs.getString("NEIGHBORHOOD"));
+                list.setX_ZONA(rs.getString("X_ZONA"));
+                list.setCITY(rs.getString("CITY"));
+                list.setSTATE(rs.getString("STATE"));
+                list.setNATIONALITY(rs.getString("NATIONALITY"));
+                list.setCOUNTRY(rs.getString("COUNTRY"));
+                list.setCOUNTRY_CODE(rs.getString("COUNTRY_CODE"));
+                list.setCOUNTRY_INITIAL(rs.getString("COUNTRY_INITIAL"));
+                list.setPROPERTY_TYPE_CD(rs.getString("PROPERTY_TYPE_CD"));
+                list.setADDR_LINE_2(rs.getString("ADDR_LINE_2"));
+                list.setX_ANDAR(rs.getString("X_ANDAR"));
+                list.setX_NUM_AP(rs.getString("X_NUM_AP"));
+                list.setX_COD_BLOCO(rs.getString("X_COD_BLOCO"));
+                list.setADDR_NAME(rs.getString("ADDR_NAME"));
+                list.setCOMMENTS(rs.getString("COMMENTS"));
+
+                result.add(list);
+                count++;
+            }
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryAddressRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + query);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryAddressRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryAddressRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryAddressRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryAddressRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryAddressRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
+
+            rs.close();
+            if(!super.isConnectionOpen()){
                 closeConnection("Dados de Usuários retornados com sucesso...");
             }
         } catch (HeadlessException | SQLException e){
@@ -1189,92 +1310,95 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryContactRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Tabela: " + super.getTblContact());
         
         try{
-            if("true".equals(openConnection("Buscando Registros de usuários..."))){
-                super.statement = super.conn.createStatement();
-                tempoInicial = System.currentTimeMillis();
-                ResultSet rs = super.statement.executeQuery(query);
-                
-                while(rs.next()){
-                    ContactClass list = new ContactClass();
-                    
-                    list.setRow_id(rs.getString("ROW_ID"));
-                    if(!"".equals(rs.getString("CREATED")) && rs.getString("CREATED") != null) {
-                        list.setCreated(rs.getString("CREATED").substring(8, 10) + "/" + rs.getString("CREATED").substring(5, 7) + "/" + rs.getString("CREATED").substring(0, 4));
-                    }
-                    list.setCreated_by(rs.getString("CREATED_BY"));
-                    if(!"".equals(rs.getString("LAST_UPD")) && rs.getString("LAST_UPD") != null) {
-                        list.setUpdated(rs.getString("LAST_UPD").substring(8, 10) + "/" + rs.getString("LAST_UPD").substring(5, 7) + "/" + rs.getString("LAST_UPD").substring(0, 4));
-                    }
-                    list.setUpdated_by(rs.getString("LAST_UPD_BY"));
-                    list.setModification_num(rs.getString("MODIFICATION_NUM"));
-                    list.setPar_row_id(rs.getString("PAR_ROW_ID"));
-                    if(!"".equals(rs.getString("DB_LAST_UPD")) && rs.getString("DB_LAST_UPD") != null) {
-                        list.setDb_last_upd(rs.getString("DB_LAST_UPD").substring(8, 10) + "/" + rs.getString("DB_LAST_UPD").substring(5, 7) + "/" + rs.getString("DB_LAST_UPD").substring(0, 4));
-                    }
-                    list.setACTIVE_FLG(rs.getString("ACTIVE_FLG"));                    
-                    list.setPAR_USR_ID(rs.getString("PAR_USR_ID"));
-                    list.setPR_CON_FLG(rs.getString("PR_CON_FLG"));
-                    list.setEMP_FLG(rs.getString("EMP_FLG"));                    
-                    list.setDOC_TYPE(rs.getString("DOC_TYPE"));
-                    list.setDOC_NUM(rs.getString("DOC_NUM"));
-                    list.setALIAS_NAME(rs.getString("ALIAS_NAME"));
-                    list.setNOME_FANTASIA(rs.getString("NOME_FANTASIA"));
-                    list.setFST_NAME(rs.getString("FST_NAME"));
-                    list.setLAST_NAME(rs.getString("LAST_NAME"));
-                    list.setFULL_NAME(rs.getString("FULL_NAME"));
-                    list.setNICK_NAME(rs.getString("NICK_NAME"));
-                    list.setAGE(rs.getString("AGE"));
-                    if(!"".equals(rs.getString("BIRTH_DT")) && rs.getString("BIRTH_DT") != null) {
-                        list.setBIRTH_DT(rs.getString("BIRTH_DT").substring(8, 10) + "/" + rs.getString("BIRTH_DT").substring(5, 7) + "/" + rs.getString("BIRTH_DT").substring(0, 4));
-                    }
-                    list.setPLACE_OF_BIRTH(rs.getString("PLACE_OF_BIRTH"));
-                    list.setSEX_MF(rs.getString("SEX_MF"));
-                    list.setMARITAL_STAT_CD(rs.getString("MARITAL_STAT_CD"));
-                    list.setNAME_CONJUGE(rs.getString("NAME_CONJUGE"));
-                    list.setMOTHER_FULL_NAME(rs.getString("MOTHER_FULL_NAME"));
-                    list.setFATHER_FULL_NAME(rs.getString("FATHER_FULL_NAME"));
-                    list.setPOTENTIAL_FLG(rs.getString("POTENTIAL_FLG"));
-                    list.setSUPPRESS_EMAIL_FLG(rs.getString("SUPPRESS_EMAIL_FLG"));
-                    list.setENTERPRISE_FLAG(rs.getString("ENTERPRISE_FLAG"));
-                    list.setRELATIONSHIP_TYPE(rs.getString("RELATIONSHIP_TYPE"));
-                    list.setMEMBER_FLG(rs.getString("MEMBER_FLG"));
-                    list.setSEND_NEWS_FLG(rs.getString("SEND_NEWS_FLG"));
-                    list.setSEND_PROMOTES_FLG(rs.getString("SEND_PROMOTES_FLG"));
-                    list.setSUPPRESS_CALL_FLG(rs.getString("SUPPRESS_CALL_FLG"));
-                    list.setCONSUMER_FLG(rs.getString("CONSUMER_FLG"));
-                    list.setMAIN_PH_NUM(rs.getString("MAIN_PH_NUM"));
-                    list.setALT_PH_NUM(rs.getString("ALT_PH_NUM"));
-                    list.setWORK_PH_NUM(rs.getString("WORK_PH_NUM"));
-                    list.setASST_PH_NUM(rs.getString("ASST_PH_NUM"));
-                    list.setFAX_PH_NUM(rs.getString("FAX_PH_NUM"));
-                    list.setCALL_FREQUENCY(rs.getString("CALL_FREQUENCY"));
-                    list.setCREATOR_LOGIN(rs.getString("CREATOR_LOGIN"));
-                    list.setEMAIL_TYPE(rs.getString("EMAIL_TYPE"));
-                    list.setEMAIL_ADDR(rs.getString("EMAIL_ADDR"));
-                    list.setSITE_ADDR(rs.getString("SITE_ADDR"));
-                    list.setWHATSAPP_FLG(rs.getString("WHATSAPP_FLG"));
-                    list.setLOGIN(rs.getString("LOGIN"));
-                    list.setOCCUPATION(rs.getString("OCCUPATION"));
-                    list.setPASSWORD(rs.getString("PASSWORD"));
-                    list.setPR_CON_ADDR_ID(rs.getString("PR_CON_ADDR_ID"));
-                    list.setPR_EMAIL_ADDR_ID(rs.getString("PR_EMAIL_ADDR_ID"));
-                    list.setPR_ADDR_ID(rs.getString("PR_ADDR_ID"));
-                    list.setSTATUS_CD(rs.getString("STATUS_CD"));
-                    
-                    result.add(list);
-                    count++;
+            if(!super.isConnectionOpen()){
+                openConnection("Buscando Registros de usuários...");
+            }
+            super.statement = super.conn.createStatement();
+            tempoInicial = System.currentTimeMillis();
+            ResultSet rs = super.statement.executeQuery(query);
+
+            while(rs.next()){
+                ContactClass list = new ContactClass();
+
+                list.setRow_id(rs.getString("ROW_ID"));
+                if(!"".equals(rs.getString("CREATED")) && rs.getString("CREATED") != null) {
+                    list.setCreated(rs.getString("CREATED").substring(8, 10) + "/" + rs.getString("CREATED").substring(5, 7) + "/" + rs.getString("CREATED").substring(0, 4));
                 }
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryContactRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + query);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryContactRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryContactRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryContactRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryContactRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryContactRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
-                
-                rs.close();
+                list.setCreated_by(rs.getString("CREATED_BY"));
+                if(!"".equals(rs.getString("LAST_UPD")) && rs.getString("LAST_UPD") != null) {
+                    list.setUpdated(rs.getString("LAST_UPD").substring(8, 10) + "/" + rs.getString("LAST_UPD").substring(5, 7) + "/" + rs.getString("LAST_UPD").substring(0, 4));
+                }
+                list.setUpdated_by(rs.getString("LAST_UPD_BY"));
+                list.setModification_num(rs.getString("MODIFICATION_NUM"));
+                list.setPar_row_id(rs.getString("PAR_ROW_ID"));
+                if(!"".equals(rs.getString("DB_LAST_UPD")) && rs.getString("DB_LAST_UPD") != null) {
+                    list.setDb_last_upd(rs.getString("DB_LAST_UPD").substring(8, 10) + "/" + rs.getString("DB_LAST_UPD").substring(5, 7) + "/" + rs.getString("DB_LAST_UPD").substring(0, 4));
+                }
+                list.setACTIVE_FLG(rs.getString("ACTIVE_FLG"));                    
+                list.setPAR_USR_ID(rs.getString("PAR_USR_ID"));
+                list.setPR_CON_FLG(rs.getString("PR_CON_FLG"));
+                list.setEMP_FLG(rs.getString("EMP_FLG"));                    
+                list.setDOC_TYPE(rs.getString("DOC_TYPE"));
+                list.setDOC_NUM(rs.getString("DOC_NUM"));
+                list.setALIAS_NAME(rs.getString("ALIAS_NAME"));
+                list.setNOME_FANTASIA(rs.getString("NOME_FANTASIA"));
+                list.setFST_NAME(rs.getString("FST_NAME"));
+                list.setLAST_NAME(rs.getString("LAST_NAME"));
+                list.setFULL_NAME(rs.getString("FULL_NAME"));
+                list.setNICK_NAME(rs.getString("NICK_NAME"));
+                list.setAGE(rs.getString("AGE"));
+                if(!"".equals(rs.getString("BIRTH_DT")) && rs.getString("BIRTH_DT") != null) {
+                    list.setBIRTH_DT(rs.getString("BIRTH_DT").substring(8, 10) + "/" + rs.getString("BIRTH_DT").substring(5, 7) + "/" + rs.getString("BIRTH_DT").substring(0, 4));
+                }
+                list.setPLACE_OF_BIRTH(rs.getString("PLACE_OF_BIRTH"));
+                list.setSEX_MF(rs.getString("SEX_MF"));
+                list.setMARITAL_STAT_CD(rs.getString("MARITAL_STAT_CD"));
+                list.setNAME_CONJUGE(rs.getString("NAME_CONJUGE"));
+                list.setMOTHER_FULL_NAME(rs.getString("MOTHER_FULL_NAME"));
+                list.setFATHER_FULL_NAME(rs.getString("FATHER_FULL_NAME"));
+                list.setPOTENTIAL_FLG(rs.getString("POTENTIAL_FLG"));
+                list.setSUPPRESS_EMAIL_FLG(rs.getString("SUPPRESS_EMAIL_FLG"));
+                list.setENTERPRISE_FLAG(rs.getString("ENTERPRISE_FLAG"));
+                list.setRELATIONSHIP_TYPE(rs.getString("RELATIONSHIP_TYPE"));
+                list.setMEMBER_FLG(rs.getString("MEMBER_FLG"));
+                list.setSEND_NEWS_FLG(rs.getString("SEND_NEWS_FLG"));
+                list.setSEND_PROMOTES_FLG(rs.getString("SEND_PROMOTES_FLG"));
+                list.setSUPPRESS_CALL_FLG(rs.getString("SUPPRESS_CALL_FLG"));
+                list.setCONSUMER_FLG(rs.getString("CONSUMER_FLG"));
+                list.setMAIN_PH_NUM(rs.getString("MAIN_PH_NUM"));
+                list.setALT_PH_NUM(rs.getString("ALT_PH_NUM"));
+                list.setWORK_PH_NUM(rs.getString("WORK_PH_NUM"));
+                list.setASST_PH_NUM(rs.getString("ASST_PH_NUM"));
+                list.setFAX_PH_NUM(rs.getString("FAX_PH_NUM"));
+                list.setCALL_FREQUENCY(rs.getString("CALL_FREQUENCY"));
+                list.setCREATOR_LOGIN(rs.getString("CREATOR_LOGIN"));
+                list.setEMAIL_TYPE(rs.getString("EMAIL_TYPE"));
+                list.setEMAIL_ADDR(rs.getString("EMAIL_ADDR"));
+                list.setSITE_ADDR(rs.getString("SITE_ADDR"));
+                list.setWHATSAPP_FLG(rs.getString("WHATSAPP_FLG"));
+                list.setLOGIN(rs.getString("LOGIN"));
+                list.setOCCUPATION(rs.getString("OCCUPATION"));
+                list.setPASSWORD(rs.getString("PASSWORD"));
+                list.setPR_CON_ADDR_ID(rs.getString("PR_CON_ADDR_ID"));
+                list.setPR_EMAIL_ADDR_ID(rs.getString("PR_EMAIL_ADDR_ID"));
+                list.setPR_ADDR_ID(rs.getString("PR_ADDR_ID"));
+                list.setSTATUS_CD(rs.getString("STATUS_CD"));
+
+                result.add(list);
+                count++;
+            }
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryContactRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + query);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryContactRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryContactRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryContactRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryContactRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryContactRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
+
+            rs.close();
+            if(!super.isConnectionOpen()){
                 closeConnection("Dados de Usuários retornados com sucesso...");
             }
         } catch (HeadlessException | SQLException e){
@@ -1299,49 +1423,52 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QuerySocialMediaRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Tabela: " + super.getTblSocialMedia());
         
         try{
-            if("true".equals(openConnection("Buscando Registros de Redes Sociais"))){
-                super.statement = super.conn.createStatement();
-                tempoInicial = System.currentTimeMillis();
-                ResultSet rs = super.statement.executeQuery(query);
-                
-                while(rs.next()){
-                    SocialMediaClass list = new SocialMediaClass();
-                    
-                    list.setRow_id(rs.getString("ROW_ID"));
-                    if(!"".equals(rs.getString("CREATED")) && rs.getString("CREATED") != null) {
-                        list.setCreated(rs.getString("CREATED").substring(8, 10) + "/" + rs.getString("CREATED").substring(5, 7) + "/" + rs.getString("CREATED").substring(0, 4));
-                    }
-                    list.setCreated_by(rs.getString("CREATED_BY"));
-                    if(!"".equals(rs.getString("LAST_UPD")) && rs.getString("LAST_UPD") != null) {
-                        list.setUpdated(rs.getString("LAST_UPD").substring(8, 10) + "/" + rs.getString("LAST_UPD").substring(5, 7) + "/" + rs.getString("LAST_UPD").substring(0, 4));
-                    }
-                    list.setUpdated_by(rs.getString("LAST_UPD_BY"));
-                    list.setModification_num(rs.getString("MODIFICATION_NUM"));
-                    list.setPar_row_id(rs.getString("PAR_ROW_ID"));
-                    if(!"".equals(rs.getString("DB_LAST_UPD")) && rs.getString("DB_LAST_UPD") != null) {
-                        list.setDb_last_upd(rs.getString("DB_LAST_UPD").substring(8, 10) + "/" + rs.getString("DB_LAST_UPD").substring(5, 7) + "/" + rs.getString("DB_LAST_UPD").substring(0, 4));
-                    }
-                    list.setACTIVE_FLG(rs.getString("ACTIVE_FLG"));                    
-                    list.setPAR_USR_ID(rs.getString("PAR_USR_ID"));
-                    list.setPAR_ACCNT_ID(rs.getString("PAR_ACCNT_ID"));
-                    list.setSOCIAL_M_NAME(rs.getString("SOCIAL_M_NAME"));                    
-                    list.setSOCIAL_M_VALUE(rs.getString("SOCIAL_M_VALUE"));
-                    list.setSTATUS_CD(rs.getString("STATUS_CD"));
-                    
-                    result.add(list);
-                    count++;
+            if(!super.isConnectionOpen()){
+                openConnection("Buscando Registros de Redes Sociais");
+            }
+            super.statement = super.conn.createStatement();
+            tempoInicial = System.currentTimeMillis();
+            ResultSet rs = super.statement.executeQuery(query);
+
+            while(rs.next()){
+                SocialMediaClass list = new SocialMediaClass();
+
+                list.setRow_id(rs.getString("ROW_ID"));
+                if(!"".equals(rs.getString("CREATED")) && rs.getString("CREATED") != null) {
+                    list.setCreated(rs.getString("CREATED").substring(8, 10) + "/" + rs.getString("CREATED").substring(5, 7) + "/" + rs.getString("CREATED").substring(0, 4));
                 }
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QuerySocialMediaRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + query);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QuerySocialMediaRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QuerySocialMediaRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QuerySocialMediaRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QuerySocialMediaRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QuerySocialMediaRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
-                
-                rs.close();
+                list.setCreated_by(rs.getString("CREATED_BY"));
+                if(!"".equals(rs.getString("LAST_UPD")) && rs.getString("LAST_UPD") != null) {
+                    list.setUpdated(rs.getString("LAST_UPD").substring(8, 10) + "/" + rs.getString("LAST_UPD").substring(5, 7) + "/" + rs.getString("LAST_UPD").substring(0, 4));
+                }
+                list.setUpdated_by(rs.getString("LAST_UPD_BY"));
+                list.setModification_num(rs.getString("MODIFICATION_NUM"));
+                list.setPar_row_id(rs.getString("PAR_ROW_ID"));
+                if(!"".equals(rs.getString("DB_LAST_UPD")) && rs.getString("DB_LAST_UPD") != null) {
+                    list.setDb_last_upd(rs.getString("DB_LAST_UPD").substring(8, 10) + "/" + rs.getString("DB_LAST_UPD").substring(5, 7) + "/" + rs.getString("DB_LAST_UPD").substring(0, 4));
+                }
+                list.setACTIVE_FLG(rs.getString("ACTIVE_FLG"));                    
+                list.setPAR_USR_ID(rs.getString("PAR_USR_ID"));
+                list.setPAR_ACCNT_ID(rs.getString("PAR_ACCNT_ID"));
+                list.setSOCIAL_M_NAME(rs.getString("SOCIAL_M_NAME"));                    
+                list.setSOCIAL_M_VALUE(rs.getString("SOCIAL_M_VALUE"));
+                list.setSTATUS_CD(rs.getString("STATUS_CD"));
+
+                result.add(list);
+                count++;
+            }
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QuerySocialMediaRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + query);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QuerySocialMediaRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QuerySocialMediaRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QuerySocialMediaRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QuerySocialMediaRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QuerySocialMediaRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
+
+            rs.close();
+            if(!super.isConnectionOpen()){
                 closeConnection("Dados de Usuários retornados com sucesso...");
             }
         } catch (HeadlessException | SQLException e){
@@ -1366,33 +1493,40 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetNextRowId" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Tabela: " + super.getTblSSAId());
         
         try{
-            if("true".equals(openConnection("Buscando proximo ROW_ID"))){
-                statement = conn.createStatement();
-                
-                tempoInicial = System.currentTimeMillis();
-                ResultSet rs = statement.executeQuery("SELECT\n\tP_NEXT_ID\nFROM " + super.getDbOwner() + "." + super.getTblSSAId() + "\nWHERE ROW_ID = '0-1'");
-                
-                while(rs.next()){
-                    row_id = rs.getString("P_NEXT_ID");
-                    count++;
+            if(!super.isConnectionOpen()){
+                if(!"true".equals(openConnection("Buscando proximo ROW_ID"))){
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetNextRowId" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tP_NEXT_ID\nFROM " + super.getDbOwner() + "." + super.getTblSSAId() + "\nWHERE ROW_ID = '0-1'");
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetNextRowId" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar ROW_ID");
+                    JOptionPane.showMessageDialog(null, "Erro ao buscar ROW_ID!");
+                    return "";
                 }
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetNextRowId" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tP_NEXT_ID\nFROM " + super.getDbOwner() + "." + super.getTblSSAId() + "\nWHERE ROW_ID = '0-1'");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetNextRowId" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetNextRowId" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetNextRowId" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetNextRowId" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetNextRowId" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
-                
-                rs.close();
-                closeConnection("ROW_ID: '" + row_id + "' encontrado com sucesso");
-            } else {
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetNextRowId" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tP_NEXT_ID\nFROM " + super.getDbOwner() + "." + super.getTblSSAId() + "\nWHERE ROW_ID = '0-1'");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetNextRowId" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar ROW_ID");
-                JOptionPane.showMessageDialog(null, "Erro ao buscar ROW_ID!");
             }
+            
+            statement = conn.createStatement();
+
+            tempoInicial = System.currentTimeMillis();
+            ResultSet rs = statement.executeQuery("SELECT\n\tP_NEXT_ID\nFROM " + super.getDbOwner() + "." + super.getTblSSAId() + "\nWHERE ROW_ID = '0-1'");
+
+            while(rs.next()){
+                row_id = rs.getString("P_NEXT_ID");
+                count++;
+            }
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetNextRowId" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tP_NEXT_ID\nFROM " + super.getDbOwner() + "." + super.getTblSSAId() + "\nWHERE ROW_ID = '0-1'");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetNextRowId" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetNextRowId" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetNextRowId" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetNextRowId" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetNextRowId" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
+
+            rs.close();
+            
+            if(!super.isConnectionOpen()){
+                closeConnection("ROW_ID: '" + row_id + "' encontrado com sucesso");
+            }
+            
         } catch (HeadlessException | SQLException e){
             System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetNextRowId" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tP_NEXT_ID\nFROM " + super.getDbOwner() + "." + super.getTblSSAId() + "\nWHERE ROW_ID = '0-1'");
             System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetNextRowId" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + e);
@@ -1415,32 +1549,37 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "getConnectedUserId" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Tabela: " + super.getTblUser());
         
         try{
-            if("true".equals(openConnection("Buscando Id do usuário..."))){
-                statement = conn.createStatement();
-                
-                tempoInicial = System.currentTimeMillis();
-                ResultSet rs = statement.executeQuery("SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblUser() + "\nWHERE LOGIN = '" + super.getDbUser() + "'");
-                
-                while(rs.next()){
-                    row_id = rs.getString("ROW_ID");
-                    count++;
+            if(!super.isConnectionOpen()){
+                if(!"true".equals(openConnection("Buscando Id do usuário..."))){
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "getConnectedUserId" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblUser() + "\nWHERE LOGIN = '" + super.getDbUser() + "'");
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "getConnectedUserId" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar ROW_ID");
+                    JOptionPane.showMessageDialog(null, "Erro ao buscar ROW_ID!");
+                    return "";
                 }
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "getConnectedUserId" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblUser() + "\nWHERE LOGIN = '" + super.getDbUser() + "'");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "getConnectedUserId" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "getConnectedUserId" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "getConnectedUserId" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "getConnectedUserId" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "getConnectedUserId" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
-                
-                rs.close();
+            }
+            
+            statement = conn.createStatement();
+
+            tempoInicial = System.currentTimeMillis();
+            ResultSet rs = statement.executeQuery("SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblUser() + "\nWHERE LOGIN = '" + super.getDbUser() + "'");
+
+            while(rs.next()){
+                row_id = rs.getString("ROW_ID");
+                count++;
+            }
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "getConnectedUserId" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblUser() + "\nWHERE LOGIN = '" + super.getDbUser() + "'");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "getConnectedUserId" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "getConnectedUserId" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "getConnectedUserId" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "getConnectedUserId" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "getConnectedUserId" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
+
+            rs.close();
+            if(!super.isConnectionOpen()){
                 closeConnection("Id do usuário: '" + row_id + "' encontrado com sucesso");
-            } else {
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "getConnectedUserId" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblUser() + "\nWHERE LOGIN = '" + super.getDbUser() + "'");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "getConnectedUserId" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar ROW_ID");
-                JOptionPane.showMessageDialog(null, "Erro ao buscar ROW_ID!");
             }
         } catch (HeadlessException | SQLException e){
             System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "getConnectedUserId" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblUser() + "\nWHERE LOGIN = '" + super.getDbUser() + "'");
@@ -1464,32 +1603,37 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetUserIdByLogin" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Tabela: " + super.getTblUser());
         
         try{
-            if("true".equals(openConnection("Buscando Id do usuário..."))){
-                statement = conn.createStatement();
-                
-                tempoInicial = System.currentTimeMillis();
-                ResultSet rs = statement.executeQuery("SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblUser() + "\nWHERE LOGIN LIKE '" + login.toUpperCase() + "'");
-                
-                while(rs.next()){
-                    row_id = rs.getString("ROW_ID");
-                    count++;
+            if(!super.isConnectionOpen()){
+                if(!"true".equals(openConnection("Buscando Id do usuário..."))){
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetUserIdByLogin" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblUser() + "\nWHERE LOGIN = '" + super.getDbUser() + "'");
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetUserIdByLogin" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar ROW_ID");
+                    JOptionPane.showMessageDialog(null, "Erro ao buscar ROW_ID!");
+                    return "";
                 }
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetUserIdByLogin" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblUser() + "\nWHERE LOGIN LIKE '" + login.toUpperCase() + "'");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetUserIdByLogin" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetUserIdByLogin" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetUserIdByLogin" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetUserIdByLogin" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetUserIdByLogin" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
-                
-                rs.close();
+            }
+            
+            statement = conn.createStatement();
+
+            tempoInicial = System.currentTimeMillis();
+            ResultSet rs = statement.executeQuery("SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblUser() + "\nWHERE LOGIN LIKE '" + login.toUpperCase() + "'");
+
+            while(rs.next()){
+                row_id = rs.getString("ROW_ID");
+                count++;
+            }
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetUserIdByLogin" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblUser() + "\nWHERE LOGIN LIKE '" + login.toUpperCase() + "'");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetUserIdByLogin" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetUserIdByLogin" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetUserIdByLogin" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetUserIdByLogin" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetUserIdByLogin" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
+
+            rs.close();
+            if(!super.isConnectionOpen()){
                 closeConnection("Id do usuário: '" + row_id + "' encontrado com sucesso");
-            } else {
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetUserIdByLogin" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblUser() + "\nWHERE LOGIN = '" + super.getDbUser() + "'");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetUserIdByLogin" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar ROW_ID");
-                JOptionPane.showMessageDialog(null, "Erro ao buscar ROW_ID!");
             }
         } catch (HeadlessException | SQLException e){
             System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetUserIdByLogin" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblUser() + "\nWHERE LOGIN = '" + super.getDbUser() + "'");
@@ -1501,7 +1645,62 @@ public abstract class DataController extends Controller{
     }
     
     @Override
-    public String getPositionIdByName(String positionType) {
+    public String getPositionIdByType(String positionType) {
+        String row_id = null;
+        int count = 0;
+        long tempoInicial = 0;
+        long tempoFinal = 0;
+        long tempoExec = 0;
+        
+        System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByType" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "BEGIN: Preparando a instrução SELECT para buscar dados na tabela");
+        System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByType" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Owner: " + super.getDbOwner());
+        System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByType" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Tabela: " + super.getTblPosition());
+        
+        try{
+            if(!super.isConnectionOpen()){
+                if(!"true".equals(openConnection("Buscando Id do usuário..."))){
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByType" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblPosition() + "\nWHERE POSTN_TYPE_CD = '" + positionType + "'");
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByType" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar ROW_ID");
+                    JOptionPane.showMessageDialog(null, "Erro ao buscar ROW_ID!");
+                    return "";
+                }
+            }
+            
+            statement = conn.createStatement();
+
+            tempoInicial = System.currentTimeMillis();
+            ResultSet rs = statement.executeQuery("SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblPosition() + "\nWHERE POSTN_TYPE_CD = '" + positionType + "'");
+
+            while(rs.next()){
+                row_id = rs.getString("ROW_ID");
+                count++;
+            }
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByType" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblPosition() + "\nWHERE POSTN_TYPE_CD = '" + positionType + "'");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByType" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByType" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByType" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByType" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByType" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
+
+            rs.close();
+            
+            if(!super.isConnectionOpen()){
+                closeConnection("Position Id: '" + row_id + "' encontrado com sucesso");
+            }
+        } catch (HeadlessException | SQLException e){
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByType" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblPosition() + "\nWHERE POSTN_TYPE_CD = '" + positionType + "'");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByType" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + e);
+            System.out.println(e);
+        }
+        
+        return row_id;
+    }
+    
+    @Override
+    public String getPositionIdByName(String positionName) {
         String row_id = null;
         int count = 0;
         long tempoInicial = 0;
@@ -1513,35 +1712,41 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Tabela: " + super.getTblPosition());
         
         try{
-            if("true".equals(openConnection("Buscando Id do usuário..."))){
-                statement = conn.createStatement();
-                
-                tempoInicial = System.currentTimeMillis();
-                ResultSet rs = statement.executeQuery("SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblPosition() + "\nWHERE POSTN_TYPE_CD = '" + positionType + "'");
-                
-                while(rs.next()){
-                    row_id = rs.getString("ROW_ID");
-                    count++;
+            if(!super.isConnectionOpen()){
+                if(!"true".equals(openConnection("Buscando Id do usuário..."))){
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByName" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblPosition() + "\nWHERE POSTN_TYPE_CD = '" + positionName + "'");
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByName" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar ROW_ID");
+                    JOptionPane.showMessageDialog(null, "Erro ao buscar ROW_ID!");
+                    return "";
                 }
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByName" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblPosition() + "\nWHERE POSTN_TYPE_CD = '" + positionType + "'");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
-                
-                rs.close();
+            }
+            
+            statement = conn.createStatement();
+
+            tempoInicial = System.currentTimeMillis();
+            ResultSet rs = statement.executeQuery("SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblPosition() + "\nWHERE NAME = '" + positionName + "'");
+
+            while(rs.next()){
+                row_id = rs.getString("ROW_ID");
+                count++;
+            }
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByName" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblPosition() + "\nWHERE POSTN_TYPE_CD = '" + positionName + "'");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
+
+            rs.close();
+            
+            if(!super.isConnectionOpen()){
                 closeConnection("Position Id: '" + row_id + "' encontrado com sucesso");
-            } else {
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByName" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblPosition() + "\nWHERE POSTN_TYPE_CD = '" + positionType + "'");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByName" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar ROW_ID");
-                JOptionPane.showMessageDialog(null, "Erro ao buscar ROW_ID!");
             }
         } catch (HeadlessException | SQLException e){
-            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByName" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblPosition() + "\nWHERE POSTN_TYPE_CD = '" + positionType + "'");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByName" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tROW_ID\nFROM " + super.getDbOwner() + "." + super.getTblPosition() + "\nWHERE POSTN_TYPE_CD = '" + positionName + "'");
             System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "GetPositionIdByName" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + e);
             System.out.println(e);
         }
@@ -1562,38 +1767,42 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValueSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Tabela: " + super.getTblLstOfVal());
         
         try{
-            if("true".equals(openConnection("Buscando LookupValue usando Subtype"))){
-                statement = conn.createStatement();
-                tempoInicial = System.currentTimeMillis();
-                ResultSet rs = statement.executeQuery(
-                    "SELECT\n" +
-                    "\tLOV.VAL\n" +
-                    "FROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\n" +
-                    "WHERE " + super.getDbOwner() + ".TYPE = '" + type + "'\n" +
-                    "AND " + super.getDbOwner() + ".NAME = '" + name + "'\n" +
-                    "AND " + super.getDbOwner() + ".SUBTYPE = '" + subtype + "'"
-                );
-                
-                while(rs.next()){
-                    value = rs.getString("VAL");
-                    count++;
+            if(!super.isConnectionOpen()){
+                if(!"true".equals(openConnection("Buscando LookupValue usando Subtype"))){
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValueSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLOV.VAL\nFROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\nWHERE " + super.getDbOwner() + ".TYPE = '" + type + "'\nAND " + super.getDbOwner() + ".NAME = '" + name + "'\nAND " + super.getDbOwner() + ".SUBTYPE = '" + subtype + "'");
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValueSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar LOV Value");
+                    JOptionPane.showMessageDialog(null, "Erro ao buscar LOV Value!");
+                    return "";
                 }
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValueSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLOV.VAL\nFROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\nWHERE " + super.getDbOwner() + ".TYPE = '" + type + "'\nAND " + super.getDbOwner() + ".NAME = '" + name + "'\nAND " + super.getDbOwner() + ".SUBTYPE = '" + subtype + "'");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValueSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValueSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValueSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValueSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValueSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
-                
-                rs.close();
+            }
+            statement = conn.createStatement();
+            tempoInicial = System.currentTimeMillis();
+            ResultSet rs = statement.executeQuery(
+                "SELECT\n" +
+                "\tLOV.VAL\n" +
+                "FROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\n" +
+                "WHERE " + super.getDbOwner() + ".TYPE = '" + type + "'\n" +
+                "AND " + super.getDbOwner() + ".NAME = '" + name + "'\n" +
+                "AND " + super.getDbOwner() + ".SUBTYPE = '" + subtype + "'"
+            );
+
+            while(rs.next()){
+                value = rs.getString("VAL");
+                count++;
+            }
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValueSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLOV.VAL\nFROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\nWHERE " + super.getDbOwner() + ".TYPE = '" + type + "'\nAND " + super.getDbOwner() + ".NAME = '" + name + "'\nAND " + super.getDbOwner() + ".SUBTYPE = '" + subtype + "'");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValueSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValueSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValueSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValueSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValueSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
+
+            rs.close();
+            if(!super.isConnectionOpen()){
                 closeConnection("LookupValueSubtype - Type: '" + type + "', name: '" + name + "', subtype: '" + subtype + "', retornou o value: '" + value + "' com sucesso");
-            } else {
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValueSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLOV.VAL\nFROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\nWHERE " + super.getDbOwner() + ".TYPE = '" + type + "'\nAND " + super.getDbOwner() + ".NAME = '" + name + "'\nAND " + super.getDbOwner() + ".SUBTYPE = '" + subtype + "'");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValueSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar LOV Value");
-                JOptionPane.showMessageDialog(null, "Erro ao buscar LOV Value!");
             }
         } catch (HeadlessException | SQLException e){
             System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValueSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLOV.VAL\nFROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\nWHERE " + super.getDbOwner() + ".TYPE = '" + type + "'\nAND " + super.getDbOwner() + ".NAME = '" + name + "'\nAND " + super.getDbOwner() + ".SUBTYPE = '" + subtype + "'");
@@ -1617,38 +1826,42 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValue" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Tabela: " + super.getTblLstOfVal());
         
         try{
-            if("true".equals(openConnection("Buscando LookupValue '" + type + "'"))){
-                statement = conn.createStatement();
-                tempoInicial = System.currentTimeMillis();
-                ResultSet rs = statement.executeQuery(
-                    "SELECT\n" +
-                    "\tLOV.VAL\n" +
-                    "FROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\n" +
-                    "WHERE LOV.TYPE = '" + type + "'\n" +
-                    "AND LOV.NAME = '" + name + "'\n" +
-                    "ORDER BY LOV.ORDER_BY ASC"
-                );
-                
-                while(rs.next()){
-                    value = rs.getString("VAL");
-                    count++;
+            if(!super.isConnectionOpen()){
+                if(!"true".equals(openConnection("Buscando LookupValue '" + type + "'"))){
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValue" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLOV.VAL\nFROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\nWHERE LOV.TYPE = '" + type + "'\nAND LOV.NAME = '" + name + "'\nORDER BY LOV.ORDER_BY ASC");
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValue" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar LookupValue");
+                    JOptionPane.showMessageDialog(null, "Erro ao buscar LookupValue");
+                    return "";
                 }
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValue" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLOV.VAL\nFROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\nWHERE LOV.TYPE = '" + type + "'\nAND LOV.NAME = '" + name + "'\nORDER BY LOV.ORDER_BY ASC");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValue" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValue" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValue" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValue" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValue" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
-                
-                rs.close();
+            }
+            statement = conn.createStatement();
+            tempoInicial = System.currentTimeMillis();
+            ResultSet rs = statement.executeQuery(
+                "SELECT\n" +
+                "\tLOV.VAL\n" +
+                "FROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\n" +
+                "WHERE LOV.TYPE = '" + type + "'\n" +
+                "AND LOV.NAME = '" + name + "'\n" +
+                "ORDER BY LOV.ORDER_BY ASC"
+            );
+
+            while(rs.next()){
+                value = rs.getString("VAL");
+                count++;
+            }
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValue" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLOV.VAL\nFROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\nWHERE LOV.TYPE = '" + type + "'\nAND LOV.NAME = '" + name + "'\nORDER BY LOV.ORDER_BY ASC");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValue" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValue" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValue" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValue" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValue" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
+
+            rs.close();
+            if(!super.isConnectionOpen()){
                 closeConnection("LookupValue - Type: '" + type + "', name: '" + name + "', retornou o value: '" + value + "' com sucesso");
-            } else {
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValue" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLOV.VAL\nFROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\nWHERE LOV.TYPE = '" + type + "'\nAND LOV.NAME = '" + name + "'\nORDER BY LOV.ORDER_BY ASC");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValue" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar LookupValue");
-                JOptionPane.showMessageDialog(null, "Erro ao buscar LookupValue");
             }
         } catch (HeadlessException | SQLException e){
             System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupValue" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLOV.VAL\nFROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\nWHERE LOV.TYPE = '" + type + "'\nAND LOV.NAME = '" + name + "'\nORDER BY LOV.ORDER_BY ASC");
@@ -1672,38 +1885,42 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Tabela: " + super.getTblLstOfVal());
         
         try{
-            if("true".equals(openConnection("Buscando LookupName usando Subtype"))){
-                statement = conn.createStatement();
-                tempoInicial = System.currentTimeMillis();
-                ResultSet rs = statement.executeQuery(
-                    "SELECT\n" +
-                    "\tLOV.NAME\n" +
-                    "FROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\n" +
-                    "WHERE " + super.getDbOwner() + ".TYPE = '" + type + "'\n" +
-                    "AND " + super.getDbOwner() + ".VAL = '" + value + "'\n" +
-                    "AND " + super.getDbOwner() + ".SUBTYPE = '" + subtype + "'"
-                );
-                
-                while(rs.next()){
-                    name = rs.getString("NAME");
-                    count++;
+            if(!super.isConnectionOpen()){
+                if(!"true".equals(openConnection("Buscando LookupName usando Subtype"))){
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLOV.NAME\nFROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\nWHERE " + super.getDbOwner() + ".TYPE = '" + type + "'\nAND " + super.getDbOwner() + ".VAL = '" + value + "'\nAND " + super.getDbOwner() + ".SUBTYPE = '" + subtype + "'");
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar LOV Name");
+                    JOptionPane.showMessageDialog(null, "Erro ao buscar LOV Name!");
+                    return "";
                 }
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLOV.NAME\nFROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\nWHERE " + super.getDbOwner() + ".TYPE = '" + type + "'\nAND " + super.getDbOwner() + ".VAL = '" + value + "'\nAND " + super.getDbOwner() + ".SUBTYPE = '" + subtype + "'");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
-                
-                rs.close();
+            }
+            statement = conn.createStatement();
+            tempoInicial = System.currentTimeMillis();
+            ResultSet rs = statement.executeQuery(
+                "SELECT\n" +
+                "\tLOV.NAME\n" +
+                "FROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\n" +
+                "WHERE " + super.getDbOwner() + ".TYPE = '" + type + "'\n" +
+                "AND " + super.getDbOwner() + ".VAL = '" + value + "'\n" +
+                "AND " + super.getDbOwner() + ".SUBTYPE = '" + subtype + "'"
+            );
+
+            while(rs.next()){
+                name = rs.getString("NAME");
+                count++;
+            }
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLOV.NAME\nFROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\nWHERE " + super.getDbOwner() + ".TYPE = '" + type + "'\nAND " + super.getDbOwner() + ".VAL = '" + value + "'\nAND " + super.getDbOwner() + ".SUBTYPE = '" + subtype + "'");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
+
+            rs.close();
+            if(!super.isConnectionOpen()){
                 closeConnection("LookupNameSubtype - Type: '" + type + "', value: '" + value + "', subtype: '" + subtype + "', retornou o name: '" + name + "' com sucesso");
-            } else {
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLOV.NAME\nFROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\nWHERE " + super.getDbOwner() + ".TYPE = '" + type + "'\nAND " + super.getDbOwner() + ".VAL = '" + value + "'\nAND " + super.getDbOwner() + ".SUBTYPE = '" + subtype + "'");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar LOV Name");
-                JOptionPane.showMessageDialog(null, "Erro ao buscar LOV Name!");
             }
         } catch (HeadlessException | SQLException e){
             System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLOV.NAME\nFROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\nWHERE " + super.getDbOwner() + ".TYPE = '" + type + "'\nAND " + super.getDbOwner() + ".VAL = '" + value + "'\nAND " + super.getDbOwner() + ".SUBTYPE = '" + subtype + "'");
@@ -1727,38 +1944,42 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Tabela: " + super.getTblLstOfVal());
         
         try{
-            if("true".equals(openConnection("Buscando LookupName"))){
-                statement = conn.createStatement();
-                tempoInicial = System.currentTimeMillis();
-                ResultSet rs = statement.executeQuery(
-                    "SELECT\n" +
-                    "\tLOV.NAME\n" +
-                    "FROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\n" +
-                    "WHERE LOV.TYPE = '" + type + "'\n" +
-                    "AND LOV.VAL = '" + value + "'"
-                );
-                
-                while(rs.next()){
-                    name = rs.getString("NAME");
-                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "LookupName - Type: '" + type + "', value: '" + value + "', retornou name: '" + rs.getString("NAME") + "' com sucesso");
-                    count++;
+            if(!super.isConnectionOpen()){
+                if(!"true".equals(openConnection("Buscando LookupName"))){
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLOV.NAME\nFROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\nWHERE LOV.TYPE = '" + type + "'\nAND LOV.VAL = '" + value + "'");
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar LookupName");
+                    JOptionPane.showMessageDialog(null, "Erro ao buscar LookupName!");
+                    return "";
                 }
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLOV.NAME\nFROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\nWHERE LOV.TYPE = '" + type + "'\nAND LOV.VAL = '" + value + "'");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
-                
-                rs.close();
+            }
+            statement = conn.createStatement();
+            tempoInicial = System.currentTimeMillis();
+            ResultSet rs = statement.executeQuery(
+                "SELECT\n" +
+                "\tLOV.NAME\n" +
+                "FROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\n" +
+                "WHERE LOV.TYPE = '" + type + "'\n" +
+                "AND LOV.VAL = '" + value + "'"
+            );
+
+            while(rs.next()){
+                name = rs.getString("NAME");
+                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "LookupName - Type: '" + type + "', value: '" + value + "', retornou name: '" + rs.getString("NAME") + "' com sucesso");
+                count++;
+            }
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLOV.NAME\nFROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\nWHERE LOV.TYPE = '" + type + "'\nAND LOV.VAL = '" + value + "'");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
+
+            rs.close();
+            if(!super.isConnectionOpen()){
                 closeConnection("LookupName encontrado com sucesso!");
-            } else {
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLOV.NAME\nFROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\nWHERE LOV.TYPE = '" + type + "'\nAND LOV.VAL = '" + value + "'");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar LookupName");
-                JOptionPane.showMessageDialog(null, "Erro ao buscar LookupName!");
             }
         } catch (HeadlessException | SQLException e){
             System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLOV.NAME\nFROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\nWHERE LOV.TYPE = '" + type + "'\nAND LOV.VAL = '" + value + "'");
@@ -1782,47 +2003,52 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Tabela: " + super.getTblLstOfVal());
         
         try{
-            if("true".equals(openConnection("Buscando LookupList '" + type + "'"))){
-                statement = conn.createStatement();
-                tempoInicial = System.currentTimeMillis();
-                ResultSet rs = statement.executeQuery(
-                    "SELECT *\n" +
-                    "FROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\n" +
-                    "WHERE LOV.TYPE = '" + type + "'\n" +
-                    "ORDER BY LOV.ORDER_BY ASC"
-                );
-                
-                while(rs.next()){
-                    ListOfValuesClass lookup = new ListOfValuesClass();
-                    
-                    lookup.setType(rs.getString("TYPE"));
-                    lookup.setName(rs.getString("NAME"));
-                    lookup.setValue(rs.getString("VAL"));
-                    lookup.setSubtype(rs.getString("SUB_TYPE"));
-                    lookup.setLang_id(rs.getString("LANG_ID"));
-                    lookup.setActive_flg(rs.getString("ACTIVE_FLG"));                    
-                    lookup.setOrder_by(rs.getString("ORDER_BY"));
-                    lookup.setCode(rs.getString("CODE"));
-                    
-                    array.add(lookup);
-                    count++;
+            if(!super.isConnectionOpen()){
+                if(!"true".equals(openConnection("Buscando LookupList '" + type + "'"))){
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\nWHERE LOV.TYPE = '" + type + "'\nORDER BY LOV.ORDER_BY ASC");
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar LookupList");
+                    JOptionPane.showMessageDialog(null, "Erro ao buscar LookupList!");
+                    return array;
                 }
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\nWHERE LOV.TYPE = '" + type + "'\nORDER BY LOV.ORDER_BY ASC");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
-                
-                rs.close();
+            }
+            
+            statement = conn.createStatement();
+            tempoInicial = System.currentTimeMillis();
+            ResultSet rs = statement.executeQuery(
+                "SELECT *\n" +
+                "FROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\n" +
+                "WHERE LOV.TYPE = '" + type + "'\n" +
+                "ORDER BY LOV.ORDER_BY ASC"
+            );
+
+            while(rs.next()){
+                ListOfValuesClass lookup = new ListOfValuesClass();
+
+                lookup.setType(rs.getString("TYPE"));
+                lookup.setName(rs.getString("NAME"));
+                lookup.setValue(rs.getString("VAL"));
+                lookup.setSubtype(rs.getString("SUB_TYPE"));
+                lookup.setLang_id(rs.getString("LANG_ID"));
+                lookup.setActive_flg(rs.getString("ACTIVE_FLG"));                    
+                lookup.setOrder_by(rs.getString("ORDER_BY"));
+                lookup.setCode(rs.getString("CODE"));
+
+                array.add(lookup);
+                count++;
+            }
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\nWHERE LOV.TYPE = '" + type + "'\nORDER BY LOV.ORDER_BY ASC");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
+
+            rs.close();
+            if(!super.isConnectionOpen()){
                 closeConnection("LookupList '" + type + "' encontrado com sucesso");
-            } else {
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\nWHERE LOV.TYPE = '" + type + "'\nORDER BY LOV.ORDER_BY ASC");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar LookupList");
-                JOptionPane.showMessageDialog(null, "Erro ao buscar LookupList!");
             }
         } catch (HeadlessException | SQLException e){
             System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblLstOfVal() + " LOV\nWHERE LOV.TYPE = '" + type + "'\nORDER BY LOV.ORDER_BY ASC");
@@ -1846,48 +2072,51 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryListOfValues" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Tabela: " + super.getTblLstOfVal());
         
         try{
-            if("true".equals(openConnection("Buscando Lista de Valores"))){
-                statement = conn.createStatement();
-                tempoInicial = System.currentTimeMillis();
-                ResultSet rs = statement.executeQuery(query);
-                
-                while(rs.next()){
-                    ListOfValuesClass lookup = new ListOfValuesClass();
-                    
-                    lookup.setRow_id(rs.getString("ROW_ID"));
-                    lookup.setCreated(rs.getString("CREATED"));
-                    lookup.setCreated_by(rs.getString("CREATED_BY"));
-                    lookup.setUpdated(rs.getString("LAST_UPD"));
-                    lookup.setUpdated_by(rs.getString("LAST_UPD_BY"));
-                    lookup.setModification_num(rs.getString("MODIFICATION_NUM"));
-                    lookup.setPar_row_id(rs.getString("PAR_ROW_ID"));
-                    lookup.setDb_last_upd(rs.getString("DB_LAST_UPD"));
-                    lookup.setLang_id(rs.getString("LANG_ID"));
-                    lookup.setRplctn_lvl_cd(rs.getString("RPLCTN_LVL_CD"));
-                    lookup.setType(rs.getString("TYPE"));
-                    lookup.setName(rs.getString("NAME"));
-                    lookup.setValue(rs.getString("VAL"));
-                    lookup.setSubtype(rs.getString("SUB_TYPE"));
-                    lookup.setLang_id(rs.getString("LANG_ID"));
-                    lookup.setActive_flg(rs.getString("ACTIVE_FLG"));                    
-                    lookup.setOrder_by(rs.getString("ORDER_BY"));
-                    lookup.setCode(rs.getString("CODE"));
-                    lookup.setDesc_text(rs.getString("DESC_TEXT"));
-                    
-                    result.add(lookup);
-                    count++;
-                }
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryListOfValues" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + query);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryListOfValues" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryListOfValues" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryListOfValues" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryListOfValues" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryListOfValues" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
-                
-                rs.close();
+            if(!super.isConnectionOpen()){
+                openConnection("Buscando Lista de Valores");
+            }
+            statement = conn.createStatement();
+            tempoInicial = System.currentTimeMillis();
+            ResultSet rs = statement.executeQuery(query);
+
+            while(rs.next()){
+                ListOfValuesClass lookup = new ListOfValuesClass();
+
+                lookup.setRow_id(rs.getString("ROW_ID"));
+                lookup.setCreated(rs.getString("CREATED"));
+                lookup.setCreated_by(rs.getString("CREATED_BY"));
+                lookup.setUpdated(rs.getString("LAST_UPD"));
+                lookup.setUpdated_by(rs.getString("LAST_UPD_BY"));
+                lookup.setModification_num(rs.getString("MODIFICATION_NUM"));
+                lookup.setPar_row_id(rs.getString("PAR_ROW_ID"));
+                lookup.setDb_last_upd(rs.getString("DB_LAST_UPD"));
+                lookup.setLang_id(rs.getString("LANG_ID"));
+                lookup.setRplctn_lvl_cd(rs.getString("RPLCTN_LVL_CD"));
+                lookup.setType(rs.getString("TYPE"));
+                lookup.setName(rs.getString("NAME"));
+                lookup.setValue(rs.getString("VAL"));
+                lookup.setSubtype(rs.getString("SUB_TYPE"));
+                lookup.setLang_id(rs.getString("LANG_ID"));
+                lookup.setActive_flg(rs.getString("ACTIVE_FLG"));                    
+                lookup.setOrder_by(rs.getString("ORDER_BY"));
+                lookup.setCode(rs.getString("CODE"));
+                lookup.setDesc_text(rs.getString("DESC_TEXT"));
+
+                result.add(lookup);
+                count++;
+            }
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryListOfValues" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + query);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryListOfValues" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryListOfValues" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryListOfValues" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryListOfValues" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryListOfValues" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
+
+            rs.close();
+            if(!super.isConnectionOpen()){
                 closeConnection("Lista de Valores encontrada com sucesso");
             }
         } catch (HeadlessException | SQLException e){
@@ -1912,40 +2141,43 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryLanguageRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Tabela: " + super.getTblLang());
         
         try{
-            if("true".equals(openConnection("Buscando na Lista de Idiomas"))){
-                statement = conn.createStatement();
-                tempoInicial = System.currentTimeMillis();
-                ResultSet rs = statement.executeQuery(query);
-                
-                while(rs.next()){
-                    LanguageClass lang = new LanguageClass();
-                    
-                    lang.setRow_id(rs.getString("ROW_ID"));
-                    lang.setCreated(rs.getString("CREATED"));
-                    lang.setCreated_by(rs.getString("CREATED_BY"));
-                    lang.setUpdated(rs.getString("LAST_UPD"));
-                    lang.setUpdated_by(rs.getString("LAST_UPD_BY"));
-                    lang.setModification_num(rs.getString("MODIFICATION_NUM"));
-                    lang.setDb_last_upd(rs.getString("DB_LAST_UPD"));
-                    lang.setLANG_CD(rs.getString("LANG_CD"));
-                    lang.setNAME(rs.getString("NAME"));
-                    lang.setVALUE(rs.getString("VALUE"));
-                    lang.setORDER_BY(rs.getString("ORDER_BY"));
-                    
-                    result.add(lang);
-                    count++;
-                }
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryLanguageRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + query);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryLanguageRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryLanguageRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryLanguageRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryLanguageRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryLanguageRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
-                
-                rs.close();
+            if(!super.isConnectionOpen()){
+                openConnection("Buscando na Lista de Idiomas");
+            }
+            statement = conn.createStatement();
+            tempoInicial = System.currentTimeMillis();
+            ResultSet rs = statement.executeQuery(query);
+
+            while(rs.next()){
+                LanguageClass lang = new LanguageClass();
+
+                lang.setRow_id(rs.getString("ROW_ID"));
+                lang.setCreated(rs.getString("CREATED"));
+                lang.setCreated_by(rs.getString("CREATED_BY"));
+                lang.setUpdated(rs.getString("LAST_UPD"));
+                lang.setUpdated_by(rs.getString("LAST_UPD_BY"));
+                lang.setModification_num(rs.getString("MODIFICATION_NUM"));
+                lang.setDb_last_upd(rs.getString("DB_LAST_UPD"));
+                lang.setLANG_CD(rs.getString("LANG_CD"));
+                lang.setNAME(rs.getString("NAME"));
+                lang.setVALUE(rs.getString("VALUE"));
+                lang.setORDER_BY(rs.getString("ORDER_BY"));
+
+                result.add(lang);
+                count++;
+            }
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryLanguageRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + query);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryLanguageRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryLanguageRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryLanguageRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryLanguageRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryLanguageRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
+
+            rs.close();
+            if(!super.isConnectionOpen()){
                 closeConnection("Lista de Idiomas encontrada com sucesso");
             }
         } catch (HeadlessException | SQLException e){
@@ -1970,49 +2202,54 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Tabela: " + super.getTblLang());
         
         try{
-            if("true".equals(openConnection("Buscando Language List"))){
-                statement = conn.createStatement();
-                tempoInicial = System.currentTimeMillis();
-                ResultSet rs = statement.executeQuery(
-                    "SELECT *\n" +
-                    "FROM " + super.getDbOwner() + "." + super.getTblLang()+ " LAN\n" +
-                    "ORDER BY LAN.ORDER_BY ASC"
-                );
-                
-                while(rs.next()){
-                    LanguageClass lang = new LanguageClass();
-                    
-                    lang.setRow_id(rs.getString("ROW_ID"));
-                    lang.setCreated(rs.getString("CREATED"));
-                    lang.setCreated_by(rs.getString("CREATED_BY"));
-                    lang.setUpdated(rs.getString("LAST_UPD"));
-                    lang.setUpdated_by(rs.getString("LAST_UPD_BY"));
-                    lang.setModification_num(rs.getString("MODIFICATION_NUM"));
-                    lang.setDb_last_upd(rs.getString("DB_LAST_UPD"));
-                    lang.setLANG_CD(rs.getString("LANG_CD"));
-                    lang.setNAME(rs.getString("NAME"));
-                    lang.setVALUE(rs.getString("VALUE"));
-                    lang.setORDER_BY(rs.getString("ORDER_BY"));
-                    
-                    array.add(lang);
-                    count++;
-                }
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nORDER BY LAN.ORDER_BY ASC");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
-                
-                rs.close();
+            if(!super.isConnectionOpen()){
+               if(!"true".equals(openConnection("Buscando Language List"))){
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nORDER BY LAN.ORDER_BY ASC");
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar LookupList");
+                    JOptionPane.showMessageDialog(null, "Erro ao buscar LookupList!");
+                    return array;
+                } 
+            }
+            
+            statement = conn.createStatement();
+            tempoInicial = System.currentTimeMillis();
+            ResultSet rs = statement.executeQuery(
+                "SELECT *\n" +
+                "FROM " + super.getDbOwner() + "." + super.getTblLang()+ " LAN\n" +
+                "ORDER BY LAN.ORDER_BY ASC"
+            );
+
+            while(rs.next()){
+                LanguageClass lang = new LanguageClass();
+
+                lang.setRow_id(rs.getString("ROW_ID"));
+                lang.setCreated(rs.getString("CREATED"));
+                lang.setCreated_by(rs.getString("CREATED_BY"));
+                lang.setUpdated(rs.getString("LAST_UPD"));
+                lang.setUpdated_by(rs.getString("LAST_UPD_BY"));
+                lang.setModification_num(rs.getString("MODIFICATION_NUM"));
+                lang.setDb_last_upd(rs.getString("DB_LAST_UPD"));
+                lang.setLANG_CD(rs.getString("LANG_CD"));
+                lang.setNAME(rs.getString("NAME"));
+                lang.setVALUE(rs.getString("VALUE"));
+                lang.setORDER_BY(rs.getString("ORDER_BY"));
+
+                array.add(lang);
+                count++;
+            }
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nORDER BY LAN.ORDER_BY ASC");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
+
+            rs.close();
+            if(!super.isConnectionOpen()){
                 closeConnection("Language List encontrado com sucesso");
-            } else {
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nORDER BY LAN.ORDER_BY ASC");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar LookupList");
-                JOptionPane.showMessageDialog(null, "Erro ao buscar LookupList!");
             }
         } catch (HeadlessException | SQLException e){
             System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupNameSubtype" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LOV\nORDER BY LAN.ORDER_BY ASC");
@@ -2036,37 +2273,41 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValue" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Tabela: " + super.getTblLang());
         
         try{
-            if("true".equals(openConnection("Buscando Language Value com Name: '" + name + "'"))){
-                statement = conn.createStatement();
-                tempoInicial = System.currentTimeMillis();
-                ResultSet rs = statement.executeQuery(
-                    "SELECT\n\t" +
-                    "LAN.VALUE\n" +
-                    "FROM " + super.getDbOwner() + "." + super.getTblLang()+ " LAN\n" +
-                    "WHERE LAN.NAME = '" + name + "'\n" +
-                    "ORDER BY LAN.ORDER_BY ASC"
-                );
-                
-                while(rs.next()){
-                    value = rs.getString("VALUE");
-                    count++;
+            if(!super.isConnectionOpen()){
+                if(!"true".equals(openConnection("Buscando Language Value com Name: '" + name + "'"))){
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValue" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.VALUE\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.NAME = '" + name + "'\nORDER BY LAN.ORDER_BY ASC");
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValue" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar LookupValue");
+                    JOptionPane.showMessageDialog(null, "Erro ao buscar LookupValue");
+                    return "";
                 }
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValue" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.VALUE\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.NAME = '" + name + "'\nORDER BY LAN.ORDER_BY ASC");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValue" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValue" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValue" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValue" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValue" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
-                
-                rs.close();
+            }
+            statement = conn.createStatement();
+            tempoInicial = System.currentTimeMillis();
+            ResultSet rs = statement.executeQuery(
+                "SELECT\n\t" +
+                "LAN.VALUE\n" +
+                "FROM " + super.getDbOwner() + "." + super.getTblLang()+ " LAN\n" +
+                "WHERE LAN.NAME = '" + name + "'\n" +
+                "ORDER BY LAN.ORDER_BY ASC"
+            );
+
+            while(rs.next()){
+                value = rs.getString("VALUE");
+                count++;
+            }
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValue" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.VALUE\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.NAME = '" + name + "'\nORDER BY LAN.ORDER_BY ASC");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValue" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValue" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValue" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValue" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValue" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
+
+            rs.close();
+            if(!super.isConnectionOpen()){
                 closeConnection("Language Name: '" + name + "', retornou o Value: '" + value + "' com sucesso");
-            } else {
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValue" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.VALUE\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.NAME = '" + name + "'\nORDER BY LAN.ORDER_BY ASC");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValue" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar LookupValue");
-                JOptionPane.showMessageDialog(null, "Erro ao buscar LookupValue");
             }
         } catch (HeadlessException | SQLException e){
             System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValue" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.VALUE\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.NAME = '" + name + "'\nORDER BY LAN.ORDER_BY ASC");
@@ -2090,37 +2331,41 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Tabela: " + super.getTblLang());
         
         try{
-            if("true".equals(openConnection("Buscando Language Value com Code: '" + code + "'"))){
-                statement = conn.createStatement();
-                tempoInicial = System.currentTimeMillis();
-                ResultSet rs = statement.executeQuery(
-                    "SELECT\n\t" +
-                    "LAN.VALUE\n" +
-                    "FROM " + super.getDbOwner() + "." + super.getTblLang()+ " LAN\n" +
-                    "WHERE LAN.LANG_CD = '" + code + "'\n" +
-                    "ORDER BY LAN.ORDER_BY ASC"
-                );
-                
-                while(rs.next()){
-                    value = rs.getString("VALUE");
-                    count++;
+            if(!super.isConnectionOpen()){
+                if(!"true".equals(openConnection("Buscando Language Value com Code: '" + code + "'"))){
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.VALUE\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.LANG_CD = '" + code + "'\nORDER BY LAN.ORDER_BY ASC");
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar LookupValue");
+                    JOptionPane.showMessageDialog(null, "Erro ao buscar LookupValue");
+                    return "";
                 }
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.VALUE\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.LANG_CD = '" + code + "'\nORDER BY LAN.ORDER_BY ASC");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValue" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
-                
-                rs.close();
+            }
+            statement = conn.createStatement();
+            tempoInicial = System.currentTimeMillis();
+            ResultSet rs = statement.executeQuery(
+                "SELECT\n\t" +
+                "LAN.VALUE\n" +
+                "FROM " + super.getDbOwner() + "." + super.getTblLang()+ " LAN\n" +
+                "WHERE LAN.LANG_CD = '" + code + "'\n" +
+                "ORDER BY LAN.ORDER_BY ASC"
+            );
+
+            while(rs.next()){
+                value = rs.getString("VALUE");
+                count++;
+            }
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.VALUE\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.LANG_CD = '" + code + "'\nORDER BY LAN.ORDER_BY ASC");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValue" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
+
+            rs.close();
+            if(!super.isConnectionOpen()){
                 closeConnection("Language Code: '" + code + "', retornou o Value: '" + value + "' com sucesso");
-            } else {
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.VALUE\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.LANG_CD = '" + code + "'\nORDER BY LAN.ORDER_BY ASC");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar LookupValue");
-                JOptionPane.showMessageDialog(null, "Erro ao buscar LookupValue");
             }
         } catch (HeadlessException | SQLException e){
             System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.VALUE\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.LANG_CD = '" + code + "'\nORDER BY LAN.ORDER_BY ASC");
@@ -2144,37 +2389,41 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Tabela: " + super.getTblLang());
         
         try{
-            if("true".equals(openConnection("Buscando Language Name com Code: '" + code + "'"))){
-                statement = conn.createStatement();
-                tempoInicial = System.currentTimeMillis();
-                ResultSet rs = statement.executeQuery(
-                    "SELECT\n\t" +
-                    "LAN.NAME\n" +
-                    "FROM " + super.getDbOwner() + "." + super.getTblLang()+ " LAN\n" +
-                    "WHERE LAN.LANG_CD = '" + code + "'\n" +
-                    "ORDER BY LAN.ORDER_BY ASC"
-                );
-                
-                while(rs.next()){
-                    value = rs.getString("NAME");
-                    count++;
+            if(!super.isConnectionOpen()){
+                if(!"true".equals(openConnection("Buscando Language Name com Code: '" + code + "'"))){
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.NAME\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.LANG_CD = '" + code + "'\nORDER BY LAN.ORDER_BY ASC");
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar LookupValue");
+                    JOptionPane.showMessageDialog(null, "Erro ao buscar LookupValue");
+                    return "";
                 }
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.NAME\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.LANG_CD = '" + code + "'\nORDER BY LAN.ORDER_BY ASC");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValue" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
-                
-                rs.close();
+            }
+            statement = conn.createStatement();
+            tempoInicial = System.currentTimeMillis();
+            ResultSet rs = statement.executeQuery(
+                "SELECT\n\t" +
+                "LAN.NAME\n" +
+                "FROM " + super.getDbOwner() + "." + super.getTblLang()+ " LAN\n" +
+                "WHERE LAN.LANG_CD = '" + code + "'\n" +
+                "ORDER BY LAN.ORDER_BY ASC"
+            );
+
+            while(rs.next()){
+                value = rs.getString("NAME");
+                count++;
+            }
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.NAME\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.LANG_CD = '" + code + "'\nORDER BY LAN.ORDER_BY ASC");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValue" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
+
+            rs.close();
+            if(!super.isConnectionOpen()){
                 closeConnection("Language Code: '" + code + "', retornou o Name: '" + value + "' com sucesso");
-            } else {
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.NAME\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.LANG_CD = '" + code + "'\nORDER BY LAN.ORDER_BY ASC");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar LookupValue");
-                JOptionPane.showMessageDialog(null, "Erro ao buscar LookupValue");
             }
         } catch (HeadlessException | SQLException e){
             System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangValueByCode" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.NAME\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.LANG_CD = '" + code + "'\nORDER BY LAN.ORDER_BY ASC");
@@ -2198,37 +2447,41 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Tabela: " + super.getTblLang());
         
         try{
-            if("true".equals(openConnection("Buscando Language Name com Value: '" + value + "'"))){
-                statement = conn.createStatement();
-                tempoInicial = System.currentTimeMillis();
-                ResultSet rs = statement.executeQuery(
-                    "SELECT\n\t" +
-                    "LAN.NAME\n" +
-                    "FROM " + super.getDbOwner() + "." + super.getTblLang()+ " LAN\n" +
-                    "WHERE LAN.VALUE = '" + value + "'\n" +
-                    "ORDER BY LAN.ORDER_BY ASC"
-                );
-                
-                while(rs.next()){
-                    result = rs.getString("NAME");
-                    count++;
+            if(!super.isConnectionOpen()){
+                if(!"true".equals(openConnection("Buscando Language Name com Value: '" + value + "'"))){
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangName" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.NAME\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.VALUE = '" + value + "'\nORDER BY LAN.ORDER_BY ASC");
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangName" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar LookupValue");
+                    JOptionPane.showMessageDialog(null, "Erro ao buscar LookupValue");
+                    return "";
                 }
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangName" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.NAME\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.VALUE = '" + value + "'\nORDER BY LAN.ORDER_BY ASC");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
-                
-                rs.close();
+            }
+            statement = conn.createStatement();
+            tempoInicial = System.currentTimeMillis();
+            ResultSet rs = statement.executeQuery(
+                "SELECT\n\t" +
+                "LAN.NAME\n" +
+                "FROM " + super.getDbOwner() + "." + super.getTblLang()+ " LAN\n" +
+                "WHERE LAN.VALUE = '" + value + "'\n" +
+                "ORDER BY LAN.ORDER_BY ASC"
+            );
+
+            while(rs.next()){
+                result = rs.getString("NAME");
+                count++;
+            }
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangName" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.NAME\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.VALUE = '" + value + "'\nORDER BY LAN.ORDER_BY ASC");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
+
+            rs.close();
+            if(!super.isConnectionOpen()){
                 closeConnection("Language Value: '" + value + "', retornou o Name: '" + result + "' com sucesso");
-            } else {
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangName" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.NAME\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.VALUE = '" + value + "'\nORDER BY LAN.ORDER_BY ASC");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangName" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar LookupValue");
-                JOptionPane.showMessageDialog(null, "Erro ao buscar LookupValue");
             }
         } catch (HeadlessException | SQLException e){
             System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangName" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.NAME\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.VALUE = '" + value + "'\nORDER BY LAN.ORDER_BY ASC");
@@ -2252,37 +2505,41 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Tabela: " + super.getTblLang());
         
         try{
-            if("true".equals(openConnection("Buscando Language Code com Name: '" + name + "'"))){
-                statement = conn.createStatement();
-                tempoInicial = System.currentTimeMillis();
-                ResultSet rs = statement.executeQuery(
-                    "SELECT\n\t" +
-                    "LAN.LANG_CD\n" +
-                    "FROM " + super.getDbOwner() + "." + super.getTblLang()+ " LAN\n" +
-                    "WHERE LAN.NAME = '" + name + "'\n" +
-                    "ORDER BY LAN.ORDER_BY ASC"
-                );
-                
-                while(rs.next()){
-                    value = rs.getString("LANG_CD");
-                    count++;
+            if(!super.isConnectionOpen()){
+                if(!"true".equals(openConnection("Buscando Language Code com Name: '" + name + "'"))){
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.LANG_CD\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.NAME = '" + name + "'\nORDER BY LAN.ORDER_BY ASC");
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar LookupValue");
+                    JOptionPane.showMessageDialog(null, "Erro ao buscar LookupValue");
+                    return "";
                 }
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.LANG_CD\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.NAME = '" + name + "'\nORDER BY LAN.ORDER_BY ASC");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
-                
-                rs.close();
+            }   
+            statement = conn.createStatement();
+            tempoInicial = System.currentTimeMillis();
+            ResultSet rs = statement.executeQuery(
+                "SELECT\n\t" +
+                "LAN.LANG_CD\n" +
+                "FROM " + super.getDbOwner() + "." + super.getTblLang()+ " LAN\n" +
+                "WHERE LAN.NAME = '" + name + "'\n" +
+                "ORDER BY LAN.ORDER_BY ASC"
+            );
+
+            while(rs.next()){
+                value = rs.getString("LANG_CD");
+                count++;
+            }
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.LANG_CD\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.NAME = '" + name + "'\nORDER BY LAN.ORDER_BY ASC");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
+
+            rs.close();
+            if(!super.isConnectionOpen()){
                 closeConnection("Language Name: '" + name + "', retornou o Code: '" + value + "' com sucesso");
-            } else {
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.LANG_CD\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.NAME = '" + name + "'\nORDER BY LAN.ORDER_BY ASC");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar LookupValue");
-                JOptionPane.showMessageDialog(null, "Erro ao buscar LookupValue");
             }
         } catch (HeadlessException | SQLException e){
             System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.LANG_CD\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.NAME = '" + name + "'\nORDER BY LAN.ORDER_BY ASC");
@@ -2306,37 +2563,41 @@ public abstract class DataController extends Controller{
         System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Tabela: " + super.getTblLang());
         
         try{
-            if("true".equals(openConnection("Buscando Language Code com Value: '" + value + "'"))){
-                statement = conn.createStatement();
-                tempoInicial = System.currentTimeMillis();
-                ResultSet rs = statement.executeQuery(
-                    "SELECT\n\t" +
-                    "LAN.LANG_CD\n" +
-                    "FROM " + super.getDbOwner() + "." + super.getTblLang()+ " LAN\n" +
-                    "WHERE LAN.VALUE = '" + value + "'\n" +
-                    "ORDER BY LAN.ORDER_BY ASC"
-                );
-                
-                while(rs.next()){
-                    retorno = rs.getString("LANG_CD");
-                    count++;
+            if(!super.isConnectionOpen()){
+                if(!"true".equals(openConnection("Buscando Language Code com Value: '" + value + "'"))){
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.LANG_CD\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.VALUE = '" + value + "'\nORDER BY LAN.ORDER_BY ASC");
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar LookupValue");
+                    JOptionPane.showMessageDialog(null, "Erro ao buscar LookupValue");
+                    return "";
                 }
-                tempoFinal = System.currentTimeMillis();
-                tempoExec = tempoFinal - tempoInicial;
-                
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.LANG_CD\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.VALUE = '" + value + "'\nORDER BY LAN.ORDER_BY ASC");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
-                
-                rs.close();
+            }
+            statement = conn.createStatement();
+            tempoInicial = System.currentTimeMillis();
+            ResultSet rs = statement.executeQuery(
+                "SELECT\n\t" +
+                "LAN.LANG_CD\n" +
+                "FROM " + super.getDbOwner() + "." + super.getTblLang()+ " LAN\n" +
+                "WHERE LAN.VALUE = '" + value + "'\n" +
+                "ORDER BY LAN.ORDER_BY ASC"
+            );
+
+            while(rs.next()){
+                retorno = rs.getString("LANG_CD");
+                count++;
+            }
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.LANG_CD\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.VALUE = '" + value + "'\nORDER BY LAN.ORDER_BY ASC");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
+
+            rs.close();
+            if(!super.isConnectionOpen()){
                 closeConnection("Language Value: '" + value + "', retornou o Code: '" + retorno + "' com sucesso");
-            } else {
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.LANG_CD\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.VALUE = '" + value + "'\nORDER BY LAN.ORDER_BY ASC");
-                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + "Erro ao buscar LookupValue");
-                JOptionPane.showMessageDialog(null, "Erro ao buscar LookupValue");
             }
         } catch (HeadlessException | SQLException e){
             System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "LookupLangCodeByName" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + "SELECT\n\tLAN.LANG_CD\nFROM " + super.getDbOwner() + "." + super.getTblLang() + " LAN\nWHERE LAN.VALUE = '" + value + "'\nORDER BY LAN.ORDER_BY ASC");
@@ -3741,6 +4002,19 @@ public abstract class DataController extends Controller{
         
     }
     
+    public class InsertMultipleLineClass {
+        String sqlColumns;
+        String sqlValues;
+
+        public InsertMultipleLineClass() { sqlColumns = null; sqlValues = null; }
+
+        public String getSqlColumns() { return sqlColumns; }
+        public void setSqlColumns(String sqlColumns) { this.sqlColumns = sqlColumns; }
+        
+        public String getSqlValues() { return sqlValues; }
+        public void setSqlValues(String sqlValues) { this.sqlValues = sqlValues; }
+    }
+    
     public class dbSettingsScreenListener implements WindowListener {
 
         @Override
@@ -3776,6 +4050,5 @@ public abstract class DataController extends Controller{
         public void windowDeactivated(WindowEvent we) { }
         
     }
-    
     
 }

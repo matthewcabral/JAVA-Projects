@@ -26,27 +26,26 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-
 /**
  *
- * @author MatheusCabral
+ * @author Matheus Cabral Rosa
  */
 public class UserController extends DataController {
     UserLoginScreen loginScreen;
     UserScreen userScreen;
-    UserPermitionScreen permScreen;
+    UserPermitionViewScreen permScreen;
     ContactController cont;
     addressController addr;
     EncryptDecryptWord encryptDecrypt;
-    userRowIdClass userRowId;
     
-    private ArrayList<userRowIdClass> userRowIdArray = new ArrayList<>();
-    //public ArrayList<addressRowIdClass> addrRowIdArray = new ArrayList<>();
+    userIdClass userId;
+    private ArrayList<userIdClass> userIdArray = new ArrayList<>();
     
     private String user;
     private String password;
     private String lastUserAdd;
     private String lastUserUpd;
+    
     private boolean firstSettingsOK = false;
     private boolean loginOK = false;
     private int count;
@@ -122,7 +121,7 @@ public class UserController extends DataController {
         this.fillComboBoxes("DOCUMENT_TYPE");
         this.fillComboBoxes("STATE");
         
-        this.fillList(query);
+        this.fillListUserScreen(query);
         
         userScreen.setFocus("FILTRO_VALOR");
     }
@@ -167,7 +166,7 @@ public class UserController extends DataController {
         }
     }
     
-    private void fillList(String query){
+    private void fillListUserScreen(String query){
         int countRecord = 0;
         try{
             ArrayList<UserClass> userList = super.queryUserRecord(query);
@@ -208,7 +207,7 @@ public class UserController extends DataController {
         }
     }
     
-    private void fillFields(String query){
+    private void fillFieldsUserScreen(String query){
         try{
             ArrayList<UserClass> userList = queryUserRecord(query);
             ArrayList<PositionClass> positionList;
@@ -323,36 +322,16 @@ public class UserController extends DataController {
                     if(null == LovType){
                         JOptionPane.showMessageDialog(null, "O LOV_TYPE 'null' não existe!");
                     } else switch (LovType) {
-                        case "USER_FILTER":
-                            userScreen.setcbbListFilter(lov.get(i).getValue());
-                            break;
-                        case "POSITION_TYPE":
-                            userScreen.setcbbPosition(lov.get(i).getValue());
-                            break;
-                        case "DOC_TYPE":
-                            userScreen.setcbbDocType(lov.get(i).getValue());
-                            break;
-                        case "SEX_MF":
-                            userScreen.setcbbSex(lov.get(i).getValue());
-                            break;
-                        case "MONTH_DAY":
-                            userScreen.setcbbDay(lov.get(i).getValue());
-                            break;
-                        case "MONTH":
-                            userScreen.setcbbMonth(lov.get(i).getValue());
-                            break;
-                        case "CIVIL_STATE":
-                            userScreen.setcbbCivilState(lov.get(i).getValue());
-                            break;
-                        case "DOCUMENT_TYPE":
-                            userScreen.setcbbIdentityType(lov.get(i).getValue());
-                            break;
-                        case "STATE":
-                            userScreen.setcbbEmissionUF(lov.get(i).getValue());
-                            break;
-                        default:
-                            JOptionPane.showMessageDialog(null, "O LOV_TYPE '" + LovType +  "' não é utilizado por nenhum ComboBox!");
-                            break;
+                        case "USER_FILTER": userScreen.setcbbListFilter(lov.get(i).getValue()); break;
+                        case "POSITION_TYPE": try { userScreen.setcbbPosition(lov.get(i).getValue()); } catch (Exception e) {} break;
+                        case "DOC_TYPE": userScreen.setcbbDocType(lov.get(i).getValue()); break;
+                        case "SEX_MF": userScreen.setcbbSex(lov.get(i).getValue()); break;
+                        case "MONTH_DAY": userScreen.setcbbDay(lov.get(i).getValue()); break;
+                        case "MONTH": userScreen.setcbbMonth(lov.get(i).getValue()); break;
+                        case "CIVIL_STATE": userScreen.setcbbCivilState(lov.get(i).getValue()); break;
+                        case "DOCUMENT_TYPE": userScreen.setcbbIdentityType(lov.get(i).getValue()); break;
+                        case "STATE": userScreen.setcbbEmissionUF(lov.get(i).getValue()); break;
+                        default: JOptionPane.showMessageDialog(null, "O LOV_TYPE '" + LovType +  "' não é utilizado por nenhum ComboBox!"); break;
                     }
                 }
             }
@@ -372,15 +351,15 @@ public class UserController extends DataController {
         String permitionValue = "";
         
         if(userScreen.getcbbPosition() != null){
-            permScreen = new UserPermitionScreen();
+            permScreen = new UserPermitionViewScreen();
             permScreen.setListenerUserPermitionScreen(new userPermitionScreenListener());
             
             try{
-                positionId = getPositionIdByName(super.LookupName("POSITION_TYPE", position));
+                positionId = getPositionIdByType(super.LookupName("POSITION_TYPE", position));
                 permScreen.setlblPosition(userScreen.getcbbPosition());
 
                 if(!"".equals(positionId) && positionId != null){
-                    ArrayList<PositionPerClass> permList = super.queryPositionPerRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblPositionPermition() + "\nWHERE PAR_ROW_ID = '" + positionId + "'");
+                    ArrayList<PositionPerClass> permList = super.queryPostnPermissionRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblPositionPermition() + "\nWHERE PAR_ROW_ID = '" + positionId + "'");
 
                     DefaultTableModel table = (DefaultTableModel) permScreen.getTableModel();
                     table.setRowCount(0);
@@ -449,64 +428,26 @@ public class UserController extends DataController {
         }
 
         switch(i){
-            case 1:
-                userScreen.setFocus("USUARIO");
-                break;
-            case 2:
-                userScreen.setFocus("SENHA");
-                break;
-            case 3:
-                userScreen.setFocus("SENHA_CONFIRMACAO");
-                break;
-            case 4:
-                userScreen.setFocus("POSICAO");
-                break;
-            case 5:
-                userScreen.setFocus("PERGUNTA_SEG_1");
-                break;
-            case 6:
-                userScreen.setFocus("RESPOSTA_SEG_1");
-                break;
-            case 7:
-                userScreen.setFocus("PERGUNTA_SEG_2");
-                break;
-            case 8:
-                userScreen.setFocus("RESPOSTA_SEG_2");
-                break;
-            case 9:
-                userScreen.setFocus("PERGUNTA_SEG_3");
-                break;
-            case 10:
-                userScreen.setFocus("RESPOSTA_SEG_3");
-                break;
-            case 11:
-                userScreen.setFocus("DOCUMENTO_TIPO");
-                break;
-            case 12:
-                userScreen.setFocus("NUM_DOCUMENTO");
-                break;
-            case 13:
-                userScreen.setFocus("NOME");
-                break;
-            case 14:
-                userScreen.setFocus("SOBRENOME");
-                break;
-            case 15:
-                userScreen.setFocus("SEXO");
-                break;
-            case 16:
-                userScreen.setFocus("NASCIMENTO_DIA");
-                break;
-            case 17:
-                userScreen.setFocus("NASCIMENTO_MES");
-                break;
-            case 18:
-                userScreen.setFocus("NASCIMENTO_ANO");
-                break;
-            case 19:
-                userScreen.setFocus("NASCIMENTO_ANO");
-            default:
-                break;
+            case 1: userScreen.setFocus("USUARIO"); break;
+            case 2: userScreen.setFocus("SENHA"); break;
+            case 3: userScreen.setFocus("SENHA_CONFIRMACAO"); break;
+            case 4: userScreen.setFocus("POSICAO"); break;
+            case 5: userScreen.setFocus("PERGUNTA_SEG_1"); break;
+            case 6: userScreen.setFocus("RESPOSTA_SEG_1"); break;
+            case 7: userScreen.setFocus("PERGUNTA_SEG_2"); break;
+            case 8: userScreen.setFocus("RESPOSTA_SEG_2"); break;
+            case 9: userScreen.setFocus("PERGUNTA_SEG_3"); break;
+            case 10: userScreen.setFocus("RESPOSTA_SEG_3"); break;
+            case 11: userScreen.setFocus("DOCUMENTO_TIPO"); break;
+            case 12: userScreen.setFocus("NUM_DOCUMENTO"); break;
+            case 13: userScreen.setFocus("NOME"); break;
+            case 14: userScreen.setFocus("SOBRENOME"); break;
+            case 15: userScreen.setFocus("SEXO"); break;
+            case 16: userScreen.setFocus("NASCIMENTO_DIA"); break;
+            case 17: userScreen.setFocus("NASCIMENTO_MES"); break;
+            case 18: userScreen.setFocus("NASCIMENTO_ANO"); break;
+            case 19: userScreen.setFocus("NASCIMENTO_ANO"); break;
+            default: break;
         }
         
         if(!"".equals(mensagem) && mensagem != null){
@@ -826,10 +767,10 @@ public class UserController extends DataController {
         
         try{
             if("true".equals(super.insertRecord(super.getTblUser(), super.getColumns(), super.getValues()))){
-                userRowId = new userRowIdClass();
-                userRowId.setRow_Id(userId);
+                this.userId = new userIdClass();
+                this.userId.setRow_Id(userId);
                 setLastUserAdd(userId);
-                userRowIdArray.add(userRowId);
+                userIdArray.add(this.userId);
                 this.clearColumns();
                 this.clearValues();
 
@@ -1170,7 +1111,7 @@ public class UserController extends DataController {
                                 try{
                                     userScreen.setSelectedRowColumnList(i, 0);
                                     if(getLastUserUpd().equals(userScreen.getSelectedUserListId())){
-                                        fillFields(
+                                        fillFieldsUserScreen(
                                             "SELECT *\n" +
                                             "FROM " + getDbOwner() + "." + getTblUser() + "\n" +
                                             "WHERE ROW_ID = '" + getLastUserUpd() + "'"
@@ -1201,7 +1142,7 @@ public class UserController extends DataController {
                                     try{
                                         userScreen.setSelectedRowColumnList(i, 0);
                                         if(getLastUserAdd().equals(userScreen.getSelectedUserListId())){
-                                            fillFields(
+                                            fillFieldsUserScreen(
                                                 "SELECT *\n" +
                                                 "FROM " + getDbOwner() + "." + getTblUser() + "\n" +
                                                 "WHERE ROW_ID = '" + getLastUserAdd() + "'"
@@ -1263,7 +1204,7 @@ public class UserController extends DataController {
         public void actionPerformed(ActionEvent ae) {
             userScreen.enableFields("CANCELAR");
             if(!"".equals(userScreen.getSelectedUserListId()) && userScreen.getSelectedUserListId() != null){
-                fillFields(
+                fillFieldsUserScreen(
                     "SELECT *\n" +
                     "FROM " + getDbOwner() + "." + getTblUser()+ " USR\n" +
                     "WHERE USR.ROW_ID = '" + userScreen.getSelectedUserListId() + "'"
@@ -1285,7 +1226,7 @@ public class UserController extends DataController {
             } else {
                 userScreen.enableFields("CANCELAR");
                 if(!"".equals(userScreen.getSelectedUserListId()) && userScreen.getSelectedUserListId() != null){
-                    fillFields("SELECT *\nFROM " + getDbOwner() + "." + getTblUser()+ " USR\nWHERE USR.ROW_ID = '" + userScreen.getSelectedUserListId() + "'");
+                    fillFieldsUserScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblUser()+ " USR\nWHERE USR.ROW_ID = '" + userScreen.getSelectedUserListId() + "'");
                 } else {
                     userScreen.clearFields();
                 }
@@ -1432,20 +1373,20 @@ public class UserController extends DataController {
                 if(userScreen.getcbbListFilter() != null && userScreen.gettxtListFilterValue() != null) {
                     switch(userScreen.getcbbListFilter()) {
                         case "Posição":
-                            filterValue = getPositionIdByName(LookupName("POSITION_TYPE", userScreen.gettxtListFilterValue()));
+                            filterValue = getPositionIdByType(LookupName("POSITION_TYPE", userScreen.gettxtListFilterValue()));
                             break;
                         default:
                             filterValue = userScreen.gettxtListFilterValue();
                             break;
                     }
-                    fillList(
+                    fillListUserScreen(
                         "SELECT *\n" +
                         "FROM " + getDbOwner() + "." + getTblUser() + " USR\n" +
                         "WHERE " + processFilterCondition(userScreen.getcbbListFilter(), filterValue, "USER_FILTER", "USR") +
                         "ORDER BY USR.FST_NAME ASC"
                     );
                 } else {
-                    fillList("SELECT *\nFROM " + getDbOwner() + "." + getTblUser() + " USR\nORDER BY USR.FST_NAME ASC");
+                    fillListUserScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblUser() + " USR\nORDER BY USR.FST_NAME ASC");
                 }
             }
         }
@@ -1467,7 +1408,7 @@ public class UserController extends DataController {
         public void valueChanged(ListSelectionEvent lse) {
             if(count < 1){
                 userScreen.clearFields();
-                fillFields("SELECT * FROM " + getDbOwner() + "." + getTblUser() + " WHERE ROW_ID = '" + userScreen.getSelectedUserListId() + "'");
+                fillFieldsUserScreen("SELECT * FROM " + getDbOwner() + "." + getTblUser() + " WHERE ROW_ID = '" + userScreen.getSelectedUserListId() + "'");
                 userScreen.setlblRecCount((userScreen.getSelectedRowList() + 1) + " - " + String.valueOf(userScreen.getNumOfListRows()));
                 userScreen.setbtnEditUserEnabled(true);
                 userScreen.setbtnDeleteEnabled(true);
@@ -1563,10 +1504,10 @@ public class UserController extends DataController {
         
     }
     
-    private class userRowIdClass {
+    private class userIdClass {
         private String row_id;
         
-        public userRowIdClass() { this.row_id = null; }
+        public userIdClass() { this.row_id = null; }
 
         public String getRow_Id() {
             return row_id;
@@ -1578,4 +1519,5 @@ public class UserController extends DataController {
         
         
     }
+    
 }

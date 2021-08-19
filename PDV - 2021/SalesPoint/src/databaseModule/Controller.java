@@ -33,6 +33,8 @@ public abstract class Controller {
     private String condition;
     private String orderBy;
     public ArrayList<String> resultQuery;
+    boolean silentInsertMode = false;
+    boolean connectionOpen = false;
     
     String pattern = "dd-MM-yyyy HH:mm:ss";
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
@@ -148,7 +150,14 @@ public abstract class Controller {
     
     public ArrayList<String> getResultQuery() { return resultQuery; }
     public void setResultQuery(ArrayList<String> resultQuery) { this.resultQuery = resultQuery; }
-        
+    
+    public boolean getSilentInsertMode() { return silentInsertMode; }
+    public void setSilentInsertMode(boolean silentInsertMode) { this.silentInsertMode = silentInsertMode; }
+    
+    public boolean isConnectionOpen() { return connectionOpen; }
+    public void setConnectionOpen(boolean connectionOpen) { this.connectionOpen = connectionOpen; }
+    
+    
     // Open Database Connection
     public abstract String openConnection(String message);
     
@@ -158,12 +167,13 @@ public abstract class Controller {
     public abstract String createUser(String sqlCommand, String user);
     public abstract void generateRowIdTrigger();
     public abstract String insertRecord(String table, String columns, String values);
+    public abstract String insertMultipleRecords(String table, ArrayList<DataController.InsertMultipleLineClass> sqlCommand);
     public abstract int updateRecord(String table, String columnsValues, String condition);
     public abstract int deleteRecord(String table, String condition);
     public abstract int queryTableCount(String table, String condition);
     public abstract ArrayList<DataController.UserClass> queryUserRecord(String query);
     public abstract ArrayList<DataController.PositionClass> queryPositionRecord(String query);
-    public abstract ArrayList<DataController.PositionPerClass> queryPositionPerRecord(String query);
+    public abstract ArrayList<DataController.PositionPerClass> queryPostnPermissionRecord(String query);
     public abstract ArrayList<DataController.AddressClass> queryAddressRecord(String query);
     public abstract ArrayList<DataController.ContactClass> queryContactRecord(String query);
     public abstract ArrayList<DataController.SocialMediaClass> querySocialMediaRecord(String query);
@@ -171,12 +181,14 @@ public abstract class Controller {
     public abstract String getNextRowId();
     public abstract String getConnectedUserId();
     public abstract String getUserIdByLogin(String login);
-    public abstract String getPositionIdByName(String positionType);
+    public abstract String getPositionIdByType(String positionType);
+    public abstract String getPositionIdByName(String positionName);
     public abstract String LookupValueSubtype(String type, String name, String subtype);
     public abstract String LookupValue(String type, String name);
     public abstract String LookupNameSubtype(String type, String value, String subtype);
     public abstract String LookupName(String type, String value);
     public abstract ArrayList<DataController.ListOfValuesClass> LookupList(String type);
+    public abstract ArrayList<DataController.ListOfValuesClass> queryListOfValues(String query);
     public abstract ArrayList<DataController.LanguageClass> LookupLangList();
     public abstract String LookupLangValue(String name);
     public abstract String LookupLangValueByCode(String code);
@@ -184,5 +196,5 @@ public abstract class Controller {
     public abstract String LookupLangNameByCode(String code);
     public abstract String LookupLangCodeByName(String name);
     public abstract String LookupLangCodeByValue(String value);
-    public abstract ArrayList<DataController.ListOfValuesClass> queryListOfValues(String query);
+    
 }

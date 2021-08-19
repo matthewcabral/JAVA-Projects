@@ -197,9 +197,7 @@ public class ListOfValuesController extends DataController {
             default:
                 try{
                     ArrayList<ListOfValuesClass> lovList = super.queryListOfValues(query);
-                    
-                    try{ lovScr.setListRowCount(0); } catch (Exception e) {}
-                    
+                                        
                     try{ lovRowIdArray.clear(); } catch (Exception e) {}
 
                     if(lovList.size() > 0){
@@ -209,7 +207,6 @@ public class ListOfValuesController extends DataController {
                         for(int i = 0; i < lovList.size(); i++){
                             lovRowId = new LOVRowIdClass();
                             lovRowId.setRowId(lovList.get(i).getRow_id());
-
                             lovRowIdArray.add(lovRowId);
                             table.setValueAt(lovList.get(i).getType(), i, 0);
                             table.setValueAt(lovList.get(i).getName(), i, 1);
@@ -278,20 +275,11 @@ public class ListOfValuesController extends DataController {
         if(lovScr.getcbbLanguage() == null) { mensagem += "\n- " + "Idioma" + ";"; i = (i < 4 && i != 0) ? i : 4; }
         
         switch(i){
-            case 1:
-                lovScr.setFocus("TYPE");
-                break;
-            case 2:
-                lovScr.setFocus("NAME");
-                break;
-            case 3:
-                lovScr.setFocus("VAL");
-                break;
-            case 4:
-                lovScr.setFocus("LANGUAGE");
-                break;
-            default:
-                break;
+            case 1: lovScr.setFocus("TYPE"); break;
+            case 2: lovScr.setFocus("NAME"); break;
+            case 3: lovScr.setFocus("VAL"); break;
+            case 4: lovScr.setFocus("LANGUAGE"); break;
+            default: break;
         }
         
         if(!"".equals(mensagem) && mensagem != null){
@@ -581,20 +569,13 @@ public class ListOfValuesController extends DataController {
     private class buttonDelete implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
-            DefaultTableModel table = (DefaultTableModel) lovScr.getTableModel();
-            System.out.println("Item selectionado: " + lovScr.getSelectedRowList());
+            //DefaultTableModel table = (DefaultTableModel) lovScr.getTableModel();
             if(delete()){
                 lovScr.enableFields("DELETAR");
                 lovScr.clearFields();
-                //openUserScreen("USER", "SELECT *\nFROM " + getDbOwner() + "." + getTblUser() + " USR\nORDER BY USR.FST_NAME ASC");
                 lovScr.setFocus("FILTRO_VALOR");
             } else {
-                lovScr.enableFields("CANCELAR");                
-                /*if(!"".equals(lovScr.getSelectedListId()) && userScreen.getSelectedUserListId() != null){
-                    fillFieldsUserScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblUser()+ " USR\nWHERE USR.ROW_ID = '" + userScreen.getSelectedUserListId() + "'");
-                } else {
-                    lovScr.clearFields();
-                }*/
+                lovScr.enableFields("CANCELAR");
                 lovScr.setFocus("FILTRO_VALOR");
             }
         }

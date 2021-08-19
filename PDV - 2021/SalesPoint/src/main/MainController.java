@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import settingsModule.LanguageController;
 import settingsModule.ListOfValuesController;
 import userModule.UserController;
+import userModule.UserPositionController;
 
 
 /**
@@ -28,6 +29,7 @@ public class MainController {
     AboutSystemScreen about;
     DbSettingsController dbSetCtrl;
     UserController usrCtrl;
+    UserPositionController posCtrl;
     ListOfValuesController lovCtrl;
     LanguageController langCtrl;
     Runtime run;
@@ -96,6 +98,7 @@ public class MainController {
         mainScreen.setListenerbtnOpenLanguage(new BtnOpenLanguageScreen());
         mainScreen.setListenerbtnOpenCalculator(new BtnOpenCalculator());
         mainScreen.setListenerbtnLockSystem(new BtnLockSystem());
+        mainScreen.setListenerbtnOpenUserPermition(new BtnOpenUserPermition());
         
         setScrVisible("Principal", true);
         //dbParamTest = new DBParametersTest();
@@ -187,6 +190,22 @@ public class MainController {
             usrCtrl.openUserScreen("MAIN", "");
             usrCtrl.setUser(getUser());
             usrCtrl.setPassword(getPassword());
+        }
+        
+    }
+    
+    public class BtnOpenUserPermition implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            try {
+                posCtrl = new UserPositionController();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            posCtrl.setDbUser(getUser());
+            posCtrl.setDbPassword(getPassword());
+            posCtrl.openUserPositionScreen();
         }
         
     }
