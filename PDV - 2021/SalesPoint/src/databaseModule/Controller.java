@@ -170,6 +170,7 @@ public abstract class Controller {
     public abstract String insertMultipleRecords(String table, ArrayList<DataController.InsertMultipleLineClass> sqlCommand);
     public abstract int updateRecord(String table, String columnsValues, String condition);
     public abstract int deleteRecord(String table, String condition);
+    public abstract String executeGenericDBCommand(ArrayList<DataController.GenericCommandClass> sqlCommand);
     public abstract int queryTableCount(String table, String condition);
     public abstract ArrayList<DataController.UserClass> queryUserRecord(String query);
     public abstract ArrayList<DataController.PositionClass> queryPositionRecord(String query);
@@ -178,6 +179,7 @@ public abstract class Controller {
     public abstract ArrayList<DataController.ContactClass> queryContactRecord(String query);
     public abstract ArrayList<DataController.SocialMediaClass> querySocialMediaRecord(String query);
     public abstract ArrayList<DataController.LanguageClass> queryLanguageRecord(String query);
+    public abstract ArrayList<DataController.SessionClass> queryUserSessionRecord(String user);
     public abstract String getNextRowId();
     public abstract String getConnectedUserId();
     public abstract String getUserIdByLogin(String login);

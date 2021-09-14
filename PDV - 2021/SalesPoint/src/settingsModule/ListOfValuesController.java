@@ -44,11 +44,11 @@ public class ListOfValuesController extends DataController {
 
     public ListOfValuesController() throws InterruptedException { }
     
-    public String getUser() { return user; }
+    /*public String getUser() { return user; }
     public void setUser(String user) { this.user = user; }
 
     public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    public void setPassword(String password) { this.password = password; }*/
 
     public String getLastLOVAdd() { return lastLOVAdd; }
     public void setLastLOVAdd(String lastLOVAdd) { this.lastLOVAdd = lastLOVAdd; }

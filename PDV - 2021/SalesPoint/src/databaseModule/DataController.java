@@ -67,6 +67,9 @@ public abstract class DataController extends Controller{
                 } else if(e.toString().contains("java.sql.SQLRecoverableException: Erro de ES: Unknown host specified ")){
                     JOptionPane.showMessageDialog(null, "Erro ao tentar realizar conexão com o Banco de dados. Verifique o Host.","Erro",JOptionPane.ERROR_MESSAGE);
                     System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "Erro ao tentar realizar conexão com o Banco de dados. Verifique o Host.");
+                } else if(e.toString().contains("ORA-28000: the account is locked")){
+                    JOptionPane.showMessageDialog(null, "Usuário Bloqueado. Para desbloqueio, favor entrar em contato com o administrador do sistema.","Erro",JOptionPane.ERROR_MESSAGE);
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "Usuário Bloqueado. Para desbloqueio, favor entrar em contato com o administrador do sistema.");
                 } else {
                     JOptionPane.showMessageDialog(null, "Erro ao conectar com o banco de dados!\n" + e,"Erro",JOptionPane.ERROR_MESSAGE);
                     System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "OpenConnection" + "\t\t" + "ObjMgrSqlLog" + "\t" + "Error" + "\t" + "Erro ao conectar com o banco de dados! Erro: " + e);
@@ -913,6 +916,49 @@ public abstract class DataController extends Controller{
     }
 
     @Override
+    public String executeGenericDBCommand(ArrayList<GenericCommandClass> sqlCommand){
+        long tempoInicial = 0;
+        long tempoFinal = 0;
+        long tempoExec = 0;
+        String cmd = "";
+        
+        System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "ExecuteGenericDBCommand" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\t" + "BEGIN: Preparando a instrução para executar comandos de banco de dadoss");
+        System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "ExecuteGenericDBCommand" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\t" + "Criando Statement");
+        try{
+            if("true".equals(openConnection("Executando comandos de Banco de dados"))){
+                super.setConnectionOpen(true);
+                
+                statement = conn.createStatement();
+                tempoInicial = System.currentTimeMillis();
+                for(int i = 0; i < sqlCommand.size(); i++){
+                    cmd = sqlCommand.get(i).getSqlCommand();
+                    System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "ExecuteGenericDBCommand" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução:\n" + cmd);
+                    statement.execute(cmd);
+                }
+                tempoFinal = System.currentTimeMillis();
+                tempoExec = tempoFinal - tempoInicial;
+                
+                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "ExecuteGenericDBCommand" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "ExecuteGenericDBCommand" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "ExecuteGenericDBCommand" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+                System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "ExecuteGenericDBCommand" + "\t" + "ObjMgrSqlLog" + "\t" + "Execute" + "\t" + "END: Instrução INSERT para inserir dados na tabela finalizada");
+                
+                closeConnection("Registro inserido com sucesso...");
+                super.setConnectionOpen(false);
+                if(!super.getSilentInsertMode()) { JOptionPane.showMessageDialog(null, "Registro inserido com sucesso!"); }
+            } else {
+                if(!super.getSilentInsertMode()) { JOptionPane.showMessageDialog(null, "Erro ao inserir registro no banco de dados!"); }
+            }
+            return "true";
+        } catch (HeadlessException | SQLException e){
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "ExecuteGenericDBCommand" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução:\n" + cmd);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "ExecuteGenericDBCommand" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + e);
+            JOptionPane.showMessageDialog(null, "Erro ao inserir registros no banco de dados!\nErro: " + e);
+            return "false";
+        }
+    }
+    
+    @Override
     public int queryTableCount(String table, String condition){
         int count = 0;
         long tempoInicial = 0;
@@ -1015,6 +1061,9 @@ public abstract class DataController extends Controller{
                 list.setAGE(rs.getString("AGE"));
                 if(!"".equals(rs.getString("BIRTH_DT")) && rs.getString("BIRTH_DT") != null) {
                     list.setBIRTH_DT(rs.getString("BIRTH_DT").substring(8, 10) + "/" + rs.getString("BIRTH_DT").substring(5, 7) + "/" + rs.getString("BIRTH_DT").substring(0, 4));
+                    list.setBIRTH_DAY(rs.getString("BIRTH_DT").substring(8, 10));
+                    list.setBIRTH_MONTH(rs.getString("BIRTH_DT").substring(5, 7));
+                    list.setBIRTH_YEAR(rs.getString("BIRTH_DT").substring(0, 4));
                 }
                 list.setPLACE_OF_BIRTH(rs.getString("PLACE_OF_BIRTH"));
                 list.setSEX_MF(rs.getString("SEX_MF"));
@@ -2261,6 +2310,65 @@ public abstract class DataController extends Controller{
     }
     
     @Override
+    public ArrayList<SessionClass> queryUserSessionRecord(String user){
+        ArrayList<SessionClass> result = new ArrayList<>();
+        int count = 0;
+        long tempoInicial = 0;
+        long tempoFinal = 0;
+        long tempoExec = 0;
+        String query = "";
+        
+        if(super.getDbDriver().toUpperCase().contains("ORACLE")) {
+            query = "SELECT\n\tSID,\n\tSERIAL# AS SERIAL,\n\tSTATUS,\n\tSERVER\nFROM V$SESSION\nWHERE USERNAME = '" + user + "'";
+        }
+        
+        System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserSessionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "BEGIN: Preparando a instrução SELECT para buscar dados na tabela");
+        System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserSessionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Owner: " + super.getDbOwner());
+        System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserSessionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Tabela: " + super.getTblLang());
+        
+        try{
+            if(!super.isConnectionOpen()){
+                openConnection("Buscando na Lista de Idiomas");
+            }
+            statement = conn.createStatement();
+            tempoInicial = System.currentTimeMillis();
+            ResultSet rs = statement.executeQuery(query);
+
+            while(rs.next()){
+                SessionClass session = new SessionClass();
+
+                session.setSid(rs.getString("SID"));
+                session.setSerial(rs.getString("SERIAL"));
+                session.setStatus(rs.getString("STATUS"));
+                session.setServer(rs.getString("SERVER"));
+
+                result.add(session);
+                count++;
+            }
+            tempoFinal = System.currentTimeMillis();
+            tempoExec = tempoFinal - tempoInicial;
+
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserSessionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + query);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserSessionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Início da execução da instrução: " + (tempoInicial / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserSessionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Fim da execução da instrução: " + (tempoFinal / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserSessionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\n" + "***** Tempo total da execução da instrução: " + (tempoExec / 1000.0) + " segundos *****\n");
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserSessionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "Total de registros encontrados: " + count);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserSessionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "ExecuteQuery" + "\t" + "END: Instrução SELECT para selecionar dados na tabela finalizada");
+
+            rs.close();
+            if(!super.isConnectionOpen()){
+                closeConnection("Lista de Idiomas encontrada com sucesso");
+            }
+        } catch (HeadlessException | SQLException e){
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserSessionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Detail" + "\t" + "Instrução SELECT:" + "\n" + query);
+            System.out.println("\n" + super.getDateTime() + "\t" + "DatabaseModule" + "." + "DataController" + "\t\t" + "QueryUserSessionRecord" + "\t" + "ObjMgrSqlLog" + "\t" + "Error Exception" + "\t" + "Error: " + e);
+            JOptionPane.showMessageDialog(null, "Erro ao buscar registros de usuários no banco de dados!\nErro: " + e);
+        }
+        
+        return result;
+    }
+    
+    @Override
     public String LookupLangValue(String name){
         String value = null;
         int count = 0;
@@ -2726,6 +2834,9 @@ public abstract class DataController extends Controller{
         private String NICK_NAME;
         private String AGE;
         private String BIRTH_DT;
+        private String BIRTH_DAY;
+        private String BIRTH_MONTH;
+        private String BIRTH_YEAR;
         private String PLACE_OF_BIRTH;
         private String SEX_MF;
         private String MARITAL_STAT_CD;
@@ -2863,6 +2974,15 @@ public abstract class DataController extends Controller{
 
         public String getBIRTH_DT() { return BIRTH_DT; }
         public void setBIRTH_DT(String BIRTH_DT) { this.BIRTH_DT = BIRTH_DT; }
+        
+        public String getBIRTH_DAY() { return BIRTH_DAY; }
+        public void setBIRTH_DAY (String BIRTH_DAY) { this.BIRTH_DAY = BIRTH_DAY; }
+        
+        public String getBIRTH_MONTH() { return BIRTH_MONTH; }
+        public void setBIRTH_MONTH(String BIRTH_MONTH) { this.BIRTH_MONTH = BIRTH_MONTH; }
+        
+        public String getBIRTH_YEAR() { return BIRTH_YEAR; }
+        public void setBIRTH_YEAR(String BIRTH_YEAR) { this.BIRTH_YEAR = BIRTH_YEAR; }
 
         public String getPLACE_OF_BIRTH() { return PLACE_OF_BIRTH; }
         public void setPLACE_OF_BIRTH(String PLACE_OF_BIRTH) { this.PLACE_OF_BIRTH = PLACE_OF_BIRTH; }
@@ -4015,6 +4135,53 @@ public abstract class DataController extends Controller{
         public void setSqlValues(String sqlValues) { this.sqlValues = sqlValues; }
     }
     
+    public class GenericCommandClass {
+        String sqlCommand;
+
+        public GenericCommandClass() { sqlCommand = null;}
+
+        public String getSqlCommand() { return sqlCommand; }
+        public void setSqlCommand(String sqlColumns) { this.sqlCommand = sqlColumns; }
+        
+    }
+    
+    public class SessionClass {
+        String sid;
+        String serial;
+        String status;
+        String server;
+        String schemaname;
+        String machine;
+
+        public SessionClass() {
+            sid = null;
+            serial = null;
+            status = null;
+            server = null;
+            schemaname = null;
+            machine = null;
+        }
+
+        public String getSid() { return sid; }
+        public void setSid(String sid) { this.sid = sid; }
+
+        public String getSerial() { return serial; }
+        public void setSerial(String serial) { this.serial = serial; }
+
+        public String getStatus() { return status; }
+        public void setStatus(String status) { this.status = status; }
+
+        public String getServer() { return server; }
+        public void setServer(String server) { this.server = server; }
+
+        public String getSchemaname() { return schemaname; }
+        public void setSchemaname(String schemaname) { this.schemaname = schemaname; }
+
+        public String getMachine() { return machine; }
+        public void setMachine(String machine) { this.machine = machine; }
+        
+    }
+    
     public class dbSettingsScreenListener implements WindowListener {
 
         @Override
@@ -4050,5 +4217,7 @@ public abstract class DataController extends Controller{
         public void windowDeactivated(WindowEvent we) { }
         
     }
+    
+    
     
 }

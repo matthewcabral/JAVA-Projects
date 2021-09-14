@@ -1084,7 +1084,7 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="btnOpenUserPermition" min="-2" pref="113" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="btnOpenUserManagement2" min="-2" pref="113" max="-2" attributes="0"/>
+                                  <Component id="btnOpenChangePassword" min="-2" pref="113" max="-2" attributes="0"/>
                               </Group>
                               <Component id="jLabel5" max="32767" attributes="0"/>
                           </Group>
@@ -1131,7 +1131,7 @@
                                           <Component id="btnOpenUserManagement" alignment="0" min="-2" pref="67" max="-2" attributes="0"/>
                                           <Component id="btnOpenUserPermition" min="-2" pref="67" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="btnOpenUserManagement2" alignment="0" min="-2" pref="67" max="-2" attributes="0"/>
+                                      <Component id="btnOpenChangePassword" alignment="0" min="-2" pref="67" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
@@ -1339,7 +1339,7 @@
                     <Property name="verticalTextPosition" type="int" value="3"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JButton" name="btnOpenUserManagement2">
+                <Component class="javax.swing.JButton" name="btnOpenChangePassword">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ed" green="ed" red="ed" type="rgb"/>

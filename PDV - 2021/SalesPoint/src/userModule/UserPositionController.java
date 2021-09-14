@@ -5,7 +5,6 @@
  */
 package userModule;
 
-import databaseModule.DataController;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,7 +23,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Matheus Cabral Rosa
  */
-public class UserPositionController extends DataController {
+public class UserPositionController extends UserController {
     UserPostnMgrScreen posScreen;
     
     // Position Class & ArrayList
@@ -641,6 +640,7 @@ public class UserPositionController extends DataController {
                     
                     JOptionPane.showMessageDialog(null, "Registro(s) removido(s) com sucesso! Total de registros removidos:\nPosição: " + countPostn + " registro(s)\nLista de Valores: " + countLOV + " registro(s)\nPermissões da Posição: " + countPerm + " registro(s)");
                     super.clearCondition();
+                    posScreen.setSelectedRowColumnListPosition(0, 0);
                     posScreen.setlblRecCountPosList((posScreen.getSelectedRowPositionList() + 1) + " - " + String.valueOf(postnRowIdArray.size()));
                     return true;
                 } else {
@@ -898,7 +898,8 @@ public class UserPositionController extends DataController {
 
                         JOptionPane.showMessageDialog(null, "Registro(s) removido(s) com sucesso! Total de registros removidos:\nPermissão: " + countPerm + " registro(s)\nLista de Valores: " + countLOV + " registro(s)");
                         super.clearCondition();
-                        posScreen.setlblRecCountPosList((posScreen.getSelectedRowPositionList() + 1) + " - " + String.valueOf(postnRowIdArray.size()));
+                        posScreen.setSelectedRowColumnListPermission(0, 0);
+                        posScreen.setlblRecCountPosList((posScreen.getSelectedRowPermissionList() + 1) + " - " + String.valueOf(permRowIdArray.size()));
                         return true;
                     } else {
                         super.clearCondition();

@@ -8,6 +8,7 @@ package userModule;
 import addressModule.addressController;
 import contactModule.ContactController;
 import databaseModule.DataController;
+import databaseModule.DatabaseCommands;
 import databaseModule.EncryptDecryptWord;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
@@ -37,12 +38,11 @@ public class UserController extends DataController {
     ContactController cont;
     addressController addr;
     EncryptDecryptWord encryptDecrypt;
+    DatabaseCommands dbCommands;
     
     userIdClass userId;
     private ArrayList<userIdClass> userIdArray = new ArrayList<>();
     
-    private String user;
-    private String password;
     private String lastUserAdd;
     private String lastUserUpd;
     
@@ -53,12 +53,6 @@ public class UserController extends DataController {
     public UserController() throws InterruptedException {
         encryptDecrypt = new EncryptDecryptWord();
     }
-
-    public String getUser() { return user; }
-    public void setUser(String user) { this.user = user; }
-
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
 
     public String getLastUserAdd() { return lastUserAdd; }
     public void setLastUserAdd(String lastUserAdd) { this.lastUserAdd = lastUserAdd; }
@@ -88,6 +82,13 @@ public class UserController extends DataController {
         switch(screen) {
             case "MAIN":
                 userScreen = new UserScreen();
+                try {
+                    dbCommands = new DatabaseCommands();
+                    dbCommands.setDbUser(super.getDbUser());
+                    dbCommands.setDbPassword(super.getDbPassword());
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 userScreen.setListenerBtnEditUser(new buttonEdit());
                 userScreen.setListenerBtnNewUser(new buttonNew());
                 userScreen.setListenerBtnSaveUser(new buttonSave());
@@ -473,7 +474,7 @@ public class UserController extends DataController {
         }
     }
     
-    public boolean validatePassword(){
+    public boolean validatePassword(String user, String password, String passwordConf, String name, String day, String month, String year){
         // Validações de Senha:
         // Mínimo 8 caracteres
         // Mínimo uma Letra minúscula
@@ -489,9 +490,9 @@ public class UserController extends DataController {
         String[] minuscula = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "x", "w", "y", "z", "ç"};
         String[] numero = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
 
-        String diaNascimento = super.LookupName("MONTH_DAY", userScreen.getcbbDay());
-        String mesNascimento = super.LookupName("MONTH", userScreen.getcbbMonth());
-        String anoNascimento = userScreen.gettxtYear();
+        String diaNascimento = super.LookupName("MONTH_DAY", day);
+        String mesNascimento = month;
+        String anoNascimento = year;
         
         int passLength = 0;
         int totalMaiuscula = 0;
@@ -503,8 +504,8 @@ public class UserController extends DataController {
         int totalNome = 0;
         //int totalPassLastYear = 0;
 
-        if(userScreen.gettxtPass() != null){
-            passLength = userScreen.gettxtPass().length();
+        if(password != null){
+            passLength = password.length();
             
             System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "ValidatePassword" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Validação de Quantidade de caracteres" + "\t" + "Verificando quantidade de caracteres");
             if(passLength > 7) { System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "ValidatePassword" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Validação de Quantidade de caracteres" + "\t" + "Verificação OK: Maior ou igual a 8 caracteres"); } else { System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "ValidatePassword" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Validação de Quantidade de caracteres" + "\t" + "Verificação NÃO OK: Menor que 8 caracteres"); }
@@ -514,8 +515,8 @@ public class UserController extends DataController {
             // Validação de Letra maiúscula
             for(int i = 0; i < maiuscula.length; i++) {
                 for(int j = 0; j < passLength; j++) {
-                    //System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "ValidatePassword" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Validação de letra Maiúscula" + "\t" + "Encontrado: " + userScreen.gettxtPass().substring(j, j + 1));
-                    if(maiuscula[i].equals(userScreen.gettxtPass().substring(j, j + 1))) {
+                    //System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "ValidatePassword" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Validação de letra Maiúscula" + "\t" + "Encontrado: " + password.substring(j, j + 1));
+                    if(maiuscula[i].equals(password.substring(j, j + 1))) {
 
                         totalMaiuscula++;
                     }
@@ -527,8 +528,8 @@ public class UserController extends DataController {
             // Validação de Letra minúscula
             for(int i = 0; i < minuscula.length; i++) {
                 for(int j = 0; j < passLength; j++) {
-                    //System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "ValidatePassword" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Validação de letra Minúscula" + "\t" + "Encontrado: " + userScreen.gettxtPass().substring(j, j + 1));
-                    if(minuscula[i].equals(userScreen.gettxtPass().substring(j, j + 1))) {
+                    //System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "ValidatePassword" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Validação de letra Minúscula" + "\t" + "Encontrado: " + password.substring(j, j + 1));
+                    if(minuscula[i].equals(password.substring(j, j + 1))) {
                         totalMinuscula++;
                     }
                 }
@@ -540,8 +541,8 @@ public class UserController extends DataController {
             for(int i = 0; i < maiuscula.length; i++) {
                 for(int j = 0; j < passLength; j++) {
                     try{
-                        //System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "ValidatePassword" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Validação de caracteres repetidos Maiúsculo." + "\t" + "Encontrado: " + userScreen.gettxtPass().substring(j, j + 3));
-                        if((maiuscula[i] + maiuscula[i] + maiuscula[i]).equals(userScreen.gettxtPass().substring(j, j + 3))) {
+                        //System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "ValidatePassword" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Validação de caracteres repetidos Maiúsculo." + "\t" + "Encontrado: " + password.substring(j, j + 3));
+                        if((maiuscula[i] + maiuscula[i] + maiuscula[i]).equals(password.substring(j, j + 3))) {
                             totalCharRepetido++;
                         }
                     } catch (Exception e) {}
@@ -552,8 +553,8 @@ public class UserController extends DataController {
                 //System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "ValidatePassword" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Validação de caracteres repetidos Minúsculo." + "\t" + "Buscando por: " + minuscula[i] + minuscula[i] + minuscula[i]);
                 for(int j = 0; j < passLength; j++) {
                     try{
-                        //System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "ValidatePassword" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Validação de caracteres repetidos Minúsculo." + "\t" + "Encontrado: " + userScreen.gettxtPass().substring(j, j + 3));
-                        if((minuscula[i] + minuscula[i] + minuscula[i]).equals(userScreen.gettxtPass().substring(j, j + 3))) {
+                        //System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "ValidatePassword" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Validação de caracteres repetidos Minúsculo." + "\t" + "Encontrado: " + password.substring(j, j + 3));
+                        if((minuscula[i] + minuscula[i] + minuscula[i]).equals(password.substring(j, j + 3))) {
                             //System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "ValidatePassword" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Validação de caracteres repetidos Maiúsculo." + "\t" + "Caracter Encontrado");
                             totalCharRepetido++;
                         }
@@ -567,8 +568,8 @@ public class UserController extends DataController {
             for(int i = 0; i < numero.length; i++) {
                 //System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "ValidatePassword" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Validação de mínimo 1 número" + "\t" + "Buscando por: " + numero[i]);
                 for(int j = 0; j < passLength; j++) {
-                    //System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "ValidatePassword" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Validação de mínimo 1 número" + "\t" + "Encontrado: " + userScreen.gettxtPass().substring(j, j + 1));
-                    if(numero[i].equals(userScreen.gettxtPass().substring(j, j + 1))) {
+                    //System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "ValidatePassword" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Validação de mínimo 1 número" + "\t" + "Encontrado: " + password.substring(j, j + 1));
+                    if(numero[i].equals(password.substring(j, j + 1))) {
                         //System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "ValidatePassword" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Validação de mínimo 1 número" + "\t" + "Número Encontrado");
                         totalNumero++;
                     }
@@ -593,43 +594,43 @@ public class UserController extends DataController {
             for(int i = 0; i < passLength; i++) {            
                 try{                
                     if((i + 8) <= passLength){
-                        if((diaNascimento + mesNascimento + anoNascimento).equals(userScreen.gettxtPass().substring(i, i + 8))) { totalDataNasc++; }
-                        if((diaNascimento + anoNascimento + mesNascimento).equals(userScreen.gettxtPass().substring(i, i + 8))) { totalDataNasc++; }
-                        if((mesNascimento + diaNascimento + anoNascimento).equals(userScreen.gettxtPass().substring(i, i + 8))) { totalDataNasc++; }
-                        if((mesNascimento + anoNascimento + diaNascimento).equals(userScreen.gettxtPass().substring(i, i + 8))) { totalDataNasc++; }
-                        if((anoNascimento + diaNascimento + mesNascimento).equals(userScreen.gettxtPass().substring(i, i + 8))) { totalDataNasc++; }
-                        if((anoNascimento + mesNascimento + diaNascimento).equals(userScreen.gettxtPass().substring(i, i + 8))) { totalDataNasc++; }
-                        //System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "ValidatePassword" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Validação de data de nascimento" + "\t" + "Encontrado: " + userScreen.gettxtPass().substring(i, i + 8));
+                        if((diaNascimento + mesNascimento + anoNascimento).equals(password.substring(i, i + 8))) { totalDataNasc++; }
+                        if((diaNascimento + anoNascimento + mesNascimento).equals(password.substring(i, i + 8))) { totalDataNasc++; }
+                        if((mesNascimento + diaNascimento + anoNascimento).equals(password.substring(i, i + 8))) { totalDataNasc++; }
+                        if((mesNascimento + anoNascimento + diaNascimento).equals(password.substring(i, i + 8))) { totalDataNasc++; }
+                        if((anoNascimento + diaNascimento + mesNascimento).equals(password.substring(i, i + 8))) { totalDataNasc++; }
+                        if((anoNascimento + mesNascimento + diaNascimento).equals(password.substring(i, i + 8))) { totalDataNasc++; }
+                        //System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "ValidatePassword" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Validação de data de nascimento" + "\t" + "Encontrado: " + password.substring(i, i + 8));
                         //System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "ValidatePassword" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Validação de data de nascimento" + "\t\t" + "Data de Nascimento Encontrada");
                     } else {
-                        if((diaNascimento + mesNascimento + anoNascimento).equals(userScreen.gettxtPass().substring(i, passLength - 1))) { totalDataNasc++; }
-                        if((diaNascimento + anoNascimento + mesNascimento).equals(userScreen.gettxtPass().substring(i, passLength - 1))) { totalDataNasc++; }
-                        if((mesNascimento + diaNascimento + anoNascimento).equals(userScreen.gettxtPass().substring(i, passLength - 1))) { totalDataNasc++; }
-                        if((mesNascimento + anoNascimento + diaNascimento).equals(userScreen.gettxtPass().substring(i, passLength - 1))) { totalDataNasc++; }
-                        if((anoNascimento + diaNascimento + mesNascimento).equals(userScreen.gettxtPass().substring(i, passLength - 1))) { totalDataNasc++; }
-                        if((anoNascimento + mesNascimento + diaNascimento).equals(userScreen.gettxtPass().substring(i, passLength - 1))) { totalDataNasc++; }
+                        if((diaNascimento + mesNascimento + anoNascimento).equals(password.substring(i, passLength - 1))) { totalDataNasc++; }
+                        if((diaNascimento + anoNascimento + mesNascimento).equals(password.substring(i, passLength - 1))) { totalDataNasc++; }
+                        if((mesNascimento + diaNascimento + anoNascimento).equals(password.substring(i, passLength - 1))) { totalDataNasc++; }
+                        if((mesNascimento + anoNascimento + diaNascimento).equals(password.substring(i, passLength - 1))) { totalDataNasc++; }
+                        if((anoNascimento + diaNascimento + mesNascimento).equals(password.substring(i, passLength - 1))) { totalDataNasc++; }
+                        if((anoNascimento + mesNascimento + diaNascimento).equals(password.substring(i, passLength - 1))) { totalDataNasc++; }
                     }
 
                     if((i + 6) <= passLength){
-                        if((diaNascimento + mesNascimento + anoNascimento.substring(2, 4)).equals(userScreen.gettxtPass().substring(i, i + 6))) { totalDataNasc++; }
-                        if((diaNascimento + anoNascimento.substring(2, 4) + mesNascimento).equals(userScreen.gettxtPass().substring(i, i + 6))) { totalDataNasc++; }
-                        if((mesNascimento + diaNascimento + anoNascimento.substring(2, 4)).equals(userScreen.gettxtPass().substring(i, i + 6))) { totalDataNasc++; }
-                        if((mesNascimento + anoNascimento.substring(2, 4) + diaNascimento).equals(userScreen.gettxtPass().substring(i, i + 6))) { totalDataNasc++; }
-                        if((anoNascimento.substring(2, 4) + diaNascimento + mesNascimento).equals(userScreen.gettxtPass().substring(i, i + 6))) { totalDataNasc++; }
-                        if((anoNascimento.substring(2, 4) + mesNascimento + diaNascimento).equals(userScreen.gettxtPass().substring(i, i + 6))) { totalDataNasc++; }
-                        //System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "ValidatePassword" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Validação de data de nascimento" + "\t" + "Encontrado: " + userScreen.gettxtPass().substring(i, i + 6));
+                        if((diaNascimento + mesNascimento + anoNascimento.substring(2, 4)).equals(password.substring(i, i + 6))) { totalDataNasc++; }
+                        if((diaNascimento + anoNascimento.substring(2, 4) + mesNascimento).equals(password.substring(i, i + 6))) { totalDataNasc++; }
+                        if((mesNascimento + diaNascimento + anoNascimento.substring(2, 4)).equals(password.substring(i, i + 6))) { totalDataNasc++; }
+                        if((mesNascimento + anoNascimento.substring(2, 4) + diaNascimento).equals(password.substring(i, i + 6))) { totalDataNasc++; }
+                        if((anoNascimento.substring(2, 4) + diaNascimento + mesNascimento).equals(password.substring(i, i + 6))) { totalDataNasc++; }
+                        if((anoNascimento.substring(2, 4) + mesNascimento + diaNascimento).equals(password.substring(i, i + 6))) { totalDataNasc++; }
+                        //System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "ValidatePassword" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Validação de data de nascimento" + "\t" + "Encontrado: " + password.substring(i, i + 6));
                         //System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "ValidatePassword" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Validação de data de nascimento" + "\t\t" + "Data de Nascimento Encontrada");
                     } else {
-                        if((diaNascimento + mesNascimento + anoNascimento.substring(2, 4)).equals(userScreen.gettxtPass().substring(i, passLength - 1))) { totalDataNasc++; }
-                        if((diaNascimento + anoNascimento.substring(2, 4) + mesNascimento).equals(userScreen.gettxtPass().substring(i, passLength - 1))) { totalDataNasc++; }
-                        if((mesNascimento + diaNascimento + anoNascimento.substring(2, 4)).equals(userScreen.gettxtPass().substring(i, passLength - 1))) { totalDataNasc++; }
-                        if((mesNascimento + anoNascimento.substring(2, 4) + diaNascimento).equals(userScreen.gettxtPass().substring(i, passLength - 1))) { totalDataNasc++; }
-                        if((anoNascimento.substring(2, 4) + diaNascimento + mesNascimento).equals(userScreen.gettxtPass().substring(i, passLength - 1))) { totalDataNasc++; }
-                        if((anoNascimento.substring(2, 4) + mesNascimento + diaNascimento).equals(userScreen.gettxtPass().substring(i, passLength - 1))) { totalDataNasc++; }
+                        if((diaNascimento + mesNascimento + anoNascimento.substring(2, 4)).equals(password.substring(i, passLength - 1))) { totalDataNasc++; }
+                        if((diaNascimento + anoNascimento.substring(2, 4) + mesNascimento).equals(password.substring(i, passLength - 1))) { totalDataNasc++; }
+                        if((mesNascimento + diaNascimento + anoNascimento.substring(2, 4)).equals(password.substring(i, passLength - 1))) { totalDataNasc++; }
+                        if((mesNascimento + anoNascimento.substring(2, 4) + diaNascimento).equals(password.substring(i, passLength - 1))) { totalDataNasc++; }
+                        if((anoNascimento.substring(2, 4) + diaNascimento + mesNascimento).equals(password.substring(i, passLength - 1))) { totalDataNasc++; }
+                        if((anoNascimento.substring(2, 4) + mesNascimento + diaNascimento).equals(password.substring(i, passLength - 1))) { totalDataNasc++; }
                     }
 
                     /*if(((i + 6) > passLength) || ((i + 8) > passLength)){
-                        //System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "ValidatePassword" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Validação de data de nascimento" + "\t" + "Encontrado: " + userScreen.gettxtPass().substring(i, userScreen.gettxtPass().length() - i));
+                        //System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "ValidatePassword" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Validação de data de nascimento" + "\t" + "Encontrado: " + password.substring(i, password.length() - i));
                         //System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "ValidatePassword" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Validação de data de nascimento" + "\t\t" + "Data de Nascimento NÃO Encontrada");
                         i = passLength;
                     }*/
@@ -643,9 +644,9 @@ public class UserController extends DataController {
             // Validação de nome de usuário
             for(int i = 0; i < passLength; i++) {
                 try{
-                    if((userScreen.gettxtUser()).equals(userScreen.gettxtPass().substring(i, i + userScreen.gettxtUser().length()))) {
+                    if((user).equals(password.substring(i, i + user.length()))) {
                         totalNomeUser++;
-                        i = userScreen.gettxtPass().length();
+                        i = password.length();
                     }
                 } catch (Exception e) {}
             }
@@ -655,9 +656,9 @@ public class UserController extends DataController {
             // Validação de nome
             for(int i = 0; i < passLength; i++) {
                 try{
-                    if((userScreen.gettxtName()).equals(userScreen.gettxtPass().substring(i, i + userScreen.gettxtName().length()))) {
+                    if((name).equals(password.substring(i, i + name.length()))) {
                         totalNome++;
-                        i = userScreen.gettxtPass().length();
+                        i = password.length();
                     }
                 } catch (Exception e) {}
             }
@@ -666,7 +667,7 @@ public class UserController extends DataController {
             //SELECT * FROM PDV.T_USER_HISTORY WHERE PAR_ROW_ID = 'USER_ID'
             /*
             for(int i = 0; i < userHistory.size(); i++) {
-                if(userScreen.gettxtPass().equals(userHistory.get(i).getPASWORD())) {
+                if(password.equals(userHistory.get(i).getPASWORD())) {
                     totalPassLastYear++;
                 }
             }
@@ -688,7 +689,7 @@ public class UserController extends DataController {
             JOptionPane.showMessageDialog(null, "O campo 'Senha' não preencheu o(s) seguinte(s) requisito(s):" + mensagem);
             return false;
         } else {
-            if(!userScreen.gettxtPass().equals(userScreen.gettxtPassVerification())){
+            if(!password.equals(passwordConf)){
                 JOptionPane.showMessageDialog(null, "Os campos 'Senha' e 'Verificação de Senha' não coincidem! Favor corrigir os mesmos.");
                 return false;
             } else {
@@ -766,6 +767,7 @@ public class UserController extends DataController {
         super.setColumns(",\n\t" + "COMMENTS"); super.setValues(",\n\t" + "NULL");
         
         try{
+            super.setSilentInsertMode(true);
             if("true".equals(super.insertRecord(super.getTblUser(), super.getColumns(), super.getValues()))){
                 this.userId = new userIdClass();
                 this.userId.setRow_Id(userId);
@@ -825,17 +827,28 @@ public class UserController extends DataController {
                 } catch(Exception e) { }
                 
                 this.updateUserPrimaryContactAddress(userId);
+                
+                try{                    
+                    if("true".equals(super.executeGenericDBCommand(dbCommands.getCreateUser(userScreen.gettxtUser(), userScreen.gettxtPass())))){
+                        if("true".equals(super.executeGenericDBCommand(dbCommands.getUserGrants(userScreen.gettxtUser(), userScreen.getcbbPosition(), (("Administrador".equals(userScreen.getcbbPosition()))))))){
+                            JOptionPane.showMessageDialog(null, "Registro inserido com sucesso!");
+                        }
+                    }
+                } catch(Exception e) { }
+                super.setSilentInsertMode(false);
                 return true;
             } else {
                 userId = null;
                 this.clearColumns();
                 this.clearValues();
+                super.setSilentInsertMode(false);
                 return false;
             }
         } catch (Exception e) {
             userId = null;
             this.clearColumns();
             this.clearValues();
+            super.setSilentInsertMode(false);
             return false;
         }
     }
@@ -959,6 +972,14 @@ public class UserController extends DataController {
                         } catch (Exception e) { }
                         
                         this.updateUserPrimaryContactAddress(userId);
+                        
+                        super.setSilentInsertMode(true);
+                        try{
+                            super.executeGenericDBCommand(dbCommands.getUserGrants(userScreen.gettxtUser(), userScreen.getcbbPosition(), (("Administrador".equals(userScreen.getcbbPosition())))));
+                            super.executeGenericDBCommand(dbCommands.getRevokeUserGrants(userScreen.gettxtUser(), userScreen.getcbbPosition(), ("Y".equals(userScreen.getckbActiveUserFlg()))));
+                        } catch(Exception e) { }
+                        super.setSilentInsertMode(false);
+                        
                         retorno = true;
                     } else {
                         super.clearColumnsValues();
@@ -1017,28 +1038,71 @@ public class UserController extends DataController {
         int countSocialMedia = 0;
         
         if(super.wishDeleteRecord()){
-            ArrayList<ContactClass> contact = null;
-            ArrayList<SocialMediaClass> socialMedia = null;
-            super.clearCondition();
-            
-            contact = super.queryContactRecord("SELECT *\nFROM " + super.getDbOwner() + "." + getTblContact() + "\nWHERE PAR_USR_ID = '" + userScreen.gettxtRowId() + "'\nAND PAR_ROW_ID = '" + userScreen.gettxtRowId() + "'");
-            
-            if(contact.size() > 0){
-                super.setCondition("PAR_ROW_ID IN (");
-                for(int i = 0; i < contact.size(); i++){
-                    if(i == 0){
-                        super.setCondition("\n\t'" + contact.get(i).getRow_id() + "'");
+            try{
+                // Verify if user beeing deleted has opened Session
+                ArrayList<SessionClass> sessionArray = queryUserSessionRecord(userScreen.gettxtUser());
+                GenericCommandClass generic;
+                ArrayList<GenericCommandClass> insertArray = new ArrayList<>();
+                
+                super.setSilentInsertMode(true);
+                if(sessionArray.size() > 0) {
+                    if(JOptionPane.showConfirmDialog(null, "O usuário está conectado atualmente. Tem certeza que deseja excluir?","Atenção",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION){
+                        for(int i = 0; i < sessionArray.size(); i++) {
+                            generic = new GenericCommandClass();
+                            generic.setSqlCommand("ALTER SYSTEM KILL SESSION '" + sessionArray.get(i).getSid() + "," + sessionArray.get(i).getSerial() + "'\n");
+                            insertArray.add(generic);
+                        }
+                        super.executeGenericDBCommand(insertArray);
                     } else {
-                        super.setCondition(",\n\t'" + contact.get(i).getRow_id() + "'");
+                        return false;
                     }
                 }
-                super.setCondition("\n)\nAND PAR_USR_ID = '" + userScreen.gettxtRowId() + "'");
-                
-                socialMedia = super.querySocialMediaRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblSocialMedia() + "\nWHERE " + super.getCondition());
-                
-                if(socialMedia.size() > 0) {
-                    countSocialMedia = super.deleteRecord(super.getTblSocialMedia(), super.getCondition());
-                    if(countSocialMedia > 0){
+            } catch (HeadlessException e) { }
+            
+            try {
+                ArrayList<ContactClass> contact = null;
+                ArrayList<SocialMediaClass> socialMedia = null;
+                super.clearCondition();
+
+                contact = super.queryContactRecord("SELECT *\nFROM " + super.getDbOwner() + "." + getTblContact() + "\nWHERE PAR_USR_ID = '" + userScreen.gettxtRowId() + "'\nAND PAR_ROW_ID = '" + userScreen.gettxtRowId() + "'");
+
+                if(contact.size() > 0){
+                    super.setCondition("PAR_ROW_ID IN (");
+                    for(int i = 0; i < contact.size(); i++){
+                        if(i == 0){
+                            super.setCondition("\n\t'" + contact.get(i).getRow_id() + "'");
+                        } else {
+                            super.setCondition(",\n\t'" + contact.get(i).getRow_id() + "'");
+                        }
+                    }
+                    super.setCondition("\n)\nAND PAR_USR_ID = '" + userScreen.gettxtRowId() + "'");
+
+                    socialMedia = super.querySocialMediaRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblSocialMedia() + "\nWHERE " + super.getCondition());
+
+                    if(socialMedia.size() > 0) {
+                        countSocialMedia = super.deleteRecord(super.getTblSocialMedia(), super.getCondition());
+                        if(countSocialMedia > 0){
+                            try{
+                                cont.updateArrayAfterDelete("CONTACT");
+                            } catch (Exception e) {
+                                try {
+                                    cont = new ContactController();    
+                                    cont.updateArrayAfterDelete("CONTACT");
+                                } catch (InterruptedException ex) {
+                                    Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                        }
+                    }
+
+                    super.clearCondition();
+
+                    super.setCondition("PAR_ROW_ID = '" + userScreen.gettxtRowId() + "'");
+                    super.setCondition("\nAND PAR_USR_ID = '" + userScreen.gettxtRowId() + "'");
+
+                    countContact = super.deleteRecord(super.getTblContact(), super.getCondition());
+
+                    if(countContact > 0){
                         try{
                             cont.updateArrayAfterDelete("CONTACT");
                         } catch (Exception e) {
@@ -1050,42 +1114,28 @@ public class UserController extends DataController {
                             }
                         }
                     }
+                    super.clearCondition();
                 }
-                
-                super.clearCondition();
-                
-                super.setCondition("PAR_ROW_ID = '" + userScreen.gettxtRowId() + "'");
-                super.setCondition("\nAND PAR_USR_ID = '" + userScreen.gettxtRowId() + "'");
-                
-                countContact = super.deleteRecord(super.getTblContact(), super.getCondition());
-                
-                if(countContact > 0){
-                    try{
-                        cont.updateArrayAfterDelete("CONTACT");
-                    } catch (Exception e) {
-                        try {
-                            cont = new ContactController();    
-                            cont.updateArrayAfterDelete("CONTACT");
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                }
-                super.clearCondition();
-            }
+            } catch (HeadlessException e) { }
             
             super.setCondition("ROW_ID = '" + userScreen.gettxtRowId() + "'");
             try{
                 countUser = super.deleteRecord(super.getTblUser(), super.getCondition());
                 if(countUser > 0){
+                    try{                        
+                        super.executeGenericDBCommand(dbCommands.getDropUser(userScreen.gettxtUser()));
+                    } catch(Exception e) { }
+                    super.setSilentInsertMode(false);
                     JOptionPane.showMessageDialog(null, "Registro(s) removido(s) com sucesso! Total de registros removidos:\nUsuário: " + countUser + " registro(s)\nContato: " + countContact + " registro(s)\nRedes Sociais: " + countSocialMedia + " registro(s)");
                     super.clearCondition();
                     return true;
                 } else {
+                    super.setSilentInsertMode(false);
                     super.clearCondition();
                     return false;
                 }
             } catch (HeadlessException e) {
+                super.setSilentInsertMode(false);
                 super.clearCondition();
                 return false;
             }
@@ -1095,7 +1145,16 @@ public class UserController extends DataController {
     }
     
     public void save(){
-        if(validateFields() && validatePassword()){
+        if(validateFields() && 
+        validatePassword(
+            userScreen.gettxtUser(), 
+            userScreen.gettxtPass(), 
+            userScreen.gettxtPassVerification(), 
+            userScreen.gettxtName(), 
+            userScreen.getcbbDay(), 
+            userScreen.getcbbMonth(), 
+            userScreen.gettxtYear())
+        ){
             try{
                 ArrayList<UserClass> userList = queryUserRecord("SELECT *\nFROM " + getDbOwner() + "." + getTblUser() + "\nWHERE ROW_ID = '" + userScreen.gettxtRowId() + "'");
                 if(userList.size() > 0) {
@@ -1263,8 +1322,8 @@ public class UserController extends DataController {
                     Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            cont.setDbUser(getUser());
-            cont.setDbPassword(getPassword());
+            cont.setDbUser(getDbUser());
+            cont.setDbPassword(getDbPassword());
             cont.clearVariables();
             cont.setOpenFromScreen("USER");
             cont.setUserId(userScreen.gettxtRowId());
@@ -1305,8 +1364,8 @@ public class UserController extends DataController {
                 }
             }
             
-            addr.setDbUser(getUser());
-            addr.setDbPassword(getPassword());
+            addr.setDbUser(getDbUser());
+            addr.setDbPassword(getDbPassword());
             addr.setOpenFromScreen("USER");
             addr.setUserId(userScreen.gettxtRowId());        
             addr.openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR\nWHERE ADDR.PAR_ROW_ID = '" + userScreen.gettxtRowId() + "'" + ((!"".equals(condition)) ? "\nOR ROW_ID IN (\n\t" + condition + ")\n" : "\n") + "ORDER BY ADDR.ROW_ID ASC", "NEW_USER_ADDRESS");
@@ -1334,8 +1393,8 @@ public class UserController extends DataController {
                 if(!"".equals(loginScreen.getPassword()) && loginScreen.getPassword() != null){
                     setDbUser(loginScreen.getUser());
                     setDbPassword(loginScreen.getPassword());
-                    setUser(loginScreen.getUser());
-                    setPassword(loginScreen.getPassword());
+                    /*setUser(loginScreen.getUser());
+                    setPassword(loginScreen.getPassword());*/
                     if(readParameters()){
                         if(tryLogin()){
                             loginScreen.dispose();

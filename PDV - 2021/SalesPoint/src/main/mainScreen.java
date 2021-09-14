@@ -48,6 +48,7 @@ public class mainScreen extends javax.swing.JFrame {
     public void setListenerbtnOpenCalculator(ActionListener listener) { btnOpenCalculator.addActionListener(listener); }
     public void setListenerbtnLockSystem(ActionListener listener) { btnLockSystem.addActionListener(listener); }
     public void setListenerbtnOpenUserPermition(ActionListener listener) { btnOpenUserPermition.addActionListener(listener); }
+    public void setListenerbtnOpenChangePassword(ActionListener listener) { btnOpenChangePassword.addActionListener(listener); }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -109,7 +110,7 @@ public class mainScreen extends javax.swing.JFrame {
         btnOpenUserPermition = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
         btnOpenSysLanguage = new javax.swing.JButton();
-        btnOpenUserManagement2 = new javax.swing.JButton();
+        btnOpenChangePassword = new javax.swing.JButton();
         PanelLogo = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         PanelInfo = new javax.swing.JPanel();
@@ -770,17 +771,17 @@ public class mainScreen extends javax.swing.JFrame {
         btnOpenSysLanguage.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         btnOpenSysLanguage.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
-        btnOpenUserManagement2.setBackground(new java.awt.Color(237, 237, 237));
-        btnOpenUserManagement2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/50px/Key 50x50.png"))); // NOI18N
-        btnOpenUserManagement2.setText("Alterar Minha Senha");
-        btnOpenUserManagement2.setToolTipText("");
-        btnOpenUserManagement2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        btnOpenUserManagement2.setBorderPainted(false);
-        btnOpenUserManagement2.setContentAreaFilled(false);
-        btnOpenUserManagement2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnOpenUserManagement2.setIconTextGap(2);
-        btnOpenUserManagement2.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        btnOpenUserManagement2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnOpenChangePassword.setBackground(new java.awt.Color(237, 237, 237));
+        btnOpenChangePassword.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/50px/Key 50x50.png"))); // NOI18N
+        btnOpenChangePassword.setText("Alterar Minha Senha");
+        btnOpenChangePassword.setToolTipText("");
+        btnOpenChangePassword.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnOpenChangePassword.setBorderPainted(false);
+        btnOpenChangePassword.setContentAreaFilled(false);
+        btnOpenChangePassword.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnOpenChangePassword.setIconTextGap(2);
+        btnOpenChangePassword.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        btnOpenChangePassword.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         javax.swing.GroupLayout PanelSettingsLayout = new javax.swing.GroupLayout(PanelSettings);
         PanelSettings.setLayout(PanelSettingsLayout);
@@ -803,7 +804,7 @@ public class mainScreen extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnOpenUserPermition, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnOpenUserManagement2, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnOpenChangePassword, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -839,7 +840,7 @@ public class mainScreen extends javax.swing.JFrame {
                             .addGroup(PanelSettingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(btnOpenUserManagement, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(btnOpenUserPermition, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnOpenUserManagement2, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnOpenChangePassword, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel5))
                     .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1051,6 +1052,7 @@ public class mainScreen extends javax.swing.JFrame {
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnLockSystem;
     private javax.swing.JButton btnOpenCalculator;
+    private javax.swing.JButton btnOpenChangePassword;
     private javax.swing.JButton btnOpenClientCreator;
     private javax.swing.JButton btnOpenClientCreator1;
     private javax.swing.JButton btnOpenClientCreator10;
@@ -1072,7 +1074,6 @@ public class mainScreen extends javax.swing.JFrame {
     private javax.swing.JButton btnOpenListOfValues;
     private javax.swing.JButton btnOpenSysLanguage;
     private javax.swing.JButton btnOpenUserManagement;
-    private javax.swing.JButton btnOpenUserManagement2;
     private javax.swing.JButton btnOpenUserPermition;
     private javax.swing.JMenuItem closeMenuBtn;
     private javax.swing.JMenuBar defaultMenu;

@@ -24,8 +24,6 @@ import javax.swing.table.DefaultTableModel;
 public class LanguageController extends DataController {
     LanguageScreen langScr;
     
-    private String user;
-    private String password;
     private String lastLangAdd;
     private String lastLangUpd;
     private int count;
@@ -39,12 +37,6 @@ public class LanguageController extends DataController {
 
     public LanguageController() throws InterruptedException { }
     
-    public String getUser() { return user; }
-    public void setUser(String user) { this.user = user; }
-
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
-
     public String getLastLangAdd() { return lastLangAdd; }
     public void setLastLangAdd(String lastLOVAdd) { this.lastLangAdd = lastLOVAdd; }
 
