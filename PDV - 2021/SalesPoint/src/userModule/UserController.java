@@ -5,7 +5,7 @@
  */
 package userModule;
 
-import addressModule.addressController;
+import addressModule.AddressController;
 import contactModule.ContactController;
 import databaseModule.DataController;
 import databaseModule.DatabaseCommands;
@@ -36,7 +36,7 @@ public class UserController extends DataController {
     UserScreen userScreen;
     UserPermitionViewScreen permScreen;
     ContactController cont;
-    addressController addr;
+    AddressController addr;
     EncryptDecryptWord encryptDecrypt;
     DatabaseCommands dbCommands;
     
@@ -211,10 +211,10 @@ public class UserController extends DataController {
     private void fillFieldsUserScreen(String query){
         try{
             ArrayList<UserClass> userList = queryUserRecord(query);
-            ArrayList<PositionClass> positionList;
-            ArrayList<ContactClass> ContactList;
-            ArrayList<SocialMediaClass> ContactXList;
-            ArrayList<AddressClass> AddressList;
+            ArrayList<PositionClass> postnList;
+            ArrayList<ContactClass> contList;
+            ArrayList<SocialMediaClass> socMedList;
+            ArrayList<AddressClass> addrList;
             
             if(userList.size() > 0){
                 for(int i = 0; i < userList.size(); i++){
@@ -226,10 +226,10 @@ public class UserController extends DataController {
                     userScreen.settxtPassVerification(userList.get(i).getPASSWORD());
                     
                     // Position Information
-                    positionList = super.queryPositionRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblPosition() + "\nWHERE ROW_ID = '" + userList.get(i).getPAR_POSTN_ID() + "'");
-                    if(positionList.size() > 0) {
-                        for(int p = 0; p < positionList.size(); p++) {
-                            userScreen.setcbbPositionItemIndex(userScreen.getcbbPositionItemIndex(super.LookupValue("POSITION_TYPE", positionList.get(p).getPOSTN_TYPE_CD())));
+                    postnList = super.queryPositionRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblPosition() + "\nWHERE ROW_ID = '" + userList.get(i).getPAR_POSTN_ID() + "'");
+                    if(postnList.size() > 0) {
+                        for(int p = 0; p < postnList.size(); p++) {
+                            userScreen.setcbbPositionItemIndex(userScreen.getcbbPositionItemIndex(super.LookupValue("POSITION_TYPE", postnList.get(p).getPOSTN_TYPE_CD())));
                         }
                     }
                     
@@ -270,27 +270,27 @@ public class UserController extends DataController {
                     userScreen.settxtNaturalness(userList.get(i).getNATURALNESS());
 
                     // Contact Information
-                    ContactList = super.queryContactRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblContact() + "\nWHERE (PAR_ROW_ID = '" + userList.get(i).getRow_id() + "'\nOR PAR_USR_ID = '" + userList.get(i).getRow_id() + "')\nAND PR_CON_FLG = 'Y'");
-                    if(ContactList.size() > 0){
-                        for(int c = 0; c < ContactList.size(); c++) {
-                            userScreen.settxtContactMPhone(ContactList.get(c).getMAIN_PH_NUM());
-                            userScreen.settxtContactEmail(ContactList.get(c).getEMAIL_ADDR());
-                            userScreen.settxtContactPhone(ContactList.get(c).getALT_PH_NUM());
-                            userScreen.settxtContactEnterprise(ContactList.get(c).getWORK_PH_NUM());
+                    contList = super.queryContactRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblContact() + "\nWHERE (PAR_ROW_ID = '" + userList.get(i).getRow_id() + "'\nOR PAR_USR_ID = '" + userList.get(i).getRow_id() + "')\nAND PR_CON_FLG = 'Y'");
+                    if(contList.size() > 0){
+                        for(int c = 0; c < contList.size(); c++) {
+                            userScreen.settxtContactMPhone(contList.get(c).getMAIN_PH_NUM());
+                            userScreen.settxtContactEmail(contList.get(c).getEMAIL_ADDR());
+                            userScreen.settxtContactPhone(contList.get(c).getALT_PH_NUM());
+                            userScreen.settxtContactEnterprise(contList.get(c).getWORK_PH_NUM());
                         }
                         // Social Media Information
-                        ContactXList = super.querySocialMediaRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblSocialMedia()+ "\nWHERE PAR_ROW_ID = '" + ContactList.get(i).getRow_id() + "'\nAND PAR_USR_ID = '" + userList.get(i).getRow_id() + "'");
-                        for(int cx = 0; cx < ContactXList.size(); cx++) {
-                            if(null != ContactXList.get(cx).getSOCIAL_M_NAME()) {
-                                switch (ContactXList.get(cx).getSOCIAL_M_NAME()) {
+                        socMedList = super.querySocialMediaRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblSocialMedia()+ "\nWHERE PAR_ROW_ID = '" + contList.get(i).getRow_id() + "'\nAND PAR_USR_ID = '" + userList.get(i).getRow_id() + "'");
+                        for(int cx = 0; cx < socMedList.size(); cx++) {
+                            if(null != socMedList.get(cx).getSOCIAL_M_NAME()) {
+                                switch (socMedList.get(cx).getSOCIAL_M_NAME()) {
                                     case "Facebook":
-                                        userScreen.settxtFacebook(ContactXList.get(cx).getSOCIAL_M_VALUE());
+                                        userScreen.settxtFacebook(socMedList.get(cx).getSOCIAL_M_VALUE());
                                         break;
                                     case "Twitter":
-                                        userScreen.settxtTwitter(ContactXList.get(cx).getSOCIAL_M_VALUE());
+                                        userScreen.settxtTwitter(socMedList.get(cx).getSOCIAL_M_VALUE());
                                         break;
                                     case "Instagram":
-                                        userScreen.settxtInstagram(ContactXList.get(cx).getSOCIAL_M_VALUE());
+                                        userScreen.settxtInstagram(socMedList.get(cx).getSOCIAL_M_VALUE());
                                         break;
                                     default:
                                         break;
@@ -300,10 +300,10 @@ public class UserController extends DataController {
                     }                    
                     
                     // Address Information
-                    AddressList = super.queryAddressRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblAddress() + "\nWHERE PAR_ROW_ID = '" + userList.get(i).getRow_id() +  "'\nAND PR_ADDR_FLG = 'Y'");
-                    if(AddressList.size() > 0) {
-                        for(int a = 0; a < AddressList.size(); a++) {
-                            userScreen.settxtFullAddress(AddressList.get(a).getADDR_NAME());
+                    addrList = super.queryAddressRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblAddress() + "\nWHERE PAR_ROW_ID = '" + userList.get(i).getRow_id() +  "'\nAND PR_ADDR_FLG = 'Y'");
+                    if(addrList.size() > 0) {
+                        for(int a = 0; a < addrList.size(); a++) {
+                            userScreen.settxtFullAddress(addrList.get(a).getADDR_NAME());
                         }
                     }
                 }
@@ -702,33 +702,53 @@ public class UserController extends DataController {
         ArrayList<PositionClass> positionList;
         
         String userId = super.getNextRowId();
-        super.clearColumns();
-        super.clearValues();
-        super.setColumns(",\n\t" + "STATUS_CD"); super.setValues(",\n\t" + "'" + super.LookupName("USER_STATUS", ("Y".equals(userScreen.getckbActiveUserFlg()) ? "Ativo" : "Inativo")) + "'");
-        super.setColumns(",\n\t" + "PAR_ROW_ID"); super.setValues(",\n\t" + "NULL");
-        super.setColumns(",\n\t" + "PAR_POSTN_ID");
-        if(userScreen.getcbbPosition() != null){
-            positionList = queryPositionRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblPosition() + " POS\nWHERE POS.NAME = '" + userScreen.getcbbPosition() + "'\nAND POS.POSTN_TYPE_CD = '" + super.LookupName("POSITION_TYPE", userScreen.getcbbPosition()) + "'");
-            super.setValues(",\n\t" + ((positionList.size() > 0) ? "'" + positionList.get(0).getRow_id() + "'" : "NULL"));
-        } else {
-            super.setValues(",\n\t" + "NULL");
-        }
+        String status = super.LookupName("USER_STATUS", ("Y".equals(userScreen.getckbActiveUserFlg()) ? "Ativo" : "Inativo"));
+        String user = userScreen.gettxtUser();
+        String password = encryptDecrypt.encryptWord(userScreen.gettxtPass());
+        String docType = ((userScreen.getcbbDocType() != null) ? super.LookupName("DOC_TYPE", userScreen.getcbbDocType()) : null);
+        String docNumber = userScreen.gettxtDocNum();
+        String name = userScreen.gettxtName();
+        String surname = userScreen.gettxtSurname();
+        String fullName = ((name != null && surname != null) ? name + " " + surname : null);
+        String nickName = userScreen.gettxtNickName();
+        String birthDay = userScreen.getcbbDay();
+        String birthMonth = ((userScreen.getcbbMonth() != null) ? super.LookupName("MONTH", userScreen.getcbbMonth()) : null);
+        String birthYear = userScreen.gettxtYear();
+        String birthCompleteENU = ((birthDay != null && birthMonth != null && birthYear != null) ? super.convertDate(birthMonth + "/" + birthDay + "/" + birthYear) : null);
+        String month = ((birthMonth != null) ? super.LookupValue("MONTH_TRANSLATION", birthMonth).toUpperCase() : null);
+        String placeBirth = userScreen.gettxtBornLocation();
+        String sex = ((userScreen.getcbbSex() != null) ? super.LookupName("SEX_MF", userScreen.getcbbSex()) : null);
+        String civilState = ((userScreen.getcbbCivilState() != null) ? super.LookupName("CIVIL_STATE", userScreen.getcbbCivilState()) : null);
+        String spouseName = userScreen.gettxtSpouseName();
+        String motherName = userScreen.gettxtMotherName();
+        String fatherName = userScreen.gettxtFatherName();
+        String identityType = ((userScreen.getcbbIdentityType() != null) ? super.LookupName("DOCUMENT_TYPE", userScreen.getcbbIdentityType()) : null);
+        String registerNum = userScreen.gettxtRecNum();
+        String registerSerie = userScreen.gettxtSerieNum();
+        String registerEmissor = userScreen.gettxtEmissor();
+        String registerUF = ((userScreen.getcbbEmissionUF() != null) ? super.LookupName("STATE", userScreen.getcbbEmissionUF()) : null);
+        String emissionDate = ((userScreen.gettxtEmissionDate() != null) ? super.convertDate(userScreen.gettxtEmissionDate()) : null);
+        String validThru = ((userScreen.gettxtValidThru() != null) ? super.convertDate(userScreen.gettxtValidThru()) : null);
+        String naturalness = userScreen.gettxtNaturalness();
+        String nationality = userScreen.gettxtNationality();
+        String secQuestion1 = ((userScreen.gettxtSecQuestion1() != null) ? encryptDecrypt.encryptWord(userScreen.gettxtSecQuestion1()) : null);
+        String secQuestion2 = ((userScreen.gettxtSecQuestion2() != null) ? encryptDecrypt.encryptWord(userScreen.gettxtSecQuestion2()) : null);
+        String secQuestion3 = ((userScreen.gettxtSecQuestion3() != null) ? encryptDecrypt.encryptWord(userScreen.gettxtSecQuestion3()) : null);
+        String secAnswer1 = ((userScreen.gettxtSecAnswer1() != null) ? encryptDecrypt.encryptWord(userScreen.gettxtSecAnswer1()) : null);
+        String secAnswer2 = ((userScreen.gettxtSecAnswer2() != null) ? encryptDecrypt.encryptWord(userScreen.gettxtSecAnswer2()) : null);
+        String secAnswer3 = ((userScreen.gettxtSecAnswer3() != null) ? encryptDecrypt.encryptWord(userScreen.gettxtSecAnswer3()) : null);
+        String positionName = userScreen.getcbbPosition();
+        String positionType = ((positionName != null) ? super.LookupName("POSITION_TYPE", positionName) : null);
         
-        super.setColumns(",\n\t" + "LOGIN"); super.setValues(",\n\t" + "'" + userScreen.gettxtUser() + "'");
-        super.setColumns(",\n\t" + "PASSWORD"); super.setValues(",\n\t" + "'" + encryptDecrypt.encryptWord(userScreen.gettxtPass())  + "'");
-        super.setColumns(",\n\t" + "USER_FLG"); super.setValues(",\n\t" + "'Y'");
-        super.setColumns(",\n\t" + "LAST_LOGIN_TS"); super.setValues(",\n\t" + "NULL");
-        super.setColumns(",\n\t" + "DOC_TYPE"); super.setValues(",\n\t" + "'" + super.LookupName("DOC_TYPE", userScreen.getcbbDocType()) + "'");
-        super.setColumns(",\n\t" + "DOC_NUM"); super.setValues(",\n\t" + "'" + userScreen.gettxtDocNum() + "'");
-        super.setColumns(",\n\t" + "FST_NAME"); super.setValues(",\n\t" + "'" + userScreen.gettxtName() + "'");
-        super.setColumns(",\n\t" + "LAST_NAME"); super.setValues(",\n\t" + "'" + userScreen.gettxtSurname() + "'");
-        super.setColumns(",\n\t" + "FULL_NAME"); super.setValues(",\n\t" + "'" + userScreen.gettxtName() + " " + userScreen.gettxtSurname() + "'");
-        super.setColumns(",\n\t" + "NICK_NAME"); super.setValues(",\n\t" + ((userScreen.gettxtNickName() != null) ? "'" + userScreen.gettxtNickName() + "'" : "NULL"));
-        
-        String month = super.LookupValue("MONTH_TRANSLATION", userScreen.getcbbMonth()).toUpperCase();
         LocalDate today = LocalDate.now();
-        LocalDate birthDate = LocalDate.of(Integer.valueOf(userScreen.gettxtYear()), Month.valueOf(month), Integer.valueOf(userScreen.getcbbDay()));
+        LocalDate birthDate = LocalDate.of(Integer.valueOf(birthYear), Month.valueOf(month), Integer.valueOf(birthDay));
         long age = ChronoUnit.YEARS.between(birthDate, today);
+        
+        if(today.getMonthValue() >= birthDate.getMonthValue()) {
+            if(today.getDayOfMonth() >= birthDate.getDayOfMonth()) {
+                age++;
+            }
+        }
         
         System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "insertUser" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Calculando idade do usuário" + "\t\t" + "Convertendo o mês de nascimento para Inglês e MAIÚSCULO");
         System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "insertUser" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Calculando idade do usuário" + "\t\t" + "Mês convertido para inglês. Resultado: " + month);
@@ -737,30 +757,52 @@ public class UserController extends DataController {
         System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "insertUser" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Calculando idade do usuário" + "\t\t" + "Instanciando o objeto LocalDate com a data de nascimento");
         System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "insertUser" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Calculando idade do usuário" + "\t\t" + "Objeto LocalDate instanciado com sucesso. Resultado: " + birthDate);
         System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "insertUser" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Calculando idade do usuário" + "\t\t" + "Calculando a diferença (em ANOS) entre as datas: " + today + " - " + birthDate + " = " + age);
+                
+        super.clearColumns();
+        super.clearValues();
+        super.setColumns(",\n\t" + "STATUS_CD"); super.setValues(",\n\t" + "'" + status + "'");
+        super.setColumns(",\n\t" + "PAR_ROW_ID"); super.setValues(",\n\t" + "NULL");
+        super.setColumns(",\n\t" + "PAR_POSTN_ID");
+        if(positionName != null){
+            positionList = queryPositionRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblPosition() + " POS\nWHERE POS.NAME = '" + positionName + "'\nAND POS.POSTN_TYPE_CD = '" + positionType + "'");
+            super.setValues(",\n\t" + ((positionList.size() > 0) ? "'" + positionList.get(0).getRow_id() + "'" : "NULL"));
+        } else {
+            super.setValues(",\n\t" + "NULL");
+        }
         
-        super.setColumns(",\n\t" + "AGE"); super.setValues(",\n\t" + "'" + age + "'");
-        super.setColumns(",\n\t" + "BIRTH_DT"); super.setValues(",\n\t" + "'" + super.LookupName("MONTH_DAY", userScreen.getcbbDay()) + "/" + super.LookupName("MONTH", userScreen.getcbbMonth()) + "/" + userScreen.gettxtYear() + "'");
-        super.setColumns(",\n\t" + "PLACE_OF_BIRTH"); super.setValues(",\n\t" + ((userScreen.gettxtBornLocation() != null) ? "'" + userScreen.gettxtBornLocation() + "'" : "NULL"));
-        super.setColumns(",\n\t" + "SEX_MF"); super.setValues(",\n\t" + "'" + super.LookupName("SEX_MF", userScreen.getcbbSex())  + "'");
-        super.setColumns(",\n\t" + "MARITAL_STAT_CD"); super.setValues(",\n\t" + ((userScreen.getcbbCivilState() != null) ? "'" + super.LookupName("CIVIL_STATE", userScreen.getcbbCivilState()) + "'" : "NULL"));
-        super.setColumns(",\n\t" + "NAME_CONJUGE"); super.setValues(",\n\t" + ((userScreen.gettxtSpouseName() != null) ? "'" + userScreen.gettxtSpouseName() + "'" : "NULL"));
-        super.setColumns(",\n\t" + "MOTHER_FULL_NAME"); super.setValues(",\n\t" + ((userScreen.gettxtMotherName() != null) ? "'" + userScreen.gettxtMotherName() + "'" : "NULL"));
-        super.setColumns(",\n\t" + "FATHER_FULL_NAME"); super.setValues(",\n\t" + ((userScreen.gettxtFatherName() != null) ? "'" + userScreen.gettxtFatherName() + "'" : "NULL"));
-        super.setColumns(",\n\t" + "IDENTITY_DOC_TYPE"); super.setValues(",\n\t" +((userScreen.getcbbIdentityType() != null) ? "'" + super.LookupName("DOCUMENT_TYPE", userScreen.getcbbIdentityType()) + "'" : "NULL")); 
-        super.setColumns(",\n\t" + "REGISTER_NUM"); super.setValues(",\n\t" + ((userScreen.gettxtRecNum() != null) ? "'" + userScreen.gettxtRecNum() + "'" : "NULL"));
-        super.setColumns(",\n\t" + "REGISTER_SERIE"); super.setValues(",\n\t" + ((userScreen.gettxtSerieNum() != null) ? "'" + userScreen.gettxtSerieNum() + "'" : "NULL"));
-        super.setColumns(",\n\t" + "ORGAO_EMISSOR"); super.setValues(",\n\t" + ((userScreen.gettxtEmissor() != null) ? "'" + userScreen.gettxtEmissor() + "'" : "NULL"));
-        super.setColumns(",\n\t" + "UF_EMISSAO"); super.setValues(",\n\t" + ((userScreen.getcbbEmissionUF() != null) ? "'" + super.LookupName("STATE", userScreen.getcbbEmissionUF()) + "'" : "NULL"));
-        super.setColumns(",\n\t" + "EMISSION_DT"); super.setValues(",\n\t" + ((userScreen.gettxtEmissionDate() != null) ? "'" + userScreen.gettxtEmissionDate() + "'" : "NULL"));
-        super.setColumns(",\n\t" + "VALIDATION_DT"); super.setValues(",\n\t" + ((userScreen.gettxtValidThru() != null) ? "'" + userScreen.gettxtValidThru() + "'" : "NULL"));
-        super.setColumns(",\n\t" + "NATURALNESS"); super.setValues(",\n\t" + ((userScreen.gettxtNaturalness() != null) ? "'" + userScreen.gettxtNaturalness() + "'" : "NULL"));
-        super.setColumns(",\n\t" + "NATIONALITY"); super.setValues(",\n\t" + ((userScreen.gettxtNationality() != null) ? "'" + userScreen.gettxtNationality() + "'" : "NULL"));
-        super.setColumns(",\n\t" + "CHALLENGE_QUESTION_1"); super.setValues(",\n\t" + ((userScreen.gettxtSecQuestion1()!= null) ? "'" + encryptDecrypt.encryptWord(userScreen.gettxtSecQuestion1()) + "'" : "NULL"));
-        super.setColumns(",\n\t" + "CHALLENGE_ANSWER_1"); super.setValues(",\n\t" + ((userScreen.gettxtSecAnswer1() != null) ? "'" + encryptDecrypt.encryptWord(userScreen.gettxtSecAnswer1()) + "'" : "NULL"));
-        super.setColumns(",\n\t" + "CHALLENGE_QUESTION_2"); super.setValues(",\n\t" + ((userScreen.gettxtSecQuestion2() != null) ? "'" + encryptDecrypt.encryptWord(userScreen.gettxtSecQuestion2()) + "'" : "NULL"));
-        super.setColumns(",\n\t" + "CHALLENGE_ANSWER_2"); super.setValues(",\n\t" + ((userScreen.gettxtSecAnswer2() != null) ? "'" + encryptDecrypt.encryptWord(userScreen.gettxtSecAnswer2()) + "'" : "NULL"));
-        super.setColumns(",\n\t" + "CHALLENGE_QUESTION_3"); super.setValues(",\n\t" + ((userScreen.gettxtSecQuestion3() != null) ? "'" + encryptDecrypt.encryptWord(userScreen.gettxtSecQuestion3()) + "'" : "NULL"));
-        super.setColumns(",\n\t" + "CHALLENGE_ANSWER_3"); super.setValues(",\n\t" + ((userScreen.gettxtSecAnswer3() != null) ? "'" + encryptDecrypt.encryptWord(userScreen.gettxtSecAnswer3()) + "'" : "NULL"));
+        super.setColumns(",\n\t" + "LOGIN"); super.setValues(",\n\t" + "'" + user + "'");
+        super.setColumns(",\n\t" + "PASSWORD"); super.setValues(",\n\t" + "'" + password  + "'");
+        super.setColumns(",\n\t" + "USER_FLG"); super.setValues(",\n\t" + "'Y'");
+        super.setColumns(",\n\t" + "LAST_LOGIN_TS"); super.setValues(",\n\t" + "NULL");
+        super.setColumns(",\n\t" + "DOC_TYPE"); super.setValues(",\n\t" + "'" + docType + "'");
+        super.setColumns(",\n\t" + "DOC_NUM"); super.setValues(",\n\t" + "'" + docNumber + "'");
+        super.setColumns(",\n\t" + "FST_NAME"); super.setValues(",\n\t" + "'" + name + "'");
+        super.setColumns(",\n\t" + "LAST_NAME"); super.setValues(",\n\t" + "'" + surname + "'");
+        super.setColumns(",\n\t" + "FULL_NAME"); super.setValues(",\n\t" + "'" + fullName + "'");
+        super.setColumns(",\n\t" + "NICK_NAME"); super.setValues(",\n\t" + ((nickName != null) ? "'" + nickName + "'" : "NULL"));
+        super.setColumns(",\n\t" + "AGE"); super.setValues(",\n\t" + ((age >= 0) ? "'" + age + "'" : "NULL"));
+        super.setColumns(",\n\t" + "BIRTH_DT"); super.setValues(",\n\t" + "'" + ((birthCompleteENU != null) ? "'" + birthCompleteENU + "'" : "NULL"));
+        super.setColumns(",\n\t" + "PLACE_OF_BIRTH"); super.setValues(",\n\t" + ((placeBirth != null) ? "'" + placeBirth + "'" : "NULL"));
+        super.setColumns(",\n\t" + "SEX_MF"); super.setValues(",\n\t" + ((sex != null) ? "'" + sex + "'" : "NULL"));
+        super.setColumns(",\n\t" + "MARITAL_STAT_CD"); super.setValues(",\n\t" + ((civilState != null) ? "'" + civilState + "'" : "NULL"));
+        super.setColumns(",\n\t" + "NAME_CONJUGE"); super.setValues(",\n\t" + ((spouseName != null) ? "'" + spouseName + "'" : "NULL"));
+        super.setColumns(",\n\t" + "MOTHER_FULL_NAME"); super.setValues(",\n\t" + ((motherName != null) ? "'" + motherName + "'" : "NULL"));
+        super.setColumns(",\n\t" + "FATHER_FULL_NAME"); super.setValues(",\n\t" + ((fatherName != null) ? "'" + fatherName + "'" : "NULL"));
+        super.setColumns(",\n\t" + "IDENTITY_DOC_TYPE"); super.setValues(",\n\t" +((identityType != null) ? "'" + identityType + "'" : "NULL")); 
+        super.setColumns(",\n\t" + "REGISTER_NUM"); super.setValues(",\n\t" + ((registerNum != null) ? "'" + registerNum + "'" : "NULL"));
+        super.setColumns(",\n\t" + "REGISTER_SERIE"); super.setValues(",\n\t" + ((registerSerie != null) ? "'" + registerSerie + "'" : "NULL"));
+        super.setColumns(",\n\t" + "ORGAO_EMISSOR"); super.setValues(",\n\t" + ((registerEmissor != null) ? "'" + registerEmissor + "'" : "NULL"));
+        super.setColumns(",\n\t" + "UF_EMISSAO"); super.setValues(",\n\t" + ((registerUF != null) ? "'" + registerUF + "'" : "NULL"));
+        super.setColumns(",\n\t" + "EMISSION_DT"); super.setValues(",\n\t" + ((emissionDate != null) ? emissionDate : "NULL"));
+        super.setColumns(",\n\t" + "VALIDATION_DT"); super.setValues(",\n\t" + ((validThru != null) ? validThru : "NULL"));
+        super.setColumns(",\n\t" + "NATURALNESS"); super.setValues(",\n\t" + ((naturalness != null) ? "'" + naturalness + "'" : "NULL"));
+        super.setColumns(",\n\t" + "NATIONALITY"); super.setValues(",\n\t" + ((nationality != null) ? "'" + nationality + "'" : "NULL"));
+        super.setColumns(",\n\t" + "CHALLENGE_QUESTION_1"); super.setValues(",\n\t" + ((secQuestion1 != null) ? "'" + secQuestion1 + "'" : "NULL"));
+        super.setColumns(",\n\t" + "CHALLENGE_ANSWER_1"); super.setValues(",\n\t" + ((secAnswer1 != null) ? "'" + secAnswer1 + "'" : "NULL"));
+        super.setColumns(",\n\t" + "CHALLENGE_QUESTION_2"); super.setValues(",\n\t" + ((secQuestion2 != null) ? "'" + secQuestion2 + "'" : "NULL"));
+        super.setColumns(",\n\t" + "CHALLENGE_ANSWER_2"); super.setValues(",\n\t" + ((secAnswer2 != null) ? "'" + secAnswer2 + "'" : "NULL"));
+        super.setColumns(",\n\t" + "CHALLENGE_QUESTION_3"); super.setValues(",\n\t" + ((secQuestion3 != null) ? "'" + secQuestion3 + "'" : "NULL"));
+        super.setColumns(",\n\t" + "CHALLENGE_ANSWER_3"); super.setValues(",\n\t" + ((secAnswer3 != null) ? "'" + secAnswer3 + "'" : "NULL"));
         super.setColumns(",\n\t" + "PR_ADDR_ID"); super.setValues(",\n\t" + "NULL");
         super.setColumns(",\n\t" + "PR_CON_ID"); super.setValues(",\n\t" + "NULL");
         super.setColumns(",\n\t" + "PR_PHONE_ID"); super.setValues(",\n\t" + "NULL");
@@ -791,6 +833,7 @@ public class UserController extends DataController {
                                 System.out.println(super.getDateTime() + "\tContactModule.ContactController\t\tinsertContact\nUpdateSocialMedia\tError Exception\tError: " + e);
                             }
                         }
+                        cont.clearContRowIdArray();
                     }
                 } catch(Exception e) { }
                 
@@ -807,6 +850,8 @@ public class UserController extends DataController {
                                 System.out.println(super.getDateTime() + "\tContactModule.ContactController\t\tinsertContact\nUpdateSocialMedia\tError Exception\tError: " + e);
                             }
                         }
+                        cont.clearSocialMediaRowIdArray();
+                        
                     }
                 } catch(Exception e) { }
                 
@@ -823,6 +868,7 @@ public class UserController extends DataController {
                                 System.out.println(super.getDateTime() + "\tContactModule.ContactController\t\tinsertContact\nUpdateSocialMedia\tError Exception\tError: " + e);
                             }
                         }
+                        addr.clearAddressRowIdArray();
                     }
                 } catch(Exception e) { }
                 
@@ -836,6 +882,7 @@ public class UserController extends DataController {
                     }
                 } catch(Exception e) { }
                 super.setSilentInsertMode(false);
+                
                 return true;
             } else {
                 userId = null;
@@ -887,6 +934,12 @@ public class UserController extends DataController {
                 LocalDate birthDate = LocalDate.of(Integer.valueOf(userScreen.gettxtYear()), Month.valueOf(month), Integer.valueOf(userScreen.getcbbDay()));
                 long age = ChronoUnit.YEARS.between(birthDate, today);
 
+                if(today.getMonthValue() >= birthDate.getMonthValue()) {
+                    if(today.getDayOfMonth() >= birthDate.getDayOfMonth()) {
+                        age++;
+                    }
+                }
+                
                 System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "UpdateUser" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Calculando idade do usuário" + "\t\t" + "Convertendo o mês de nascimento para Inglês e MAIÚSCULO");
                 System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "UpdateUser" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Calculando idade do usuário" + "\t\t" + "Mês convertido para inglês. Resultado: " + month);
                 System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "UpdateUser" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Calculando idade do usuário" + "\t\t" + "Instanciando o objeto LocalDate com a data de hoje");
@@ -896,7 +949,7 @@ public class UserController extends DataController {
                 System.out.println(super.getDateTime() + "\t" + "UserModule" + "." + "UserController" + "\t\t" + "UpdateUser" + "\t" + "GenericLog" + "\t" + "GenericInfo" + "\t" + "Calculando idade do usuário" + "\t\t" + "Calculando a diferença (em ANOS) entre as datas: " + today + " - " + birthDate + " = " + age);
 
                 super.setColumnsValues(",\n\t" + "AGE = '" + age + "'");
-                super.setColumnsValues(",\n\t" + "BIRTH_DT = '" + super.LookupName("MONTH_DAY", userScreen.getcbbDay()) + "/" + super.LookupName("MONTH", userScreen.getcbbMonth()) + "/" + userScreen.gettxtYear() + "'");
+                super.setColumnsValues(",\n\t" + "BIRTH_DT = '" + userScreen.gettxtYear()  + "/" + super.LookupName("MONTH", userScreen.getcbbMonth()) + "/" + super.LookupName("MONTH_DAY", userScreen.getcbbDay()) + "'");
                 super.setColumnsValues(",\n\t" + "PLACE_OF_BIRTH = " + ((userScreen.gettxtBornLocation() != null) ? "'" + userScreen.gettxtBornLocation() + "'" : "NULL"));
                 super.setColumnsValues(",\n\t" + "SEX_MF = '" + super.LookupName("SEX_MF", userScreen.getcbbSex()) + "'");
                 super.setColumnsValues(",\n\t" + "MARITAL_STAT_CD = " + ((userScreen.getcbbCivilState() != null) ? "'" + super.LookupName("CIVIL_STATE", userScreen.getcbbCivilState()) + "'" : "NULL"));
@@ -908,8 +961,8 @@ public class UserController extends DataController {
                 super.setColumnsValues(",\n\t" + "REGISTER_SERIE = " + ((userScreen.gettxtSerieNum() != null) ? "'" + userScreen.gettxtSerieNum() + "'" : "NULL"));
                 super.setColumnsValues(",\n\t" + "ORGAO_EMISSOR = " + ((userScreen.gettxtEmissor() != null) ? "'" + userScreen.gettxtEmissor() + "'" : "NULL"));
                 super.setColumnsValues(",\n\t" + "UF_EMISSAO = " + ((userScreen.getcbbEmissionUF() != null) ? "'" + super.LookupName("STATE", userScreen.getcbbEmissionUF()) + "'" : "NULL"));
-                super.setColumnsValues(",\n\t" + "EMISSION_DT = " + ((userScreen.gettxtEmissionDate() != null) ? "'" + userScreen.gettxtEmissionDate() + "'" : "NULL"));
-                super.setColumnsValues(",\n\t" + "VALIDATION_DT = " + ((userScreen.gettxtValidThru() != null) ? "'" + userScreen.gettxtValidThru() + "'" : "NULL"));
+                super.setColumnsValues(",\n\t" + "EMISSION_DT = " + ((userScreen.gettxtEmissionDate() != null) ? super.convertDate(userScreen.gettxtEmissionDate()): "NULL"));
+                super.setColumnsValues(",\n\t" + "VALIDATION_DT = " + ((userScreen.gettxtValidThru() != null) ? super.convertDate(userScreen.gettxtValidThru()) : "NULL"));
                 super.setColumnsValues(",\n\t" + "NATURALNESS = " + ((userScreen.gettxtNaturalness() != null) ? "'" + userScreen.gettxtNaturalness() + "'" : "NULL"));
                 super.setColumnsValues(",\n\t" + "NATIONALITY = " + ((userScreen.gettxtNationality() != null) ? "'" + userScreen.gettxtNationality() + "'" : "NULL"));
                 super.setColumnsValues(",\n\t" + "CHALLENGE_QUESTION_1 = " + ((userScreen.gettxtSecQuestion1()!= null) ? "'" + encryptDecrypt.encryptWord(userScreen.gettxtSecQuestion1()) + "'" : "NULL"));
@@ -943,7 +996,7 @@ public class UserController extends DataController {
                                     super.setColumnsValues(",\n\t" + "PAR_ROW_ID = '" + userId + "'");
                                     super.setColumnsValues(",\n\t" + "PAR_USR_ID = '" + userId + "'");
                                     super.setColumnsValues(",\n\t" + "EMP_FLG = 'Y'");
-                                    //super.setCondition("ROW_ID = '" + cont.getContRowIdArray().get(i).getRow_id() + "'");
+                                    //super.setCondition("ROW_ID = '" + cont.getContRowIdArray().get(i).getRowId() + "'");
 
                                     try{
                                         cont.updateContact("USER", super.getColumnsValues(), super.getCondition(), cont.getContRowIdArray().get(i).getRow_id());
@@ -951,8 +1004,26 @@ public class UserController extends DataController {
                                         System.out.println(super.getDateTime() + "\tContactModule.ContactController\t\tinsertContact\nUpdateSocialMedia\tError Exception\tError: " + e);
                                     }
                                 }
+                                cont.clearContRowIdArray();
                             }
                         } catch (Exception e) { }
+                        
+                        try{
+                            if(cont.getSocialMediaRowIdArray().size() > 0){
+                                for(int i = 0; i < cont.getSocialMediaRowIdArray().size(); i ++){
+                                    super.clearColumnsValues();
+                                    super.clearCondition();
+                                    super.setColumnsValues(",\n\t" + "PAR_USR_ID = '" + userId + "'");
+
+                                    try{
+                                        cont.updateSocialMedia("USER", super.getColumnsValues(), super.getCondition(), cont.getSocialMediaRowIdArray().get(i).getRow_id());
+                                    } catch(Exception e) {
+                                        System.out.println(super.getDateTime() + "\tContactModule.ContactController\t\tinsertContact\nUpdateSocialMedia\tError Exception\tError: " + e);
+                                    }
+                                }
+                                cont.clearSocialMediaRowIdArray();
+                            }
+                        } catch(Exception e) { }
                         
                         try{
                             if(addr.getAddressRowIdArray().size() > 0){
@@ -960,7 +1031,7 @@ public class UserController extends DataController {
                                     super.clearColumnsValues();
                                     super.clearCondition();
                                     super.setColumnsValues(",\n\t" + "PAR_ROW_ID = '" + userId + "'");
-                                    //super.setCondition("ROW_ID = '" + addr.getAddressRowIdArray().get(i).getRow_id() + "'");
+                                    //super.setCondition("ROW_ID = '" + addr.getAddressRowIdArray().get(i).getRowId() + "'");
 
                                     try{
                                         addr.update("USER", super.getColumnsValues(), super.getCondition(), addr.getAddressRowIdArray().get(i).getRow_id());
@@ -968,6 +1039,7 @@ public class UserController extends DataController {
                                         System.out.println(super.getDateTime() + "\tContactModule.ContactController\t\tinsertContact\nUpdateSocialMedia\tError Exception\tError: " + e);
                                     }
                                 }
+                                addr.clearAddressRowIdArray();
                             }
                         } catch (Exception e) { }
                         
@@ -1351,14 +1423,14 @@ public class UserController extends DataController {
                     }
                 } else {
                     try {
-                        addr = new addressController();
+                        addr = new AddressController();
                     } catch (InterruptedException ex) {
                         Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             } catch (Exception e) {
                 try {
-                    addr = new addressController();
+                    addr = new AddressController();
                 } catch (InterruptedException ex) {
                     Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
                 }

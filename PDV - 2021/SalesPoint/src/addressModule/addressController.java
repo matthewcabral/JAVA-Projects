@@ -29,9 +29,9 @@ import org.json.JSONObject;
  *
  * @author MatheusCabral
  */
-public class addressController extends DataController {
+public class AddressController extends DataController {
 
-    addressScreen addrScr;
+    AddressScreen addrScr;
     addressRowIdClass addrRowId;
     private ArrayList<addressRowIdClass> addrRowIdArray = new ArrayList<>();
     private ArrayList<zipcode> cepList;
@@ -42,14 +42,17 @@ public class addressController extends DataController {
     private String lastAddrAdd;
     private String lastAddrUpd;
     private int count;
+    private String oldPrimaryAddrId = null;
 
-    public addressController() throws InterruptedException {
+    public AddressController() throws InterruptedException {
         this.cepList = null;
     }
 
     public void setListenerAddressScreen(WindowListener listener) { addrScr.addWindowListener(listener); }
     
     public ArrayList<addressRowIdClass> getAddressRowIdArray() { return this.addrRowIdArray; }
+    
+    public void clearAddressRowIdArray() { this.addrRowIdArray.clear(); }
     
     public String getUserId() { return userId; }
     public void setUserId(String userId) { this.userId = userId; }
@@ -69,6 +72,9 @@ public class addressController extends DataController {
     public int getCount() { return count; }
     public void setCount(int count) { this.count = count; }
     public void clearCount() { this.count = 0; }
+
+    public String getOldPrimaryAddrId() { return oldPrimaryAddrId; }
+    public void setOldPrimaryAddrId(String oldPrimaryAddrId) { this.oldPrimaryAddrId = oldPrimaryAddrId; }
     
     public void openAddressScreen(String query, String function) {
         if(this.getOpenFromScreen() != null && !"".equals(this.getOpenFromScreen())){
@@ -76,7 +82,7 @@ public class addressController extends DataController {
                 case "USER":
                     switch(function){
                         case "NEW_USER_ADDRESS":
-                            addrScr = new addressScreen();
+                            addrScr = new AddressScreen();
                             addrScr.setListenerBtnNew(new newAddress());
                             addrScr.setListenerBtnEdit(new editAddress());
                             addrScr.setListenerBtnSave(new saveAddress());
@@ -85,7 +91,26 @@ public class addressController extends DataController {
                             addrScr.setListenerBtnSearch(new searchAddress());
                             addrScr.setListenerTblAddressListSelection(new addressListSelected());
                             this.setListenerAddressScreen(new addressScreenListener());
-                            addrScr.enableFields("LOAD_SCREEN");
+                            addrScr.enableFields("LOAD_SCREEN", this.getOpenFromScreen());
+                            //addrScr.setListenerAddressScreen(new addressScreenListener());
+                            break;
+                        default:
+                            break;
+                    }                    
+                    break;
+                case "ACCOUNT":
+                    switch(function){
+                        case "NEW_ACCOUNT_ADDRESS":
+                            addrScr = new AddressScreen();
+                            addrScr.setListenerBtnNew(new newAddress());
+                            addrScr.setListenerBtnEdit(new editAddress());
+                            addrScr.setListenerBtnSave(new saveAddress());
+                            addrScr.setListenerBtnCancel(new cancelAddress());
+                            addrScr.setListenerBtnDelete(new deleteAddress());
+                            addrScr.setListenerBtnSearch(new searchAddress());
+                            addrScr.setListenerTblAddressListSelection(new addressListSelected());
+                            this.setListenerAddressScreen(new addressScreenListener());
+                            addrScr.enableFields("LOAD_SCREEN", this.getOpenFromScreen());
                             //addrScr.setListenerAddressScreen(new addressScreenListener());
                             break;
                         default:
@@ -100,16 +125,16 @@ public class addressController extends DataController {
         addrScr.clearComboBoxes();        
         addrScr.insertSelectComboBox();
         
-        this.fillComboBoxesAddressScreen("STREET_TYPE");
-        this.fillComboBoxesAddressScreen("CITY_ZONE");
-        this.fillComboBoxesAddressScreen("STATE");
-        this.fillComboBoxesAddressScreen("COUNTRY");
-        this.fillComboBoxesAddressScreen("PROPERTY_TYPE");
+        this.fillComboBoxes("STREET_TYPE");
+        this.fillComboBoxes("CITY_ZONE");
+        this.fillComboBoxes("STATE");
+        this.fillComboBoxes("COUNTRY");
+        this.fillComboBoxes("PROPERTY_TYPE");
         
-        this.fillListAddressScreen(query);
+        this.fillList(query, "LOAD");
     }
 
-    public void fillComboBoxesAddressScreen(String LovType){
+    public void fillComboBoxes(String LovType) {
         try{
             ArrayList<ListOfValuesClass> lov = super.LookupList(LovType);
             
@@ -119,7 +144,7 @@ public class addressController extends DataController {
                         JOptionPane.showMessageDialog(null, "O LOV_TYPE 'null' não existe!");
                     } else switch (LovType) {
                         case "STREET_TYPE":
-                            addrScr.setcbbAddressType(lov.get(i).getName());
+                            addrScr.setcbbAddressType(lov.get(i).getValue());
                             break;
                         case "CITY_ZONE":
                             addrScr.setcbbAddressZone(lov.get(i).getValue());
@@ -131,7 +156,7 @@ public class addressController extends DataController {
                             addrScr.setcbbAddressCountry(lov.get(i).getValue());
                             break;
                         case "PROPERTY_TYPE":
-                            addrScr.setcbbHomeType(lov.get(i).getName());
+                            addrScr.setcbbHomeType(lov.get(i).getValue());
                             break;
                         default:
                             JOptionPane.showMessageDialog(null, "O LOV_TYPE '" + LovType +  "' não é utilizado por nenhum ComboBox!");
@@ -144,48 +169,107 @@ public class addressController extends DataController {
         }
     }
     
-    public void fillListAddressScreen(String query){
+    public void fillList(String query, String method) {
+        DefaultTableModel table = (DefaultTableModel) addrScr.getTableModel();
         int countRecord = 0;
-        
-        try{
-            ArrayList<AddressClass> addrList = super.queryAddressRecord(query);
-            
-            DefaultTableModel table = (DefaultTableModel) addrScr.getTableModel();
-            table.setRowCount(0);
-            
-            if(addrList.size() > 0){
-                table.setNumRows(addrList.size());
-                
-                for(int i = 0; i < addrList.size(); i++){
-                    table.setValueAt(addrList.get(i).getRow_id(), i, 0);
-                    if("Y".equals(addrList.get(i).getPR_ADDR_FLG())) { table.setValueAt(true, i, 1); } else { table.setValueAt(false, i, 1); }
-                    table.setValueAt(addrList.get(i).getADDR_TYPE_CD(), i, 2);
-                    table.setValueAt(addrList.get(i).getADDR(), i, 3);
-                    table.setValueAt(addrList.get(i).getADDR_NUM(), i, 4);
-                    table.setValueAt(addrList.get(i).getADDR_LINE_2(), i, 5);
-                    table.setValueAt(addrList.get(i).getNEIGHBORHOOD(), i, 6);
-                    table.setValueAt(addrList.get(i).getX_ZONA(), i, 7);
-                    table.setValueAt(addrList.get(i).getCITY(), i, 8);                    
-                    table.setValueAt(addrList.get(i).getSTATE(), i, 9);
-                    table.setValueAt(addrList.get(i).getCOUNTRY(), i, 10);
-                    table.setValueAt(addrList.get(i).getPROPERTY_TYPE_CD(), i, 11);
-                    table.setValueAt(addrList.get(i).getX_ANDAR(), i, 12);
-                    table.setValueAt(addrList.get(i).getX_NUM_AP(), i, 13);
-                    table.setValueAt(addrList.get(i).getX_COD_BLOCO(), i, 14);
-                    table.setValueAt(addrList.get(i).getCOMMENTS(), i, 15);
-                    
-                    countRecord++;
+        switch(method){
+            case "INSERT_RECORD":
+                int newRow = table.getRowCount() + 1;
+                //table.setRowCount(newRow);
+                try{
+                    table.addRow(
+                        new Object[] {
+                            addrScr.gettxtRowId(),
+                            ("Y".equals(addrScr.getckbMainAddress())),
+                            addrScr.getcbbAddressType(),
+                            addrScr.gettxtAddressName(),
+                            addrScr.gettxtAddressNumber(),
+                            addrScr.gettxtAddressComplement(),
+                            addrScr.gettxtNeighborhood(),
+                            addrScr.getcbbAddressZone(),
+                            addrScr.gettxtAddressCity(),
+                            addrScr.getcbbAddressState(),
+                            addrScr.getcbbAddressCountry(),
+                            addrScr.getcbbHomeType(),
+                            addrScr.gettxtHomeFloor(),
+                            addrScr.gettxtHomeNumber(),
+                            addrScr.gettxtHomeBlock(),
+                            addrScr.gettxtComments()                        }
+                    );
+                } catch(Exception e) {
+                    JOptionPane.showMessageDialog(null, "Erro ao preencher tabela...\nErro: " + e);
                 }
-            }
-            
-            addrScr.setlblRecCount("0 - " + String.valueOf(countRecord));
-            
-        } catch(Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao preencher tabela...\nErro: " + e);
+                break;
+            case "UPDATE_RECORD":
+                try{
+                    table.setValueAt(addrScr.gettxtRowId(), addrScr.getSelectedRowList(), 0);
+                    table.setValueAt(("Y".equals(addrScr.getckbMainAddress())), addrScr.getSelectedRowList(), 1);
+                    table.setValueAt(addrScr.getcbbAddressType(), addrScr.getSelectedRowList(), 2);
+                    table.setValueAt(addrScr.gettxtAddressName(), addrScr.getSelectedRowList(), 3);
+                    table.setValueAt(addrScr.gettxtAddressNumber(), addrScr.getSelectedRowList(), 4);
+                    table.setValueAt(addrScr.gettxtAddressComplement(), addrScr.getSelectedRowList(), 5);
+                    table.setValueAt(addrScr.gettxtNeighborhood(), addrScr.getSelectedRowList(), 6);
+                    table.setValueAt(addrScr.getcbbAddressZone(), addrScr.getSelectedRowList(), 7);
+                    table.setValueAt(addrScr.gettxtAddressCity(), addrScr.getSelectedRowList(), 8);                    
+                    table.setValueAt(addrScr.getcbbAddressState(), addrScr.getSelectedRowList(), 9);
+                    table.setValueAt(addrScr.getcbbAddressCountry(), addrScr.getSelectedRowList(), 10);
+                    table.setValueAt(addrScr.getcbbHomeType(), addrScr.getSelectedRowList(), 11);
+                    table.setValueAt(addrScr.gettxtHomeFloor(), addrScr.getSelectedRowList(), 12);
+                    table.setValueAt(addrScr.gettxtHomeNumber(), addrScr.getSelectedRowList(), 13);
+                    table.setValueAt(addrScr.gettxtHomeBlock(), addrScr.getSelectedRowList(), 14);
+                    table.setValueAt(addrScr.gettxtComments(), addrScr.getSelectedRowList(), 15);
+                } catch(Exception e) {
+                    JOptionPane.showMessageDialog(null, "Erro ao preencher tabela...\nErro: " + e);
+                }
+                break;
+            default:
+                try{
+                    ArrayList<AddressClass> addrList = super.queryAddressRecord(query);
+
+                    try{ addrRowIdArray.clear(); } catch (Exception e) {}
+
+                    if(addrList.size() > 0){
+                        try{ table.setRowCount(addrList.size()); } catch (Exception e) {}
+                        try{ table.setNumRows(addrList.size()); } catch (Exception e) {}
+
+                        for(int i = 0; i < addrList.size(); i++){
+                            addrRowId = new addressRowIdClass();
+                            addrRowId.setRow_id(addrList.get(i).getRow_id());
+                            addrRowIdArray.add(addrRowId);
+                            table.setValueAt(addrList.get(i).getRow_id(), i, 0);
+                            if("Y".equals(addrList.get(i).getPR_ADDR_FLG())) { table.setValueAt(true, i, 1); } else { table.setValueAt(false, i, 1); }
+                            table.setValueAt(super.LookupValue("STREET_TYPE", addrList.get(i).getADDR_TYPE_CD()), i, 2);
+                            table.setValueAt(addrList.get(i).getADDR(), i, 3);
+                            table.setValueAt(addrList.get(i).getADDR_NUM(), i, 4);
+                            table.setValueAt(addrList.get(i).getADDR_LINE_2(), i, 5);
+                            table.setValueAt(addrList.get(i).getNEIGHBORHOOD(), i, 6);
+                            table.setValueAt(super.LookupName("CITY_ZONE", addrList.get(i).getX_ZONA()), i, 7);
+                            table.setValueAt(addrList.get(i).getCITY(), i, 8);                    
+                            table.setValueAt(addrList.get(i).getSTATE(), i, 9);
+                            table.setValueAt(addrList.get(i).getCOUNTRY(), i, 10);
+                            table.setValueAt(super.LookupValue("PROPERTY_TYPE", addrList.get(i).getPROPERTY_TYPE_CD()), i, 11);
+                            table.setValueAt(addrList.get(i).getX_ANDAR(), i, 12);
+                            table.setValueAt(addrList.get(i).getX_NUM_AP(), i, 13);
+                            table.setValueAt(addrList.get(i).getX_COD_BLOCO(), i, 14);
+                            table.setValueAt(addrList.get(i).getCOMMENTS(), i, 15);
+
+                            countRecord++;
+                        }
+                    } else {
+                        table.setRowCount(0);
+                    }
+
+                    addrScr.setlblRecCount("0 - " + String.valueOf(countRecord));
+
+                } catch(Exception e) {
+                    JOptionPane.showMessageDialog(null, "Erro ao preencher tabela...\nErro: " + e);
+                }
+                break;
         }
+        addrScr.setlblRecCount("0 - " + String.valueOf(addrRowIdArray.size()));
     }
     
-    private void fillFieldsAddressScreen(String query){
+    private void fillFields(String query) {
         try{
             ArrayList<AddressClass> AddressList = queryAddressRecord(query);
             
@@ -195,7 +279,7 @@ public class addressController extends DataController {
                     addrScr.settxtRowId(AddressList.get(i).getRow_id());
                     addrScr.settxtZipcodePart1(AddressList.get(i).getZIPCODE().substring(0, 5));
                     addrScr.settxtZipcodePart2(AddressList.get(i).getZIPCODE().substring(6, 9));
-                    addrScr.setcbbAddressTypeItemIndex(addrScr.getcbbAddressTypeItemIndex(super.LookupName("STREET_TYPE", AddressList.get(i).getADDR_TYPE_CD())));
+                    addrScr.setcbbAddressTypeItemIndex(addrScr.getcbbAddressTypeItemIndex(super.LookupValue("STREET_TYPE", AddressList.get(i).getADDR_TYPE_CD())));
                     addrScr.settxtAddressName(AddressList.get(i).getADDR());
                     addrScr.settxtAddressNumber(AddressList.get(i).getADDR_NUM());
                     addrScr.settxtAddressComplement(AddressList.get(i).getADDR_LINE_2());
@@ -205,7 +289,7 @@ public class addressController extends DataController {
                     addrScr.settxtAddressCity(AddressList.get(i).getCITY());
                     addrScr.setcbbAddressStateItemIndex(addrScr.getcbbAddressStateItemIndex(AddressList.get(i).getSTATE()));
                     addrScr.setcbbAddressCountryItemIndex(addrScr.getcbbAddressCountryItemIndex(AddressList.get(i).getCOUNTRY()));
-                    addrScr.setcbbHomeTypeItemIndex(addrScr.getcbbHomeTypeItemIndex(super.LookupName("PROPERTY_TYPE", AddressList.get(i).getPROPERTY_TYPE_CD())));
+                    addrScr.setcbbHomeTypeItemIndex(addrScr.getcbbHomeTypeItemIndex(super.LookupValue("PROPERTY_TYPE", AddressList.get(i).getPROPERTY_TYPE_CD())));
                     addrScr.settxtHomeFloor(AddressList.get(i).getX_ANDAR());
                     addrScr.settxtHomeNumber(AddressList.get(i).getX_NUM_AP());
                     addrScr.settxtHomeBlock(AddressList.get(i).getX_COD_BLOCO());
@@ -218,12 +302,21 @@ public class addressController extends DataController {
         }
     }
     
-    public void fillNewAddressFields(){
+    public void fillNewAddressFields() {
         addrScr.settxtRowId(getNextRowId());
         if(this.getOpenFromScreen() != null && !"".equals(this.getOpenFromScreen())){
+            ArrayList<AddressClass> addrList;
             switch(this.getOpenFromScreen()){
                 case "USER":
-                    ArrayList<AddressClass> addrList = super.queryAddressRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblAddress() + "\nWHERE PAR_ROW_ID = '" + this.getUserId() + "' AND PR_ADDR_FLG = 'Y'");
+                    addrList = super.queryAddressRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblAddress() + "\nWHERE PAR_ROW_ID = '" + this.getUserId() + "' AND PR_ADDR_FLG = 'Y'");
+                    if(addrList.size() > 0){
+                        addrScr.setckbMainAddress("N");
+                    } else {
+                        addrScr.setckbMainAddress("Y");
+                    }
+                    break;
+                case "ACCOUNT":
+                    addrList = super.queryAddressRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblAddress() + "\nWHERE PAR_ROW_ID = '" + this.getAccountId() + "' AND PR_ADDR_FLG = 'Y'");
                     if(addrList.size() > 0){
                         addrScr.setckbMainAddress("N");
                     } else {
@@ -234,91 +327,96 @@ public class addressController extends DataController {
                     addrScr.setckbMainAddress("Y");
                     break;
                 default:
+                    addrScr.setckbMainAddress("Y");
                     break;
             }
         }
     }
     
-    public boolean insert(){
+    public boolean insert() {
         String addressId = "";
         String condition = "";
         if(validateFields()){
+            ArrayList<AddressClass> addrList = null;
             addressId = super.getNextRowId();
             super.clearColumns();
             super.clearValues();
             super.setColumns(",\n\t" + "ACTIVE_FLG"); super.setValues(",\n\t" + "'Y'");
             super.setColumns(",\n\t" + "PAR_ADDR_ID"); super.setValues(",\n\t" + "NULL");
-                        
-            if(this.getOpenFromScreen() != null && !"".equals(this.getOpenFromScreen())){
-                switch(this.getOpenFromScreen()){
-                    case "USER":                        
-                        super.setColumns(",\n\t" + "PAR_ROW_ID"); super.setValues(",\n\t" + "NULL");
-                        //super.setColumns(",\n\t" + "PAR_CON_ID"); super.setValues((!"".equals(this.getUserId()) && this.getUserId() != null) ? ",\n\t" + "'" + this.getUserId() + "'" : ",\n\t" + "NULL");
-                        
-                        if("Y".equals(addrScr.getckbMainAddress())){
-                            if(this.addrRowIdArray.size() > 0){
-                                for(int i = 0; i < this.addrRowIdArray.size(); i++) {
-                                    if(i != this.addrRowIdArray.size() - 1){
-                                        condition += "'" + this.addrRowIdArray.get(i).getRow_id() + "',\n\t\t";
-                                    } else {
-                                        condition += "'" + this.addrRowIdArray.get(i).getRow_id() + "'\n\t";
-                                    }
-                                }
-                            }
-                            ArrayList<AddressClass> addrList = super.queryAddressRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblAddress() + " ADDR\nWHERE ADDR.PAR_ROW_ID = '" + this.getUserId() + "'\nAND ADDR.PR_ADDR_FLG = 'Y'" + ((!"".equals(condition)) ? "\nOR (\n\tADDR.ROW_ID IN (\n\t\t" + condition + ")\n\tAND ADDR.PR_ADDR_FLG = 'Y'\n)" : ""));
-                            if(addrList.size() > 0){
-                                for(int i = 0; i < addrList.size(); i++){
-                                    if("Y".equals(addrList.get(i).getPR_ADDR_FLG())){
-                                        super.clearColumnsValues();
-                                        super.clearCondition();
-                                        super.setColumnsValues(",\n\t" + "PR_ADDR_FLG = 'N'");
-                                        super.setCondition("ROW_ID = '" + addrList.get(i).getRow_id() + "'");
-                                        try{
-                                            this.clearCount();                                            
-                                            this.setCount(super.updateRecord(super.getTblAddress(), super.getColumnsValues(), super.getCondition()));
-                                            if(this.getCount() > 0){
-                                                super.clearColumnsValues();
-                                                super.clearCondition();
-                                                super.setColumns(",\n\t" + "PR_ADDR_FLG"); super.setValues(",\n\t" + "'Y'");
-                                            } else {
-                                                super.clearColumnsValues();
-                                                super.clearCondition();
-                                                super.setColumns(",\n\t" + "PR_ADDR_FLG"); super.setValues(",\n\t" + "'N'");
-                                            }
-                                        } catch (Exception e) {
-                                            super.clearColumnsValues();
-                                            super.clearCondition();
-                                            super.setColumns(",\n\t" + "PR_ADDR_FLG"); super.setValues(",\n\t" + "'N'");
-                                        }
-                                    }
-                                }
-                            } else {
-                                super.setColumns(",\n\t" + "PR_ADDR_FLG"); super.setValues(",\n\t" + "'Y'");
-                            }
+            super.setColumns(",\n\t" + "PAR_ROW_ID"); super.setValues(",\n\t" + "NULL");
+            
+            if("Y".equals(addrScr.getckbMainAddress())){
+                if(this.addrRowIdArray.size() > 0){
+                    for(int i = 0; i < this.addrRowIdArray.size(); i++) {
+                        if(i != this.addrRowIdArray.size() - 1){
+                            condition += "'" + this.addrRowIdArray.get(i).getRow_id() + "',\n\t\t";
                         } else {
-                            super.setColumns(",\n\t" + "PR_ADDR_FLG"); super.setValues(",\n\t" + "'N'");
+                            condition += "'" + this.addrRowIdArray.get(i).getRow_id() + "'\n\t";
                         }
-                        break;
-                    default:
-                        super.setColumns(",\n\t" + "PAR_ROW_ID"); super.setValues(",\n\t" + "NULL");
-                        super.setColumns(",\n\t" + "PAR_CON_ID"); super.setValues(",\n\t" + "NULL");
-                        break;
+                    }
                 }
+                if(this.getOpenFromScreen() != null && !"".equals(this.getOpenFromScreen())){
+                    switch(this.getOpenFromScreen()){
+                        case "USER":
+                            addrList = super.queryAddressRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblAddress() + " ADDR\nWHERE ADDR.PAR_ROW_ID = '" + this.getUserId() + "'\nAND ADDR.PR_ADDR_FLG = 'Y'" + ((!"".equals(condition)) ? "\nOR (\n\tADDR.ROW_ID IN (\n\t\t" + condition + ")\n\tAND ADDR.PR_ADDR_FLG = 'Y'\n)" : ""));
+                            break;
+                        case "ACCOUNT":
+                            addrList = super.queryAddressRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblAddress() + " ADDR\nWHERE ADDR.PAR_ROW_ID = '" + this.getAccountId() + "'\nAND ADDR.PR_ADDR_FLG = 'Y'" + ((!"".equals(condition)) ? "\nOR (\n\tADDR.ROW_ID IN (\n\t\t" + condition + ")\n\tAND ADDR.PR_ADDR_FLG = 'Y'\n)" : ""));
+                            break;
+                        default:
+                            addrList = null;
+                            super.setColumns(",\n\t" + "PAR_ROW_ID"); super.setValues(",\n\t" + "NULL");
+                            super.setColumns(",\n\t" + "PAR_CON_ID"); super.setValues(",\n\t" + "NULL");
+                            break;
+                    }
+                }
+                if(addrList.size() > 0){
+                    for(int i = 0; i < addrList.size(); i++){
+                        if("Y".equals(addrList.get(i).getPR_ADDR_FLG())){
+                            super.clearColumnsValues();
+                            super.clearCondition();
+                            super.setColumnsValues(",\n\t" + "PR_ADDR_FLG = 'N'");
+                            super.setCondition("ROW_ID = '" + addrList.get(i).getRow_id() + "'");
+                            this.setOldPrimaryAddrId(addrList.get(i).getRow_id());
+                            try{
+                                this.clearCount();                                            
+                                this.setCount(super.updateRecord(super.getTblAddress(), super.getColumnsValues(), super.getCondition()));
+                                if(this.getCount() > 0){
+                                    super.clearColumnsValues();
+                                    super.clearCondition();
+                                    super.setColumns(",\n\t" + "PR_ADDR_FLG"); super.setValues(",\n\t" + "'Y'");
+                                } else {
+                                    super.clearColumnsValues();
+                                    super.clearCondition();
+                                    super.setColumns(",\n\t" + "PR_ADDR_FLG"); super.setValues(",\n\t" + "'N'");
+                                }
+                            } catch (Exception e) {
+                                super.clearColumnsValues();
+                                super.clearCondition();
+                                super.setColumns(",\n\t" + "PR_ADDR_FLG"); super.setValues(",\n\t" + "'N'");
+                            }
+                        }
+                    }
+                } else {
+                    super.setColumns(",\n\t" + "PR_ADDR_FLG"); super.setValues(",\n\t" + "'Y'");
+                }
+            } else {
+                super.setColumns(",\n\t" + "PR_ADDR_FLG"); super.setValues(",\n\t" + "'N'");
             }
             
             super.setColumns(",\n\t" + "ZIPCODE"); super.setValues(",\n\t" + ((addrScr.gettxtZipcode() != null) ? "'" + addrScr.gettxtZipcode() + "'" : "NULL"));
-            super.setColumns(",\n\t" + "ADDR_TYPE_CD"); super.setValues(",\n\t" + ((addrScr.getcbbAddressType() != null) ? "'" +  super.LookupValue("STREET_TYPE", addrScr.getcbbAddressType()) + "'" : "NULL"));
+            super.setColumns(",\n\t" + "ADDR_TYPE_CD"); super.setValues(",\n\t" + ((addrScr.getcbbAddressType() != null) ? "'" +  super.LookupName("STREET_TYPE", addrScr.getcbbAddressType()) + "'" : "NULL"));
             super.setColumns(",\n\t" + "ADDR"); super.setValues(",\n\t" + ((addrScr.gettxtAddressName() != null) ? "'" + addrScr.gettxtAddressName() + "'" : "NULL"));
             super.setColumns(",\n\t" + "ADDR_NUM"); super.setValues(",\n\t" + ((addrScr.gettxtAddressNumber() != null) ?  "'" +  addrScr.gettxtAddressNumber() + "'" : "NULL"));
             super.setColumns(",\n\t" + "NEIGHBORHOOD"); super.setValues(",\n\t" + ((addrScr.gettxtNeighborhood() != null) ?  "'" +  addrScr.gettxtNeighborhood() + "'" : "NULL"));
-            super.setColumns(",\n\t" + "X_ZONA"); super.setValues(",\n\t" + ((addrScr.getcbbAddressZone() != null) ?  "'" +  addrScr.getcbbAddressZone() + "'" : "NULL"));
+            super.setColumns(",\n\t" + "X_ZONA"); super.setValues(",\n\t" + ((addrScr.getcbbAddressZone() != null) ?  "'" +  super.LookupName("CITY_ZONE", addrScr.getcbbAddressZone()) + "'" : "NULL"));
             super.setColumns(",\n\t" + "CITY"); super.setValues(",\n\t" + ((addrScr.gettxtAddressCity() != null) ?  "'" +  addrScr.gettxtAddressCity() + "'" : "NULL"));
             super.setColumns(",\n\t" + "STATE"); super.setValues(",\n\t" + ((addrScr.getcbbAddressState() != null) ?  "'" +  addrScr.getcbbAddressState() + "'" : "NULL"));          
             super.setColumns(",\n\t" + "NATIONALITY"); super.setValues(",\n\t" + ((addrScr.getcbbAddressCountry() != null) ?  "'" +  super.LookupValue("NATIONALITY", addrScr.getcbbAddressCountry()) + "'" : "NULL"));
             super.setColumns(",\n\t" + "COUNTRY"); super.setValues(",\n\t" + ((addrScr.getcbbAddressCountry() != null) ?  "'" +  addrScr.getcbbAddressCountry() + "'" : "NULL"));
             super.setColumns(",\n\t" + "COUNTRY_CODE"); super.setValues(",\n\t" + ((addrScr.getcbbAddressCountry() != null) ?  "'" +  super.LookupValue("COUNTRY_CODE", addrScr.getcbbAddressCountry()) + "'" : "NULL"));
             super.setColumns(",\n\t" + "COUNTRY_INITIAL"); super.setValues(",\n\t" + ((addrScr.getcbbAddressCountry() != null) ?  "'" +  super.LookupValue("COUNTRY_INITIAL", super.LookupName("COUNTRY", addrScr.getcbbAddressCountry())) + "'" : "NULL"));
-            super.setColumns(",\n\t" + "PROPERTY_TYPE_CD"); super.setValues(",\n\t" + ((addrScr.getcbbHomeType() != null) ? "'" +  addrScr.getcbbHomeType() + "'" : "NULL"));
+            super.setColumns(",\n\t" + "PROPERTY_TYPE_CD"); super.setValues(",\n\t" + ((addrScr.getcbbHomeType() != null) ? "'" +  super.LookupName("PROPERTY_TYPE", addrScr.getcbbHomeType()) + "'" : "NULL"));
             super.setColumns(",\n\t" + "ADDR_LINE_2"); super.setValues(",\n\t" + ((addrScr.gettxtAddressComplement() != null) ?  "'" +  addrScr.gettxtAddressComplement()+ "'" : "NULL"));
             super.setColumns(",\n\t" + "X_ANDAR"); super.setValues(",\n\t" + ((addrScr.gettxtHomeFloor() != null) ?  "'" +  addrScr.gettxtHomeFloor() + "'" : "NULL"));
             super.setColumns(",\n\t" + "X_NUM_AP"); super.setValues(",\n\t" + ((addrScr.gettxtHomeNumber() != null) ?  "'" +  addrScr.gettxtHomeNumber() + "'" : "NULL"));
@@ -342,6 +440,8 @@ public class addressController extends DataController {
                     addrRowId.setRow_id(addressId);
                     setLastAddrAdd(addressId);
                     addrRowIdArray.add(addrRowId);
+                    this.setLastAddrAdd(addressId);
+                    this.fillList(null, "INSERT_RECORD");
                     super.clearColumns();
                     super.clearValues();
                     
@@ -363,7 +463,7 @@ public class addressController extends DataController {
         }
     }
     
-    public boolean update(String screen, String columnsValues, String condition, String rowId){
+    public boolean update(String screen, String columnsValues, String condition, String rowId) {
         super.clearColumnsValues();
         super.clearCondition();
         if("ADDRESS".equals(screen)){
@@ -371,7 +471,19 @@ public class addressController extends DataController {
                 this.setLastAddrUpd(rowId);
                 
                 if("Y".equals(addrScr.getckbMainAddress())){
-                    ArrayList<AddressClass> addrList = super.queryAddressRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblAddress() + "\nWHERE PAR_ROW_ID = '" + this.getUserId() + "'\nAND ROW_ID <> '" + rowId + "'\nAND PR_ADDR_FLG = 'Y'");
+                    ArrayList<AddressClass> addrList;
+                    switch(this.getOpenFromScreen()) {
+                        case "USER":
+                            addrList = super.queryAddressRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblAddress() + "\nWHERE PAR_ROW_ID = '" + this.getUserId() + "'\nAND ROW_ID <> '" + rowId + "'\nAND PR_ADDR_FLG = 'Y'");
+                            break;
+                        case "ACCOUNT":
+                            addrList = super.queryAddressRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblAddress() + "\nWHERE PAR_ROW_ID = '" + this.getAccountId() + "'\nAND ROW_ID <> '" + rowId + "'\nAND PR_ADDR_FLG = 'Y'");
+                            break;
+                        default:
+                            addrList = null;
+                            break;
+                    }
+                    
                     if(addrList.size() > 0){
                         for(int i = 0; i < addrList.size(); i++){
                             if("Y".equals(addrList.get(i).getPR_ADDR_FLG())){
@@ -379,6 +491,7 @@ public class addressController extends DataController {
                                 super.clearCondition();
                                 super.setColumnsValues(",\n\t" + "PR_ADDR_FLG = 'N'");
                                 super.setCondition("ROW_ID = '" + addrList.get(i).getRow_id() + "'");
+                                this.setOldPrimaryAddrId(addrList.get(i).getRow_id());
                                 try{
                                     this.clearCount();                                            
                                     this.setCount(super.updateRecord(super.getTblAddress(), super.getColumnsValues(), super.getCondition()));
@@ -408,18 +521,18 @@ public class addressController extends DataController {
                 super.setColumnsValues(",\n\t" + "MODIFICATION_NUM = (SELECT MODIFICATION_NUM + 1 FROM " + super.getDbOwner() + "." + super.getTblAddress() + " WHERE ROW_ID = '" + rowId + "')");
                 super.setColumnsValues(",\n\t" + "PAR_ADDR_ID = NULL");
                 super.setColumnsValues(",\n\t" + "ZIPCODE = " + ((addrScr.gettxtZipcode() != null) ? "'" + addrScr.gettxtZipcode() + "'" : "NULL"));
-                super.setColumnsValues(",\n\t" + "ADDR_TYPE_CD = " + ((addrScr.getcbbAddressType() != null) ? "'" +  super.LookupValue("STREET_TYPE", addrScr.getcbbAddressType()) + "'" : "NULL"));
+                super.setColumnsValues(",\n\t" + "ADDR_TYPE_CD = " + ((addrScr.getcbbAddressType() != null) ? "'" +  super.LookupName("STREET_TYPE", addrScr.getcbbAddressType()) + "'" : "NULL"));
                 super.setColumnsValues(",\n\t" + "ADDR = " + ((addrScr.gettxtAddressName() != null) ? "'" + addrScr.gettxtAddressName() + "'" : "NULL"));
                 super.setColumnsValues(",\n\t" + "ADDR_NUM = " + ((addrScr.gettxtAddressNumber() != null) ?  "'" +  addrScr.gettxtAddressNumber() + "'" : "NULL"));
                 super.setColumnsValues(",\n\t" + "NEIGHBORHOOD = " + ((addrScr.gettxtNeighborhood() != null) ?  "'" +  addrScr.gettxtNeighborhood() + "'" : "NULL"));
-                super.setColumnsValues(",\n\t" + "X_ZONA = " + ((addrScr.getcbbAddressZone() != null) ?  "'" +  addrScr.getcbbAddressZone() + "'" : "NULL"));
+                super.setColumnsValues(",\n\t" + "X_ZONA = " + ((addrScr.getcbbAddressZone() != null) ?  "'" +  super.LookupName("CITY_ZONE", addrScr.getcbbAddressZone()) + "'" : "NULL"));
                 super.setColumnsValues(",\n\t" + "CITY = " + ((addrScr.gettxtAddressCity() != null) ?  "'" +  addrScr.gettxtAddressCity() + "'" : "NULL"));
                 super.setColumnsValues(",\n\t" + "STATE = " + ((addrScr.getcbbAddressState() != null) ?  "'" +  addrScr.getcbbAddressState() + "'" : "NULL"));          
                 super.setColumnsValues(",\n\t" + "NATIONALITY = " + ((addrScr.getcbbAddressCountry() != null) ?  "'" +  super.LookupValue("NATIONALITY", addrScr.getcbbAddressCountry()) + "'" : "NULL"));
                 super.setColumnsValues(",\n\t" + "COUNTRY = " + ((addrScr.getcbbAddressCountry() != null) ?  "'" +  addrScr.getcbbAddressCountry() + "'" : "NULL"));
                 super.setColumnsValues(",\n\t" + "COUNTRY_CODE = " + ((addrScr.getcbbAddressCountry() != null) ?  "'" +  super.LookupValue("COUNTRY_CODE", addrScr.getcbbAddressCountry()) + "'" : "NULL"));
                 super.setColumnsValues(",\n\t" + "COUNTRY_INITIAL = " + ((addrScr.getcbbAddressCountry() != null) ?  "'" +  super.LookupValue("COUNTRY_INITIAL", super.LookupName("COUNTRY", addrScr.getcbbAddressCountry())) + "'" : "NULL"));
-                super.setColumnsValues(",\n\t" + "PROPERTY_TYPE_CD = " + ((addrScr.getcbbHomeType() != null) ? "'" +  addrScr.getcbbHomeType() + "'" : "NULL"));
+                super.setColumnsValues(",\n\t" + "PROPERTY_TYPE_CD = " + ((addrScr.getcbbHomeType() != null) ? "'" +  super.LookupName("PROPERTY_TYPE", addrScr.getcbbHomeType()) + "'" : "NULL"));
                 super.setColumnsValues(",\n\t" + "ADDR_LINE_2 = " + ((addrScr.gettxtAddressComplement() != null) ?  "'" +  addrScr.gettxtAddressComplement()+ "'" : "NULL"));
                 super.setColumnsValues(",\n\t" + "X_ANDAR = " + ((addrScr.gettxtHomeFloor() != null) ?  "'" +  addrScr.gettxtHomeFloor() + "'" : "NULL"));
                 super.setColumnsValues(",\n\t" + "X_NUM_AP = " + ((addrScr.gettxtHomeNumber() != null) ?  "'" +  addrScr.gettxtHomeNumber() + "'" : "NULL"));
@@ -448,7 +561,9 @@ public class addressController extends DataController {
                     this.clearCount();
                     this.setCount(super.updateRecord(super.getTblAddress(), super.getColumnsValues(), super.getCondition()));
                     if(this.getCount() > 0){
-                        JOptionPane.showMessageDialog(null, "Registros atualizados com sucesso!\nTotal de registros alterados: " + this.getCount());
+                        //JOptionPane.showMessageDialog(null, "Registros atualizados com sucesso!\nTotal de registros alterados: " + this.getCount());
+                        this.setLastAddrUpd(addrScr.gettxtRowId());
+                        this.fillList(null, "UPDATE_RECORD");
                         super.clearColumnsValues();
                         super.clearCondition();
                         return true;
@@ -465,14 +580,11 @@ public class addressController extends DataController {
             } else {
                 return false;
             }
-        } else if("USER".equals(screen)){
+        } else if("USER".equals(screen) || "ACCOUNT".equals(screen)) {
             this.setLastAddrUpd(rowId);
             super.clearColumnsValues();
             super.clearCondition();
-            /*super.setColumnsValues("LAST_UPD = SYSDATE");
-            super.setColumnsValues(",\n\t" + "LAST_UPD_BY = '" + super.getConnectedUserId() + "'");*/
             super.setColumnsValues(",\n\t" + "ACTIVE_FLG = 'Y'");
-            //super.setColumnsValues(",\n\t" + "DB_LAST_UPD = SYSDATE");
             super.setColumnsValues(",\n\t" + "MODIFICATION_NUM = (SELECT MODIFICATION_NUM + 1 FROM " + super.getDbOwner() + "." + super.getTblAddress() + " WHERE ROW_ID = '" + rowId + "')");
             super.setColumnsValues(",\n\t" + "PAR_ADDR_ID = NULL");
             if(!"".equals(columnsValues) && columnsValues != null){
@@ -499,7 +611,7 @@ public class addressController extends DataController {
                 super.clearColumnsValues();
                 super.clearCondition();
                 return false;
-            }            
+            }
         } else {
             return false;
         }
@@ -519,10 +631,10 @@ public class addressController extends DataController {
         try{
             int count = super.deleteRecord(super.getTblAddress(), super.getCondition());
             if(count > 0){
+                addrRowIdArray.remove(addrScr.getSelectedRowList());
                 if("DELETE_BUTTON".equals(function)){ JOptionPane.showMessageDialog(null, "Registro(s) removido(s) com sucesso!\nTotal de registros removidos: " + count + " registro(s)"); }
                 super.clearColumnsValues();
                 super.clearCondition();
-                updateArrayAfterDelete();
                 return true;
             } else {
                 super.clearColumnsValues();
@@ -537,26 +649,59 @@ public class addressController extends DataController {
         
     }
     
-    public void updateArrayAfterDelete(){
-        boolean status = true;
-        int i = 0;
-        int size = addrRowIdArray.size();
-        do {
-            if(size > 0 && i != size){
-                if(super.queryTableCount(super.getTblAddress(), "ROW_ID = '" + addrRowIdArray.get(i).getRow_id() + "'") < 1){
-                    addrRowIdArray.remove(i);
-                    size = addrRowIdArray.size();
-                    i = 0;
+    private void save() {
+        if(validateFields()){
+            try{
+                ArrayList<AddressClass> addrList = queryAddressRecord("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + "\nWHERE ROW_ID = '" + addrScr.gettxtRowId() + "'");
+
+                if(addrList.size() > 0) {
+                    if(update("ADDRESS", null, null, addrScr.gettxtRowId())){
+                        addrScr.enableFields("SALVAR", this.getOpenFromScreen());
+                    }
                 } else {
-                    i++;
+                    if(insert()){
+                        addrScr.enableFields("SALVAR", this.getOpenFromScreen());
+
+                        boolean foundRow = true;
+                        int i = 0;
+                        int o = addrScr.getNumOfListRows();
+                        do {
+                            if(i < o){
+                                try{                                    
+                                    if(getLastAddrAdd().equals(addrRowIdArray.get(i).getRow_id())){
+                                        addrScr.setSelectedRowColumnList(i, 0);
+                                        foundRow = false;
+                                    }
+                                } catch(Exception e){
+                                    foundRow = false;
+                                }
+                            } else {
+                                foundRow = false;
+                            }
+                            i++;
+                        } while(foundRow);
+                    }
                 }
-            } else {
-                status = false;
+                
+                DefaultTableModel table = (DefaultTableModel) addrScr.getTableModel();
+                table.getRowCount();
+                
+                if(getOldPrimaryAddrId() != null && !"".equals(getOldPrimaryAddrId())){
+                    for(int i = 0; i < table.getRowCount(); i++) {
+                        if(addrRowIdArray.get(i).getRow_id().equals(getOldPrimaryAddrId())) {
+                            table.setValueAt(false, i, 1);
+                            this.setOldPrimaryAddrId(null);
+                        }
+                    }
+                }
+                addrScr.setlblRecCount((addrScr.getSelectedRowList() + 1) + " - " + String.valueOf(addrRowIdArray.size()));
+            } catch(Exception e) {
+                System.out.println(getDateTime() + "\tContactModule.ContactController\t\tSaveSocialMedia\tInsertUpdateSocialMedia\tError Exception\tError: " + e);
             }
-        } while (status);
+        }
     }
     
-    public boolean validateFields(){
+    public boolean validateFields() {
         String mensagem = "";
         int i = 0;
         
@@ -734,7 +879,6 @@ public class addressController extends DataController {
     }
 
     public class zipcode {
-
         private String zipcode;
         private String street;
         private String complement;
@@ -840,7 +984,7 @@ public class addressController extends DataController {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            addrScr.enableFields("NOVO");
+            addrScr.enableFields("NOVO", getOpenFromScreen());
             addrScr.clearFields();
             fillNewAddressFields();
             addrScr.setFocus("CEP_PARTE_1");
@@ -852,7 +996,7 @@ public class addressController extends DataController {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            addrScr.enableFields("EDITAR");
+            addrScr.enableFields("EDITAR", getOpenFromScreen());
             addrScr.setFocus("CEP_PARTE_1");
         }
 
@@ -862,149 +1006,7 @@ public class addressController extends DataController {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            String condition = "";
-            try{
-                ArrayList<AddressClass> addrList = queryAddressRecord("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + "\nWHERE ROW_ID = '" + addrScr.gettxtRowId() + "'");
-
-                if(addrList.size() > 0){
-                    if(update("ADDRESS", null, null, addrScr.gettxtRowId())){
-                        addrScr.enableFields("SALVAR");
-                        
-                        switch(getOpenFromScreen()){
-                        case "USER":
-                            ArrayList<UserClass> userList = queryUserRecord("SELECT *\nFROM " + getDbOwner() + "." + getTblUser() + " USR\nWHERE USR.ROW_ID = '" + getUserId() + "'");
-                            if(userList.size() > 0){
-                                if(addrRowIdArray.size() > 0){
-                                    for(int i = 0; i < addrRowIdArray.size(); i++) {
-                                        if(i != addrRowIdArray.size() - 1){
-                                            condition += "'" + addrRowIdArray.get(i).getRow_id() + "',\n\t";
-                                        } else {
-                                            condition += "'" + addrRowIdArray.get(i).getRow_id() + "'\n";
-                                        }
-                                    }
-                                    openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR\nWHERE ADDR.PAR_ROW_ID = '" + getUserId() + "'\nOR ADDR.ROW_ID IN (\n\t" + condition + ")", "SAVE_ADDRESS");
-                                } else {
-                                    openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR\nWHERE ADDR.PAR_ROW_ID = '" + getUserId() + "'", "SAVE_ADDRESS");
-                                }
-                            } else {
-                                if(addrRowIdArray.size() > 0){
-                                    for(int i = 0; i < addrRowIdArray.size(); i++) {
-                                        if(i != addrRowIdArray.size() - 1){
-                                            condition += "'" + addrRowIdArray.get(i).getRow_id() + "',\n\t";
-                                        } else {
-                                            condition += "'" + addrRowIdArray.get(i).getRow_id() + "'\n";
-                                        }
-                                    }
-                                    openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR\nWHERE ADDR.ROW_ID IN (\n\t" + condition + ")", "SAVE_ADDRESS");
-                                } else {
-                                    // Force to not find any Address
-                                    openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR\nWHERE ADDR.PAR_ROW_ID = '" + getUserId() + "'", "SAVE_ADDRESS");
-                                }
-                            }
-                            break;
-                        case "MAIN":
-                            openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR", "SAVE_ADDRESS");
-                        default:
-                            openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR", "SAVE_ADDRESS");
-                            break;
-                        }
-                        
-                        boolean foundRow = true;
-                        int i = 0;
-                        int o = addrScr.getNumOfListRows();
-                        do {
-                            if(i < o){
-                                try{
-                                    addrScr.setSelectedRowColumnList(i, 0);
-                                    if(getLastAddrUpd().equals(addrScr.getSelectedRowIdAddressList())){
-                                        fillFieldsAddressScreen(
-                                            "SELECT *\n" +
-                                            "FROM " + getDbOwner() + "." + getTblAddress() + "\n" +
-                                            "WHERE ROW_ID = '" + getLastAddrUpd() + "'"
-                                        );
-                                        foundRow = false;
-                                    }
-                                } catch(Exception e){
-                                    foundRow = false;
-                                }
-                            } else {
-                                foundRow = false;
-                            }
-                            i++;
-                        } while(foundRow);
-                    }
-                } else {
-                    if(insert()){
-                        addrScr.enableFields("SALVAR");
-                        
-                        switch(getOpenFromScreen()){
-                        case "USER":
-                            ArrayList<UserClass> userList = queryUserRecord("SELECT *\nFROM " + getDbOwner() + "." + getTblUser() + " USR\nWHERE USR.ROW_ID = '" + getUserId() + "'");
-                            if(userList.size() > 0){
-                                if(addrRowIdArray.size() > 0){
-                                    for(int i = 0; i < addrRowIdArray.size(); i++) {
-                                        if(i != addrRowIdArray.size() - 1){
-                                            condition += "'" + addrRowIdArray.get(i).getRow_id() + "',\n\t";
-                                        } else {
-                                            condition += "'" + addrRowIdArray.get(i).getRow_id() + "'\n";
-                                        }
-                                    }
-                                    openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR\nWHERE ADDR.PAR_ROW_ID = '" + getUserId() + "'\nOR ADDR.ROW_ID IN (\n\t" + condition + ")", "SAVE_ADDRESS");
-                                } else {
-                                    openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR\nWHERE ADDR.PAR_ROW_ID = '" + getUserId() + "'", "SAVE_ADDRESS");
-                                }                                
-                            } else {
-                                if(addrRowIdArray.size() > 0){
-                                    for(int i = 0; i < addrRowIdArray.size(); i++) {
-                                        if(i != addrRowIdArray.size() - 1){
-                                            condition += "'" + addrRowIdArray.get(i).getRow_id() + "',\n\t";
-                                        } else {
-                                            condition += "'" + addrRowIdArray.get(i).getRow_id() + "'\n";
-                                        }
-                                    }
-                                    openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR\nWHERE ADDR.ROW_ID IN (\n\t" + condition + ")", "SAVE_ADDRESS");
-                                } else {
-                                    // Force to not find any Address
-                                    openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR\nWHERE ADDR.PAR_ROW_ID = '" + getUserId() + "'", "SAVE_ADDRESS");
-                                }
-                            }
-                            break;
-                        case "MAIN":
-                            openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR", "SAVE_ADDRESS");
-                        default:
-                            openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR", "SAVE_ADDRESS");
-                            break;
-                        }
-                        
-                        boolean foundRow = true;
-                        int i = 0;
-                        int o = addrScr.getNumOfListRows();
-                        do {
-                            if(i < o){
-                                try{
-                                    addrScr.setSelectedRowColumnList(i, 0);
-                                    if(getLastAddrAdd().equals(addrScr.getSelectedRowIdAddressList())){
-                                        fillFieldsAddressScreen(
-                                            "SELECT *\n" +
-                                            "FROM " + getDbOwner() + "." + getTblAddress() + "\n" +
-                                            "WHERE ROW_ID = '" + getLastAddrAdd() + "'"
-                                        );
-                                        foundRow = false;
-                                    }
-                                } catch(Exception e){
-                                    foundRow = false;
-                                }
-                            } else {
-                                foundRow = false;
-                            }
-                            i++;
-                        } while(foundRow);
-                    }
-                }
-                addrScr.setlblRecCount(addrScr.getSelectedRowList() + 1 + " - " + String.valueOf(addrScr.getNumOfListRows()));
-            } catch(Exception e) {
-                System.out.println(getDateTime() + "\tContactModule.ContactController\t\tSaveSocialMedia\tInsertUpdateSocialMedia\tError Exception\tError: " + e);
-            }
+            save();
         }
 
     }
@@ -1013,9 +1015,9 @@ public class addressController extends DataController {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            addrScr.enableFields("CANCELAR");
+            addrScr.enableFields("CANCELAR", getOpenFromScreen());
             if(!"".equals(addrScr.getSelectedRowIdAddressList()) && addrScr.getSelectedRowIdAddressList() != null){
-                fillFieldsAddressScreen(
+                fillFields(
                     "SELECT *\n" +
                     "FROM " + getDbOwner() + "." + getTblAddress() + " ADDR\n" +
                     "WHERE ADDR.ROW_ID = '" + addrScr.getSelectedRowIdAddressList() + "'"
@@ -1034,7 +1036,7 @@ public class addressController extends DataController {
         public void actionPerformed(ActionEvent ae) {
             String condition = "";
             if(delete("DELETE_BUTTON", "ROW_ID = '" + addrScr.gettxtRowId() + "'")){
-                addrScr.enableFields("DELETAR");
+                addrScr.enableFields("DELETAR", getOpenFromScreen());
                 
                 switch(getOpenFromScreen()){
                     case "USER":
@@ -1068,17 +1070,49 @@ public class addressController extends DataController {
                             }
                         }
                         break;
+                    case "ACCOUNT":
+                        ArrayList<AccountClass> AccountList = queryAccountRecord("SELECT *\nFROM " + getDbOwner() + "." + getTblAccount() + " ACC\nWHERE ACC.ROW_ID = '" + getAccountId() + "'");
+                        if(AccountList.size() > 0){
+                            if(addrRowIdArray.size() > 0){
+                                for(int i = 0; i < addrRowIdArray.size(); i++) {
+                                    if(i != addrRowIdArray.size() - 1){
+                                        condition += "'" + addrRowIdArray.get(i).getRow_id() + "',\n\t";
+                                    } else {
+                                        condition += "'" + addrRowIdArray.get(i).getRow_id() + "'\n";
+                                    }
+                                }
+                                openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR\nWHERE ADDR.PAR_ROW_ID = '" + getAccountId() + "'\nOR ADDR.ROW_ID IN (\n\t" + condition + ")", "DELETE_ADDRESS");
+                            } else {
+                                openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR\nWHERE ADDR.PAR_ROW_ID = '" + getAccountId() + "'", "DELETE_ADDRESS");
+                            }
+                        } else {
+                            if(addrRowIdArray.size() > 0){
+                                for(int i = 0; i < addrRowIdArray.size(); i++) {
+                                    if(i != addrRowIdArray.size() - 1){
+                                        condition += "'" + addrRowIdArray.get(i).getRow_id() + "',\n\t";
+                                    } else {
+                                        condition += "'" + addrRowIdArray.get(i).getRow_id() + "'\n";
+                                    }
+                                }
+                                openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR\nWHERE ADDR.ROW_ID IN (\n\t" + condition + ")", "DELETE_ADDRESS");
+                            } else {
+                                // Force to not find any Address
+                                openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR\nWHERE ADDR.PAR_ROW_ID = '" + getAccountId() + "'", "DELETE_ADDRESS");
+                            }
+                        }
+                        break;
                     case "MAIN":
                         openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR", "DELETE_ADDRESS");
+                        break;
                     default:
                         openAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + " ADDR", "DELETE_ADDRESS");
                         break;
                 }
                 
             } else {
-                addrScr.enableFields("SALVAR");
+                addrScr.enableFields("SALVAR", getOpenFromScreen());
                 if(!"".equals(addrScr.getSelectedRowIdAddressList()) && addrScr.getSelectedRowIdAddressList() != null){
-                    fillFieldsAddressScreen(
+                    fillFields(
                         "SELECT *\n" +
                         "FROM " + getDbOwner() + "." + getTblAddress() + "\n" +
                         "WHERE ROW_ID = '" + addrScr.getSelectedRowIdAddressList() + "'"
@@ -1096,11 +1130,11 @@ public class addressController extends DataController {
         @Override
         public void actionPerformed(ActionEvent ae) {
             if(searchAddress()) {
-                addrScr.enableFields("SEARCH");
+                addrScr.enableFields("SEARCH", getOpenFromScreen());
                 addrScr.setFocus("NUMERO");
             } else {
                 if(JOptionPane.showConfirmDialog(null, "O CEP informado não foi encontrado! Deseja continuar mesmo assim?","Atenção",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION){
-                    addrScr.enableFields("SEARCH");
+                    addrScr.enableFields("SEARCH", getOpenFromScreen());
                     addrScr.setFocus("TIPO_LOGRADOURO");
                 } else {
                     addrScr.setFocus("CEP_PARTE_1");
@@ -1152,7 +1186,7 @@ public class addressController extends DataController {
             if(count < 1){
                 if(table.getRowCount() > 0) {
                     addrScr.clearFields();
-                    fillFieldsAddressScreen("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + "\nWHERE ROW_ID = '" + addrScr.getSelectedRowIdAddressList() + "'");
+                    fillFields("SELECT *\nFROM " + getDbOwner() + "." + getTblAddress() + "\nWHERE ROW_ID = '" + addrScr.getSelectedRowIdAddressList() + "'");
                     addrScr.setlblRecCount(addrScr.getSelectedRowList() + 1 + " - " + String.valueOf(addrScr.getNumOfListRows()));
                     addrScr.setbtnEditEnabled(true);
                     addrScr.setbtnDeleteEnabled(true);

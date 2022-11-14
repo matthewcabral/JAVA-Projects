@@ -5,13 +5,14 @@
  */
 package main;
 
-import databaseModule.DataController;
-import databaseModule.DatabaseCommands;
+import accountModule.AccountController;
+import accountModule.AccountLightController;
+import accountModule.AccountInsertController;
+import contactModule.ContactController;
 import settingsModule.AboutSystemScreen;
 import settingsModule.DbSettingsController;
 import java.awt.event.*;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -29,16 +30,33 @@ import userModule.UserPositionController;
 public class MainController {
     // Classes Instances
     mainScreen mainScreen;
-    //LOV_XML_Controller lovControl;
+    
+    // MAIN Panel
+    //CashBoxController acc;    // MAIN > Cash Box
+    //SalesController acc;      // MAIN > Sales
+    //ProductsController prd;   // MAIN > Products    
+    //AccountController acc;    // MAIN > Accounts
+    ContactController cont;     // MAIN > Contacts
+    Runtime run;                // MAIN > Windows Calculator
+    
+    // Account Panel
+    AccountInsertController accLightIns;
+    AccountLightController accLight;
+    AccountController accntCtrl;
+    // Product Panel
+    // Finance Panel
+    
+    // Settings Panel
+    ListOfValuesController lovCtrl;     // Settings > List Of Values
+    LanguageController langCtrl;        // Settings > Laguages
+    UserController usrCtrl;             // Settings > Users
+    UserPositionController posCtrl;     // Settings > Positions
+    UserChangePasswordClass changePass; // Settings > Change Password
+    DbSettingsController dbSetCtrl;     // Settings > Database Settings
+    
+    // Others
     AboutSystemScreen about;
-    DbSettingsController dbSetCtrl;
-    UserController usrCtrl;
-    UserPositionController posCtrl;
-    ListOfValuesController lovCtrl;
-    LanguageController langCtrl;
-    UserChangePasswordClass changePass;
-    DatabaseCommands dbCmd;
-    Runtime run;
+    //DatabaseCommands dbCmd;
     
     private boolean mainScreenVisible = false;
     private boolean settingScreenVisible = false;
@@ -93,16 +111,31 @@ public class MainController {
         } else {
             mainScreen.setLabelUser(System.getProperty("user.name"));
         }
-        mainScreen.setListenerAboutSystem(new AboutSystem());
-        //mainScreen.setListenerOpenLOV_XML_ConverterScreen(new openLOV_XML_Converter());
-        mainScreen.setListenerOpenDBSettings(new BtnOpenDBSettingsScreen());
-        mainScreen.setListenerbtnOpenUserManagement(new BtnOpenUserScreen());
-        mainScreen.setListenerbtnOpenListOfValues(new BtnOpenListOfValuesScreen());
-        mainScreen.setListenerbtnOpenLanguage(new BtnOpenLanguageScreen());
+        
+        // MAIN Panel
+        mainScreen.setListenerbtnOpenContacts(new BtnOpenContactsScreen());
         mainScreen.setListenerbtnOpenCalculator(new BtnOpenWindowsCalculator());
         mainScreen.setListenerbtnLockSystem(new BtnLockSystem());
+        
+        // Account Panel
+        mainScreen.setListenerbtnOpenAccountLightInsert(new BtnOpenAccountLightInsertScreen());
+        mainScreen.setListenerbtnOpenAccountLight(new BtnOpenAccountLightScreen());
+        mainScreen.setListenerbtnOpenAccount(new BtnOpenAccountScreen());
+        
+        // Product Panel
+        // Finance Panel
+        
+        // Settings Panel
+        mainScreen.setListenerbtnOpenListOfValues(new BtnOpenListOfValuesScreen());
+        mainScreen.setListenerbtnOpenLanguage(new BtnOpenLanguageScreen());
+        mainScreen.setListenerbtnOpenUserManagement(new BtnOpenUserScreen());
         mainScreen.setListenerbtnOpenUserPermition(new BtnOpenUserPermitionScreen());
         mainScreen.setListenerbtnOpenChangePassword(new BtnOpenChangePasswordScreen());
+        mainScreen.setListenerOpenDBSettings(new BtnOpenDBSettingsScreen());
+        
+        // Others
+        mainScreen.setListenerAboutSystem(new AboutSystem());
+        
         setScrVisible("Principal", true);
         //dbParamTest = new DBParametersTest();
         //this.openScreen("Principal");
@@ -140,6 +173,89 @@ public class MainController {
     }
     
     // MAIN Panel
+    /*
+    public class BtnOpenCashBoxScreen implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+        
+    }
+    
+    public class BtnOpenCashBoxHistoryScreen implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+        
+    }
+    
+    public class BtnOpenSalesScreen implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+        
+    }
+    
+    public class BtnOpenTableSalesScreen implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+        
+    }
+    
+    public class BtnOpenDeliverySalesScreen implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+        
+    }
+    
+    public class BtnOpenProductsScreen implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+        
+    }
+    
+    public class BtnOpenAccountsScreen implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+        
+    }
+    */
+    
+    public class BtnOpenContactsScreen implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            try {
+                cont = new ContactController();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            cont.setDbUser(getUser());
+            cont.setDbPassword(getPassword());
+            cont.clearVariables();
+            cont.setOpenFromScreen("MAIN");
+            cont.openContactScreen("", "NEW_CONTACT");
+        }
+        
+    }
+    
     public class BtnOpenWindowsCalculator implements ActionListener {
 
         @Override
@@ -159,6 +275,7 @@ public class MainController {
         @Override
         public void actionPerformed(ActionEvent ae) {
             mainScreen.dispose();
+            setScrVisible("Principal", false);
             openLoginScreen();
         }
         
@@ -166,6 +283,54 @@ public class MainController {
     
     
     // Account Panel
+    public class BtnOpenAccountLightInsertScreen implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            try {
+                accLightIns = new AccountInsertController();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            accLightIns.setDbUser(getUser());
+            accLightIns.setDbPassword(getPassword());
+            accLightIns.openAccountScreen("MAIN", "");
+        }
+        
+    }
+    
+    public class BtnOpenAccountLightScreen implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            try {
+                accLight = new AccountLightController();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            accLight.setDbUser(getUser());
+            accLight.setDbPassword(getPassword());
+            accLight.openAccountScreen("MAIN", "");
+        }
+        
+    }
+    
+    public class BtnOpenAccountScreen implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            try {
+                accntCtrl = new AccountController();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            accntCtrl.setDbUser(getUser());
+            accntCtrl.setDbPassword(getPassword());
+            accntCtrl.openAccountScreen("MAIN", "");
+        }
+        
+    }
+    
     // Product Panel
     // Finance Panel
     

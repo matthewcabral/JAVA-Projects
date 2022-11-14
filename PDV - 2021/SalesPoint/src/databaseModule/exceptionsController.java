@@ -9,7 +9,7 @@ package databaseModule;
  *
  * @author Matheus Cabral Rosa
  */
-public class exceptionsController {
+public class ExceptionsController {
     private String msgReturn = "Mensagem: ";
     private String dbConnectionEx = "Erro: Não foi possível conectar com o Banco de Dados!";
     private String dbDisconnectEx = "Erro: Não foi possível fechar a conexão com o Banco de Dados!";

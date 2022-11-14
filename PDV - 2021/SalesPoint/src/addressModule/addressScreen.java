@@ -18,12 +18,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Matheus Cabral Rosa
  */
-public class addressScreen extends javax.swing.JFrame {
+public class AddressScreen extends javax.swing.JFrame {
 
     /**
      * Creates new form ContactManagement
      */
-    public addressScreen() {
+    public AddressScreen() {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
@@ -313,10 +313,13 @@ public class addressScreen extends javax.swing.JFrame {
         }
     }
     
-    public void enableFields(String funcao) {
+    public void enableFields(String funcao, String openFromScreen) {
         switch (funcao){
             case "LOAD_SCREEN":
-                settxtAddressListFilterValueEnabled(true);
+                if(openFromScreen.equals("USER")) {
+                    settxtAddressListFilterValueEnabled(true);
+                    setcbbAddressListFilterEnabled(true);
+                }
                 settxtRowIdEnabled(false);
                 settxtZipcodePart1Enabled(false);
                 settxtZipcodePart2Enabled(false);
@@ -329,9 +332,8 @@ public class addressScreen extends javax.swing.JFrame {
                 settxtHomeFloorEnabled(false);
                 settxtHomeNumberEnabled(false);
                 settxtHomeBlockEnabled(false);
-                settxtCommentslEnabled(false);          
-
-                setcbbAddressListFilterEnabled(true);
+                settxtCommentslEnabled(false);
+                
                 setcbbAddressTypeEnabled(false);
                 setcbbAddressZoneEnabled(false);
                 setcbbAddressCountryEnabled(false);
@@ -349,7 +351,10 @@ public class addressScreen extends javax.swing.JFrame {
                 setbtnSearchAddressEnabled(false);
                 break;
             case "NOVO":
-                settxtAddressListFilterValueEnabled(false);
+                if(openFromScreen.equals("USER")) {
+                    settxtAddressListFilterValueEnabled(false);
+                    setcbbAddressListFilterEnabled(true);
+                }
                 settxtRowIdEnabled(false);
                 settxtZipcodePart1Enabled(true);
                 settxtZipcodePart2Enabled(true);
@@ -364,7 +369,7 @@ public class addressScreen extends javax.swing.JFrame {
                 settxtHomeBlockEnabled(false);
                 settxtCommentslEnabled(false);
 
-                setcbbAddressListFilterEnabled(true);
+                
                 setcbbAddressTypeEnabled(false);
                 setcbbAddressZoneEnabled(false);
                 setcbbAddressCountryEnabled(false);
@@ -382,7 +387,10 @@ public class addressScreen extends javax.swing.JFrame {
                 setbtnSearchAddressEnabled(true);
                 break;
             case "EDITAR":
-                settxtAddressListFilterValueEnabled(false);
+                if(openFromScreen.equals("USER")) {
+                    settxtAddressListFilterValueEnabled(false);
+                    setcbbAddressListFilterEnabled(true);
+                }
                 settxtRowIdEnabled(false);
                 settxtZipcodePart1Enabled(true);
                 settxtZipcodePart2Enabled(true);
@@ -397,7 +405,6 @@ public class addressScreen extends javax.swing.JFrame {
                 settxtHomeBlockEnabled(true);
                 settxtCommentslEnabled(true);
 
-                setcbbAddressListFilterEnabled(true);
                 setcbbAddressTypeEnabled(true);
                 setcbbAddressZoneEnabled(true);
                 setcbbAddressCountryEnabled(true);
@@ -415,7 +422,10 @@ public class addressScreen extends javax.swing.JFrame {
                 setbtnSearchAddressEnabled(true);
                 break;
             case "CANCELAR":
-                settxtAddressListFilterValueEnabled(true);
+                if(openFromScreen.equals("USER")) {
+                    settxtAddressListFilterValueEnabled(true);
+                    setcbbAddressListFilterEnabled(true);
+                }
                 settxtRowIdEnabled(false);
                 settxtZipcodePart1Enabled(false);
                 settxtZipcodePart2Enabled(false);
@@ -429,8 +439,7 @@ public class addressScreen extends javax.swing.JFrame {
                 settxtHomeNumberEnabled(false);
                 settxtHomeBlockEnabled(false);
                 settxtCommentslEnabled(false);
-
-                setcbbAddressListFilterEnabled(true);
+                
                 setcbbAddressTypeEnabled(false);
                 setcbbAddressZoneEnabled(false);
                 setcbbAddressCountryEnabled(false);
@@ -448,7 +457,10 @@ public class addressScreen extends javax.swing.JFrame {
                 setbtnSearchAddressEnabled(false);
                 break;
             case "DELETAR":
-                settxtAddressListFilterValueEnabled(true);
+                if(openFromScreen.equals("USER")) {
+                    settxtAddressListFilterValueEnabled(true);
+                    setcbbAddressListFilterEnabled(true);
+                }
                 settxtRowIdEnabled(false);
                 settxtZipcodePart1Enabled(false);
                 settxtZipcodePart2Enabled(false);
@@ -462,8 +474,7 @@ public class addressScreen extends javax.swing.JFrame {
                 settxtHomeNumberEnabled(false);
                 settxtHomeBlockEnabled(false);
                 settxtCommentslEnabled(false);
-
-                setcbbAddressListFilterEnabled(true);
+                
                 setcbbAddressTypeEnabled(false);
                 setcbbAddressZoneEnabled(false);
                 setcbbAddressCountryEnabled(false);
@@ -481,7 +492,10 @@ public class addressScreen extends javax.swing.JFrame {
                 setbtnSearchAddressEnabled(false);
                 break;
             case "SALVAR":
-                settxtAddressListFilterValueEnabled(true);
+                if(openFromScreen.equals("USER")) {
+                    settxtAddressListFilterValueEnabled(true);
+                    setcbbAddressListFilterEnabled(true);
+                }
                 settxtRowIdEnabled(false);
                 settxtZipcodePart1Enabled(false);
                 settxtZipcodePart2Enabled(false);
@@ -496,7 +510,6 @@ public class addressScreen extends javax.swing.JFrame {
                 settxtHomeBlockEnabled(false);
                 settxtCommentslEnabled(false);
 
-                setcbbAddressListFilterEnabled(true);
                 setcbbAddressTypeEnabled(false);
                 setcbbAddressZoneEnabled(false);
                 setcbbAddressCountryEnabled(false);
@@ -514,7 +527,10 @@ public class addressScreen extends javax.swing.JFrame {
                 setbtnSearchAddressEnabled(false);
                 break;
             case "SEARCH":
-                settxtAddressListFilterValueEnabled(false);
+                if(openFromScreen.equals("USER")) {
+                    settxtAddressListFilterValueEnabled(false);
+                    setcbbAddressListFilterEnabled(false);
+                }
                 settxtRowIdEnabled(false);
                 settxtZipcodePart1Enabled(true);
                 settxtZipcodePart2Enabled(true);
@@ -529,7 +545,6 @@ public class addressScreen extends javax.swing.JFrame {
                 settxtHomeBlockEnabled(true);
                 settxtCommentslEnabled(true);
 
-                setcbbAddressListFilterEnabled(false);
                 setcbbAddressTypeEnabled(true);
                 setcbbAddressZoneEnabled(true);
                 setcbbAddressCountryEnabled(true);
@@ -724,6 +739,7 @@ public class addressScreen extends javax.swing.JFrame {
 
         cbbAddressListFilter.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         cbbAddressListFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbbAddressListFilter.setEnabled(false);
         cbbAddressListFilter.setMaximumSize(new java.awt.Dimension(250, 32767));
         cbbAddressListFilter.setPreferredSize(new java.awt.Dimension(250, 23));
         cbbAddressListFilter.addItemListener(new java.awt.event.ItemListener() {
@@ -734,6 +750,7 @@ public class addressScreen extends javax.swing.JFrame {
 
         txtAddressListFilterValue.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         txtAddressListFilterValue.setToolTipText("");
+        txtAddressListFilterValue.setEnabled(false);
         txtAddressListFilterValue.setMaximumSize(new java.awt.Dimension(250, 2147483647));
         txtAddressListFilterValue.setPreferredSize(new java.awt.Dimension(250, 23));
 

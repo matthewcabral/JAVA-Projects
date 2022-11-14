@@ -47,7 +47,7 @@ public class ContactScreen extends javax.swing.JFrame {
     // Component Setters
     public void settxtContactListFilterValue(String value) { this.txtContactListFilterValue.setText(value); this.txtContactListFilterValue.paintImmediately(this.txtContactListFilterValue.getVisibleRect()); }
     public void settxtRowId(String value) { this.txtRowId.setText(value); this.txtRowId.paintImmediately(this.txtRowId.getVisibleRect()); }
-    public void settxtDocNum(String value) { this.txtDocNum.setText(value); this.txtDocNum.paintImmediately(this.txtDocNum.getVisibleRect()); }
+    /*public void settxtDocNum(String value) { this.txtDocNum.setText(value); this.txtDocNum.paintImmediately(this.txtDocNum.getVisibleRect()); }
     public void settxtName(String value) { this.txtName.setText(value); this.txtName.paintImmediately(this.txtName.getVisibleRect()); }
     public void settxtSurname(String value) { this.txtSurname.setText(value); this.txtSurname.paintImmediately(this.txtSurname.getVisibleRect()); }
     public void settxtNickName(String value) { this.txtNickName.setText(value); this.txtNickName.paintImmediately(this.txtNickName.getVisibleRect()); }
@@ -55,7 +55,7 @@ public class ContactScreen extends javax.swing.JFrame {
     public void settxtBornLocation(String value) { this.txtBornLocation.setText(value); this.txtBornLocation.paintImmediately(this.txtBornLocation.getVisibleRect()); }
     public void settxtSpouseName(String value) { this.txtSpouseName.setText(value); this.txtSpouseName.paintImmediately(this.txtSpouseName.getVisibleRect()); }
     public void settxtMotherName(String value) { this.txtMotherName.setText(value); this.txtMotherName.paintImmediately(this.txtMotherName.getVisibleRect()); }
-    public void settxtFatherName(String value) { this.txtFatherName.setText(value); this.txtFatherName.paintImmediately(this.txtFatherName.getVisibleRect()); }
+    public void settxtFatherName(String value) { this.txtFatherName.setText(value); this.txtFatherName.paintImmediately(this.txtFatherName.getVisibleRect()); }*/
     public void settxtContactMPhone(String value) { this.txtContactMPhone.setText(value); this.txtContactMPhone.paintImmediately(this.txtContactMPhone.getVisibleRect()); }
     public void settxtContactEmail(String value) { this.txtContactEmail.setText(value); this.txtContactEmail.paintImmediately(this.txtContactEmail.getVisibleRect()); }
     public void settxtContactPhone(String value) { this.txtContactPhone.setText(value); this.txtContactPhone.paintImmediately(this.txtContactPhone.getVisibleRect()); }
@@ -65,11 +65,11 @@ public class ContactScreen extends javax.swing.JFrame {
     public void settxtTwitter(String value) { this.txtTwitter.setText(value); this.txtTwitter.paintImmediately(this.txtTwitter.getVisibleRect()); }
     
     public void setcbbContactListFilter(String value) { this.cbbContactListFilter.addItem(value); this.cbbContactListFilter.paintImmediately(this.cbbContactListFilter.getVisibleRect()); }
-    public void setcbbCivilState(String value) { this.cbbCivilState.addItem(value); this.cbbCivilState.paintImmediately(this.cbbCivilState.getVisibleRect()); }
+    /*public void setcbbCivilState(String value) { this.cbbCivilState.addItem(value); this.cbbCivilState.paintImmediately(this.cbbCivilState.getVisibleRect()); }
     public void setcbbDay(String value) { this.cbbDay.addItem(value); this.cbbDay.paintImmediately(this.cbbDay.getVisibleRect()); }
     public void setcbbDocType(String value) { this.cbbDocType.addItem(value); this.cbbDocType.paintImmediately(this.cbbDocType.getVisibleRect()); }
     public void setcbbMonth(String value) { this.cbbMonth.addItem(value); this.cbbMonth.paintImmediately(this.cbbMonth.getVisibleRect()); }
-    public void setcbbSex(String value) { this.cbbSex.addItem(value); this.cbbSex.paintImmediately(this.cbbSex.getVisibleRect()); }
+    public void setcbbSex(String value) { this.cbbSex.addItem(value); this.cbbSex.paintImmediately(this.cbbSex.getVisibleRect()); }*/
     public void setcbbContactEmailType(String value) { this.cbbContactEmailType.addItem(value); this.cbbContactEmailType.paintImmediately(this.cbbContactEmailType.getVisibleRect()); }
 
     public void setckbMainConFlg(String value) { if("Y".equals(value)) { this.ckbMainConFlg.setSelected(true); } else { this.ckbMainConFlg.setSelected(false); } this.ckbMainConFlg.paintImmediately(this.ckbMainConFlg.getVisibleRect()); }
@@ -84,18 +84,18 @@ public class ContactScreen extends javax.swing.JFrame {
     
     // ComboBox Specific Setters
     public void setcbbContactListFilterItemIndex(int value) { this.cbbContactListFilter.setSelectedIndex(value); }
-    public void setcbbCivilStateItemIndex(int value) { this.cbbCivilState.setSelectedIndex(value); }
+    public void setcbbContactEmailTypeItemIndex(int value) { this.cbbContactEmailType.setSelectedIndex(value); }
+    /*public void setcbbCivilStateItemIndex(int value) { this.cbbCivilState.setSelectedIndex(value); }
     public void setcbbDayItemIndex(int value) { this.cbbDay.setSelectedIndex(value); }
     public void setcbbDocTypeItemIndex(int value) { this.cbbDocType.setSelectedIndex(value); }
-    public void setcbbContactEmailTypeItemIndex(int value) { this.cbbContactEmailType.setSelectedIndex(value); }
     //public void setcbbIdentityTypeItemIndex(int value) { this.cbbIdentityType.setSelectedIndex(value); }
-    public void setcbbMonthItemIndex(int value) { this.cbbMonth.setSelectedIndex(value); }
+    //public void setcbbMonthItemIndex(int value) { this.cbbMonth.setSelectedIndex(value); }
     //public void setcbbPositionItemIndex(int value) { this.cbbPosition.setSelectedIndex(value); }
-    public void setcbbSexItemIndex(int value) { this.cbbSex.setSelectedIndex(value); }
-    
+    //public void setcbbSexItemIndex(int value) { this.cbbSex.setSelectedIndex(value); }
+    */
     // Component Getters
     public String gettxtRowId() { if(!"".equals(this.txtRowId.getText()) && this.txtRowId.getText() != null) { return this.txtRowId.getText(); } else { return null; } }
-    public String gettxtDocNum() { if(!"".equals(this.txtDocNum.getText()) && this.txtDocNum.getText() != null) { return this.txtDocNum.getText(); } else { return null; } }
+    /*public String gettxtDocNum() { if(!"".equals(this.txtDocNum.getText()) && this.txtDocNum.getText() != null) { return this.txtDocNum.getText(); } else { return null; } }
     public String gettxtName() { if(!"".equals(this.txtName.getText()) && this.txtName.getText() != null) { return this.txtName.getText(); } else { return null; } }
     public String gettxtSurname() { if(!"".equals(this.txtSurname.getText()) && this.txtSurname.getText() != null) { return this.txtSurname.getText(); } else { return null; } }
     public String gettxtNickName() { if(!"".equals(this.txtNickName.getText()) && this.txtNickName.getText() != null) { return this.txtNickName.getText(); } else { return null; } }
@@ -103,22 +103,22 @@ public class ContactScreen extends javax.swing.JFrame {
     public String gettxtBornLocation() { if(!"".equals(this.txtBornLocation.getText()) && this.txtBornLocation.getText() != null) { return this.txtBornLocation.getText(); } else { return null; } }
     public String gettxtSpouseName() { if(!"".equals(this.txtSpouseName.getText()) && this.txtSpouseName.getText() != null) { return this.txtSpouseName.getText(); } else { return null; } }
     public String gettxtMotherName() { if(!"".equals(this.txtMotherName.getText()) && this.txtMotherName.getText() != null) { return this.txtMotherName.getText(); } else { return null; } }
-    public String gettxtFatherName() { if(!"".equals(this.txtFatherName.getText()) && this.txtFatherName.getText() != null) { return this.txtFatherName.getText(); } else { return null; } }
+    public String gettxtFatherName() { if(!"".equals(this.txtFatherName.getText()) && this.txtFatherName.getText() != null) { return this.txtFatherName.getText(); } else { return null; } }*/
     public String gettxtContactListFilterValue() { if(!"".equals(this.txtContactListFilterValue.getText()) && this.txtContactListFilterValue.getText() != null) { return this.txtContactListFilterValue.getText(); } else { return null; } }
-    public String gettxtContactMPhone() { if(!"".equals(this.txtContactMPhone.getText()) && this.txtContactMPhone.getText() != null) { return this.txtContactMPhone.getText(); } else { return null; } }
+    public String gettxtContactMPhone() { return ((!"".equals(this.txtContactMPhone.getText()) && !" ".equals(this.txtContactMPhone.getText()) &&  !"(  )     -    ".equals(this.txtContactMPhone.getText()) && this.txtContactMPhone.getText() != null) ? this.txtContactMPhone.getText() : null); }
     public String gettxtContactEmail() { if(!"".equals(this.txtContactEmail.getText()) && this.txtContactEmail.getText() != null) { return this.txtContactEmail.getText(); } else { return null; } }
-    public String gettxtContactPhone() { if(!"".equals(this.txtContactPhone.getText()) && this.txtContactPhone.getText() != null) { return this.txtContactPhone.getText(); } else { return null; } }
-    public String gettxtContactEnterprise() { if(!"".equals(this.txtContactEnterprise.getText()) && this.txtContactEnterprise.getText() != null) { return this.txtContactEnterprise.getText(); } else { return null; } }
+    public String gettxtContactPhone() { return ((!"".equals(this.txtContactPhone.getText()) && !" ".equals(this.txtContactPhone.getText()) && !"(  )     -    ".equals(this.txtContactPhone.getText()) && this.txtContactPhone.getText() != null) ? this.txtContactPhone.getText() : null); }
+    public String gettxtContactEnterprise() { return ((!"".equals(this.txtContactEnterprise.getText()) && !" ".equals(this.txtContactEnterprise.getText()) && !"(  )     -    ".equals(this.txtContactEnterprise.getText()) && this.txtContactEnterprise.getText() != null) ? this.txtContactEnterprise.getText() : null); }
     public String gettxtFacebook() { if(!"".equals(this.txtFacebook.getText()) && this.txtFacebook.getText() != null) { return this.txtFacebook.getText(); } else { return null; } }
     public String gettxtInstagram() { if(!"".equals(this.txtInstagram.getText()) && this.txtInstagram.getText() != null) { return this.txtInstagram.getText(); } else { return null; } }
     public String gettxtTwitter() { if(!"".equals(this.txtTwitter.getText()) && this.txtTwitter.getText() != null) { return this.txtTwitter.getText(); } else { return null; } }    
     
     public String getcbbContactListFilter() { if(!"".equals(this.cbbContactListFilter.getSelectedItem().toString()) && !"Selecione...".equals(this.cbbContactListFilter.getSelectedItem().toString()) && this.cbbContactListFilter.getSelectedItem().toString() != null) { return this.cbbContactListFilter.getSelectedItem().toString(); } else { return null; } }
-    public String getcbbCivilState() { if(!"".equals(this.cbbCivilState.getSelectedItem().toString()) && !"Selecione...".equals(this.cbbCivilState.getSelectedItem().toString()) && this.cbbCivilState.getSelectedItem().toString() != null) { return this.cbbCivilState.getSelectedItem().toString(); } else { return null; } }
+    /*public String getcbbCivilState() { if(!"".equals(this.cbbCivilState.getSelectedItem().toString()) && !"Selecione...".equals(this.cbbCivilState.getSelectedItem().toString()) && this.cbbCivilState.getSelectedItem().toString() != null) { return this.cbbCivilState.getSelectedItem().toString(); } else { return null; } }
     public String getcbbDay() { if(!"".equals(this.cbbDay.getSelectedItem().toString()) && !"Selecione...".equals(this.cbbDay.getSelectedItem().toString()) && this.cbbDay.getSelectedItem().toString() != null) { return this.cbbDay.getSelectedItem().toString(); } else { return null; } }
     public String getcbbDocType() { if(!"".equals(this.cbbDocType.getSelectedItem().toString()) && !"Selecione...".equals(this.cbbDocType.getSelectedItem().toString()) && this.cbbDocType.getSelectedItem().toString() != null) { return this.cbbDocType.getSelectedItem().toString(); } else { return null; } }
     public String getcbbMonth() { if(!"".equals(this.cbbMonth.getSelectedItem().toString()) && !"Selecione...".equals(this.cbbMonth.getSelectedItem().toString()) && this.cbbMonth.getSelectedItem().toString() != null) { return this.cbbMonth.getSelectedItem().toString(); } else { return null; } }
-    public String getcbbSex() { if(!"".equals(this.cbbSex.getSelectedItem().toString()) && !"Selecione...".equals(this.cbbSex.getSelectedItem().toString()) && this.cbbSex.getSelectedItem().toString() != null) { return this.cbbSex.getSelectedItem().toString(); } else { return null; } }
+    public String getcbbSex() { if(!"".equals(this.cbbSex.getSelectedItem().toString()) && !"Selecione...".equals(this.cbbSex.getSelectedItem().toString()) && this.cbbSex.getSelectedItem().toString() != null) { return this.cbbSex.getSelectedItem().toString(); } else { return null; } }*/
     public String getcbbContactEmailType() { if(!"".equals(this.cbbContactEmailType.getSelectedItem().toString()) && !"Selecione...".equals(this.cbbContactEmailType.getSelectedItem().toString()) && this.cbbContactEmailType.getSelectedItem().toString() != null) { return this.cbbContactEmailType.getSelectedItem().toString(); } else { return null; } }
 
     public String getckbMainConFlg() { if(this.ckbMainConFlg.isSelected()) { return "Y"; } else { return "N"; } }
@@ -133,20 +133,20 @@ public class ContactScreen extends javax.swing.JFrame {
 
     // ComboBox Specific Getters
     public int getcbbUserListFilterItemIndex(String value) { if(!"".equals(value) && value != null) { for(int i = 0; i < this.cbbContactListFilter.getItemCount(); i++){ if(value.equals(this.cbbContactListFilter.getItemAt(i))){ return i; }}} else { return 0; } return 0; }
-    public int getcbbCivilStateItemIndex(String value) { if(!"".equals(value) && value != null) { for(int i = 0; i < this.cbbCivilState.getItemCount(); i++){ if(value.equals(this.cbbCivilState.getItemAt(i))){ return i; }}} else { return 0; } return 0; }
+    /*public int getcbbCivilStateItemIndex(String value) { if(!"".equals(value) && value != null) { for(int i = 0; i < this.cbbCivilState.getItemCount(); i++){ if(value.equals(this.cbbCivilState.getItemAt(i))){ return i; }}} else { return 0; } return 0; }
     public int getcbbDayItemIndex(String value) { if(!"".equals(value) && value != null) { for(int i = 0; i < this.cbbDay.getItemCount(); i++){ if(value.equals(this.cbbDay.getItemAt(i))){ return i; }}} else { return 0; } return 0; }
     public int getcbbDocTypeItemIndex(String value) { if(!"".equals(value) && value != null) { for(int i = 0; i < this.cbbDocType.getItemCount(); i++){ if(value.equals(this.cbbDocType.getItemAt(i))){ return i; }}} else { return 0; } return 0; }
     //public int getcbbEmissionUFItemIndex(String value) { if(!"".equals(value) && value != null) { for(int i = 0; i < this.cbbEmissionUF.getItemCount(); i++){ if(value.equals(this.cbbEmissionUF.getItemAt(i))){ return i; }}} else { return 0; } return 0; }
-    public int getcbbContactEmailTypeItemIndex(String value) { if(!"".equals(value) && value != null) { for(int i = 0; i < this.cbbContactEmailType.getItemCount(); i++){ if(value.equals(this.cbbContactEmailType.getItemAt(i))){ return i; }}} else { return 0; } return 0; }
     public int getcbbMonthItemIndex(String value) { if(!"".equals(value) && value != null) { for(int i = 0; i < this.cbbMonth.getItemCount(); i++) { if(value.equals(this.cbbMonth.getItemAt(i))) { return i; }}} else { return 0; } return 0; }
     //public int getcbbPositionItemIndex(String value) { if(!"".equals(value) && value != null) { for(int i = 0; i < this.cbbPosition.getItemCount(); i++){ if(value.equals(this.cbbPosition.getItemAt(i))){ return i; }}} else { return 0; } return 0; }
     public int getcbbSexItemIndex(String value) { if(!"".equals(value) && value != null) { for(int i = 0; i < this.cbbSex.getItemCount(); i++){ if(value.equals(this.cbbSex.getItemAt(i))){ return i; }}} else { return 0; } return 0; }
-    
+    */
+    public int getcbbContactEmailTypeItemIndex(String value) { if(!"".equals(value) && value != null) { for(int i = 0; i < this.cbbContactEmailType.getItemCount(); i++){ if(value.equals(this.cbbContactEmailType.getItemAt(i))){ return i; }}} else { return 0; } return 0; }
     
     // Component Clear
     public void cleartxtContactListFilterValue() { this.txtContactListFilterValue.setText(""); this.txtContactListFilterValue.paintImmediately(this.txtContactListFilterValue.getVisibleRect()); }
     public void cleartxtRowId() { this.txtRowId.setText(""); this.txtRowId.paintImmediately(this.txtRowId.getVisibleRect()); }
-    public void cleartxtDocNum() { this.txtDocNum.setText(""); this.txtDocNum.paintImmediately(this.txtDocNum.getVisibleRect()); }
+    /*public void cleartxtDocNum() { this.txtDocNum.setText(""); this.txtDocNum.paintImmediately(this.txtDocNum.getVisibleRect()); }
     public void cleartxtName() { this.txtName.setText(""); this.txtName.paintImmediately(this.txtName.getVisibleRect()); }
     public void cleartxtSurname() { this.txtSurname.setText(""); this.txtSurname.paintImmediately(this.txtSurname.getVisibleRect()); }
     public void cleartxtNickName() { this.txtNickName.setText(""); this.txtNickName.paintImmediately(this.txtNickName.getVisibleRect()); }
@@ -154,7 +154,7 @@ public class ContactScreen extends javax.swing.JFrame {
     public void cleartxtBornLocation() { this.txtBornLocation.setText(""); this.txtBornLocation.paintImmediately(this.txtBornLocation.getVisibleRect()); }
     public void cleartxtSpouseName() { this.txtSpouseName.setText(""); this.txtSpouseName.paintImmediately(this.txtSpouseName.getVisibleRect()); }
     public void cleartxtMotherName() { this.txtMotherName.setText(""); this.txtMotherName.paintImmediately(this.txtMotherName.getVisibleRect()); }
-    public void cleartxtFatherName() { this.txtFatherName.setText(""); this.txtFatherName.paintImmediately(this.txtFatherName.getVisibleRect()); }
+    public void cleartxtFatherName() { this.txtFatherName.setText(""); this.txtFatherName.paintImmediately(this.txtFatherName.getVisibleRect()); }*/
     public void cleartxtContactMPhone() { this.txtContactMPhone.setText(""); this.txtContactMPhone.paintImmediately(this.txtContactMPhone.getVisibleRect()); }
     public void cleartxtContactEmail() { this.txtContactEmail.setText(""); this.txtContactEmail.paintImmediately(this.txtContactEmail.getVisibleRect()); }
     public void cleartxtContactPhone() { this.txtContactPhone.setText(""); this.txtContactPhone.paintImmediately(this.txtContactPhone.getVisibleRect()); }
@@ -164,11 +164,11 @@ public class ContactScreen extends javax.swing.JFrame {
     public void cleartxtTwitter() { this.txtTwitter.setText(""); this.txtTwitter.paintImmediately(this.txtTwitter.getVisibleRect()); }    
     
     public void clearcbbContactListFilter() { this.cbbContactListFilter.removeAllItems(); this.cbbContactListFilter.paintImmediately(this.cbbContactListFilter.getVisibleRect()); }
-    public void clearcbbCivilState() { this.cbbCivilState.removeAllItems(); this.cbbCivilState.paintImmediately(this.cbbCivilState.getVisibleRect()); }
+    /*public void clearcbbCivilState() { this.cbbCivilState.removeAllItems(); this.cbbCivilState.paintImmediately(this.cbbCivilState.getVisibleRect()); }
     public void clearcbbDay() { this.cbbDay.removeAllItems(); this.cbbDay.paintImmediately(this.cbbDay.getVisibleRect()); }
     public void clearcbbDocType() { this.cbbDocType.removeAllItems(); this.cbbDocType.paintImmediately(this.cbbDocType.getVisibleRect()); }
     public void clearcbbMonth() { this.cbbMonth.removeAllItems(); this.cbbMonth.paintImmediately(this.cbbMonth.getVisibleRect()); }
-    public void clearcbbSex() { this.cbbSex.removeAllItems(); this.cbbSex.paintImmediately(this.cbbSex.getVisibleRect()); }
+    public void clearcbbSex() { this.cbbSex.removeAllItems(); this.cbbSex.paintImmediately(this.cbbSex.getVisibleRect()); }*/
     public void clearcbbContactEmailType() { this.cbbContactEmailType.removeAllItems(); this.cbbContactEmailType.paintImmediately(this.cbbContactEmailType.getVisibleRect()); }
 
     public void clearckbMainConFlg() { this.ckbMainConFlg.setSelected(false); this.ckbMainConFlg.paintImmediately(this.ckbMainConFlg.getVisibleRect()); }
@@ -184,7 +184,7 @@ public class ContactScreen extends javax.swing.JFrame {
     // Enable or Disable Components
     public void settxtContactListFilterValueEnabled(boolean status) { this.txtContactListFilterValue.setEnabled(status); }
     public void settxtRowIdEnabled(boolean status) { this.txtRowId.setEnabled(status); }
-    public void settxtDocNumEnabled(boolean status) { this.txtDocNum.setEnabled(status); }
+    /*public void settxtDocNumEnabled(boolean status) { this.txtDocNum.setEnabled(status); }
     public void settxtNameEnabled(boolean status) { this.txtName.setEnabled(status); }
     public void settxtSurnameEnabled(boolean status) { this.txtSurname.setEnabled(status); }
     public void settxtNickNameEnabled(boolean status) { this.txtNickName.setEnabled(status); }
@@ -192,7 +192,7 @@ public class ContactScreen extends javax.swing.JFrame {
     public void settxtBornLocationEnabled(boolean status) { this.txtBornLocation.setEnabled(status); }
     public void settxtSpouseNameEnabled(boolean status) { this.txtSpouseName.setEnabled(status); }
     public void settxtMotherNameEnabled(boolean status) { this.txtMotherName.setEnabled(status); }
-    public void settxtFatherNameEnabled(boolean status) { this.txtFatherName.setEnabled(status); }
+    public void settxtFatherNameEnabled(boolean status) { this.txtFatherName.setEnabled(status); }*/
     public void settxtContactMPhoneEnabled(boolean status) { this.txtContactMPhone.setEnabled(status); }
     public void settxtContactEmailEnabled(boolean status) { this.txtContactEmail.setEnabled(status); }
     public void settxtContactPhoneEnabled(boolean status) { this.txtContactPhone.setEnabled(status); }
@@ -202,11 +202,11 @@ public class ContactScreen extends javax.swing.JFrame {
     public void settxtTwitterEnabled(boolean status) { this.txtTwitter.setEnabled(status); }    
     
     public void setcbbContactListFilterEnabled(boolean status) { this.cbbContactListFilter.setEnabled(status); }
-    public void setcbbCivilStateEnabled(boolean status) { this.cbbCivilState.setEnabled(status); }
+    /*public void setcbbCivilStateEnabled(boolean status) { this.cbbCivilState.setEnabled(status); }
     public void setcbbDayEnabled(boolean status) { this.cbbDay.setEnabled(status); }
     public void setcbbDocTypeEnabled(boolean status) { this.cbbDocType.setEnabled(status); }
     public void setcbbMonthEnabled(boolean status) { this.cbbMonth.setEnabled(status); }
-    public void setcbbSexEnabled(boolean status) { this.cbbSex.setEnabled(status); }
+    public void setcbbSexEnabled(boolean status) { this.cbbSex.setEnabled(status); }*/
     public void setcbbContactEmailTypeEnabled(boolean status) { this.cbbContactEmailType.setEnabled(status); }
 
     public void setckbMainConFlgEnabled(boolean status) { this.ckbMainConFlg.setEnabled(status); }
@@ -231,7 +231,7 @@ public class ContactScreen extends javax.swing.JFrame {
     // Return componet status
     public boolean istxtContactListFilterValueEnabled() { return this.txtContactListFilterValue.isEnabled(); }
     public boolean istxtRowIdEnabled() { return this.txtRowId.isEnabled(); }
-    public boolean istxtDocNumEnabled() { return this.txtDocNum.isEnabled(); }
+    /*public boolean istxtDocNumEnabled() { return this.txtDocNum.isEnabled(); }
     public boolean istxtNameEnabled() { return this.txtName.isEnabled(); }
     public boolean istxtSurnameEnabled() { return this.txtSurname.isEnabled(); }
     public boolean istxtNickNameEnabled() { return this.txtNickName.isEnabled(); }
@@ -239,7 +239,7 @@ public class ContactScreen extends javax.swing.JFrame {
     public boolean istxtBornLocationEnabled() { return this.txtBornLocation.isEnabled(); }
     public boolean istxtSpouseNameEnabled() { return this.txtSpouseName.isEnabled(); }
     public boolean istxtMotherNameEnabled() { return this.txtMotherName.isEnabled(); }
-    public boolean istxtFatherNameEnabled() { return this.txtFatherName.isEnabled(); }
+    public boolean istxtFatherNameEnabled() { return this.txtFatherName.isEnabled(); }*/
     public boolean istxtContactMPhoneEnabled() { return this.txtContactMPhone.isEnabled(); }
     public boolean istxtContactEmailEnabled() { return this.txtContactEmail.isEnabled(); }
     public boolean istxtContactPhoneEnabled() { return this.txtContactPhone.isEnabled(); }
@@ -249,11 +249,11 @@ public class ContactScreen extends javax.swing.JFrame {
     public boolean istxtTwitterEnabled() { return this.txtTwitter.isEnabled(); }    
     
     public boolean iscbbContactListFilterEnabled() { return this.cbbContactListFilter.isEnabled(); }
-    public boolean iscbbCivilStateEnabled() { return this.cbbCivilState.isEnabled(); }
+    /*public boolean iscbbCivilStateEnabled() { return this.cbbCivilState.isEnabled(); }
     public boolean iscbbDayEnabled() { return this.cbbDay.isEnabled(); }
     public boolean iscbbDocTypeEnabled() { return this.cbbDocType.isEnabled(); }
     public boolean iscbbMonthEnabled() { return this.cbbMonth.isEnabled(); }
-    public boolean iscbbSexEnabled() { return this.cbbSex.isEnabled(); }
+    public boolean iscbbSexEnabled() { return this.cbbSex.isEnabled(); }*/
     public boolean iscbbContactEmailTypeEnabled() { return this.cbbContactEmailType.isEnabled(); }
 
     public boolean isckbMainConFlgEnabled() { return this.ckbMainConFlg.isEnabled(); }
@@ -289,7 +289,7 @@ public class ContactScreen extends javax.swing.JFrame {
         case "ID":
             this.txtRowId.requestFocus();
             break;
-        case "DOCUMENTO_TIPO":
+        /*case "DOCUMENTO_TIPO":
             this.cbbDocType.requestFocus();
             break;
         case "NUM_DOCUMENTO":
@@ -327,13 +327,13 @@ public class ContactScreen extends javax.swing.JFrame {
             break;
         case "NOME_PAI":
             this.txtFatherName.requestFocus();
-            break;
+            break;*/
         case "FILTRO":
             this.cbbContactListFilter.requestFocus();
             break;
-        case "ESTADO_CIVIL":
+        /*case "ESTADO_CIVIL":
             this.cbbCivilState.requestFocus();
-            break;
+            break;*/
         case "CONTATO_CELULAR":
             this.txtContactMPhone.requestFocus();
             break;
@@ -404,7 +404,7 @@ public class ContactScreen extends javax.swing.JFrame {
             case "LOAD_SCREEN":
                 settxtContactListFilterValueEnabled(true);
                 settxtRowIdEnabled(false);
-                settxtDocNumEnabled(false);
+                /*settxtDocNumEnabled(false);
                 settxtNameEnabled(false);
                 settxtSurnameEnabled(false);
                 settxtNickNameEnabled(false);
@@ -412,7 +412,7 @@ public class ContactScreen extends javax.swing.JFrame {
                 settxtBornLocationEnabled(false);
                 settxtSpouseNameEnabled(false);
                 settxtMotherNameEnabled(false);
-                settxtFatherNameEnabled(false);
+                settxtFatherNameEnabled(false);*/
                 settxtContactMPhoneEnabled(false);
                 settxtContactEmailEnabled(false);
                 settxtContactPhoneEnabled(false);
@@ -422,11 +422,11 @@ public class ContactScreen extends javax.swing.JFrame {
                 settxtTwitterEnabled(false);                
 
                 setcbbContactListFilterEnabled(true);
-                setcbbCivilStateEnabled(false);
+                /*setcbbCivilStateEnabled(false);
                 setcbbDayEnabled(false);
                 setcbbDocTypeEnabled(false);
                 setcbbMonthEnabled(false);
-                setcbbSexEnabled(false);
+                setcbbSexEnabled(false);*/
                 setcbbContactEmailTypeEnabled(false);
 
                 setckbMainConFlgEnabled(false);
@@ -448,7 +448,7 @@ public class ContactScreen extends javax.swing.JFrame {
             case "NOVO":
                 settxtContactListFilterValueEnabled(true);
                 settxtRowIdEnabled(false);
-                settxtDocNumEnabled(false);
+                /*settxtDocNumEnabled(false);
                 settxtNameEnabled(false);
                 settxtSurnameEnabled(false);
                 settxtNickNameEnabled(false);
@@ -456,7 +456,7 @@ public class ContactScreen extends javax.swing.JFrame {
                 settxtBornLocationEnabled(false);
                 settxtSpouseNameEnabled(false);
                 settxtMotherNameEnabled(false);
-                settxtFatherNameEnabled(false);
+                settxtFatherNameEnabled(false);*/
                 settxtContactMPhoneEnabled(true);
                 settxtContactEmailEnabled(true);
                 settxtContactPhoneEnabled(true);
@@ -466,11 +466,11 @@ public class ContactScreen extends javax.swing.JFrame {
                 settxtTwitterEnabled(false);
 
                 setcbbContactListFilterEnabled(true);
-                setcbbCivilStateEnabled(false);
+                /*setcbbCivilStateEnabled(false);
                 setcbbDayEnabled(false);
                 setcbbDocTypeEnabled(false);
                 setcbbMonthEnabled(false);
-                setcbbSexEnabled(false);
+                setcbbSexEnabled(false);*/
                 setcbbContactEmailTypeEnabled(true);
 
                 setckbMainConFlgEnabled(true);
@@ -492,7 +492,7 @@ public class ContactScreen extends javax.swing.JFrame {
             case "EDITAR":
                 settxtContactListFilterValueEnabled(true);
                 settxtRowIdEnabled(false);
-                settxtDocNumEnabled(false);
+                /*settxtDocNumEnabled(false);
                 settxtNameEnabled(false);
                 settxtSurnameEnabled(false);
                 settxtNickNameEnabled(false);
@@ -500,7 +500,7 @@ public class ContactScreen extends javax.swing.JFrame {
                 settxtBornLocationEnabled(false);
                 settxtSpouseNameEnabled(false);
                 settxtMotherNameEnabled(false);
-                settxtFatherNameEnabled(false);
+                settxtFatherNameEnabled(false);*/
                 settxtContactMPhoneEnabled(true);
                 settxtContactEmailEnabled(true);
                 settxtContactPhoneEnabled(true);
@@ -510,11 +510,11 @@ public class ContactScreen extends javax.swing.JFrame {
                 settxtTwitterEnabled(false);
 
                 setcbbContactListFilterEnabled(true);
-                setcbbCivilStateEnabled(false);
+                /*setcbbCivilStateEnabled(false);
                 setcbbDayEnabled(false);
                 setcbbDocTypeEnabled(false);
                 setcbbMonthEnabled(false);
-                setcbbSexEnabled(false);
+                setcbbSexEnabled(false);*/
                 setcbbContactEmailTypeEnabled(true);
 
                 setckbMainConFlgEnabled(true);
@@ -536,7 +536,7 @@ public class ContactScreen extends javax.swing.JFrame {
             case "CANCELAR":
                 settxtContactListFilterValueEnabled(true);
                 settxtRowIdEnabled(false);
-                settxtDocNumEnabled(false);
+                /*settxtDocNumEnabled(false);
                 settxtNameEnabled(false);
                 settxtSurnameEnabled(false);
                 settxtNickNameEnabled(false);
@@ -544,7 +544,7 @@ public class ContactScreen extends javax.swing.JFrame {
                 settxtBornLocationEnabled(false);
                 settxtSpouseNameEnabled(false);
                 settxtMotherNameEnabled(false);
-                settxtFatherNameEnabled(false);
+                settxtFatherNameEnabled(false);*/
                 settxtContactMPhoneEnabled(false);
                 settxtContactEmailEnabled(false);
                 settxtContactPhoneEnabled(false);
@@ -554,11 +554,11 @@ public class ContactScreen extends javax.swing.JFrame {
                 settxtTwitterEnabled(false);
 
                 setcbbContactListFilterEnabled(true);
-                setcbbCivilStateEnabled(false);
+                /*setcbbCivilStateEnabled(false);
                 setcbbDayEnabled(false);
                 setcbbDocTypeEnabled(false);
                 setcbbMonthEnabled(false);
-                setcbbSexEnabled(false);
+                setcbbSexEnabled(false);*/
                 setcbbContactEmailTypeEnabled(false);
                 
                 setckbMainConFlgEnabled(false);
@@ -580,7 +580,7 @@ public class ContactScreen extends javax.swing.JFrame {
             case "DELETAR":
                 settxtContactListFilterValueEnabled(true);
                 settxtRowIdEnabled(false);
-                settxtDocNumEnabled(false);
+                /*settxtDocNumEnabled(false);
                 settxtNameEnabled(false);
                 settxtSurnameEnabled(false);
                 settxtNickNameEnabled(false);
@@ -588,7 +588,7 @@ public class ContactScreen extends javax.swing.JFrame {
                 settxtBornLocationEnabled(false);
                 settxtSpouseNameEnabled(false);
                 settxtMotherNameEnabled(false);
-                settxtFatherNameEnabled(false);
+                settxtFatherNameEnabled(false);*/
                 settxtContactMPhoneEnabled(false);
                 settxtContactEmailEnabled(false);
                 settxtContactPhoneEnabled(false);
@@ -598,11 +598,11 @@ public class ContactScreen extends javax.swing.JFrame {
                 settxtTwitterEnabled(false);
 
                 setcbbContactListFilterEnabled(true);
-                setcbbCivilStateEnabled(false);
+                /*setcbbCivilStateEnabled(false);
                 setcbbDayEnabled(false);
                 setcbbDocTypeEnabled(false);
                 setcbbMonthEnabled(false);
-                setcbbSexEnabled(false);
+                setcbbSexEnabled(false);*/
                 setcbbContactEmailTypeEnabled(false);
 
                 setckbMainConFlgEnabled(false);
@@ -624,7 +624,7 @@ public class ContactScreen extends javax.swing.JFrame {
             case "SALVAR":
                 settxtContactListFilterValueEnabled(true);
                 settxtRowIdEnabled(false);
-                settxtDocNumEnabled(false);
+                /*settxtDocNumEnabled(false);
                 settxtNameEnabled(false);
                 settxtSurnameEnabled(false);
                 settxtNickNameEnabled(false);
@@ -632,7 +632,7 @@ public class ContactScreen extends javax.swing.JFrame {
                 settxtBornLocationEnabled(false);
                 settxtSpouseNameEnabled(false);
                 settxtMotherNameEnabled(false);
-                settxtFatherNameEnabled(false);
+                settxtFatherNameEnabled(false);*/
                 settxtContactMPhoneEnabled(false);
                 settxtContactEmailEnabled(false);
                 settxtContactPhoneEnabled(false);
@@ -642,11 +642,11 @@ public class ContactScreen extends javax.swing.JFrame {
                 settxtTwitterEnabled(false);
 
                 setcbbContactListFilterEnabled(true);
-                setcbbCivilStateEnabled(false);
+                /*setcbbCivilStateEnabled(false);
                 setcbbDayEnabled(false);
                 setcbbDocTypeEnabled(false);
                 setcbbMonthEnabled(false);
-                setcbbSexEnabled(false);
+                setcbbSexEnabled(false);*/
                 setcbbContactEmailTypeEnabled(false);
 
                 setckbMainConFlgEnabled(false);
@@ -673,7 +673,7 @@ public class ContactScreen extends javax.swing.JFrame {
     public void clearFields() {
         cleartxtContactListFilterValue();
         cleartxtRowId();
-        cleartxtDocNum();
+        /*cleartxtDocNum();
         cleartxtName();
         cleartxtSurname();
         cleartxtNickName();
@@ -681,7 +681,7 @@ public class ContactScreen extends javax.swing.JFrame {
         cleartxtBornLocation();
         cleartxtSpouseName();
         cleartxtMotherName();
-        cleartxtFatherName();
+        cleartxtFatherName();*/
         cleartxtContactMPhone();
         cleartxtContactEmail();
         cleartxtContactPhone();
@@ -697,41 +697,41 @@ public class ContactScreen extends javax.swing.JFrame {
         clearckbSendPromFlg();
         clearckbWhatsAppFlg();
         
-        setcbbCivilStateItemIndex(0);
-        setcbbContactEmailTypeItemIndex(0);
+        /*setcbbCivilStateItemIndex(0);
+        setcbbContactEmailTypeItemIndex(0);*/
         setcbbContactListFilterItemIndex(0);
-        setcbbDayItemIndex(0);
+        /*setcbbDayItemIndex(0);
         setcbbMonthItemIndex(0);
         setcbbDocTypeItemIndex(0);
-        setcbbSexItemIndex(0);
+        setcbbSexItemIndex(0);*/
                 
         clearlblContactNameHeader();
     }
     
     public void clearComboBoxes(){
         clearcbbContactListFilter();
-        clearcbbCivilState();
+        /*clearcbbCivilState();
         clearcbbDay();
         clearcbbDocType();
         clearcbbMonth();
-        clearcbbSex();
+        clearcbbSex();*/
         clearcbbContactEmailType();
     }
     
     public void insertSelectComboBox(){
         this.setcbbContactListFilter("Selecione...");
-        this.setcbbCivilState("Selecione...");
+        /*this.setcbbCivilState("Selecione...");
         this.setcbbDay("Selecione...");
         this.setcbbDocType("Selecione...");
         this.setcbbMonth("Selecione...");
-        this.setcbbSex("Selecione...");
+        this.setcbbSex("Selecione...");*/
         this.setcbbContactEmailType("Selecione...");
     }
     
     public final void FocusTraversalKeys(){
         this.txtContactListFilterValue.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.txtRowId.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
-        this.txtDocNum.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
+        /*this.txtDocNum.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.txtName.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.txtSurname.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.txtNickName.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
@@ -739,7 +739,7 @@ public class ContactScreen extends javax.swing.JFrame {
         this.txtBornLocation.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.txtSpouseName.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.txtMotherName.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
-        this.txtFatherName.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
+        this.txtFatherName.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);*/
         this.txtContactEnterprise.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.txtContactEmail.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.txtContactPhone.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
@@ -749,11 +749,11 @@ public class ContactScreen extends javax.swing.JFrame {
         this.txtTwitter.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         
         this.cbbContactListFilter.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
-        this.cbbCivilState.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
+        /*this.cbbCivilState.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.cbbDay.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.cbbDocType.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
         this.cbbMonth.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
-        this.cbbSex.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
+        this.cbbSex.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);*/
         this.cbbContactEmailType.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
 
         this.ckbMainConFlg.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
@@ -821,11 +821,8 @@ public class ContactScreen extends javax.swing.JFrame {
         lblAllowCallFlg = new javax.swing.JLabel();
         ckbAllowCallFlg = new javax.swing.JCheckBox();
         lblContactPhone = new javax.swing.JLabel();
-        txtContactPhone = new javax.swing.JTextField();
         lblContactMPhone = new javax.swing.JLabel();
-        txtContactMPhone = new javax.swing.JTextField();
         lblContactEnterprise = new javax.swing.JLabel();
-        txtContactEnterprise = new javax.swing.JTextField();
         lblSocialMedia = new javax.swing.JLabel();
         lblAddSocialMedia = new javax.swing.JLabel();
         btnAddSocialMedia = new javax.swing.JButton();
@@ -835,40 +832,15 @@ public class ContactScreen extends javax.swing.JFrame {
         txtInstagram = new javax.swing.JTextField();
         lblTwitter = new javax.swing.JLabel();
         txtTwitter = new javax.swing.JTextField();
-        lblPersonalData = new javax.swing.JLabel();
-        lblDocType = new javax.swing.JLabel();
-        cbbDocType = new javax.swing.JComboBox<>();
-        lblDocNum = new javax.swing.JLabel();
-        txtDocNum = new javax.swing.JTextField();
-        lblName = new javax.swing.JLabel();
-        txtName = new javax.swing.JTextField();
-        lblSurname = new javax.swing.JLabel();
-        txtSurname = new javax.swing.JTextField();
-        lblNickname = new javax.swing.JLabel();
-        txtNickName = new javax.swing.JTextField();
-        lblSex = new javax.swing.JLabel();
-        cbbSex = new javax.swing.JComboBox<>();
-        lblBirthDate = new javax.swing.JLabel();
-        cbbDay = new javax.swing.JComboBox<>();
-        jLabel2 = new javax.swing.JLabel();
-        cbbMonth = new javax.swing.JComboBox<>();
-        jLabel12 = new javax.swing.JLabel();
-        txtYear = new javax.swing.JTextField();
-        lblBornLocation = new javax.swing.JLabel();
-        txtBornLocation = new javax.swing.JTextField();
-        lblCivilState = new javax.swing.JLabel();
-        cbbCivilState = new javax.swing.JComboBox<>();
-        lblSpouseName = new javax.swing.JLabel();
-        txtSpouseName = new javax.swing.JTextField();
-        lblMotherName = new javax.swing.JLabel();
-        txtMotherName = new javax.swing.JTextField();
-        lblFatherName = new javax.swing.JLabel();
-        txtFatherName = new javax.swing.JTextField();
+        txtContactMPhone = new javax.swing.JFormattedTextField();
+        txtContactPhone = new javax.swing.JFormattedTextField();
+        txtContactEnterprise = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Contatos");
         setBackground(new java.awt.Color(255, 255, 255));
         setFont(new java.awt.Font("Calibri", 0, 10)); // NOI18N
+        setResizable(false);
 
         PanelContact.setBackground(new java.awt.Color(255, 255, 255));
         PanelContact.setPreferredSize(new java.awt.Dimension(1366, 757));
@@ -917,13 +889,13 @@ public class ContactScreen extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblImage)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cbbContactListFilter, 0, 268, Short.MAX_VALUE)
+                .addComponent(cbbContactListFilter, 0, 238, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtContactListFilterValue, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                .addComponent(txtContactListFilterValue, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblInformation)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblRecCount, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+                .addComponent(lblRecCount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         PanelContactListHeaderLayout.setVerticalGroup(
@@ -950,46 +922,17 @@ public class ContactScreen extends javax.swing.JFrame {
         tblContactList.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         tblContactList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "Id", "Tipo de Documento", "Documento", "Conta", "Contato Principal", "Email", "Telefone Residencial", "WhatsApp", "Celular/WhatsApp", "Telefone Comercial", "Facebook", "Twitter", "Instagram", "Fax", "Endereço", "Número", "Bairro", "Cidade", "Estado"
+                "Id", "Contato Principal", "Email", "Telefone Residencial", "WhatsApp", "Celular/WhatsApp", "Telefone Comercial", "Facebook", "Twitter", "Instagram", "Fax"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -1000,7 +943,6 @@ public class ContactScreen extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblContactList.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         tblContactList.setGridColor(new java.awt.Color(204, 204, 204));
         tblContactList.setRowHeight(22);
         sPanelUserList.setViewportView(tblContactList);
@@ -1013,7 +955,7 @@ public class ContactScreen extends javax.swing.JFrame {
         );
         PanelListContactLayout.setVerticalGroup(
             PanelListContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(sPanelUserList, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+            .addComponent(sPanelUserList, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout PanelContactListLayout = new javax.swing.GroupLayout(PanelContactList);
@@ -1055,6 +997,7 @@ public class ContactScreen extends javax.swing.JFrame {
         btnEdit.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnEdit.setBorderPainted(false);
         btnEdit.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnEdit.setEnabled(false);
         btnEdit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnEdit.setIconTextGap(3);
         btnEdit.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -1108,6 +1051,7 @@ public class ContactScreen extends javax.swing.JFrame {
         btnDelete.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnDelete.setBorderPainted(false);
         btnDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnDelete.setEnabled(false);
         btnDelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnDelete.setIconTextGap(3);
         btnDelete.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -1122,7 +1066,7 @@ public class ContactScreen extends javax.swing.JFrame {
             PanelContactFormHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelContactFormHeaderLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblContactNameHeader, javax.swing.GroupLayout.DEFAULT_SIZE, 707, Short.MAX_VALUE)
+                .addComponent(lblContactNameHeader, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblContactFormInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
@@ -1158,13 +1102,14 @@ public class ContactScreen extends javax.swing.JFrame {
         );
 
         sPanelContactForm.setBorder(null);
+        sPanelContactForm.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         sPanelContactForm.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         sPanelContactForm.setMinimumSize(new java.awt.Dimension(0, 0));
         sPanelContactForm.setPreferredSize(new java.awt.Dimension(1366, 427));
 
         PanelFormContact.setBackground(new java.awt.Color(255, 255, 255));
         PanelFormContact.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        PanelFormContact.setPreferredSize(new java.awt.Dimension(1340, 425));
+        PanelFormContact.setPreferredSize(new java.awt.Dimension(0, 425));
 
         lblContactInformation.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.light"));
         lblContactInformation.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
@@ -1393,18 +1338,6 @@ public class ContactScreen extends javax.swing.JFrame {
         lblContactPhone.setMaximumSize(new java.awt.Dimension(150, 16));
         lblContactPhone.setPreferredSize(new java.awt.Dimension(150, 22));
 
-        txtContactPhone.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        txtContactPhone.setText("jTextField1");
-        txtContactPhone.setEnabled(false);
-        txtContactPhone.setMaximumSize(new java.awt.Dimension(165, 22));
-        txtContactPhone.setMinimumSize(new java.awt.Dimension(165, 22));
-        txtContactPhone.setPreferredSize(new java.awt.Dimension(165, 22));
-        txtContactPhone.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtContactPhoneKeyPressed(evt);
-            }
-        });
-
         lblContactMPhone.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         lblContactMPhone.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblContactMPhone.setText("Celular/WhatsApp*:");
@@ -1412,36 +1345,12 @@ public class ContactScreen extends javax.swing.JFrame {
         lblContactMPhone.setMaximumSize(new java.awt.Dimension(150, 16));
         lblContactMPhone.setPreferredSize(new java.awt.Dimension(150, 16));
 
-        txtContactMPhone.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        txtContactMPhone.setText("jTextField1");
-        txtContactMPhone.setEnabled(false);
-        txtContactMPhone.setMaximumSize(new java.awt.Dimension(165, 22));
-        txtContactMPhone.setMinimumSize(new java.awt.Dimension(165, 22));
-        txtContactMPhone.setPreferredSize(new java.awt.Dimension(165, 22));
-        txtContactMPhone.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtContactMPhoneKeyPressed(evt);
-            }
-        });
-
         lblContactEnterprise.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         lblContactEnterprise.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblContactEnterprise.setText("Telefone Comercial:");
         lblContactEnterprise.setEnabled(false);
         lblContactEnterprise.setMaximumSize(new java.awt.Dimension(150, 16));
         lblContactEnterprise.setPreferredSize(new java.awt.Dimension(150, 16));
-
-        txtContactEnterprise.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        txtContactEnterprise.setText("jTextField1");
-        txtContactEnterprise.setEnabled(false);
-        txtContactEnterprise.setMaximumSize(new java.awt.Dimension(165, 22));
-        txtContactEnterprise.setMinimumSize(new java.awt.Dimension(165, 22));
-        txtContactEnterprise.setPreferredSize(new java.awt.Dimension(165, 22));
-        txtContactEnterprise.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtContactEnterpriseKeyPressed(evt);
-            }
-        });
 
         lblSocialMedia.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.light"));
         lblSocialMedia.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
@@ -1528,239 +1437,53 @@ public class ContactScreen extends javax.swing.JFrame {
             }
         });
 
-        lblPersonalData.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.light"));
-        lblPersonalData.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        lblPersonalData.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblPersonalData.setText("   Dados Pessoais");
-        lblPersonalData.setToolTipText("");
-        lblPersonalData.setEnabled(false);
-        lblPersonalData.setOpaque(true);
-
-        lblDocType.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        lblDocType.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblDocType.setText("Tipo de Documento:");
-        lblDocType.setEnabled(false);
-
-        cbbDocType.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        cbbDocType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbbDocType.setEnabled(false);
-        cbbDocType.setPreferredSize(new java.awt.Dimension(165, 22));
-        cbbDocType.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbbDocTypeItemStateChanged(evt);
-            }
-        });
-        cbbDocType.addKeyListener(new java.awt.event.KeyAdapter() {
+        try {
+            txtContactMPhone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) #####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtContactMPhone.setText("");
+        txtContactMPhone.setToolTipText("");
+        txtContactMPhone.setEnabled(false);
+        txtContactMPhone.setFocusLostBehavior(javax.swing.JFormattedTextField.COMMIT);
+        txtContactMPhone.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        txtContactMPhone.setVerifyInputWhenFocusTarget(false);
+        txtContactMPhone.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                cbbDocTypeKeyPressed(evt);
+                txtContactMPhoneKeyPressed(evt);
             }
         });
 
-        lblDocNum.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        lblDocNum.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblDocNum.setText("Documento:");
-        lblDocNum.setEnabled(false);
-
-        txtDocNum.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        txtDocNum.setText("Matheus Cabral Rosa");
-        txtDocNum.setEnabled(false);
-        txtDocNum.addKeyListener(new java.awt.event.KeyAdapter() {
+        try {
+            txtContactPhone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) ####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtContactPhone.setText("");
+        txtContactPhone.setEnabled(false);
+        txtContactPhone.setFocusLostBehavior(javax.swing.JFormattedTextField.COMMIT);
+        txtContactPhone.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        txtContactPhone.setVerifyInputWhenFocusTarget(false);
+        txtContactPhone.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtDocNumKeyPressed(evt);
+                txtContactPhoneKeyPressed(evt);
             }
         });
 
-        lblName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        lblName.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblName.setText("Nome:");
-        lblName.setEnabled(false);
-
-        txtName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        txtName.setText("Matheus Cabral Rosa");
-        txtName.setEnabled(false);
-        txtName.addKeyListener(new java.awt.event.KeyAdapter() {
+        try {
+            txtContactEnterprise.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) ####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtContactEnterprise.setText("");
+        txtContactEnterprise.setToolTipText("");
+        txtContactEnterprise.setEnabled(false);
+        txtContactEnterprise.setFocusLostBehavior(javax.swing.JFormattedTextField.COMMIT);
+        txtContactEnterprise.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        txtContactEnterprise.setVerifyInputWhenFocusTarget(false);
+        txtContactEnterprise.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtNameKeyPressed(evt);
-            }
-        });
-
-        lblSurname.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        lblSurname.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblSurname.setText("Sobrenome:");
-        lblSurname.setEnabled(false);
-
-        txtSurname.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        txtSurname.setText("jTextField1");
-        txtSurname.setEnabled(false);
-        txtSurname.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtSurnameKeyPressed(evt);
-            }
-        });
-
-        lblNickname.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        lblNickname.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblNickname.setText("Apelido:");
-        lblNickname.setEnabled(false);
-
-        txtNickName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        txtNickName.setText("jTextField1");
-        txtNickName.setEnabled(false);
-        txtNickName.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtNickNameKeyPressed(evt);
-            }
-        });
-
-        lblSex.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        lblSex.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblSex.setText("Sexo:");
-        lblSex.setEnabled(false);
-
-        cbbSex.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        cbbSex.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbbSex.setEnabled(false);
-        cbbSex.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbbSexItemStateChanged(evt);
-            }
-        });
-        cbbSex.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                cbbSexKeyPressed(evt);
-            }
-        });
-
-        lblBirthDate.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        lblBirthDate.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblBirthDate.setText("Data de Nascimento:");
-        lblBirthDate.setEnabled(false);
-
-        cbbDay.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        cbbDay.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "26" }));
-        cbbDay.setEnabled(false);
-        cbbDay.setMaximumSize(new java.awt.Dimension(39, 22));
-        cbbDay.setName(""); // NOI18N
-        cbbDay.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbbDayItemStateChanged(evt);
-            }
-        });
-        cbbDay.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                cbbDayKeyPressed(evt);
-            }
-        });
-
-        jLabel2.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jLabel2.setText("/");
-        jLabel2.setEnabled(false);
-
-        cbbMonth.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        cbbMonth.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Janeiro" }));
-        cbbMonth.setEnabled(false);
-        cbbMonth.setMaximumSize(new java.awt.Dimension(67, 22));
-        cbbMonth.setName(""); // NOI18N
-        cbbMonth.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbbMonthItemStateChanged(evt);
-            }
-        });
-        cbbMonth.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                cbbMonthKeyPressed(evt);
-            }
-        });
-
-        jLabel12.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jLabel12.setText("/");
-        jLabel12.setEnabled(false);
-
-        txtYear.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        txtYear.setText("1997");
-        txtYear.setEnabled(false);
-        txtYear.setMaximumSize(new java.awt.Dimension(33, 22));
-        txtYear.setMinimumSize(new java.awt.Dimension(33, 22));
-        txtYear.setName(""); // NOI18N
-        txtYear.setPreferredSize(new java.awt.Dimension(33, 22));
-        txtYear.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtYearKeyPressed(evt);
-            }
-        });
-
-        lblBornLocation.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        lblBornLocation.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblBornLocation.setText("Local do Nascimento:");
-        lblBornLocation.setEnabled(false);
-
-        txtBornLocation.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        txtBornLocation.setText("jTextField1");
-        txtBornLocation.setEnabled(false);
-        txtBornLocation.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtBornLocationKeyPressed(evt);
-            }
-        });
-
-        lblCivilState.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        lblCivilState.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblCivilState.setText("Estado Civil:");
-        lblCivilState.setEnabled(false);
-
-        cbbCivilState.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        cbbCivilState.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbbCivilState.setEnabled(false);
-        cbbCivilState.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbbCivilStateItemStateChanged(evt);
-            }
-        });
-        cbbCivilState.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                cbbCivilStateKeyPressed(evt);
-            }
-        });
-
-        lblSpouseName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        lblSpouseName.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblSpouseName.setText("Nome do Cônjuje:");
-        lblSpouseName.setEnabled(false);
-
-        txtSpouseName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        txtSpouseName.setText("jTextField1");
-        txtSpouseName.setEnabled(false);
-        txtSpouseName.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtSpouseNameKeyPressed(evt);
-            }
-        });
-
-        lblMotherName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        lblMotherName.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblMotherName.setText("Nome da Mãe:");
-        lblMotherName.setEnabled(false);
-
-        txtMotherName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        txtMotherName.setText("jTextField1");
-        txtMotherName.setEnabled(false);
-        txtMotherName.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtMotherNameKeyPressed(evt);
-            }
-        });
-
-        lblFatherName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        lblFatherName.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblFatherName.setText("Nome do Pai:");
-        lblFatherName.setEnabled(false);
-
-        txtFatherName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        txtFatherName.setText("jTextField1");
-        txtFatherName.setEnabled(false);
-        txtFatherName.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtFatherNameKeyPressed(evt);
+                txtContactEnterpriseKeyPressed(evt);
             }
         });
 
@@ -1771,145 +1494,78 @@ public class ContactScreen extends javax.swing.JFrame {
             .addGroup(PanelFormContactLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(PanelFormContactLayout.createSequentialGroup()
+                            .addComponent(lblRowId, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(txtRowId, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblMainContFlg, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(ckbMainConFlg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblContactInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 642, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelFormContactLayout.createSequentialGroup()
+                        .addComponent(lblContactMPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtContactMPhone)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblWhatsAppFlg, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ckbWhatsAppFlg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelFormContactLayout.createSequentialGroup()
+                        .addComponent(lblContactEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtContactEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblContactEmail1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbbContactEmailType, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelFormContactLayout.createSequentialGroup()
+                        .addComponent(lblContactEnterprise, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtContactEnterprise)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblSendPromFlg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(4, 4, 4)
+                        .addComponent(ckbSendPromFlg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelFormContactLayout.createSequentialGroup()
+                        .addComponent(lblAllowEmailFlg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ckbAllowEmailFlg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblSendNewsFlg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ckbSendNewsFlg, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelFormContactLayout.createSequentialGroup()
+                        .addComponent(lblContactPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtContactPhone)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblAllowCallFlg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(4, 4, 4)
+                        .addComponent(ckbAllowCallFlg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(PanelFormContactLayout.createSequentialGroup()
+                            .addComponent(lblTwitter, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(txtTwitter, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(PanelFormContactLayout.createSequentialGroup()
+                            .addComponent(lblInstagram, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(txtInstagram, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(lblSocialMedia, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(PanelFormContactLayout.createSequentialGroup()
-                            .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PanelFormContactLayout.createSequentialGroup()
-                                    .addComponent(lblFacebook, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtFacebook, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PanelFormContactLayout.createSequentialGroup()
-                                    .addComponent(lblAddSocialMedia, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(btnAddSocialMedia, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PanelFormContactLayout.createSequentialGroup()
+                            .addComponent(lblFacebook, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtFacebook, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PanelFormContactLayout.createSequentialGroup()
+                            .addComponent(lblAddSocialMedia, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(PanelFormContactLayout.createSequentialGroup()
-                                    .addComponent(lblTwitter, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtTwitter, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(PanelFormContactLayout.createSequentialGroup()
-                                    .addComponent(lblInstagram, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtInstagram, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(PanelFormContactLayout.createSequentialGroup()
-                        .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(PanelFormContactLayout.createSequentialGroup()
-                                    .addComponent(lblRowId, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtRowId, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblMainContFlg, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(ckbMainConFlg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(lblContactInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 642, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelFormContactLayout.createSequentialGroup()
-                                .addComponent(lblContactMPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtContactMPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblWhatsAppFlg, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ckbWhatsAppFlg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelFormContactLayout.createSequentialGroup()
-                                .addComponent(lblContactEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtContactEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblContactEmail1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbbContactEmailType, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelFormContactLayout.createSequentialGroup()
-                                .addComponent(lblContactEnterprise, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtContactEnterprise, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblSendPromFlg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(4, 4, 4)
-                                .addComponent(ckbSendPromFlg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelFormContactLayout.createSequentialGroup()
-                                .addComponent(lblAllowEmailFlg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ckbAllowEmailFlg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblSendNewsFlg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ckbSendNewsFlg, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(PanelFormContactLayout.createSequentialGroup()
-                                .addComponent(lblContactPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtContactPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblAllowCallFlg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(4, 4, 4)
-                                .addComponent(ckbAllowCallFlg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(PanelFormContactLayout.createSequentialGroup()
-                                .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(PanelFormContactLayout.createSequentialGroup()
-                                        .addComponent(lblSex, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(cbbSex, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(PanelFormContactLayout.createSequentialGroup()
-                                        .addComponent(lblDocNum, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtDocNum, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(PanelFormContactLayout.createSequentialGroup()
-                                        .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(PanelFormContactLayout.createSequentialGroup()
-                                        .addComponent(lblSurname, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtSurname, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(PanelFormContactLayout.createSequentialGroup()
-                                        .addComponent(lblDocType, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(cbbDocType, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(PanelFormContactLayout.createSequentialGroup()
-                                        .addComponent(lblNickname, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtNickName, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(PanelFormContactLayout.createSequentialGroup()
-                                        .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(lblBornLocation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(lblBirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(PanelFormContactLayout.createSequentialGroup()
-                                                .addComponent(cbbDay, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jLabel2)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(cbbMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jLabel12)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(txtYear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(txtBornLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(PanelFormContactLayout.createSequentialGroup()
-                                        .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(lblSpouseName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(lblCivilState, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(cbbCivilState, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(txtSpouseName, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(PanelFormContactLayout.createSequentialGroup()
-                                        .addComponent(lblMotherName, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtMotherName, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(PanelFormContactLayout.createSequentialGroup()
-                                        .addComponent(lblFatherName, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtFatherName, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(lblPersonalData, javax.swing.GroupLayout.PREFERRED_SIZE, 642, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(0, 28, Short.MAX_VALUE))
+                            .addComponent(btnAddSocialMedia, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
         PanelFormContactLayout.setVerticalGroup(
             PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1917,55 +1573,32 @@ public class ContactScreen extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelFormContactLayout.createSequentialGroup()
-                        .addComponent(lblPersonalData, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(61, 61, 61)
+                        .addComponent(txtContactMPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelFormContactLayout.createSequentialGroup()
+                        .addComponent(lblSocialMedia, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnAddSocialMedia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblAddSocialMedia, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtFacebook, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblFacebook, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtInstagram, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblInstagram, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(PanelFormContactLayout.createSequentialGroup()
-                                .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblDocType, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cbbDocType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblDocNum, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtDocNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(8, 8, 8)
-                                .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblSurname, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtSurname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(PanelFormContactLayout.createSequentialGroup()
-                                .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblBirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cbbDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2)
-                                    .addComponent(cbbMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel12)
-                                    .addComponent(txtYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblBornLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtBornLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(7, 7, 7)
-                                .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblCivilState, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cbbCivilState, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblSpouseName, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtSpouseName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblMotherName, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtMotherName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblNickname, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtNickName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cbbContactEmailType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblContactEmail1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtContactEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblContactEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(txtTwitter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblTwitter, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(11, 11, 11)
+                        .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cbbContactEmailType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblContactEmail1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtContactEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblContactEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(PanelFormContactLayout.createSequentialGroup()
                         .addComponent(lblContactInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1981,7 +1614,6 @@ public class ContactScreen extends javax.swing.JFrame {
                             .addComponent(ckbWhatsAppFlg, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(lblContactMPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtContactMPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(lblWhatsAppFlg, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(5, 5, 5)
                         .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -1991,48 +1623,23 @@ public class ContactScreen extends javax.swing.JFrame {
                                     .addComponent(ckbAllowCallFlg, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(lblSendPromFlg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(lblSendPromFlg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtContactEnterprise, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(ckbSendPromFlg, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(PanelFormContactLayout.createSequentialGroup()
                                 .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(lblContactPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtContactPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblContactEnterprise, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtContactEnterprise, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                .addComponent(lblContactEnterprise, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(lblSendNewsFlg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(ckbSendNewsFlg, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lblAllowEmailFlg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ckbAllowEmailFlg, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblFatherName, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtFatherName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(cbbSex, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblSex, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(lblSocialMedia, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(PanelFormContactLayout.createSequentialGroup()
-                        .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnAddSocialMedia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblAddSocialMedia, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtFacebook, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblFacebook, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(PanelFormContactLayout.createSequentialGroup()
-                        .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtInstagram, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblInstagram, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(PanelFormContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtTwitter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblTwitter, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(ckbAllowEmailFlg, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -2054,7 +1661,7 @@ public class ContactScreen extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(PanelContactFormHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sPanelContactForm, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sPanelContactForm, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -2069,7 +1676,7 @@ public class ContactScreen extends javax.swing.JFrame {
             PanelContactLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelContactLayout.createSequentialGroup()
                 .addComponent(PanelContactList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PanelContactForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -2077,11 +1684,11 @@ public class ContactScreen extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PanelContact, javax.swing.GroupLayout.DEFAULT_SIZE, 1130, Short.MAX_VALUE)
+            .addComponent(PanelContact, javax.swing.GroupLayout.DEFAULT_SIZE, 1011, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PanelContact, javax.swing.GroupLayout.DEFAULT_SIZE, 660, Short.MAX_VALUE)
+            .addComponent(PanelContact, javax.swing.GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE)
         );
 
         pack();
@@ -2141,143 +1748,11 @@ public class ContactScreen extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAddSocialMediaKeyPressed
 
-    private void txtContactMPhoneKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContactMPhoneKeyPressed
-        if((evt.getKeyCode() == KeyEvent.VK_ENTER) || (evt.getKeyCode() == KeyEvent.VK_TAB)){
-            setFocus("CONTATO_TELEFONE_FIXO");
-        }
-    }//GEN-LAST:event_txtContactMPhoneKeyPressed
-
-    private void txtContactPhoneKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContactPhoneKeyPressed
-        if((evt.getKeyCode() == KeyEvent.VK_ENTER) || (evt.getKeyCode() == KeyEvent.VK_TAB)){
-            setFocus("CONTATO_TELEFONE_COMERCIAL");
-        }
-    }//GEN-LAST:event_txtContactPhoneKeyPressed
-
     private void txtContactEmailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContactEmailKeyPressed
         if((evt.getKeyCode() == KeyEvent.VK_ENTER) || (evt.getKeyCode() == KeyEvent.VK_TAB)){
             setFocus("CONTATO_EMAIL_TIPO");
         }
     }//GEN-LAST:event_txtContactEmailKeyPressed
-
-    private void txtContactEnterpriseKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContactEnterpriseKeyPressed
-        if((evt.getKeyCode() == KeyEvent.VK_ENTER) || (evt.getKeyCode() == KeyEvent.VK_TAB)){
-            setFocus("CONTATO_EMAIL");
-        }
-    }//GEN-LAST:event_txtContactEnterpriseKeyPressed
-
-    private void txtFatherNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFatherNameKeyPressed
-        if((evt.getKeyCode() == KeyEvent.VK_ENTER) || (evt.getKeyCode() == KeyEvent.VK_TAB)){
-            setFocus("REGISTRO_TIPO");
-        }
-    }//GEN-LAST:event_txtFatherNameKeyPressed
-
-    private void txtMotherNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMotherNameKeyPressed
-        if((evt.getKeyCode() == KeyEvent.VK_ENTER) || (evt.getKeyCode() == KeyEvent.VK_TAB)){
-            setFocus("NOME_PAI");
-        }
-    }//GEN-LAST:event_txtMotherNameKeyPressed
-
-    private void txtSpouseNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSpouseNameKeyPressed
-        if((evt.getKeyCode() == KeyEvent.VK_ENTER) || (evt.getKeyCode() == KeyEvent.VK_TAB)){
-            setFocus("NOME_MAE");
-        }
-    }//GEN-LAST:event_txtSpouseNameKeyPressed
-
-    private void cbbCivilStateKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbbCivilStateKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_TAB){
-            setFocus("NOME_CONJUJE");
-        }
-    }//GEN-LAST:event_cbbCivilStateKeyPressed
-
-    private void cbbCivilStateItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbbCivilStateItemStateChanged
-        if(evt.getStateChange() == ItemEvent.SELECTED){
-            setFocus("NOME_CONJUJE");
-        }
-    }//GEN-LAST:event_cbbCivilStateItemStateChanged
-
-    private void txtBornLocationKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBornLocationKeyPressed
-        if((evt.getKeyCode() == KeyEvent.VK_ENTER) || (evt.getKeyCode() == KeyEvent.VK_TAB)){
-            setFocus("ESTADO_CIVIL");
-        }
-    }//GEN-LAST:event_txtBornLocationKeyPressed
-
-    private void txtYearKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtYearKeyPressed
-        if((evt.getKeyCode() == KeyEvent.VK_ENTER) || (evt.getKeyCode() == KeyEvent.VK_TAB)){
-            setFocus("NASCIMENTO_LOCAL");
-        }
-    }//GEN-LAST:event_txtYearKeyPressed
-
-    private void cbbMonthKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbbMonthKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_TAB){
-            setFocus("NASCIMENTO_ANO");
-        }
-    }//GEN-LAST:event_cbbMonthKeyPressed
-
-    private void cbbMonthItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbbMonthItemStateChanged
-        if(evt.getStateChange() == ItemEvent.SELECTED){
-            setFocus("NASCIMENTO_ANO");
-        }
-    }//GEN-LAST:event_cbbMonthItemStateChanged
-
-    private void cbbDayKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbbDayKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_TAB){
-            setFocus("NASCIMENTO_MES");
-        }
-    }//GEN-LAST:event_cbbDayKeyPressed
-
-    private void cbbDayItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbbDayItemStateChanged
-        if(evt.getStateChange() == ItemEvent.SELECTED){
-            setFocus("NASCIMENTO_MES");
-        }
-    }//GEN-LAST:event_cbbDayItemStateChanged
-
-    private void cbbSexKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbbSexKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_TAB){
-            setFocus("NASCIMENTO_DIA");
-        }
-    }//GEN-LAST:event_cbbSexKeyPressed
-
-    private void cbbSexItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbbSexItemStateChanged
-        if(evt.getStateChange() == ItemEvent.SELECTED){
-            setFocus("NASCIMENTO_DIA");
-        }
-    }//GEN-LAST:event_cbbSexItemStateChanged
-
-    private void txtNickNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNickNameKeyPressed
-        if((evt.getKeyCode() == KeyEvent.VK_ENTER) || (evt.getKeyCode() == KeyEvent.VK_TAB)){
-            setFocus("SEXO");
-        }
-    }//GEN-LAST:event_txtNickNameKeyPressed
-
-    private void txtSurnameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSurnameKeyPressed
-        if((evt.getKeyCode() == KeyEvent.VK_ENTER) || (evt.getKeyCode() == KeyEvent.VK_TAB)){
-            setFocus("APELIDO");
-        }
-    }//GEN-LAST:event_txtSurnameKeyPressed
-
-    private void txtNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNameKeyPressed
-        if((evt.getKeyCode() == KeyEvent.VK_ENTER) || (evt.getKeyCode() == KeyEvent.VK_TAB)){
-            setFocus("SOBRENOME");
-        }
-    }//GEN-LAST:event_txtNameKeyPressed
-
-    private void txtDocNumKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDocNumKeyPressed
-        if((evt.getKeyCode() == KeyEvent.VK_ENTER) || (evt.getKeyCode() == KeyEvent.VK_TAB)){
-            setFocus("NOME");
-        }
-    }//GEN-LAST:event_txtDocNumKeyPressed
-
-    private void cbbDocTypeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbbDocTypeKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_TAB){
-            setFocus("NUM_DOCUMENTO");
-        }
-    }//GEN-LAST:event_cbbDocTypeKeyPressed
-
-    private void cbbDocTypeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbbDocTypeItemStateChanged
-        if(evt.getStateChange() == ItemEvent.SELECTED){
-            setFocus("NUM_DOCUMENTO");
-        }
-    }//GEN-LAST:event_cbbDocTypeItemStateChanged
 
     private void cbbContactEmailTypeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbbContactEmailTypeItemStateChanged
         if(evt.getStateChange() == ItemEvent.SELECTED){
@@ -2369,6 +1844,24 @@ public class ContactScreen extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cbbContactEmailTypeKeyPressed
 
+    private void txtContactMPhoneKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContactMPhoneKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_TAB){
+            setFocus("CONTATO_TELEFONE_FIXO");
+        }
+    }//GEN-LAST:event_txtContactMPhoneKeyPressed
+
+    private void txtContactPhoneKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContactPhoneKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_TAB){
+            setFocus("CONTATO_TELEFONE_COMERCIAL");
+        }
+    }//GEN-LAST:event_txtContactPhoneKeyPressed
+
+    private void txtContactEnterpriseKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContactEnterpriseKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_TAB){
+            setFocus("CONTATO_EMAIL");
+        }
+    }//GEN-LAST:event_txtContactEnterpriseKeyPressed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelContact;
     private javax.swing.JPanel PanelContactForm;
@@ -2383,30 +1876,20 @@ public class ContactScreen extends javax.swing.JFrame {
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnSave;
-    private javax.swing.JComboBox<String> cbbCivilState;
     private javax.swing.JComboBox<String> cbbContactEmailType;
     private javax.swing.JComboBox<String> cbbContactListFilter;
-    private javax.swing.JComboBox<String> cbbDay;
-    private javax.swing.JComboBox<String> cbbDocType;
-    private javax.swing.JComboBox<String> cbbMonth;
-    private javax.swing.JComboBox<String> cbbSex;
     private javax.swing.JCheckBox ckbAllowCallFlg;
     private javax.swing.JCheckBox ckbAllowEmailFlg;
     private javax.swing.JCheckBox ckbMainConFlg;
     private javax.swing.JCheckBox ckbSendNewsFlg;
     private javax.swing.JCheckBox ckbSendPromFlg;
     private javax.swing.JCheckBox ckbWhatsAppFlg;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JLabel lblAddSocialMedia;
     private javax.swing.JLabel lblAllowCallFlg;
     private javax.swing.JLabel lblAllowEmailFlg;
-    private javax.swing.JLabel lblBirthDate;
-    private javax.swing.JLabel lblBornLocation;
-    private javax.swing.JLabel lblCivilState;
     private javax.swing.JLabel lblContactEmail;
     private javax.swing.JLabel lblContactEmail1;
     private javax.swing.JLabel lblContactEnterprise;
@@ -2416,48 +1899,29 @@ public class ContactScreen extends javax.swing.JFrame {
     private javax.swing.JLabel lblContactMPhone;
     private javax.swing.JLabel lblContactNameHeader;
     private javax.swing.JLabel lblContactPhone;
-    private javax.swing.JLabel lblDocNum;
-    private javax.swing.JLabel lblDocType;
     private javax.swing.JLabel lblFacebook;
-    private javax.swing.JLabel lblFatherName;
     private javax.swing.JLabel lblImage;
     private javax.swing.JLabel lblInformation;
     private javax.swing.JLabel lblInstagram;
     private javax.swing.JLabel lblMainContFlg;
-    private javax.swing.JLabel lblMotherName;
-    private javax.swing.JLabel lblName;
-    private javax.swing.JLabel lblNickname;
-    private javax.swing.JLabel lblPersonalData;
     private javax.swing.JLabel lblRecCount;
     private javax.swing.JLabel lblRowId;
     private javax.swing.JLabel lblSendNewsFlg;
     private javax.swing.JLabel lblSendPromFlg;
-    private javax.swing.JLabel lblSex;
     private javax.swing.JLabel lblSocialMedia;
-    private javax.swing.JLabel lblSpouseName;
-    private javax.swing.JLabel lblSurname;
     private javax.swing.JLabel lblTwitter;
     private javax.swing.JLabel lblWhatsAppFlg;
     private javax.swing.JScrollPane sPanelContactForm;
     private javax.swing.JScrollPane sPanelUserList;
     private javax.swing.JTable tblContactList;
-    private javax.swing.JTextField txtBornLocation;
     private javax.swing.JTextField txtContactEmail;
-    private javax.swing.JTextField txtContactEnterprise;
+    private javax.swing.JFormattedTextField txtContactEnterprise;
     private javax.swing.JTextField txtContactListFilterValue;
-    private javax.swing.JTextField txtContactMPhone;
-    private javax.swing.JTextField txtContactPhone;
-    private javax.swing.JTextField txtDocNum;
+    private javax.swing.JFormattedTextField txtContactMPhone;
+    private javax.swing.JFormattedTextField txtContactPhone;
     private javax.swing.JTextField txtFacebook;
-    private javax.swing.JTextField txtFatherName;
     private javax.swing.JTextField txtInstagram;
-    private javax.swing.JTextField txtMotherName;
-    private javax.swing.JTextField txtName;
-    private javax.swing.JTextField txtNickName;
     private javax.swing.JTextField txtRowId;
-    private javax.swing.JTextField txtSpouseName;
-    private javax.swing.JTextField txtSurname;
     private javax.swing.JTextField txtTwitter;
-    private javax.swing.JTextField txtYear;
     // End of variables declaration//GEN-END:variables
 }

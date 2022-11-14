@@ -40,7 +40,7 @@ public abstract class Controller {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
     //String date;
     
-    private final String confFile = System.getProperty("user.home") + "\\SalesPoint\\Settings\\db_conf.conf";
+    private final String confFile = System.getProperty("user.home") + (System.getProperty("os.name").contains("Windows") ? "\\SalesPoint\\Settings\\db_conf.conf" : "//SalesPoint//Settings//db_conf.conf");
     private final String SplitBy = ";";
     
     // Definições das tabelas
@@ -57,13 +57,15 @@ public abstract class Controller {
     private final String tblSSAId = "T_SSA_ID";
     private final String tblValMsg = "T_VALDN_MSG";
     private final String tblLang = "T_LANG";
+    private final String tblAccountNumber = "T_ACCNT_NUMBER";
+    private final String tblOrdertNumber = "T_ORDER_NUMBER";
     
     // Database exceptions list
-    exceptionsController exc;
+    ExceptionsController exc;
     
     // Empty Constructor
     public Controller() throws InterruptedException {
-        exc = new exceptionsController();
+        exc = new ExceptionsController();
         this.columns = "";
         this.values = "";
         this.columnsValues = "";
@@ -129,20 +131,22 @@ public abstract class Controller {
     public void setOrderBy(String orderBy) { this.orderBy += orderBy; }
     public void clearOrderBy() { this.orderBy = ""; }
     
-    public String getTblUser() { return tblUser; }
-    public String getTblPosition() { return tblPosition; }
-    public String getTblPositionPermition() { return tblPositionPermition; }
-    public String getTblAccount() { return tblAccount; }
-    public String getTblContact() { return tblContact; }
-    public String getTblSocialMedia() { return tblSocialMedia; }
-    public String getTblAddress() { return tblAddress; }
-    public String getTblLstOfVal() { return tblLstOfVal; }
-    public String getTblOrder() { return tblOrder; }
-    public String getTblOrderItem() { return tblOrderItem; }
-    public String getTblSSAId() { return tblSSAId; }
-    public String getTblValMsg() { return tblValMsg; }
-    public String getTblLang() { return tblLang; }
-
+    public String getTblUser() { return this.tblUser; }
+    public String getTblPosition() { return this.tblPosition; }
+    public String getTblPositionPermition() { return this.tblPositionPermition; }
+    public String getTblAccount() { return this.tblAccount; }
+    public String getTblContact() { return this.tblContact; }
+    public String getTblSocialMedia() { return this.tblSocialMedia; }
+    public String getTblAddress() { return this.tblAddress; }
+    public String getTblLstOfVal() { return this.tblLstOfVal; }
+    public String getTblOrder() { return this.tblOrder; }
+    public String getTblOrderItem() { return this.tblOrderItem; }
+    public String getTblSSAId() { return this.tblSSAId; }
+    public String getTblValMsg() { return this.tblValMsg; }
+    public String getTblLang() { return this.tblLang; }
+    public String getTblAccountNumber() { return this.tblAccountNumber; }
+    public String getTblOrderNumber() { return this.tblOrdertNumber; }
+    
     public String getConfFile() { return confFile; }
     public String getSplitBy() { return SplitBy; }
     
@@ -157,6 +161,29 @@ public abstract class Controller {
     public boolean isConnectionOpen() { return connectionOpen; }
     public void setConnectionOpen(boolean connectionOpen) { this.connectionOpen = connectionOpen; }
     
+    public String getSysdate(){
+        String sysdate = "SYSDATE";
+        if(this.getDbDriver().toUpperCase().contains("ORACLE")) {
+            sysdate = "SYSDATE";
+        } else if (this.getDbDriver().toUpperCase().contains("MYSQL")) {
+            sysdate = "SYSDATE()";
+        } else {
+            sysdate = "SYSDATE";
+        }
+        return sysdate;
+    }
+    
+    public String convertDate(String date){
+        String dateConverted = "";
+        if(this.getDbDriver().toUpperCase().contains("ORACLE")) {
+            dateConverted = "TO_DATE(TO_CHAR('" + date + "', 'YYYY-MM-DD'), 'YYYY-MM-DD')";
+        } else if (this.getDbDriver().toUpperCase().contains("MYSQL")) {
+            dateConverted = "date_format(str_to_date('" + date + "', '%d/%m/%Y'), '%Y-%m-%d')";
+        } else {
+            dateConverted = "TO_DATE(TO_CHAR('" + date + "', 'YYYY-MM-DD'), 'YYYY-MM-DD')";
+        }
+        return dateConverted;
+    }
     
     // Open Database Connection
     public abstract String openConnection(String message);
@@ -166,12 +193,16 @@ public abstract class Controller {
     
     public abstract String createUser(String sqlCommand, String user);
     public abstract void generateRowIdTrigger();
+    public abstract void generateAccountNumberTrigger();
+    public abstract void generateOrderNumberTrigger();
     public abstract String insertRecord(String table, String columns, String values);
     public abstract String insertMultipleRecords(String table, ArrayList<DataController.InsertMultipleLineClass> sqlCommand);
     public abstract int updateRecord(String table, String columnsValues, String condition);
     public abstract int deleteRecord(String table, String condition);
     public abstract String executeGenericDBCommand(ArrayList<DataController.GenericCommandClass> sqlCommand);
     public abstract int queryTableCount(String table, String condition);
+    public abstract ArrayList<DataController.AccountClass> queryAccountRecord(String query);
+    public abstract ArrayList<DataController.AccountLightClass> queryAccountLightRecord(String query);
     public abstract ArrayList<DataController.UserClass> queryUserRecord(String query);
     public abstract ArrayList<DataController.PositionClass> queryPositionRecord(String query);
     public abstract ArrayList<DataController.PositionPerClass> queryPostnPermissionRecord(String query);
@@ -181,6 +212,7 @@ public abstract class Controller {
     public abstract ArrayList<DataController.LanguageClass> queryLanguageRecord(String query);
     public abstract ArrayList<DataController.SessionClass> queryUserSessionRecord(String user);
     public abstract String getNextRowId();
+    public abstract String getNextAccountNumber();
     public abstract String getConnectedUserId();
     public abstract String getUserIdByLogin(String login);
     public abstract String getPositionIdByType(String positionType);

@@ -24,32 +24,24 @@ import javax.swing.table.DefaultTableModel;
 public class ListOfValuesController extends DataController {
     ListOfValuesScreen lovScr;
     
-    private String user;
-    private String password;
     private String lastLOVAdd;
     private String lastLOVUpd;
     private int count;
-    private final int LOVTypeSize = 30;
-    private final int LOVNameSize = 50;
-    private final int LOVValueSize = 50;
-    private final int LOVLanguageSize = 15;
-    private final int LOVOrderSize = 22;
-    private final int LOVRplctnLevelSize = 30;
-    private final int LOVCodeSize = 30;
-    private final int LOVSubtypeSize = 30;
-    private final int LOVDescriptionSize = 255;
+    private final int LOVTypeColumnSize = 30;
+    private final int LOVNameColumnSize = 50;
+    private final int LOVValueColumnSize = 50;
+    private final int LOVLanguageColumnSize = 15;
+    private final int LOVOrderColumnSize = 22;
+    private final int LOVRplctnLevelColumnSize = 30;
+    private final int LOVCodeColumnSize = 30;
+    private final int LOVSubtypeColumnSize = 30;
+    private final int LOVDescriptionColumnSize = 255;
     
     LOVRowIdClass lovRowId;
     private ArrayList<LOVRowIdClass> lovRowIdArray = new ArrayList<>();
 
     public ListOfValuesController() throws InterruptedException { }
     
-    /*public String getUser() { return user; }
-    public void setUser(String user) { this.user = user; }
-
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }*/
-
     public String getLastLOVAdd() { return lastLOVAdd; }
     public void setLastLOVAdd(String lastLOVAdd) { this.lastLOVAdd = lastLOVAdd; }
 
@@ -60,15 +52,15 @@ public class ListOfValuesController extends DataController {
     public void setCount(int count) { this.count += count; }
     public void clearCount() { this.count = 0; }
 
-    public int getLOVTypeSize() { return LOVTypeSize; }
-    public int getLOVNameSize() { return LOVNameSize; }
-    public int getLOVValueSize() { return LOVValueSize; }
-    public int getLOVLanguageSize() { return LOVLanguageSize; }
-    public int getLOVOrderSize() { return LOVOrderSize; }
-    public int getLOVRplctnLevelSize() { return LOVRplctnLevelSize; }
-    public int getLOVCodeSize() { return LOVCodeSize; }
-    public int getLOVSubtypeSize() { return LOVSubtypeSize; }
-    public int getLOVDescriptionSize() { return LOVDescriptionSize; }
+    public int getLOVTypeColumnSize() { return LOVTypeColumnSize; }
+    public int getLOVNameColumnSize() { return LOVNameColumnSize; }
+    public int getLOVValueColumnSize() { return LOVValueColumnSize; }
+    public int getLOVLanguageColumnSize() { return LOVLanguageColumnSize; }
+    public int getLOVOrderColumnSize() { return LOVOrderColumnSize; }
+    public int getLOVRplctnLevelColumnSize() { return LOVRplctnLevelColumnSize; }
+    public int getLOVCodeColumnSize() { return LOVCodeColumnSize; }
+    public int getLOVSubtypeColumnSize() { return LOVSubtypeColumnSize; }
+    public int getLOVDescriptionColumnSize() { return LOVDescriptionColumnSize; }
     
     public void openScreen() {
         lovScr = new ListOfValuesScreen();
@@ -295,15 +287,15 @@ public class ListOfValuesController extends DataController {
         int countUniqueValue = 0;
         
         // Validate Field Sizes
-        if((lovScr.getcbbLOVType() != null) && (lovScr.getcbbLOVType().length() > getLOVTypeSize())) { JOptionPane.showMessageDialog(null, "O tamanho do campo 'Tipo' deve ter no máximo: " + getLOVTypeSize() + " caractere(s)"); return false; }
-        if((lovScr.gettxtName() != null) && (lovScr.gettxtName().length() > getLOVNameSize())) { JOptionPane.showMessageDialog(null, "O tamanho do campo 'Nome' deve ter no máximo: " + getLOVNameSize() + " caractere(s)"); return false; }
-        if((lovScr.gettxtValue() != null) && (lovScr.gettxtValue().length() > getLOVValueSize())) { JOptionPane.showMessageDialog(null, "O tamanho do campo 'Exibir Valor' deve ter no máximo: " + getLOVValueSize() + " caractere(s)"); return false; }
-        if((lovScr.getcbbLanguage() != null) && (super.LookupLangCodeByValue(lovScr.getcbbLanguage()).length() > getLOVLanguageSize())) { JOptionPane.showMessageDialog(null, "O tamanho do campo 'Idioma' deve ter no máximo: " + getLOVLanguageSize() + " caractere(s)"); return false; }
-        if((lovScr.gettxtOrder() != null) && (lovScr.gettxtOrder().length() > getLOVOrderSize())) { JOptionPane.showMessageDialog(null, "O tamanho do campo 'Ordem' deve ter no máximo: " + getLOVOrderSize() + " caractere(s)"); return false; }
-        if((lovScr.gettxtReplicationLevel() != null) && (lovScr.gettxtReplicationLevel().length() > getLOVRplctnLevelSize())) { JOptionPane.showMessageDialog(null, "O tamanho do campo 'Nível de Replicação' deve ter no máximo: " + getLOVRplctnLevelSize() + " caractere(s)"); return false; }
-        if((lovScr.gettxtCode() != null) && (lovScr.gettxtCode().length() > getLOVCodeSize())) { JOptionPane.showMessageDialog(null, "O tamanho do campo 'Código' deve ter no máximo: " + getLOVCodeSize() + " caractere(s)"); return false; }
-        if((lovScr.gettxtSubType() != null) && (lovScr.gettxtSubType().length() > getLOVSubtypeSize())) { JOptionPane.showMessageDialog(null, "O tamanho do campo 'Subtipo' deve ter no máximo: " + getLOVSubtypeSize() + " caractere(s)"); return false; }
-        if((lovScr.gettxtDescription() != null) && (lovScr.gettxtDescription().length() > getLOVDescriptionSize())) { JOptionPane.showMessageDialog(null, "O tamanho do campo 'Descrição' deve ter no máximo: " + getLOVDescriptionSize() + " caractere(s)"); return false; }
+        if((lovScr.getcbbLOVType() != null) && (lovScr.getcbbLOVType().length() > getLOVTypeColumnSize())) { JOptionPane.showMessageDialog(null, "O tamanho do campo 'Tipo' deve ter no máximo: " + getLOVTypeColumnSize() + " caractere(s)"); return false; }
+        if((lovScr.gettxtName() != null) && (lovScr.gettxtName().length() > getLOVNameColumnSize())) { JOptionPane.showMessageDialog(null, "O tamanho do campo 'Nome' deve ter no máximo: " + getLOVNameColumnSize() + " caractere(s)"); return false; }
+        if((lovScr.gettxtValue() != null) && (lovScr.gettxtValue().length() > getLOVValueColumnSize())) { JOptionPane.showMessageDialog(null, "O tamanho do campo 'Exibir Valor' deve ter no máximo: " + getLOVValueColumnSize() + " caractere(s)"); return false; }
+        if((lovScr.getcbbLanguage() != null) && (super.LookupLangCodeByValue(lovScr.getcbbLanguage()).length() > getLOVLanguageColumnSize())) { JOptionPane.showMessageDialog(null, "O tamanho do campo 'Idioma' deve ter no máximo: " + getLOVLanguageColumnSize() + " caractere(s)"); return false; }
+        if((lovScr.gettxtOrder() != null) && (lovScr.gettxtOrder().length() > getLOVOrderColumnSize())) { JOptionPane.showMessageDialog(null, "O tamanho do campo 'Ordem' deve ter no máximo: " + getLOVOrderColumnSize() + " caractere(s)"); return false; }
+        if((lovScr.gettxtReplicationLevel() != null) && (lovScr.gettxtReplicationLevel().length() > getLOVRplctnLevelColumnSize())) { JOptionPane.showMessageDialog(null, "O tamanho do campo 'Nível de Replicação' deve ter no máximo: " + getLOVRplctnLevelColumnSize() + " caractere(s)"); return false; }
+        if((lovScr.gettxtCode() != null) && (lovScr.gettxtCode().length() > getLOVCodeColumnSize())) { JOptionPane.showMessageDialog(null, "O tamanho do campo 'Código' deve ter no máximo: " + getLOVCodeColumnSize() + " caractere(s)"); return false; }
+        if((lovScr.gettxtSubType() != null) && (lovScr.gettxtSubType().length() > getLOVSubtypeColumnSize())) { JOptionPane.showMessageDialog(null, "O tamanho do campo 'Subtipo' deve ter no máximo: " + getLOVSubtypeColumnSize() + " caractere(s)"); return false; }
+        if((lovScr.gettxtDescription() != null) && (lovScr.gettxtDescription().length() > getLOVDescriptionColumnSize())) { JOptionPane.showMessageDialog(null, "O tamanho do campo 'Descrição' deve ter no máximo: " + getLOVDescriptionColumnSize() + " caractere(s)"); return false; }
         
         // Validate Field Types
         if (lovScr.gettxtOrder() != null) {
@@ -701,7 +693,7 @@ public class ListOfValuesController extends DataController {
                 Integer.valueOf(chr);
                 //JOptionPane.showMessageDialog(null, "Integer");
                 if(lovScr.gettxtOrder() != null) {
-                    if(lovScr.gettxtOrder().length() > (getLOVOrderSize() - 1)) {
+                    if(lovScr.gettxtOrder().length() > (getLOVOrderColumnSize() - 1)) {
                         if((ke.getKeyCode() != KeyEvent.VK_ENTER) || (ke.getKeyCode() != KeyEvent.VK_TAB)){
                             //JOptionPane.showMessageDialog(null, "Passou de 22");
                             ke.consume();

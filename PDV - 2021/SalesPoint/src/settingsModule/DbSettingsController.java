@@ -5,7 +5,7 @@
  */
 package settingsModule;
 
-import databaseModule.exceptionsController;
+import databaseModule.ExceptionsController;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,10 +36,10 @@ import javax.swing.JOptionPane;
 public class DbSettingsController {
     File file;
     DbSettingsScreen dbSetScreen;
-    exceptionsController exc;
+    ExceptionsController exc;
     
     // Database Variables
-    private final String confFile = System.getProperty("user.home") +"\\SalesPoint\\Settings\\db_conf.conf";
+    private final String confFile = System.getProperty("user.home") + (System.getProperty("os.name").contains("Windows") ? "\\SalesPoint\\Settings\\db_conf.conf" : "//SalesPoint//Settings//db_conf.conf");
     private final String SplitBy = ";";
     private final String pattern = "dd-MM-yyyy HH:mm:ss";
     public Connection conn = null;
@@ -316,12 +316,12 @@ public class DbSettingsController {
             JFileChooser fc = new JFileChooser();
             fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
-            file = new File(System.getProperty("user.home") +"\\SalesPoint\\Settings");
+            file = new File(System.getProperty("user.home") + (System.getProperty("os.name").contains("Windows") ? "\\SalesPoint\\Settings" : "//SalesPoint//Settings"));
             if(!file.exists()){
                 file.mkdirs();
             }
             
-            String path = System.getProperty("user.home") +"\\SalesPoint\\Settings\\db_conf.conf";
+            String path = System.getProperty("user.home") + (System.getProperty("os.name").contains("Windows") ? "\\SalesPoint\\Settings\\db_conf.conf" : "//SalesPoint//Settings//db_conf.conf");
             String header = "TIPO_DRIVER;DRIVER;URL;LOCAL;PORTA;NOME_BANCO;OWNER_BANCO\n";
             if (!path.isEmpty()) {            
                 BufferedWriter buff = new BufferedWriter(new FileWriter(path));
@@ -473,4 +473,5 @@ public class DbSettingsController {
         }
         
     }
-
+
+}
