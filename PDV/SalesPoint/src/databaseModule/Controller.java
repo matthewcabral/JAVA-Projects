@@ -40,7 +40,7 @@ public abstract class Controller {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
     //String date;
     
-    private final String confFile = System.getProperty("user.home") + (System.getProperty("os.name").contains("Windows") ? "\\SalesPoint\\Settings\\db_conf.conf" : "//SalesPoint//Settings//db_conf.conf");
+    private final String confFile = System.getProperty("user.home") + (System.getProperty("os.name").contains("Windows") ? "\\SalesPoint\\Settings\\db_conf.conf" : "/SalesPoint/Settings/db_conf.conf");
     private final String SplitBy = ";";
     
     // Definições das tabelas
@@ -178,7 +178,7 @@ public abstract class Controller {
         if(this.getDbDriver().toUpperCase().contains("ORACLE")) {
             dateConverted = "TO_DATE(TO_CHAR('" + date + "', 'YYYY-MM-DD'), 'YYYY-MM-DD')";
         } else if (this.getDbDriver().toUpperCase().contains("MYSQL")) {
-            dateConverted = "date_format(str_to_date('" + date + "', '%d/%m/%Y'), '%Y-%m-%d')";
+            dateConverted = "date_format(str_to_date('" + date + "', '%m/%d/%Y'), '%Y-%m-%d')";
         } else {
             dateConverted = "TO_DATE(TO_CHAR('" + date + "', 'YYYY-MM-DD'), 'YYYY-MM-DD')";
         }

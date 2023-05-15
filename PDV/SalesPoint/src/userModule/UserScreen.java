@@ -1381,7 +1381,7 @@ public class UserScreen extends javax.swing.JFrame {
         btnNewUser.setToolTipText("Novo");
         btnNewUser.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnNewUser.setBorderPainted(false);
-        btnNewUser.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnNewUser.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnNewUser.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         btnNewUser.setIconTextGap(0);
         btnNewUser.setMargin(new java.awt.Insets(2, 2, 2, 2));
@@ -1485,7 +1485,6 @@ public class UserScreen extends javax.swing.JFrame {
         PanelFormUser.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         PanelFormUser.setPreferredSize(new java.awt.Dimension(1329, 258));
 
-        lblUserInformation.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.light"));
         lblUserInformation.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         lblUserInformation.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblUserInformation.setText("   Informações de Usuário");
@@ -1671,7 +1670,6 @@ public class UserScreen extends javax.swing.JFrame {
         jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jLabel1.setEnabled(false);
 
-        lblUserInformation1.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.light"));
         lblUserInformation1.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         lblUserInformation1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblUserInformation1.setText("   Informações de Permissões e Segurança");
@@ -1871,7 +1869,6 @@ public class UserScreen extends javax.swing.JFrame {
         PanelFormUserIdentity.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         PanelFormUserIdentity.setPreferredSize(new java.awt.Dimension(1329, 258));
 
-        lblIdentityInformation.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.light"));
         lblIdentityInformation.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         lblIdentityInformation.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblIdentityInformation.setText("   Informações de Identificação");
@@ -2116,7 +2113,6 @@ public class UserScreen extends javax.swing.JFrame {
         lblSurname.setText("Sobrenome*:");
         lblSurname.setEnabled(false);
 
-        lblPersonalData.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.light"));
         lblPersonalData.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         lblPersonalData.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblPersonalData.setText("   Dados Pessoais");
@@ -2482,7 +2478,6 @@ public class UserScreen extends javax.swing.JFrame {
         PanelFormUserContAddr.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         PanelFormUserContAddr.setPreferredSize(new java.awt.Dimension(1329, 258));
 
-        lblContactInformation.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.light"));
         lblContactInformation.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         lblContactInformation.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblContactInformation.setText("   Informações do Contato Principal");
@@ -2565,7 +2560,6 @@ public class UserScreen extends javax.swing.JFrame {
             }
         });
 
-        lblSocialMedia.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.light"));
         lblSocialMedia.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         lblSocialMedia.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblSocialMedia.setText("   Redes Sociais");
@@ -2615,7 +2609,6 @@ public class UserScreen extends javax.swing.JFrame {
             }
         });
 
-        lblAddressInformation.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.light"));
         lblAddressInformation.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         lblAddressInformation.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblAddressInformation.setText("   Informações do Endereço Principal:");

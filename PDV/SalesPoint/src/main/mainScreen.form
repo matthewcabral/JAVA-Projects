@@ -96,9 +96,6 @@
   <SubComponents>
     <Container class="javax.swing.JPanel" name="pnlMain">
       <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="e3" green="e3" id="Button.light" palette="3" red="e3" type="palette"/>
-        </Property>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Calibri" size="12" style="0"/>
         </Property>
@@ -119,7 +116,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="PanelLogo" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="PanelInfo" max="-2" attributes="0"/>
+                  <Component id="PanelInfo" min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -1850,9 +1847,7 @@
         </Container>
         <Container class="javax.swing.JPanel" name="PanelLogo">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="opaque" type="boolean" value="false"/>
           </Properties>
 
@@ -1869,7 +1864,7 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="jLabel3" pref="396" max="32767" attributes="0"/>
+                      <Component id="jLabel3" pref="379" max="32767" attributes="0"/>
                       <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -1883,6 +1878,7 @@
                   <Image iconType="3" name="/Images/icons/Logo.png"/>
                 </Property>
                 <Property name="enabled" type="boolean" value="false"/>
+                <Property name="focusable" type="boolean" value="false"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -1916,7 +1912,7 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jLabel9" alignment="1" max="32767" attributes="0"/>
+                  <Component id="jLabel9" alignment="1" pref="32" max="32767" attributes="0"/>
                   <Component id="lblUser" alignment="0" max="32767" attributes="0"/>
                   <Component id="jLabel6" alignment="0" max="32767" attributes="0"/>
                   <Component id="jLabel10" alignment="0" max="32767" attributes="0"/>

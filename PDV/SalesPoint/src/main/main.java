@@ -16,6 +16,7 @@ public class main{
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Windows".equals(info.getName())) {
@@ -28,5 +29,6 @@ public class main{
         }
         
         MainController main = new MainController();
+        
     }
 }

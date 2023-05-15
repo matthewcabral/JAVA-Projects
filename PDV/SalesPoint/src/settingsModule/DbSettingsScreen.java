@@ -21,8 +21,8 @@ public class DbSettingsScreen extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         clearLblPath();
-        setLblPath("Caminho do arquivo: " + System.getProperty("user.home") + "\\SalesPoint\\Settings\\db_conf.conf");
-        
+        setLblPath("Caminho do arquivo: " + System.getProperty("user.home") + (System.getProperty("os.name").contains("Windows") ? "\\SalesPoint\\Settings\\db_conf.conf" : "/SalesPoint/Settings/db_conf.conf"));
+                
     }
     
     // Listeners

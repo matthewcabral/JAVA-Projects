@@ -182,7 +182,6 @@ public class AccountScreen extends javax.swing.JFrame {
     public String getlblRecCount() { return this.lblRecCount.getText(); }
     public String getlblAccountNameHeader() { return this.lblAccountNameHeader.getText(); }
     
-
     // Component Clear
     public void cleartxtListFilterValue() { this.txtListFilterValue.setText(""); this.txtListFilterValue.paintImmediately(this.txtListFilterValue.getVisibleRect()); }
     public void cleartxtRowId() { this.txtRowId.setText(""); this.txtRowId.paintImmediately(this.txtRowId.getVisibleRect()); }
@@ -1056,7 +1055,7 @@ public class AccountScreen extends javax.swing.JFrame {
         );
         PanelListAccountLayout.setVerticalGroup(
             PanelListAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(sPanelAccountList, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
+            .addComponent(sPanelAccountList, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout PanelAccountListLayout = new javax.swing.GroupLayout(PanelAccountList);
@@ -1095,7 +1094,7 @@ public class AccountScreen extends javax.swing.JFrame {
         btnQuery.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/Lupa 20x20.png"))); // NOI18N
         btnQuery.setToolTipText("Pesquisar");
         btnQuery.setBorderPainted(false);
-        btnQuery.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnQuery.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnQuery.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         btnQuery.setIconTextGap(0);
         btnQuery.setMargin(new java.awt.Insets(2, 2, 2, 2));
@@ -1138,7 +1137,7 @@ public class AccountScreen extends javax.swing.JFrame {
         btnNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/New 20x20.png"))); // NOI18N
         btnNew.setToolTipText("Novo");
         btnNew.setBorderPainted(false);
-        btnNew.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnNew.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnNew.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         btnNew.setIconTextGap(0);
         btnNew.setMargin(new java.awt.Insets(2, 2, 2, 2));
@@ -1153,6 +1152,7 @@ public class AccountScreen extends javax.swing.JFrame {
         btnSave.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
         btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/Save 20x20.png"))); // NOI18N
         btnSave.setToolTipText("Salvar");
+        btnSave.setBorderPainted(false);
         btnSave.setEnabled(false);
         btnSave.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         btnSave.setIconTextGap(3);
@@ -1165,6 +1165,7 @@ public class AccountScreen extends javax.swing.JFrame {
         btnCancel.setFont(new java.awt.Font("Calibri", 1, 12)); // NOI18N
         btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons/20px/Cancel 20x20.png"))); // NOI18N
         btnCancel.setToolTipText("Cancelar");
+        btnCancel.setBorderPainted(false);
         btnCancel.setEnabled(false);
         btnCancel.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         btnCancel.setIconTextGap(3);
@@ -1245,7 +1246,6 @@ public class AccountScreen extends javax.swing.JFrame {
         PanelFormAccountInfo.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         PanelFormAccountInfo.setPreferredSize(new java.awt.Dimension(1004, 193));
 
-        lblPersonalData.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.light"));
         lblPersonalData.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         lblPersonalData.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblPersonalData.setText("   Dados Pessoais");
@@ -1506,36 +1506,20 @@ public class AccountScreen extends javax.swing.JFrame {
                                     .addGroup(PanelFormAccountInfoLayout.createSequentialGroup()
                                         .addComponent(lblSurname, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtSurname, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(txtSurname, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lblSex, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(PanelFormAccountInfoLayout.createSequentialGroup()
-                                .addGroup(PanelFormAccountInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(PanelFormAccountInfoLayout.createSequentialGroup()
-                                        .addComponent(lblDocNum, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtDocNum, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(lblNickname, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelFormAccountInfoLayout.createSequentialGroup()
-                                        .addGap(329, 329, 329)
-                                        .addComponent(lblSex, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(lblDocNum, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtDocNum, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblNickname, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(PanelFormAccountInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(cbbSex, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(txtNickName, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(PanelFormAccountInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(PanelFormAccountInfoLayout.createSequentialGroup()
-                                .addComponent(lblBirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbbDay, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbbMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel12)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtYear, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(PanelFormAccountInfoLayout.createSequentialGroup()
                                 .addGroup(PanelFormAccountInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblAccountType, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1545,10 +1529,23 @@ public class AccountScreen extends javax.swing.JFrame {
                                     .addComponent(cbbAccountStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(cbbAccountType, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(PanelFormAccountInfoLayout.createSequentialGroup()
-                                .addComponent(lblBornLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(PanelFormAccountInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(lblBirthDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblBornLocation, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtBornLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(181, Short.MAX_VALUE))
+                                .addGroup(PanelFormAccountInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtBornLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(PanelFormAccountInfoLayout.createSequentialGroup()
+                                        .addComponent(cbbDay, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cbbMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel12)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtYear, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
         PanelFormAccountInfoLayout.setVerticalGroup(
             PanelFormAccountInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1558,40 +1555,35 @@ public class AccountScreen extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PanelFormAccountInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelFormAccountInfoLayout.createSequentialGroup()
-                        .addGroup(PanelFormAccountInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PanelFormAccountInfoLayout.createSequentialGroup()
-                                .addGap(56, 56, 56)
-                                .addGroup(PanelFormAccountInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblDocType, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cbbDocType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblSex, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PanelFormAccountInfoLayout.createSequentialGroup()
-                                .addGroup(PanelFormAccountInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(PanelFormAccountInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(lblRowId, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtRowId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(PanelFormAccountInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PanelFormAccountInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(PanelFormAccountInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(lblBornLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtBornLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(PanelFormAccountInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(txtAccountNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(lblAccountNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(lblSurname, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtSurname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbbSex, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(PanelFormAccountInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PanelFormAccountInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblRowId, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtRowId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PanelFormAccountInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(PanelFormAccountInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblDocNum, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(PanelFormAccountInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(txtDocNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lblNickname, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtNickName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(lblBornLocation, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtBornLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PanelFormAccountInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtAccountNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblAccountNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblSurname, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtSurname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelFormAccountInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cbbSex, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblSex, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbbDocType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblDocType, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelFormAccountInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtDocNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblNickname, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNickName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblDocNum, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(PanelFormAccountInfoLayout.createSequentialGroup()
                         .addGroup(PanelFormAccountInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblBirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1608,7 +1600,7 @@ public class AccountScreen extends javax.swing.JFrame {
                         .addGroup(PanelFormAccountInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblAccountType, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cbbAccountType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(101, Short.MAX_VALUE))
+                .addContainerGap(76, Short.MAX_VALUE))
         );
 
         PanelAccountInfoForm.setViewportView(PanelFormAccountInfo);
@@ -1637,7 +1629,6 @@ public class AccountScreen extends javax.swing.JFrame {
         PanelFormAccountContAddr.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         PanelFormAccountContAddr.setPreferredSize(new java.awt.Dimension(1004, 193));
 
-        lblContactInformation.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.light"));
         lblContactInformation.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         lblContactInformation.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblContactInformation.setText("   Informações do Contato Principal");
@@ -1650,6 +1641,7 @@ public class AccountScreen extends javax.swing.JFrame {
         lblAddContact.setText("Contato*:");
         lblAddContact.setEnabled(false);
 
+        btnAddContact.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         btnAddContact.setText("Visualizar/Cadastrar");
         btnAddContact.setEnabled(false);
         btnAddContact.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -1720,7 +1712,6 @@ public class AccountScreen extends javax.swing.JFrame {
             }
         });
 
-        lblSocialMedia.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.light"));
         lblSocialMedia.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         lblSocialMedia.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblSocialMedia.setText("   Redes Sociais");
@@ -1770,7 +1761,6 @@ public class AccountScreen extends javax.swing.JFrame {
             }
         });
 
-        lblAddressInformation.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.light"));
         lblAddressInformation.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         lblAddressInformation.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblAddressInformation.setText("   Informações do Endereço Principal:");
@@ -1782,6 +1772,7 @@ public class AccountScreen extends javax.swing.JFrame {
         lblAddAddress.setText("Endereço:");
         lblAddAddress.setEnabled(false);
 
+        btnAddAddress.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         btnAddAddress.setText("Visualizar/Cadastrar");
         btnAddAddress.setEnabled(false);
         btnAddAddress.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -1951,7 +1942,6 @@ public class AccountScreen extends javax.swing.JFrame {
         PanelFormAccountMoreInfo.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         PanelFormAccountMoreInfo.setPreferredSize(new java.awt.Dimension(1004, 193));
 
-        lblIdentityInformation1.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.light"));
         lblIdentityInformation1.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         lblIdentityInformation1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblIdentityInformation1.setText("   Informações de Identificação");
@@ -2020,7 +2010,6 @@ public class AccountScreen extends javax.swing.JFrame {
             }
         });
 
-        lblIdentityInformation.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.light"));
         lblIdentityInformation.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         lblIdentityInformation.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblIdentityInformation.setText("   Informações de Identificação");
@@ -2192,8 +2181,7 @@ public class AccountScreen extends javax.swing.JFrame {
                             .addComponent(txtMotherName, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(lblIdentityInformation1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(PanelFormAccountMoreInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblIdentityInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 648, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(PanelFormAccountMoreInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(PanelFormAccountMoreInfoLayout.createSequentialGroup()
                         .addGroup(PanelFormAccountMoreInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(PanelFormAccountMoreInfoLayout.createSequentialGroup()
@@ -2233,8 +2221,9 @@ public class AccountScreen extends javax.swing.JFrame {
                     .addGroup(PanelFormAccountMoreInfoLayout.createSequentialGroup()
                         .addComponent(lblEmissionUF, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbbEmissionUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(181, Short.MAX_VALUE))
+                        .addComponent(cbbEmissionUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblIdentityInformation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(167, Short.MAX_VALUE))
         );
         PanelFormAccountMoreInfoLayout.setVerticalGroup(
             PanelFormAccountMoreInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2243,7 +2232,7 @@ public class AccountScreen extends javax.swing.JFrame {
                 .addGroup(PanelFormAccountMoreInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblIdentityInformation1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblIdentityInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PanelFormAccountMoreInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelFormAccountMoreInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(cbbCivilState, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2293,7 +2282,7 @@ public class AccountScreen extends javax.swing.JFrame {
                 .addGroup(PanelFormAccountMoreInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblEmissionUF, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbbEmissionUF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         PanelAccountMoreInfoForm.setViewportView(PanelFormAccountMoreInfo);

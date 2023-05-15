@@ -114,7 +114,7 @@ public class MainController {
         
         // MAIN Panel
         mainScreen.setListenerbtnOpenContacts(new BtnOpenContactsScreen());
-        mainScreen.setListenerbtnOpenCalculator(new BtnOpenWindowsCalculator());
+        mainScreen.setListenerbtnOpenCalculator(new BtnOpenCalculator());
         mainScreen.setListenerbtnLockSystem(new BtnLockSystem());
         
         // Account Panel
@@ -256,13 +256,26 @@ public class MainController {
         
     }
     
-    public class BtnOpenWindowsCalculator implements ActionListener {
+    public class BtnOpenCalculator implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
             run = Runtime.getRuntime();
             try {
-                run.exec("calc");
+                String os = System.getProperty("os.name");
+                String cmd = "";
+                
+                if (os.contains("Windows")) {
+                    cmd = "calc";
+                } else if (os.contains("Mac")) {
+                    cmd = "open -a Calculator";
+                } else if (os.contains("Linux")) {
+                    cmd = "gnome-calculator";
+                } else {
+                    cmd = "calc";
+                }
+                
+                run.exec(cmd);
             } catch (IOException ex) {
                 Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
             }

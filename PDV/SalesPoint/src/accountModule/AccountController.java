@@ -131,7 +131,7 @@ public class AccountController extends Account {
         DefaultTableModel table = (DefaultTableModel) accntScreen.getTableModel();
         switch(method){
             case "INSERT_RECORD":
-                int newRow = table.getRowCount() + 1;
+                //int newRow = table.getRowCount() + 1;
                 try{
                     table.addRow(
                         new Object[] {
@@ -150,13 +150,13 @@ public class AccountController extends Account {
                 break;
             case "UPDATE_RECORD":
                 try{
-                    table.setValueAt(accntScreen.gettxtAccountNumber(), accntScreen.getSelectedRowList(), 0);
-                    table.setValueAt(accntScreen.gettxtDocNum(), accntScreen.getSelectedRowList(), 1);
-                    table.setValueAt(accntScreen.gettxtName() + " " + accntScreen.gettxtSurname(), accntScreen.getSelectedRowList(), 2);
+                    table.setValueAt((accntScreen.gettxtAccountNumber() != null ? accntScreen.gettxtAccountNumber() : ""), accntScreen.getSelectedRowList(), 0);
+                    table.setValueAt((accntScreen.gettxtDocNum() != null ? accntScreen.gettxtDocNum() : ""), accntScreen.getSelectedRowList(), 1);
+                    table.setValueAt((accntScreen.gettxtName() != null ? accntScreen.gettxtName() + " " + accntScreen.gettxtSurname() : ""), accntScreen.getSelectedRowList(), 2);
                     table.setValueAt(accntScreen.gettxtNickName(), accntScreen.getSelectedRowList(), 3);
-                    table.setValueAt(accntScreen.getcbbDay() + "/" + super.LookupName("MONTH", accntScreen.getcbbMonth()) + "/" + accntScreen.gettxtYear(), accntScreen.getSelectedRowList(), 4);
-                    table.setValueAt(accntScreen.getcbbCivilState(), accntScreen.getSelectedRowList(), 5);
-                    table.setValueAt(accntScreen.getcbbAccountStatus(), accntScreen.getSelectedRowList(), 6);
+                    table.setValueAt((accntScreen.getcbbDay() != null && accntScreen.getcbbMonth() != null && accntScreen.gettxtYear() != null ? accntScreen.getcbbDay() + "/" + super.LookupName("MONTH", accntScreen.getcbbMonth()) + "/" + accntScreen.gettxtYear() : ""), accntScreen.getSelectedRowList(), 4);
+                    table.setValueAt((accntScreen.getcbbCivilState() != null ? accntScreen.getcbbCivilState() : ""), accntScreen.getSelectedRowList(), 5);
+                    table.setValueAt((accntScreen.getcbbAccountStatus() != null ? accntScreen.getcbbAccountStatus() : ""), accntScreen.getSelectedRowList(), 6);
                 } catch(Exception e) {
                     JOptionPane.showMessageDialog(null, "Erro ao preencher tabela...\nErro: " + e);
                 }
@@ -167,7 +167,7 @@ public class AccountController extends Account {
                     
                     try{ AccntIdArray.clear(); } catch (Exception e) {}
 
-                    if(accntList.size() > 0){
+                    if(!accntList.isEmpty()){
                         int count = accntList.size();
                         try{ table.setRowCount(count); } catch (Exception e) {}
                         try{ table.setNumRows(count); } catch (Exception e) {}
@@ -205,7 +205,7 @@ public class AccountController extends Account {
             ArrayList<SocialMediaClass> socMedList;
             ArrayList<AddressClass> addrList;
 
-            if(accntList.size() > 0){
+            if(!accntList.isEmpty()){
                 for(int i = 0; i < accntList.size(); i++){
                     accntScreen.setlblAccountNameHeader(accntList.get(i).getFULL_NAME());
                     accntScreen.settxtRowId(accntList.get(i).getRowId());
@@ -239,7 +239,7 @@ public class AccountController extends Account {
                 
                 contList = super.queryContactRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblContact() + " CON\nWHERE CON.PAR_ROW_ID = '" + AccntIdArray.get(accntScreen.getSelectedRowList()).getRowId() + "'\nAND CON.PR_CON_FLG = 'Y'");
                     
-                if(contList.size() > 0){
+                if(!contList.isEmpty()){
                     accntScreen.settxtContactMPhone(contList.get(0).getMAIN_PH_NUM());
                     accntScreen.settxtContactEmail(contList.get(0).getEMAIL_ADDR());
                     accntScreen.settxtContactPhone(contList.get(0).getALT_PH_NUM());
@@ -267,7 +267,7 @@ public class AccountController extends Account {
 
                 addrList = super.queryAddressRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblAddress() + " ADDR\nWHERE ADDR.PAR_ROW_ID = '" + AccntIdArray.get(accntScreen.getSelectedRowList()).getRowId() +  "'\nAND ADDR.PR_ADDR_FLG = 'Y'");
 
-                if(addrList.size() > 0) {
+                if(!addrList.isEmpty()) {
                     for(int a = 0; a < addrList.size(); a++) {
                         accntScreen.settxtFullAddress(addrList.get(a).getADDR_NAME());
                     }
@@ -394,6 +394,8 @@ public class AccountController extends Account {
 
     @Override
     public boolean insert() {
+        long age = 0;
+        
         String accntId = super.getNextRowId();
         String accntNumber = super.getNextAccountNumber();
         String docType = super.LookupName("DOC_TYPE", accntScreen.getcbbDocType());
@@ -425,22 +427,25 @@ public class AccountController extends Account {
         
         String month = super.LookupValue("MONTH_TRANSLATION", accntScreen.getcbbMonth()).toUpperCase();
         
-        LocalDate today = LocalDate.now();
-        LocalDate birthDate = LocalDate.of(Integer.valueOf(birthYear), Month.valueOf(month), Integer.valueOf(birthDay));
-        long age = ChronoUnit.YEARS.between(birthDate, today);
-        
-        if(today.getMonthValue() >= birthDate.getMonthValue()) {
-            if(today.getDayOfMonth() >= birthDate.getDayOfMonth()) {
-                age++;
+        if(!"".equals(month) && month != null) {
+            LocalDate today = LocalDate.now();
+            LocalDate birthDate = LocalDate.of(Integer.parseInt(birthYear), Month.valueOf(month), Integer.parseInt(birthDay));
+            age = ChronoUnit.YEARS.between(birthDate, today);
+
+            if(today.getMonthValue() >= birthDate.getMonthValue()) {
+                if(today.getDayOfMonth() >= birthDate.getDayOfMonth()) {
+                    age++;
+                }
             }
         }
+        
         super.clearColumns();
         super.clearValues();
         
         super.setColumns(",\n\t" + "PAR_ROW_ID"); super.setValues(",\n\t" + "NULL");
-        super.setColumns(",\n\t" + "ACCNT_NUMBER"); super.setValues(",\n\t" + accntNumber);
-        super.setColumns(",\n\t" + "DOC_TYPE"); super.setValues(",\n\t" + ((docType != null) ? docType : "NULL"));
-        super.setColumns(",\n\t" + "DOC_NUM"); super.setValues(",\n\t" + ((docNumber != null) ? docNumber : "NULL"));
+        super.setColumns(",\n\t" + "ACCNT_NUMBER"); super.setValues(",\n\t" + "'" + accntNumber + "'");
+        super.setColumns(",\n\t" + "DOC_TYPE"); super.setValues(",\n\t" + ((docType != null) ? "'" + docType + "'" : "NULL"));
+        super.setColumns(",\n\t" + "DOC_NUM"); super.setValues(",\n\t" + ((docNumber != null) ? "'" + docNumber + "'" : "NULL"));
         
         switch(docType) {
             case "CPF":
@@ -484,7 +489,7 @@ public class AccountController extends Account {
         super.setColumns(",\n\t" + "MOTHER_FULL_NAME"); super.setValues(",\n\t" + ((motherName != null) ? "'" + motherName + "'" : "NULL"));
         super.setColumns(",\n\t" + "FATHER_FULL_NAME"); super.setValues(",\n\t" + ((fatherName != null) ? "'" + fatherName + "'" : "NULL"));
         super.setColumns(",\n\t" + "ACCNT_TYPE_CD"); super.setValues(",\n\t" + ((accntType != null) ? "'" + accntType + "'" : "NULL"));
-        super.setColumns(",\n\t" + "CREATOR_LOGIN"); super.setValues(",\n\t" + super.getDbUser());
+        super.setColumns(",\n\t" + "CREATOR_LOGIN"); super.setValues(",\n\t" + "'" + super.getDbUser() + "'");
         super.setColumns(",\n\t" + "DESC_TEXT"); super.setValues(",\n\t" + "NULL");
         super.setColumns(",\n\t" + "PR_ADDR_ID"); super.setValues(",\n\t" + "NULL");
         super.setColumns(",\n\t" + "PR_CON_ID"); super.setValues(",\n\t" + "NULL");
@@ -515,7 +520,7 @@ public class AccountController extends Account {
                 super.setSilentInsertMode(true);
                 
                 try{
-                    if(contCtrl.getContRowIdArray().size() > 0){
+                    if(!contCtrl.getContRowIdArray().isEmpty()){
                         for(int i = 0; i < contCtrl.getContRowIdArray().size(); i ++){
                             super.clearColumnsValues();
                             super.clearCondition();
@@ -534,7 +539,7 @@ public class AccountController extends Account {
                 } catch(Exception e) { }
                 
                 try{
-                    if(contCtrl.getSocialMediaRowIdArray().size() > 0){
+                    if(!contCtrl.getSocialMediaRowIdArray().isEmpty()){
                         for(int i = 0; i < contCtrl.getSocialMediaRowIdArray().size(); i ++){
                             super.clearColumnsValues();
                             super.clearCondition();
@@ -552,7 +557,7 @@ public class AccountController extends Account {
                 } catch(Exception e) { }
                 
                 try{
-                    if(addrCtrl.getAddressRowIdArray().size() > 0){
+                    if(!addrCtrl.getAddressRowIdArray().isEmpty()){
                         for(int i = 0; i < addrCtrl.getAddressRowIdArray().size(); i ++){
                             super.clearColumnsValues();
                             super.clearCondition();
@@ -590,6 +595,7 @@ public class AccountController extends Account {
     @Override
     public boolean update() {
         boolean retorno = false;
+        long age = 0;
         
         String docType = super.LookupName("DOC_TYPE", accntScreen.getcbbDocType());
         String docNumber = accntScreen.gettxtDocNum();
@@ -620,14 +626,16 @@ public class AccountController extends Account {
         
         String month = ((accntScreen.getcbbMonth() != null) ? super.LookupValue("MONTH_TRANSLATION", accntScreen.getcbbMonth()).toUpperCase() : null);
         
-        LocalDate today = LocalDate.now();
-        LocalDate birthDate = LocalDate.of(Integer.valueOf(birthYear), Month.valueOf(month), Integer.valueOf(birthDay));
-        long age = ChronoUnit.YEARS.between(birthDate, today);
-        
-        
-        if(today.getMonthValue() >= birthDate.getMonthValue()) {
-            if(today.getDayOfMonth() >= birthDate.getDayOfMonth()) {
-                age++;
+        if(!"".equals(month) && month != null) {
+            LocalDate today = LocalDate.now();
+            LocalDate birthDate = LocalDate.of(Integer.parseInt(birthYear), Month.valueOf(month), Integer.parseInt(birthDay));
+            age = ChronoUnit.YEARS.between(birthDate, today);
+
+
+            if(today.getMonthValue() >= birthDate.getMonthValue()) {
+                if(today.getDayOfMonth() >= birthDate.getDayOfMonth()) {
+                    age++;
+                }
             }
         }
         
@@ -707,7 +715,7 @@ public class AccountController extends Account {
                 super.setSilentInsertMode(true);
                 
                 try{
-                    if(contCtrl.getContRowIdArray().size() > 0){
+                    if(!contCtrl.getContRowIdArray().isEmpty()){
                         for(int i = 0; i < contCtrl.getContRowIdArray().size(); i ++){
                             super.clearColumnsValues();
                             super.clearCondition();
@@ -726,7 +734,7 @@ public class AccountController extends Account {
                 } catch (Exception e) { }
 
                 try{
-                    if(contCtrl.getSocialMediaRowIdArray().size() > 0){
+                    if(!contCtrl.getSocialMediaRowIdArray().isEmpty()){
                         for(int i = 0; i < contCtrl.getSocialMediaRowIdArray().size(); i ++){
                             super.clearColumnsValues();
                             super.clearCondition();
@@ -743,7 +751,7 @@ public class AccountController extends Account {
                 } catch(Exception e) { }
 
                 try{
-                    if(addrCtrl.getAddressRowIdArray().size() > 0){
+                    if(!addrCtrl.getAddressRowIdArray().isEmpty()){
                         for(int i = 0; i < addrCtrl.getAddressRowIdArray().size(); i ++){
                             super.clearColumnsValues();
                             super.clearCondition();
@@ -759,193 +767,6 @@ public class AccountController extends Account {
                     }
                 } catch (Exception e) { }
                 
-                /*ArrayList<ContactClass> contList = queryContactRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblContact() + " CON\nWHERE CON.PAR_ROW_ID = '" + AccntIdArray.get(accntLightScreen.getSelectedRowList()).getRowId() + "'\nAND CON.PR_CON_FLG = 'Y'");
-                
-                if(contList.size() > 0){
-                    super.setColumnsValues(",\n\t" + "MODIFICATION_NUM = (SELECT MODIFICATION_NUM + 1 FROM " + super.getDbOwner() + "." + super.getTblContact() + " WHERE ROW_ID = '" + contList.get(0).getRow_id() + "')");
-                    super.setColumnsValues(",\n\t" + "MAIN_PH_NUM = " + ((accntLightScreen.gettxtContactMPhone() != null) ? "'" + accntLightScreen.gettxtContactMPhone().replaceAll("[( )-]", "") + "'" : "NULL"));
-                    super.setColumnsValues(",\n\t" + "ALT_PH_NUM = " + ((accntLightScreen.gettxtContactPhone() != null) ? "'" + accntLightScreen.gettxtContactPhone().replaceAll("[( )-]", "") + "'" : "NULL"));
-                    super.setColumnsValues(",\n\t" + "WORK_PH_NUM = " + ((accntLightScreen.gettxtContactEnterprise() != null) ? "'" + accntLightScreen.gettxtContactEnterprise().replaceAll("[( )-]", "") + "'" : "NULL"));
-                    if(accntLightScreen.gettxtContactEmail() != null) {
-                        String mail = accntLightScreen.gettxtContactEmail();
-                        String mailTypeTemp = mail.substring(mail.indexOf("@") + 1, mail.length());
-                        String mailTypeName = super.LookupName("EMAIL_ADDR_TYPE", mailTypeTemp);
-                        super.setColumnsValues(",\n\t" + "EMAIL_ADDR = " + "'" + accntLightScreen.gettxtContactEmail() + "'");
-                        super.setColumnsValues(",\n\t" + "EMAIL_TYPE = " + ((!"".equals(mailTypeName) && mailTypeName != null) ? "'" + mailTypeName + "'" : "NULL"));
-                    } else {
-                        super.setColumnsValues(",\n\t" + "EMAIL_ADDR = " + "NULL");
-                        super.setColumnsValues(",\n\t" + "EMAIL_TYPE = " + "NULL");
-                    }
-
-                    super.setCondition("ROW_ID = '" + contList.get(0).getRow_id() + "'");
-                    try{
-                        this.clearCount();
-                        this.setCount(super.updateRecord(super.getTblContact(), super.getColumnsValues(), super.getCondition()));
-                        if(this.getCount() > 0){
-                            super.clearColumnsValues();
-                            super.clearCondition();
-                        } else {
-                            super.clearColumnsValues();
-                            super.clearCondition();
-                        }
-                    } catch (Exception e) {
-                        super.clearColumnsValues();
-                        super.clearCondition();
-                    }
-                    
-                    super.clearSocialNameArray();
-                    if(accntLightScreen.gettxtFacebook() != null){ socialName.add("Facebook"); }
-                    if(accntLightScreen.gettxtInstagram() != null){ socialName.add("Instagram"); }
-                    if(accntLightScreen.gettxtTwitter() != null){ socialName.add("Twitter"); }
-                    
-                    ArrayList<SocialMediaClass> socMedList = querySocialMediaRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblSocialMedia()+ " SOC\nWHERE SOC.PAR_ROW_ID = '" + contList.get(0).getRow_id() + "'\nAND SOC.SOCIAL_M_NAME IN (\n\t'Facebook',\n\t'Instagram',\n\t'Twitter'\n)");
-                    
-                    if(socMedList.size() > 0) {
-                        if(socialName.size() > 0) {
-                            for(int i = 0; i < socMedList.size(); i++) {
-                                String socialMedia = socMedList.get(i).getSOCIAL_M_NAME();
-                                switch(socialMedia){
-                                    case "Facebook":
-                                        if(accntLightScreen.gettxtFacebook() != null) {
-                                            super.setColumnsValues(",\n\t" + "SOCIAL_M_NAME = " + "'" + socialMedia + "'");
-                                            super.setColumnsValues(",\n\t" + "SOCIAL_M_VALUE = " + "'" + accntLightScreen.gettxtFacebook() + "'");
-                                            contCtrl.updateSocialMedia("ACCOUNT", super.getColumnsValues(), null, socMedList.get(i).getRowId());
-                                        } else {
-                                            contCtrl.deleteSocialMedia("", "ROW_ID = '" + socMedList.get(i).getRowId() + "'");
-                                        }
-                                        break;
-                                    case "Instagram":
-                                        if(accntLightScreen.gettxtInstagram() != null) {
-                                            super.setColumnsValues(",\n\t" + "SOCIAL_M_NAME = " + "'" + socialMedia + "'");
-                                            super.setColumnsValues(",\n\t" + "SOCIAL_M_VALUE = " + "'" + accntLightScreen.gettxtInstagram() + "'");
-                                            contCtrl.updateSocialMedia("ACCOUNT", super.getColumnsValues(), null, socMedList.get(i).getRowId());
-                                        } else {
-                                            contCtrl.deleteSocialMedia("", "ROW_ID = '" + socMedList.get(i).getRowId() + "'");
-                                        }
-                                        break;
-                                    case "Twitter":
-                                        if(accntLightScreen.gettxtTwitter() != null) {
-                                            super.setColumnsValues(",\n\t" + "SOCIAL_M_NAME = " + "'" + socialMedia + "'");
-                                            super.setColumnsValues(",\n\t" + "SOCIAL_M_VALUE = " + "'" + accntLightScreen.gettxtTwitter() + "'");
-                                            contCtrl.updateSocialMedia("ACCOUNT", super.getColumnsValues(), null, socMedList.get(i).getRowId());
-                                        } else {
-                                            contCtrl.deleteSocialMedia("", "ROW_ID = '" + socMedList.get(i).getRowId() + "'");
-                                        }
-                                        break;
-                                    default:
-                                        break;
-                                }
-                                super.clearColumnsValues();
-                                super.clearCondition();
-                            }
-                            if(socMedList.size() < socialName.size()) {
-                                for(int i = 0; i < socMedList.size(); i++) {
-                                    for(int j = 0; j < socialName.size(); j++) {
-                                        if(socMedList.get(i).getSOCIAL_M_NAME().equals(socialName.get(j))) {
-                                            socialName.remove(j);
-                                        }
-                                    }
-                                }
-                                if(socialName.size() > 0) {
-                                    ArrayList<SocialMediaClass> socialMedia = new ArrayList<>();
-                                    SocialMediaClass smClass;
-                                    for(int i = 0; i < socialName.size(); i++) {
-                                        smClass = new SocialMediaClass();
-                                        smClass.setParRowId(contList.get(0).getRow_id());
-                                        smClass.setPAR_USR_ID(null);
-                                        smClass.setPAR_ACCNT_ID(AccntIdArray.get(accntLightScreen.getSelectedRowList()).getRowId());
-                                        smClass.setACTIVE_FLG("Y");
-                                        smClass.setSTATUS_CD("Active");
-                                        smClass.setSOCIAL_M_NAME(socialName.get(i));
-                                        switch(socialName.get(i)){
-                                            case "Facebook":
-                                                smClass.setSOCIAL_M_VALUE(accntLightScreen.gettxtFacebook());
-                                                break;
-                                            case "Instagram":
-                                                smClass.setSOCIAL_M_VALUE(accntLightScreen.gettxtInstagram());
-                                                break;
-                                            case "Twitter":
-                                                smClass.setSOCIAL_M_VALUE(accntLightScreen.gettxtTwitter());
-                                                break;
-                                            default:
-                                                smClass.setSOCIAL_M_VALUE(null);
-                                                break;
-                                        }
-                                        socialMedia.add(smClass);
-                                    }
-                                    contCtrl.insertMultipleSocialMedia(socialMedia);
-                                }
-                            }
-                        } else {
-                            super.clearColumnsValues();
-                            super.clearCondition();
-                            super.setCondition("ROW_ID IN (");
-                            for(int i = 0; i < socMedList.size(); i++) {
-                                if(i == 0) {
-                                    super.setCondition("\n\t" + "'" + socMedList.get(i).getRowId() + "'");
-                                } else {
-                                    super.setCondition(",\n\t" + "'" + socMedList.get(i).getRowId() + "'");
-                                }
-                                
-                            }
-                            super.setCondition("\n)");
-                            if(contCtrl.deleteSocialMedia("", super.getCondition())) {
-                                // Colocar no log que foi removido
-                            } else {
-                                // Colocar no log que deu erro ao remover
-                            }
-                            super.clearCondition();
-                        }
-                    } else {
-                        if(socialName.size() > 0) {
-                            ArrayList<SocialMediaClass> socialMedia = new ArrayList<>();
-                            SocialMediaClass smClass;
-                            for(int i = 0; i < socialName.size(); i++) {
-                                smClass = new SocialMediaClass();
-                                smClass.setParRowId(contList.get(0).getRow_id());
-                                smClass.setPAR_USR_ID(null);
-                                smClass.setPAR_ACCNT_ID(AccntIdArray.get(accntLightScreen.getSelectedRowList()).getRowId());
-                                smClass.setACTIVE_FLG("Y");
-                                smClass.setSTATUS_CD("Active");
-                                smClass.setSOCIAL_M_NAME(socialName.get(i));
-                                switch(socialName.get(i)){
-                                    case "Facebook":
-                                        smClass.setSOCIAL_M_VALUE(accntLightScreen.gettxtFacebook());
-                                        break;
-                                    case "Instagram":
-                                        smClass.setSOCIAL_M_VALUE(accntLightScreen.gettxtInstagram());
-                                        break;
-                                    case "Twitter":
-                                        smClass.setSOCIAL_M_VALUE(accntLightScreen.gettxtTwitter());
-                                        break;
-                                    default:
-                                        smClass.setSOCIAL_M_VALUE(null);
-                                        break;
-                                }
-                                socialMedia.add(smClass);
-                            }
-                            contCtrl.insertMultipleSocialMedia(socialMedia);
-                        }
-                    }
-                }
-                
-                try{
-                    if(addrCtrl.getAddressRowIdArray().size() > 0){
-                        for(int i = 0; i < addrCtrl.getAddressRowIdArray().size(); i ++){
-                            super.clearColumnsValues();
-                            super.clearCondition();
-                            super.setColumnsValues(",\n\t" + "PAR_ROW_ID = '" + AccntIdArray.get(accntLightScreen.getSelectedRowList()).getRowId() + "'");
-
-                            try{
-                                addrCtrl.update("ACCOUNT", super.getColumnsValues(), super.getCondition(), addrCtrl.getAddressRowIdArray().get(i).getRow_id());
-                            } catch(Exception e) {
-                                System.out.println(super.getDateTime() + "\tContactModule.ContactController\t\tinsertContact\nUpdateSocialMedia\tError Exception\tError: " + e);
-                            }
-                        }
-                        addrCtrl.clearAddressRowIdArray();
-                    }
-                } catch(Exception e) { }
-                */
                 this.updateAccountPrimaryContactAddress(AccntIdArray.get(accntScreen.getSelectedRowList()).getRowId());
                 
                 super.setSilentInsertMode(false);
@@ -984,7 +805,7 @@ public class AccountController extends Account {
                 contact = super.queryContactRecord("SELECT *\nFROM " + super.getDbOwner() + "." + getTblContact() + " CON\nWHERE CON.PAR_ROW_ID = '" + AccntIdArray.get(accntScreen.getSelectedRowList()).getRowId() + "'");
 
                 // If Contact records were found, query Social Media Recods
-                if(contact.size() > 0) {
+                if(!contact.isEmpty()) {
                     // Prepare condition to query Social Media Records
                     super.setCondition("PAR_ROW_ID IN (");
                     for(int i = 0; i < contact.size(); i++){
@@ -1000,7 +821,7 @@ public class AccountController extends Account {
                     socialMedia = super.querySocialMediaRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblSocialMedia() + " SOC\nWHERE " + super.getCondition());
 
                     // If Social Media were found, we delete then
-                    if(socialMedia.size() > 0){
+                    if(!socialMedia.isEmpty()){
                         countSocialMedia = super.deleteRecord(super.getTblSocialMedia(), super.getCondition());
                     }
 
@@ -1024,7 +845,7 @@ public class AccountController extends Account {
                 
                 addr = queryAddressRecord("SELECT *\nFROM " + super.getDbOwner() + "." + getTblAddress() + " ADDR\nWHERE ADDR.PAR_ROW_ID = '" + AccntIdArray.get(accntScreen.getSelectedRowList()).getRowId() + "'");
                 
-                if(addr.size() > 0) {
+                if(!addr.isEmpty()) {
                     super.clearCondition();
 
                     // Prepare condition to DELETE Contact Records
@@ -1077,7 +898,7 @@ public class AccountController extends Account {
             try{
                 ArrayList<AccountClass> accntList = queryAccountRecord("SELECT *\nFROM " + getDbOwner() + "." + getTblAccount()+ " ACC\nWHERE ACC.ROW_ID = '" + accntScreen.gettxtRowId() + "'");
 
-                if(accntList.size() > 0) {
+                if(!accntList.isEmpty()) {
                     if(update()){
                         accntScreen.enableFields("SALVAR");
                     }
@@ -1121,11 +942,11 @@ public class AccountController extends Account {
         super.clearCondition();
         
         addrList = queryAddressRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblAddress() + " ADDR\nWHERE ADDR.PAR_ROW_ID = '" + accountId + "'\nAND ADDR.PR_ADDR_FLG = 'Y'");
-        super.setColumnsValues(",\n\t" + "PR_ADDR_ID = " + ((addrList.size() > 0) ? "'" + addrList.get(0).getRow_id() + "'": "NULL"));
-        accntScreen.settxtFullAddress(((addrList.size() > 0) ? addrList.get(0).getADDR_NAME() : ""));
+        super.setColumnsValues(",\n\t" + "PR_ADDR_ID = " + ((!addrList.isEmpty()) ? "'" + addrList.get(0).getRow_id() + "'": "NULL"));
+        accntScreen.settxtFullAddress(((!addrList.isEmpty()) ? addrList.get(0).getADDR_NAME() : ""));
         
         contList = queryContactRecord("SELECT *\nFROM " + super.getDbOwner() + "." + super.getTblContact()+ " CON\nWHERE CON.PAR_ROW_ID = '" + accountId + "'\nAND CON.PR_CON_FLG = 'Y'");
-        super.setColumnsValues(",\n\t" + "PR_CON_ID = " + ((contList.size() > 0) ? "'" + contList.get(0).getRow_id() + "'": "NULL"));
+        super.setColumnsValues(",\n\t" + "PR_CON_ID = " + ((!contList.isEmpty()) ? "'" + contList.get(0).getRow_id() + "'": "NULL"));
         
         super.setCondition("ROW_ID = '" + accountId + "'");
         
@@ -1324,37 +1145,39 @@ public class AccountController extends Account {
                 String docType = "";
                 if(ie.getStateChange() == ItemEvent.SELECTED){
                     if(accntScreen.getcbbDocType() != null ) {
-                        docType = LookupName("DOC_TYPE", accntScreen.getcbbDocType());
-                        switch(docType){
-                            case "CPF":
-                                accntScreen.setlblSurname("Sobrenome*:");
-                                accntScreen.setlblBirthDate("Data de Nascimento:");
-                                accntScreen.setcbbSexEnabled(true);
-                                accntScreen.settxtNickNameEnabled(true);
-                                accntScreen.setcbbCivilStateEnabled(true);
-                                accntScreen.settxtSpouseNameEnabled(true);
-                                accntScreen.settxtMotherNameEnabled(true);
-                                accntScreen.settxtFatherNameEnabled(true);
-                                break;
-                            case "CNPJ":
-                                accntScreen.setlblSurname("Nome Fantasia:");
-                                accntScreen.setlblBirthDate("Data de Abertura:");
-                                accntScreen.setcbbSexEnabled(false);
-                                accntScreen.settxtNickNameEnabled(false);
-                                accntScreen.setcbbCivilStateEnabled(false);
-                                accntScreen.settxtSpouseNameEnabled(false);
-                                accntScreen.settxtMotherNameEnabled(false);
-                                accntScreen.settxtFatherNameEnabled(false);
-                                break;
-                            default:
-                                accntScreen.setlblSurname("Sobrenome*:");
-                                accntScreen.setcbbSexEnabled(true);
-                                accntScreen.settxtNickNameEnabled(true);
-                                accntScreen.setcbbCivilStateEnabled(true);
-                                accntScreen.settxtSpouseNameEnabled(true);
-                                accntScreen.settxtMotherNameEnabled(true);
-                                accntScreen.settxtFatherNameEnabled(true);
-                                break;
+                        if(accntScreen.iscbbDocTypeEnabled()) {
+                            docType = LookupName("DOC_TYPE", accntScreen.getcbbDocType());
+                            switch(docType){
+                                case "CPF":
+                                    accntScreen.setlblSurname("Sobrenome*:");
+                                    accntScreen.setlblBirthDate("Data de Nascimento:");
+                                    accntScreen.setcbbSexEnabled(true);
+                                    accntScreen.settxtNickNameEnabled(true);
+                                    accntScreen.setcbbCivilStateEnabled(true);
+                                    accntScreen.settxtSpouseNameEnabled(true);
+                                    accntScreen.settxtMotherNameEnabled(true);
+                                    accntScreen.settxtFatherNameEnabled(true);
+                                    break;
+                                case "CNPJ":
+                                    accntScreen.setlblSurname("Nome Fantasia:");
+                                    accntScreen.setlblBirthDate("Data de Abertura:");
+                                    accntScreen.setcbbSexEnabled(false);
+                                    accntScreen.settxtNickNameEnabled(false);
+                                    accntScreen.setcbbCivilStateEnabled(false);
+                                    accntScreen.settxtSpouseNameEnabled(false);
+                                    accntScreen.settxtMotherNameEnabled(false);
+                                    accntScreen.settxtFatherNameEnabled(false);
+                                    break;
+                                default:
+                                    accntScreen.setlblSurname("Sobrenome*:");
+                                    accntScreen.setcbbSexEnabled(true);
+                                    accntScreen.settxtNickNameEnabled(true);
+                                    accntScreen.setcbbCivilStateEnabled(true);
+                                    accntScreen.settxtSpouseNameEnabled(true);
+                                    accntScreen.settxtMotherNameEnabled(true);
+                                    accntScreen.settxtFatherNameEnabled(true);
+                                    break;
+                            }
                         }
                     }
                 }

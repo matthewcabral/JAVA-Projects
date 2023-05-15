@@ -406,7 +406,7 @@
                     </Property>
                     <Property name="borderPainted" type="boolean" value="false"/>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                      <Color id="Cursor Padr&#xe3;o"/>
+                      <Color id="Default Cursor"/>
                     </Property>
                     <Property name="horizontalTextPosition" type="int" value="4"/>
                     <Property name="iconTextGap" type="int" value="3"/>
@@ -431,7 +431,7 @@
                     </Property>
                     <Property name="borderPainted" type="boolean" value="false"/>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                      <Color id="Cursor em Forma de M&#xe3;o"/>
+                      <Color id="Default Cursor"/>
                     </Property>
                     <Property name="horizontalTextPosition" type="int" value="4"/>
                     <Property name="iconTextGap" type="int" value="0"/>
@@ -511,7 +511,7 @@
                     </Property>
                     <Property name="borderPainted" type="boolean" value="false"/>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                      <Color id="Cursor Padr&#xe3;o"/>
+                      <Color id="Default Cursor"/>
                     </Property>
                     <Property name="horizontalTextPosition" type="int" value="4"/>
                     <Property name="iconTextGap" type="int" value="3"/>
@@ -781,9 +781,6 @@
                           <SubComponents>
                             <Component class="javax.swing.JLabel" name="lblUserInformation">
                               <Properties>
-                                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                  <Color blue="e3" green="e3" id="Button.light" palette="3" red="e3" type="palette"/>
-                                </Property>
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Calibri" size="12" style="0"/>
                                 </Property>
@@ -1077,9 +1074,6 @@
                             </Component>
                             <Component class="javax.swing.JLabel" name="lblUserInformation1">
                               <Properties>
-                                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                  <Color blue="e3" green="e3" id="Button.light" palette="3" red="e3" type="palette"/>
-                                </Property>
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Calibri" size="12" style="0"/>
                                 </Property>
@@ -1459,9 +1453,6 @@
                           <SubComponents>
                             <Component class="javax.swing.JLabel" name="lblIdentityInformation">
                               <Properties>
-                                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                  <Color blue="e3" green="e3" id="Button.light" palette="3" red="e3" type="palette"/>
-                                </Property>
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Calibri" size="12" style="0"/>
                                 </Property>
@@ -1863,9 +1854,6 @@
                             </Component>
                             <Component class="javax.swing.JLabel" name="lblPersonalData">
                               <Properties>
-                                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                  <Color blue="e3" green="e3" id="Button.light" palette="3" red="e3" type="palette"/>
-                                </Property>
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Calibri" size="12" style="0"/>
                                 </Property>
@@ -2285,9 +2273,6 @@
                           <SubComponents>
                             <Component class="javax.swing.JLabel" name="lblContactInformation">
                               <Properties>
-                                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                  <Color blue="e3" green="e3" id="Button.light" palette="3" red="e3" type="palette"/>
-                                </Property>
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Calibri" size="12" style="0"/>
                                 </Property>
@@ -2409,9 +2394,6 @@
                             </Component>
                             <Component class="javax.swing.JLabel" name="lblSocialMedia">
                               <Properties>
-                                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                  <Color blue="e3" green="e3" id="Button.light" palette="3" red="e3" type="palette"/>
-                                </Property>
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Calibri" size="12" style="0"/>
                                 </Property>
@@ -2490,9 +2472,6 @@
                             </Component>
                             <Component class="javax.swing.JLabel" name="lblAddressInformation">
                               <Properties>
-                                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                  <Color blue="e3" green="e3" id="Button.light" palette="3" red="e3" type="palette"/>
-                                </Property>
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Calibri" size="12" style="0"/>
                                 </Property>

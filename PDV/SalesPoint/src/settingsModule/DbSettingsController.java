@@ -251,7 +251,7 @@ public class DbSettingsController {
                     setDbDriver("oracle.jdbc.OracleDriver");
                     break;
                 case "MySQL":
-                    setDbDriver("com.mysql.jdbc.Driver");
+                    setDbDriver("com.mysql.cj.jdbc.Driver");
                     break;
                 default:
                     setDbDriver("oracle.jdbc.OracleDriver");
